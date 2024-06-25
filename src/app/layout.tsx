@@ -26,7 +26,7 @@ export default function Layout({
 				<NextAuthProvider>
 					<NavBar />
 				</NextAuthProvider>
-				<div className="mx-auto mt-1 max-w-screen-xl p-5 md:hidden md:p-0">
+				<div className="mx-auto mt-1 max-w-screen-xl p-5 md:p-0">
 					<BreadCrumbs />
 				</div>
 				<main className="mx-auto mt-10 min-h-screen max-w-screen-xl p-5 md:p-0">{children}</main>

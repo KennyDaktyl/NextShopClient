@@ -1,68 +1,3 @@
-// import axios, { AxiosError } from "axios";
-// import { getSession } from "@/lib";
-
-// const apiClient = axios.create({
-// 	baseURL: process.env.API_URL,
-// 	headers: {
-// 		"Content-Type": "application/json",
-// 	},
-// });
-
-// // Interceptor dla odpowiedzi
-// apiClient.interceptors.response.use(
-// 	(response) => response,
-// 	(error) => {
-// 		if (error.response.status === 401) {
-// 			error.isUnauthorized = true;
-// 		}
-// 		if (error.response.status === 500) {
-// 			error.serverError = true;
-// 		}
-// 		return Promise.reject(error);
-// 	},
-// );
-
-// // Interceptor dla żądań
-// apiClient.interceptors.request.use(
-// 	async (config) => {
-// 		const token = await getSession();
-// 		if (token) {
-// 			config.headers.Authorization = `Bearer ${token}`;
-// 		}
-// 		return config;
-// 	},
-// 	(error) => {
-// 		return Promise.reject(error);
-// 	},
-// );
-
-// interface CustomAxiosError extends AxiosError {
-// 	isUnauthorized?: boolean;
-// 	serverError?: boolean;
-// }
-
-// export const postRequest = async (url: string, data: any, additionalHeaders?: any) => {
-// 	try {
-// 		const response = await apiClient.post(url, data, {
-// 			headers: {
-// 				...additionalHeaders,
-// 			},
-// 		});
-// 		return response.data;
-// 	} catch (error) {
-// 		const customError = error as CustomAxiosError;
-// 		if (customError.isUnauthorized) {
-// 			console.error("Unauthorized access - 401");
-// 		}
-// 		if (customError.serverError) {
-// 			console.error("Server error - 500");
-// 		}
-// 		// Rzucenie błędu, aby można było go obsłużyć w miejscu wywołania
-// 		throw customError;
-// 	}
-// };
-
-// export default apiClient;
 import { getSession } from "@/lib";
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
@@ -81,6 +16,7 @@ interface AxiosInstanceConfig {
 	method: HttpMethod;
 	url: string;
 	data?: any;
+	params?: Record<string, any>;
 	withToken?: boolean;
 	withCredentials?: boolean;
 }
@@ -93,6 +29,7 @@ const axiosInstance = async <T>({
 	method,
 	url,
 	data = null,
+	params = {},
 	withToken = false,
 	withCredentials,
 }: AxiosInstanceConfig): Promise<T> => {
@@ -105,6 +42,7 @@ const axiosInstance = async <T>({
 				"Content-Type": "application/json",
 				...(token && { Authorization: `Bearer ${token}` }),
 			},
+			params,
 			withCredentials,
 		};
 		if (method === "post") {

@@ -1,20 +1,27 @@
-// /products/page.tsx
-import { getProducts } from "./actions";
+import { getProductsByCategory } from "./actions";
 import ProductListPage from "@/components/product/ProductListPage";
 import SideBar from "@/components/ui/organism/SideBar";
-import CategoryLayout from "@/app/produkty/layout";
 import { getSubMenuItems } from "@/app/actions/menuItems";
+import CategoryLayout from "@/app/produkty/layout";
 
-export default async function ProductsPage({
+export default async function Page({
+	params,
 	searchParams,
 }: {
+	params: { routes: [] };
 	searchParams: {
 		page: string;
 	};
 }) {
-	const response = await getProducts({ params: searchParams });
+	const routes = params.routes;
+	const lastRoute = routes[routes.length - 1];
+
+	const currentCategorySlug = lastRoute;
+	const response = await getProductsByCategory({
+		categorySlug: currentCategorySlug,
+		searchParams,
+	});
 	const products = response.data.results;
-	const currentCategorySlug = "produkty";
 	const menuItems = await getSubMenuItems(currentCategorySlug);
 
 	const currentPage = searchParams.page ? parseInt(searchParams.page) : 1;
@@ -28,7 +35,7 @@ export default async function ProductsPage({
 			<SideBar menuItems={menuItems} />
 			<ProductListPage
 				products={products}
-				containerName="product-list"
+				containerName="product-list-by-category"
 				nextPage={nextPage}
 				prevPage={prevPage}
 				totalPages={totalPages}

@@ -19,7 +19,7 @@ const NavLinks: NavLink[] = [
 		role: "link",
 	},
 	{
-		href: "/uslugi",
+		href: "/produkty/klucze",
 		label: "Usługi",
 		exact: true,
 		role: "link",

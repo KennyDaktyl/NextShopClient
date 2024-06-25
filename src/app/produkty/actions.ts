@@ -3,10 +3,16 @@
 import axiosInstance from "@/axios";
 import { redirect } from "next/navigation";
 
-export async function getProducts(): Promise<GetProductsResponse> {
+interface GetProductsParams {
+	params: {
+		page: string;
+	};
+}
+
+export async function getProducts({ params }: GetProductsParams): Promise<GetProductsResponse> {
 	try {
 		const url = `/api/products/`;
-		const response = await axiosInstance<any[]>({ method: "get", url, withToken: true });
+		const response = await axiosInstance<any[]>({ method: "get", url, withToken: false, params });
 		return { data: response, status: 200 };
 	} catch (error: any) {
 		if (error.status === 401) {

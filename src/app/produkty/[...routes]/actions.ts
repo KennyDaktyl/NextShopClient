@@ -3,10 +3,24 @@
 import axiosInstance from "@/axios";
 import { redirect } from "next/navigation";
 
-export async function getProductsByCategory(categorySlug: string): Promise<GetProductsResponse> {
+interface GetProductsByCategoryParams {
+	searchParams: {
+		page: string;
+	};
+	categorySlug: string;
+}
+export async function getProductsByCategory({
+	categorySlug,
+	searchParams,
+}: GetProductsByCategoryParams): Promise<GetProductsResponse> {
 	try {
 		const url = `/api/products/category/${categorySlug}/`;
-		const response = await axiosInstance<any[]>({ method: "get", url, withToken: true });
+		const response = await axiosInstance<any[]>({
+			method: "get",
+			url,
+			withToken: false,
+			params: searchParams,
+		});
 		return { data: response, status: 200 };
 	} catch (error: any) {
 		if (error.status === 401) {

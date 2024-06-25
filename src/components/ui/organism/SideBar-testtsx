@@ -1,0 +1,129 @@
+"use client";
+import { Undo2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ChevronDown } from "lucide-react";
+import {
+	Command,
+	CommandGroup,
+	CommandItem,
+	CommandList,
+	CommandSeparator,
+} from "@/components/ui/command";
+import { getMainMenuItems, getSubMenuItems } from "@/app/actions/menuItems";
+import Link from "next/link";
+
+export default function SideBar({ categorySlug }: SideBarProps) {
+	const [menuItems, setMenuItems] = useState<MenuItems>({
+		name: "",
+		parent_name: "",
+		parent_slug: "",
+		has_parent: false,
+		items: [],
+	});
+	const [backButton, setBackButton] = useState("/");
+	const [mainMenu, setMainMenu] = useState(true);
+	const [loading, setLoading] = useState(true);
+
+	const fetchMainMenuItems = async () => {
+		try {
+			const response = await getMainMenuItems();
+			setMenuItems(response);
+		} catch (error) {
+			console.error("Error fetching menu items:", error);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		fetchMainMenuItems();
+	}, [categorySlug]);
+
+	const handleItemSelect = async (slug: string, isParent: boolean, hasParent: boolean) => {
+		console.log("has_parent: " + hasParent, "isParent " + isParent, "slug: " + slug);
+		if (!hasParent && backButton != "/") {
+			console.log("hasParent");
+			await fetchMainMenuItems();
+			setBackButton("/");
+			setMainMenu(true);
+		} else {
+			try {
+				const response = await getSubMenuItems(slug);
+				setMainMenu(false);
+				setMenuItems(response);
+				if (response.parent_slug) {
+					setBackButton(response.parent_slug);
+				} else {
+					setBackButton("/produkty");
+				}
+			} catch (error) {
+				console.error("Error fetching submenu items:", error);
+			}
+		}
+	};
+
+	if (loading) {
+		return (
+			<div className="flex min-h-screen w-[200px] min-w-[200px] flex-col gap-4 pr-2">
+				<div className="grow">
+					<Command className="rounded-lg border shadow-md">
+						<CommandList>
+							<CommandGroup heading="Loading..." />
+							<CommandSeparator />
+						</CommandList>
+					</Command>
+				</div>
+			</div>
+		);
+	}
+
+	return (
+		<div className="flex min-h-screen w-[200px] min-w-[200px] flex-col gap-4 pr-2">
+			<div className="grow">
+				<Command className="rounded-lg border shadow-md">
+					<CommandList>
+						{!mainMenu && (
+							<CommandGroup
+								onClick={() =>
+									handleItemSelect(
+										menuItems.parent_slug,
+										menuItems.has_parent,
+										menuItems.has_parent,
+									)
+								}
+							>
+								{backButton}
+								<Undo2 className="cursor-pointer hover:bg-slate-100" />
+							</CommandGroup>
+						)}
+						<CommandGroup heading={menuItems.name}>
+							{menuItems.items.map((item: MenuItem, index: number) => (
+								<Link
+									key={index}
+									role="link"
+									href={`/produkty/${item.slug}`}
+									className="flex cursor-pointer items-center justify-between hover:bg-slate-100"
+									onClick={
+										item.is_parent
+											? () => handleItemSelect(item.slug, item.is_parent, item.has_parent)
+											: undefined
+									}
+								>
+									<CommandItem className="flex cursor-pointer items-center justify-between hover:bg-slate-100">
+										{item.name}
+										{item.is_parent ? (
+											<ChevronDown />
+										) : (
+											<span>&nbsp; ({item.get_products_count})</span>
+										)}
+									</CommandItem>
+								</Link>
+							))}
+						</CommandGroup>
+						<CommandSeparator />
+					</CommandList>
+				</Command>
+			</div>
+		</div>
+	);
+}

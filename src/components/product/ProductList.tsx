@@ -23,7 +23,7 @@ export const ProductList = ({
 	return (
 		<ul
 			data-testid={containerName}
-			className="grid w-full grid-cols-1 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4"
+			className="grid w-full grid-cols-1 sm:grid-cols-2 sm:gap-4 md:grid-cols-3"
 		>
 			{products.map((product) => (
 				<ProductListItem

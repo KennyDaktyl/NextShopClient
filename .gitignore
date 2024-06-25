@@ -1,4 +1,5 @@
 .vscode
+/temp
 
 # dependencies
 /node_modules
