@@ -1,7 +1,5 @@
-// app/actions/axiosInstance.ts
-
+import { getSession } from "@/lib";
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
-import { cookies } from "next/headers";
 
 type HttpMethod =
 	| "get"
@@ -36,9 +34,7 @@ const axiosInstance = async <T>({
 	withCredentials,
 }: AxiosInstanceConfig): Promise<T> => {
 	try {
-		const headersList = cookies();
-		const token = withToken ? headersList.get("Authorization") : null;
-
+		const token = withToken ? await getSession() : null;
 		const config: AxiosRequestConfig = {
 			method,
 			url: `${process.env.API_URL}${url}`,
@@ -47,8 +43,8 @@ const axiosInstance = async <T>({
 				...(token && { Authorization: `Bearer ${token}` }),
 			},
 			params,
+			withCredentials,
 		};
-
 		if (method === "post") {
 			config.data = data;
 		} else if (method === "get" && data) {
@@ -71,6 +67,7 @@ const axiosInstance = async <T>({
 			const statusCode = error.response?.status;
 
 			if (!error.response) {
+				// Network error
 				console.error("Network error:", error);
 				throw { status: "Network error" };
 			} else {
@@ -82,6 +79,7 @@ const axiosInstance = async <T>({
 				throw { status: statusCode, data: error.response.data };
 			}
 		} else {
+			// Inne błędy, które nie są związane z Axios
 			console.error("Unexpected error:", error);
 			throw { status: "Unexpected error" };
 		}
