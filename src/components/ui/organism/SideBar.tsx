@@ -76,7 +76,7 @@ export default function SideBar({
 											</a>
 										</Link>
 									</CommandGroup>
-									<CommandGroup heading={menuItems.name}>
+									<CommandGroup>
 										{menuItems.items.map((item: MenuItem, index: number) => (
 											<Link key={index} href={item.full_path} legacyBehavior>
 												<a className="flex cursor-pointer items-center justify-between hover:bg-slate-100">

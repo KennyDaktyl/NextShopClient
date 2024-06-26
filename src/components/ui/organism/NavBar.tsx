@@ -63,6 +63,9 @@ export default function NavBar() {
 						))}
 					</ul>
 				</div>
+				<div className="hidden md:flex">
+					<AuthIcons />
+				</div>
 				<div className="flex items-center md:hidden">
 					<button onClick={toggleMenu}>{isMenuOpen ? <X size={24} /> : <Menu size={24} />}</button>
 				</div>

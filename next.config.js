@@ -1,17 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	images: {
-		domains: [
-			"127.0.0.1",
-			"localhost:3000",
-			"static-ourstore.hyperfunctor.com",
-			"images.unsplash.com",
+		remotePatterns: [
+			{
+				protocol: "http",
+				hostname: "**",
+			},
 		],
 	},
 	reactStrictMode: true,
-	experimental: {
-		appDir: true,
-	},
+	// experimental: {
+	// 	appDir: true,
+	// },
 	env: {
 		API_URL: process.env.API_URL,
 	},

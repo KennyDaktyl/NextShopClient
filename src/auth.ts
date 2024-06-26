@@ -4,8 +4,6 @@ import NextAuth from "next-auth";
 export const { handlers, signIn, signOut, auth } = NextAuth({
 	callbacks: {
 		async jwt({ token, user }) {
-			console.log("Auth callbacks");
-
 			if (user) {
 				token.accessToken = user.accessToken;
 				token.refreshToken = user.refreshToken;
@@ -19,6 +17,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 				session.user.refreshToken = token.refreshToken;
 			}
 			return session;
+		},
+		async redirect({ url, baseUrl }) {
+			if (url.startsWith(baseUrl)) return url;
+			else if (url.startsWith("http://localhost:3000")) return url;
+			return baseUrl;
 		},
 	},
 	session: {

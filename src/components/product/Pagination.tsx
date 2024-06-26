@@ -31,7 +31,14 @@ export function PaginationPage({ prevPage, nextPage, currentPage, totalPages }: 
 						isActive={page === currentPage}
 						onClick={() => router.push(`?page=${page}`)}
 					>
-						<Button variant="outline">{page}</Button>
+						<Button
+							variant="outline"
+							className={
+								page === currentPage ? "cursor-default text-gray-500" : "hover:text-gray-500"
+							}
+						>
+							{page}
+						</Button>
 					</PaginationLink>
 				</PaginationItem>,
 			);
@@ -47,7 +54,7 @@ export function PaginationPage({ prevPage, nextPage, currentPage, totalPages }: 
 						<PaginationLink onClick={() => router.push(`?page=${currentPage - 1}`)}>
 							<div
 								aria-label="Go to previous page"
-								className={cn("flex items-center gap-1 pl-2.5")}
+								className={cn("flex cursor-pointer items-center gap-1 pl-2.5 hover:text-gray-500")}
 							>
 								<ChevronLeftIcon className="h-4 w-4" />
 								<span>Previous</span>
@@ -59,7 +66,10 @@ export function PaginationPage({ prevPage, nextPage, currentPage, totalPages }: 
 				{nextPage && (
 					<PaginationItem>
 						<PaginationLink onClick={() => router.push(`?page=${currentPage + 1}`)}>
-							<div aria-label="Go to next pag" className={cn("flex items-center gap-1 pl-2.5")}>
+							<div
+								aria-label="Go to next pag"
+								className={cn("flex cursor-pointer items-center gap-1 pl-2.5 hover:text-gray-500")}
+							>
 								<span>Next</span>
 								<ChevronRightIcon className="h-4 w-4" />
 							</div>
