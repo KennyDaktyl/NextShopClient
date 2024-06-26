@@ -59,6 +59,7 @@ const axiosInstance = async <T>({
 			case 204:
 				return response.data;
 			default:
+				console.error("UNEXPECTED status code:", response.status);
 				throw new Error(`Unexpected status code: ${response.status}`);
 		}
 	} catch (error: any) {

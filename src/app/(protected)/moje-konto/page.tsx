@@ -7,7 +7,7 @@ export default async function ProfilePage() {
 		const user = response.data;
 
 		return (
-			<div>
+			<div className="w-full">
 				<h1>User Profile</h1>
 				<pre>{JSON.stringify(user, null, 2)}</pre>
 			</div>

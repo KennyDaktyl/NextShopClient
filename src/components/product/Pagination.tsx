@@ -1,3 +1,5 @@
+"use client";
+import { useRouter } from "next/navigation";
 import {
 	Pagination,
 	PaginationContent,
@@ -6,7 +8,9 @@ import {
 	PaginationNext,
 	PaginationPrevious,
 } from "@/components/ui/pagination";
-import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface PaginationProps {
 	prevPage: string | null;
@@ -16,14 +20,19 @@ interface PaginationProps {
 }
 
 export function PaginationPage({ prevPage, nextPage, currentPage, totalPages }: PaginationProps) {
+	const router = useRouter();
+
 	const createPaginationItems = () => {
 		const items = [];
 		for (let page = 1; page <= totalPages; page++) {
 			items.push(
 				<PaginationItem key={page}>
-					<Link href={`?page=${page}`} passHref>
-						<PaginationLink isActive={page === currentPage}>{page}</PaginationLink>
-					</Link>
+					<PaginationLink
+						isActive={page === currentPage}
+						onClick={() => router.push(`?page=${page}`)}
+					>
+						<Button variant="outline">{page}</Button>
+					</PaginationLink>
 				</PaginationItem>,
 			);
 		}
@@ -35,17 +44,26 @@ export function PaginationPage({ prevPage, nextPage, currentPage, totalPages }: 
 			<PaginationContent>
 				{prevPage && (
 					<PaginationItem>
-						<Link href={`?page=${currentPage - 1}`} passHref>
-							<PaginationPrevious />
-						</Link>
+						<PaginationLink onClick={() => router.push(`?page=${currentPage - 1}`)}>
+							<div
+								aria-label="Go to previous page"
+								className={cn("flex items-center gap-1 pl-2.5")}
+							>
+								<ChevronLeftIcon className="h-4 w-4" />
+								<span>Previous</span>
+							</div>
+						</PaginationLink>
 					</PaginationItem>
 				)}
 				{createPaginationItems()}
 				{nextPage && (
 					<PaginationItem>
-						<Link href={`?page=${currentPage + 1}`} passHref>
-							<PaginationNext />
-						</Link>
+						<PaginationLink onClick={() => router.push(`?page=${currentPage + 1}`)}>
+							<div aria-label="Go to next pag" className={cn("flex items-center gap-1 pl-2.5")}>
+								<span>Next</span>
+								<ChevronRightIcon className="h-4 w-4" />
+							</div>
+						</PaginationLink>
 					</PaginationItem>
 				)}
 			</PaginationContent>

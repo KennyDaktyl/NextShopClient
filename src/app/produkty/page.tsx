@@ -4,6 +4,14 @@ import ProductListPage from "@/components/product/ProductListPage";
 import SideBar from "@/components/ui/organism/SideBar";
 import CategoryLayout from "@/app/produkty/layout";
 import { getSubMenuItems } from "@/app/actions/menuItems";
+import { Metadata, ResolvingMetadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata | ResolvingMetadata> {
+	return {
+		title: `Lista produktów w sklepie`,
+		description: "Lista produktów w sklepie internetowym.",
+	};
+}
 
 export default async function ProductsPage({
 	searchParams,
@@ -25,7 +33,7 @@ export default async function ProductsPage({
 
 	return (
 		<CategoryLayout>
-			<SideBar menuItems={menuItems} />
+			<SideBar menuItems={menuItems} isMenuActive={true} />
 			<ProductListPage
 				products={products}
 				containerName="product-list"

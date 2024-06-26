@@ -29,7 +29,9 @@ export default function Layout({
 				<div className="mx-auto mt-1 max-w-screen-xl p-5 md:p-0">
 					<BreadCrumbs />
 				</div>
-				<main className="mx-auto mt-10 min-h-screen max-w-screen-xl p-5 md:p-0">{children}</main>
+				<main className="mx-auto min-h-screen max-w-screen-xl overflow-hidden pl-5 pr-5 md:p-0 xl:mt-3">
+					{children}
+				</main>
 				<footer className="mx-auto max-w-md text-center">&copy;2024</footer>
 			</body>
 		</html>

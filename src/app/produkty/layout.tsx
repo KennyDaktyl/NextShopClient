@@ -6,7 +6,7 @@ interface CategoryLayoutProps {
 }
 
 export const CategoryLayout = ({ children }: CategoryLayoutProps) => {
-	return <div className="flex">{children}</div>;
+	return <div className="flex w-full max-w-screen-xl justify-between">{children}</div>;
 };
 
 export default CategoryLayout;

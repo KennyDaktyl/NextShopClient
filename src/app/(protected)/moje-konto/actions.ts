@@ -6,7 +6,6 @@ export async function getUserData(): Promise<GetProductsResponse> {
 	try {
 		const url = "/api/accounts/profile/";
 		const response = await axiosInstance<any[]>({ method: "get", url, withToken: true });
-		console.log("responseAction: ", response);
 		return { data: response, status: 200 };
 	} catch (error: any) {
 		console.log("errorAction: ", error);

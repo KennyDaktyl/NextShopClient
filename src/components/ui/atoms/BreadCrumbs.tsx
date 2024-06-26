@@ -9,6 +9,7 @@ import {
 	BreadcrumbLink,
 	BreadcrumbList,
 } from "@/components/ui/breadcrumb";
+import { ActiveLink } from "@/components/ui/atoms/ActiveLink";
 
 export default function BreadcrumbWithCustomSeparator() {
 	const pathname = usePathname();
@@ -21,9 +22,9 @@ export default function BreadcrumbWithCustomSeparator() {
 		return (
 			<BreadcrumbItem key={href}>
 				{!isLast ? (
-					<Link role="link" href={href} aria-current="page">
+					<ActiveLink role="link" href={href} aria-current="page" exact>
 						{decodeURIComponent(segment)}
-					</Link>
+					</ActiveLink>
 				) : (
 					<span>{decodeURIComponent(segment)}</span>
 				)}
@@ -33,12 +34,12 @@ export default function BreadcrumbWithCustomSeparator() {
 	});
 
 	return (
-		<Breadcrumb>
+		<Breadcrumb className="mt-3">
 			<BreadcrumbList>
 				<BreadcrumbItem>
-					<Link role="link" href="/" aria-current="page">
+					<ActiveLink role="link" href="/" aria-current="page">
 						Home
-					</Link>
+					</ActiveLink>
 				</BreadcrumbItem>
 				{breadcrumbs.length > 0 && <span className="mx-2">/</span>}
 				{breadcrumbs}
