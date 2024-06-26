@@ -1,20 +1,14 @@
-"use server";
-import axiosInstance from "@/axios";
-import { redirect } from "next/navigation";
+// src/app/(protected)/moje-konto/actions.ts
 
-export async function getUserData(): Promise<GetProductsResponse> {
+import axiosInstance from "@/axios";
+
+export async function getUserData(accessToken: string): Promise<GetProductsResponse> {
 	try {
 		const url = "/api/accounts/profile/";
-		const response = await axiosInstance<any[]>({ method: "get", url, withToken: true });
+		const response = await axiosInstance<any[]>({ method: "get", url, token: accessToken });
 		return { data: response, status: 200 };
 	} catch (error: any) {
-		console.log("errorAction: ", error);
-		if (error.status === 401) {
-			console.error("Unauthorized access - 401");
-			redirect("/auth/login");
-		} else {
-			console.error("Error fetching user data:", error);
-			throw new Error("An error occurred while fetching user data.");
-		}
+		console.error("Error fetching user data:", error);
+		throw new Error("An error occurred while fetching user data.");
 	}
 }

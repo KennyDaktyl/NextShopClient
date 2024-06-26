@@ -17,7 +17,7 @@ interface AxiosInstanceConfig {
 	url: string;
 	data?: any;
 	params?: Record<string, any>;
-	withToken?: boolean;
+	token?: string;
 	withCredentials?: boolean;
 }
 
@@ -30,11 +30,10 @@ const axiosInstance = async <T>({
 	url,
 	data = null,
 	params = {},
-	withToken = false,
+	token = "",
 	withCredentials,
 }: AxiosInstanceConfig): Promise<T> => {
 	try {
-		const token = withToken ? await getSession() : null;
 		const config: AxiosRequestConfig = {
 			method,
 			url: `${process.env.API_URL}${url}`,

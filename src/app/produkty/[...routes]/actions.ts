@@ -19,7 +19,7 @@ export async function getProductsByCategory({
 		const response = await axiosInstance<any[]>({
 			method: "get",
 			url,
-			withToken: false,
+			token: "",
 			params: searchParams,
 		});
 		return { data: response, status: 200 };
@@ -49,7 +49,7 @@ export async function getProductDetails({
 		const response = await axiosInstance<any[]>({
 			method: "get",
 			url,
-			withToken: false,
+			token: "",
 		});
 		return { data: response, status: 200 };
 	} catch (error: any) {
@@ -80,7 +80,7 @@ export async function getCategoryMetaData({
 		const response = await axiosInstance<any[]>({
 			method: "get",
 			url,
-			withToken: false,
+			token: "",
 		});
 		return { data: response, status: 200 };
 	} catch (error: any) {

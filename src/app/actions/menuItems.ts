@@ -6,7 +6,7 @@ export async function getMainMenuItems(): Promise<MenuItems> {
 		const response = await axiosInstance<MenuItems>({
 			method: "get",
 			url,
-			withToken: false,
+			token: "",
 		});
 		return response;
 	} catch (error: any) {
@@ -27,7 +27,7 @@ export async function getSubMenuItems(slug: string): Promise<MenuItems> {
 		const response = await axiosInstance<MenuItems>({
 			method: "get",
 			url,
-			withToken: false,
+			token: "",
 		});
 		return response;
 	} catch (error: any) {
