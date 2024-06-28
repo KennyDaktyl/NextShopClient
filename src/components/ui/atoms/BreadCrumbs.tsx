@@ -1,19 +1,17 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Link from "next/link";
 
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-} from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList } from "@/components/ui/breadcrumb";
 import { ActiveLink } from "@/components/ui/atoms/ActiveLink";
 
 export default function BreadcrumbWithCustomSeparator() {
 	const pathname = usePathname();
 	const pathSegments = pathname.split("/").filter((segment) => segment);
+
+	if (pathSegments.includes("produkt")) {
+		return null;
+	}
 
 	const breadcrumbs = pathSegments.map((segment, index) => {
 		const href = "/" + pathSegments.slice(0, index + 1).join("/");

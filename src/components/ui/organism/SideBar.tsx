@@ -12,6 +12,7 @@ import { Undo2, ChevronDown, PanelsTopLeft, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { MenuItem, MenuItemsResponse } from "@/app/types"; // Upewnij się, że ścieżka jest poprawna
+import { usePathname } from "next/navigation";
 
 interface SideBarProps {
 	menuItems: MenuItemsResponse;
@@ -19,6 +20,11 @@ interface SideBarProps {
 }
 
 export default function SideBar({ menuItems, isMenuActive }: SideBarProps) {
+	const pathname = usePathname();
+	const pathSegments = pathname.split("/").filter((segment) => segment);
+
+	console.log(pathSegments);
+
 	const [isOpen, setIsOpen] = useState(isMenuActive);
 
 	const toggleSidebar = () => setIsOpen(!isOpen);
