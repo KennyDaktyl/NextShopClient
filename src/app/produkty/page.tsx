@@ -1,39 +1,55 @@
 // app/produkty/page.tsx
-
-import { headers } from "next/headers";
 import ProductListPage from "@/components/product/ProductListPage";
 import SideBar from "@/components/ui/organism/SideBar";
 import CategoryLayout from "@/app/produkty/layout";
-import { getProducts } from "@/app/produkty/actions";
-import { getSubMenuItems } from "@/app/actions/menuItems";
+import { getProductsList } from "@/api/getProducts";
+import { Product, ProductsResponse } from "@/app/types";
+import { getMenuItems } from "@/api/getMenuItems";
+import { Metadata, ResolvingMetadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata | ResolvingMetadata> {
+	return {
+		alternates: {
+			canonical: "/produkty",
+		},
+		title: `Lista wszystkich produktów`,
+		description:
+			"Lista wszystkich produktów dostępnych w naszym sklepie internetowym. Sprawdź naszą ofertę i wybierz coś dla siebie!",
+	};
+}
 
 const ProductsPage = async ({ searchParams }: { searchParams: { page: string } }) => {
 	const currentPage = searchParams.page ? parseInt(searchParams.page) : 1;
 	const currentCategorySlug = "produkty";
 
 	try {
-		const response = await getProducts({ params: searchParams });
-		const products = response.data.results;
-		const totalCount = response.data.count;
-		const totalPages = Math.ceil(totalCount / 2);
-		const nextPage = response.data.next;
-		const prevPage = response.data.previous;
+		const response = await getProductsList({ params: searchParams });
+		const menuItems = await getMenuItems({ categorySlug: currentCategorySlug });
 
-		const menuItems = await getSubMenuItems(currentCategorySlug);
+		if (response && typeof response === "object" && "count" in response && "results" in response) {
+			const productsResponse: ProductsResponse = response as ProductsResponse;
 
-		return (
-			<CategoryLayout>
-				<SideBar menuItems={menuItems} isMenuActive={true} />
-				<ProductListPage
-					products={products}
-					containerName="product-list"
-					nextPage={nextPage}
-					prevPage={prevPage}
-					totalPages={totalPages}
-					currentPage={currentPage}
-				/>
-			</CategoryLayout>
-		);
+			const products: Product[] = productsResponse.results;
+			const totalPages: number = Math.ceil(productsResponse.count / 2);
+			const nextPage: string | null = productsResponse.next;
+			const prevPage: string | null = productsResponse.previous;
+
+			return (
+				<CategoryLayout>
+					<SideBar menuItems={menuItems} isMenuActive={true} />
+					<ProductListPage
+						products={products}
+						containerName="product-list-by-category"
+						nextPage={nextPage}
+						prevPage={prevPage}
+						totalPages={totalPages}
+						currentPage={currentPage}
+					/>
+				</CategoryLayout>
+			);
+		} else {
+			throw new Error("Invalid response format");
+		}
 	} catch (error) {
 		console.error("Error fetching products:", error);
 		return <div>Error fetching products</div>;

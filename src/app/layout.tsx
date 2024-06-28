@@ -11,8 +11,15 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-	title: "Pieczątki firmowe",
-	description: "Zamów pieczątki firmowe online",
+	title: "Serwis w Rybnej. Usługi i produkty",
+	description: "Serwis w Rybnej. Usługi i produkty. Sprawdź naszą ofertę!",
+	metadataBase: new URL(`${process.env.NEXT_PUBLIC_BASE_URL}`),
+	alternates: {
+		canonical: "/",
+		languages: {
+			"pl-PL": "/pl-PL",
+		},
+	},
 };
 
 export default function Layout({

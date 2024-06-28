@@ -4,9 +4,10 @@ import { formatMoney } from "@/utils";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import Image from "next/image";
 import { useState } from "react";
+import { ProductDetailsResponse } from "@/app/types"; // Upewnij się, że ścieżka jest poprawna
 
 interface ProductDetailsProps {
-	product: Product;
+	product: ProductDetailsResponse;
 }
 
 export const ProductDetails = ({ product }: ProductDetailsProps) => {

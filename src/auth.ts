@@ -18,11 +18,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 			}
 			return session;
 		},
-		async redirect({ url, baseUrl }) {
-			if (url.startsWith(baseUrl)) return url;
-			else if (url.startsWith("http://localhost:3000")) return url;
-			return baseUrl;
-		},
+		// async redirect({ url, baseUrl }) {
+		// 	if (url.startsWith(baseUrl)) return url;
+		// 	else if (url.startsWith("http://localhost:3000")) return url;
+		// 	return baseUrl;
+		// },
 	},
 	session: {
 		strategy: "jwt",

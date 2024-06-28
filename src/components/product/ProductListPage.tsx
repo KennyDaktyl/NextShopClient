@@ -2,7 +2,7 @@
 "use client";
 import { PaginationPage } from "@/components/product/Pagination";
 import { ProductList } from "./ProductList";
-import { Suspense } from "react";
+import { Product } from "@/app/types";
 
 export default function ProductListPage({
 	products,
@@ -16,8 +16,8 @@ export default function ProductListPage({
 	containerName: string;
 	currentPage: number;
 	totalPages: number;
-	nextPage: string;
-	prevPage: string;
+	nextPage: string | null;
+	prevPage: string | null;
 }) {
 	return (
 		<div className="flex w-full flex-wrap items-start justify-center">

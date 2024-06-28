@@ -11,27 +11,14 @@ import {
 import { Undo2, ChevronDown, PanelsTopLeft, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { MenuItem, MenuItemsResponse } from "@/app/types"; // Upewnij się, że ścieżka jest poprawna
 
-interface MenuItem {
-	name: string;
-	full_path: string;
-	is_parent: boolean;
-	get_products_count: number;
-}
-
-interface MenuItems {
-	name: string;
-	back_link: string;
-	items: MenuItem[];
-}
-
-export default function SideBar({
-	menuItems,
-	isMenuActive,
-}: {
-	menuItems: MenuItems;
+interface SideBarProps {
+	menuItems: MenuItemsResponse;
 	isMenuActive: boolean;
-}) {
+}
+
+export default function SideBar({ menuItems, isMenuActive }: SideBarProps) {
 	const [isOpen, setIsOpen] = useState(isMenuActive);
 
 	const toggleSidebar = () => setIsOpen(!isOpen);
@@ -41,9 +28,9 @@ export default function SideBar({
 	}, [isMenuActive]);
 
 	return (
-		<div className="relative flex pt-2 shadow-sm md:min-h-screen md:w-[200px]">
+		<div className="relative flex pt-2 md:min-h-screen md:w-[200px]">
 			<div
-				className={`absolute left-0 top-2 z-40 bg-white shadow-lg transition-transform duration-300 ease-in-out md:static md:w-[200px] md:translate-x-0 ${
+				className={`stransition-transform absolute left-0 top-2 z-40 bg-white duration-300 ease-in-out md:static md:w-[200px] md:translate-x-0 ${
 					isOpen ? "translate-x-0" : "-translate-x-150"
 				}`}
 			>
