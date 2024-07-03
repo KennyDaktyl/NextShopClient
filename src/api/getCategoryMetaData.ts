@@ -13,7 +13,7 @@ export const getCategoryMetaData = async ({
 }): Promise<CategoryMetaData> => {
 	try {
 		const response = await fetchGetApiData<CategoryMetaData, {}>({
-			query: `/api/products/category-meta/${currentCategorySlug}/`,
+			query: `/api/categories/category-meta/${currentCategorySlug}/`,
 			variables: {},
 			cache: "force-cache",
 			next: { tags: ["category-meta"] },

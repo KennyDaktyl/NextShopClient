@@ -7,7 +7,10 @@ const defaultMenuItemsResponse: MenuItemsResponse = {
 	slug: "",
 	back_link: "",
 	has_children: false,
+	image_list_item: null,
+	description: "",
 	items: [],
+	full_path: "",
 };
 
 export const getMenuItems = async ({
@@ -17,12 +20,11 @@ export const getMenuItems = async ({
 }): Promise<MenuItemsResponse> => {
 	try {
 		const response = await fetchGetApiData<MenuItemsResponse, {}>({
-			query: `/api/products/menu-items/${categorySlug}/`,
+			query: `/api/categories/menu-items/${categorySlug}/`,
 			variables: {},
 			cache: "force-cache",
-			next: { tags: ["menu-items"] },
+			next: { tags: [`menu-items-${categorySlug}`] },
 		});
-
 		if ("status" in response) {
 			return defaultMenuItemsResponse;
 		}

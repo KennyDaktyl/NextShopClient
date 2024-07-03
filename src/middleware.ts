@@ -11,7 +11,6 @@ export async function auth(request: NextRequest) {
 	const isProtectedRoutes = protectedRoutes.includes(nextUrl.pathname);
 
 	if (isApiAuthRoute) {
-		console.log(NextResponse.next());
 		return NextResponse.next();
 	}
 

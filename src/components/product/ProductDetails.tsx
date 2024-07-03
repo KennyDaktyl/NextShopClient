@@ -1,53 +1,39 @@
-"use client";
+import { DEFAULT_IMAGE_URL, formatMoney } from "@/utils";
+import { ProductDetails } from "@/app/types";
+import { CarouselPlugin } from "@/components/product/carouselPlugin";
+import { ButtonBack } from "@/components/ui/backButton";
+import { QuantityControl } from "@/components/cart/ QuantityControl";
 import { Button } from "@/components/ui/button";
-import { formatMoney } from "@/utils";
-import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import Image from "next/image";
-import { useState } from "react";
-import { ProductDetailsResponse } from "@/app/types"; // Upewnij się, że ścieżka jest poprawna
 
-interface ProductDetailsProps {
-	product: ProductDetailsResponse;
-}
-
-export const ProductDetails = ({ product }: ProductDetailsProps) => {
-	const [quantity, setQuantity] = useState(1);
-
-	const incrementQuantity = () => setQuantity((prev) => Math.min(prev + 1, product.qty));
-	const decrementQuantity = () => setQuantity((prev) => Math.max(prev - 1, 1));
-
+export const ProductDetailsComponent = ({ product }: { product: ProductDetails }) => {
+	const images =
+		product.images.length > 0
+			? product.images
+			: [
+					{
+						id: 0,
+						image_url: DEFAULT_IMAGE_URL,
+						alt: product.name,
+						title: product.name,
+						width: 650,
+						height: 650,
+					},
+				];
 	return (
-		<div className="flex w-full flex-wrap items-start justify-center rounded-lg bg-white p-4 shadow-lg">
-			<div className="w-full p-4 md:w-2/3">
-				<AspectRatio ratio={1 / 1} className="bg-muted overflow-hidden">
-					<Image
-						src={product.full_image_url}
-						alt={product.name}
-						className="rounded-md object-cover"
-						fill
-						sizes="(max-width: 768px) 100vw, 
-                   (max-width: 1200px) 50vw, 
-                   33vw"
-					/>
-				</AspectRatio>
+		<div className="relative flex w-full min-w-full flex-wrap items-start justify-center rounded-lg bg-white shadow-lg">
+			<ButtonBack />
+			<div className="w-full md:w-2/3">
+				<CarouselPlugin images={images} />
 			</div>
 			<div className="w-full p-4 md:w-1/3">
 				<h1 className="mb-2 text-2xl font-bold">{product.name}</h1>
 				<span className="mb-4 block text-sm text-gray-500">{product.category.name}</span>
 				<p className="mb-4">{product.description}</p>
-				<p className="mb-4 text-xl font-semibold">Cena: {formatMoney(product.current_price)}</p>
+				<p className="mb-1 text-xl font-semibold">Cena: {formatMoney(product.current_price)}</p>
 				<small className="mb-4 block">
 					Cena z ostatnich 30 dni: {formatMoney(product.min_price_last_30)}
 				</small>
-				<div className="mb-4 flex items-center">
-					<Button onClick={decrementQuantity} className="rounded-l-md" variant="outline">
-						-
-					</Button>
-					<span className="bg-gray-100 px-4 py-2 text-gray-700">{quantity}</span>
-					<Button onClick={incrementQuantity} className="rounded-r-md" variant="outline">
-						+
-					</Button>
-				</div>
+				<QuantityControl maxQuantity={product.qty} />
 				<p className="mb-4">Dostępna ilość: {product.qty}</p>
 				<Button className="w-full rounded-md text-white transition hover:bg-gray-500">
 					Dodaj do koszyka
@@ -57,4 +43,4 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
 	);
 };
 
-export default ProductDetails;
+export default ProductDetailsComponent;

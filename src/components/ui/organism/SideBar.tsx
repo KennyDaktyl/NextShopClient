@@ -1,6 +1,4 @@
 "use client";
-
-import { useState, useEffect } from "react";
 import {
 	Command,
 	CommandGroup,
@@ -8,35 +6,42 @@ import {
 	CommandList,
 	CommandSeparator,
 } from "@/components/ui/command";
-import { Undo2, ChevronDown, PanelsTopLeft, Menu, X } from "lucide-react";
+import { Undo2, ChevronDown, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { MenuItem, MenuItemsResponse } from "@/app/types"; // Upewnij się, że ścieżka jest poprawna
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
-interface SideBarProps {
-	menuItems: MenuItemsResponse;
-	isMenuActive: boolean;
+interface MenuItem {
+	name: string;
+	full_path: string;
+	is_parent: boolean;
+	get_products_count: number;
 }
 
-export default function SideBar({ menuItems, isMenuActive }: SideBarProps) {
-	const pathname = usePathname();
-	const pathSegments = pathname.split("/").filter((segment) => segment);
+interface MenuItems {
+	name: string;
+	back_link: string;
+	items: MenuItem[];
+}
 
-	console.log(pathSegments);
+export default function SideBar({
+	menuItems,
+	isMenuActive,
+}: {
+	menuItems: MenuItems;
+	isMenuActive: boolean;
+}) {
+	const toggleSidebar = () => setIsOpen(!isOpen);
 
 	const [isOpen, setIsOpen] = useState(isMenuActive);
-
-	const toggleSidebar = () => setIsOpen(!isOpen);
 
 	useEffect(() => {
 		setIsOpen(isMenuActive);
 	}, [isMenuActive]);
-
 	return (
-		<div className="relative flex pt-2 md:min-h-screen md:w-[200px]">
+		<div className="relative flex pt-2 md:mr-2 md:min-h-screen md:w-[200px]">
 			<div
-				className={`stransition-transform absolute left-0 top-2 z-40 bg-white duration-300 ease-in-out md:static md:w-[200px] md:translate-x-0 ${
+				className={`stransition-transform absolute left-0 top-0 z-40 bg-white duration-300 ease-in-out md:static md:w-[200px] md:translate-x-0 ${
 					isOpen ? "translate-x-0" : "-translate-x-150"
 				}`}
 			>
@@ -52,7 +57,6 @@ export default function SideBar({ menuItems, isMenuActive }: SideBarProps) {
 							<Command className="rounded-lg border shadow-md">
 								<CommandList>
 									<CommandGroup heading="Loading...">
-										<PanelsTopLeft />
 										<CommandSeparator />
 									</CommandGroup>
 								</CommandList>
@@ -63,11 +67,11 @@ export default function SideBar({ menuItems, isMenuActive }: SideBarProps) {
 							<Command className="rounded-lg border shadow-md">
 								<CommandList>
 									<CommandGroup>
-										<Link href={menuItems.back_link} legacyBehavior>
-											<a>
+										{menuItems.back_link != "/" && (
+											<Link href={menuItems.back_link} legacyBehavior className="pl-2">
 												<Undo2 className="cursor-pointer hover:bg-slate-100" />
-											</a>
-										</Link>
+											</Link>
+										)}
 									</CommandGroup>
 									<CommandGroup>
 										{menuItems.items.map((item: MenuItem, index: number) => (
@@ -95,7 +99,7 @@ export default function SideBar({ menuItems, isMenuActive }: SideBarProps) {
 
 			{!isOpen && (
 				<Button
-					className="absolute left-0 top-2 z-10 md:hidden"
+					className="absolute left-0 top-0 z-10 md:hidden"
 					onClick={toggleSidebar}
 					variant="outline"
 				>

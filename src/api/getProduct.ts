@@ -1,13 +1,13 @@
 import { fetchGetApiData } from "./fetchApiData";
-import { ProductDetailsResponse } from "@/app/types";
+import { ProductDetails } from "@/app/types";
 
 export const getProductDetails = async ({
 	productSlug,
 }: {
 	productSlug: string;
-}): Promise<ProductDetailsResponse | null> => {
+}): Promise<ProductDetails | null> => {
 	try {
-		const response = await fetchGetApiData<ProductDetailsResponse, {}>({
+		const response = await fetchGetApiData<ProductDetails, {}>({
 			query: `/api/products/${productSlug}/`,
 			variables: {},
 			cache: "force-cache",

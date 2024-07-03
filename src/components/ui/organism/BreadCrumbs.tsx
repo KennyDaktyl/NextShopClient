@@ -9,10 +9,14 @@ export default function BreadcrumbWithCustomSeparator() {
 	const pathname = usePathname();
 	const pathSegments = pathname.split("/").filter((segment) => segment);
 
-	if (pathSegments.includes("produkt")) {
+	const excludedPaths = ["produkt"];
+
+	if (pathSegments.length === 0) {
 		return null;
 	}
-
+	if (excludedPaths.some((excludedPath) => pathSegments.includes(excludedPath))) {
+		return null;
+	}
 	const breadcrumbs = pathSegments.map((segment, index) => {
 		const href = "/" + pathSegments.slice(0, index + 1).join("/");
 		const isLast = index === pathSegments.length - 1;

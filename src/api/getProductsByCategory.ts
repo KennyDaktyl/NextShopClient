@@ -10,12 +10,11 @@ export const getProductsByCategory = async ({
 }) => {
 	try {
 		const response = await fetchGetApiData<ProductsResponse, { page: string }>({
-			query: `/api/products/category/${categorySlug}/`,
+			query: `/api/categories/category-products/${categorySlug}/`,
 			variables: params,
 			cache: "force-cache",
 			next: { tags: [`products-${categorySlug}`] },
 		});
-
 		return response ?? [];
 	} catch (error) {
 		console.error("API Error:", error);
