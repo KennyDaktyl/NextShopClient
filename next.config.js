@@ -3,14 +3,15 @@ const nextConfig = {
 	images: {
 		remotePatterns: [
 			{
-				protocol: "http",
-				hostname: "**",
+				protocol: "https",
+				hostname: "new-serwiswrybnej-api.resto-app.pl",
+				pathname: "/media/thumbnails/**",
 			},
 		],
 	},
 	reactStrictMode: true,
 	// experimental: {
-	// 	appDir: true,
+	//  appDir: true,
 	// },
 	env: {
 		API_URL: process.env.API_URL,

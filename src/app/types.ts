@@ -50,6 +50,26 @@ export interface ProductListItem {
 	absolute_url: string;
 }
 
+export interface Tag {
+	id: number;
+	name: string;
+}
+
+export interface Brand {
+	id: number;
+	name: string;
+}
+
+export interface Material {
+	id: number;
+	name: string;
+}
+
+export interface Size {
+	id: number;
+	name: string;
+}
+
 export interface Product {
 	id: string;
 	name: string;
@@ -74,6 +94,19 @@ export interface ProductCategory {
 	id: number;
 	name: string;
 	slug: string;
+	full_path: string;
+}
+
+export interface Variant {
+	id: number;
+	name: string;
+	slug: string;
+	qty: number;
+	images: Image[] | [];
+	color: string;
+	size: Size | null;
+	brand: Brand | null;
+	material: Material | null;
 }
 
 export interface ProductDetails {
@@ -84,9 +117,15 @@ export interface ProductDetails {
 	description: string;
 	qty: number;
 	images: Image[] | [];
+	color: string;
+	tags: Tag[] | [];
+	size: Size | null;
+	brand: Size | null;
+	material: Size | null;
 	current_price: number;
 	min_price_last_30: number;
 	absolute_url: string;
+	variants: Variant[];
 }
 
 export interface CategoryMetaData {
@@ -146,4 +185,8 @@ export interface MenuItemsResponse {
 	full_path: string;
 	image_list_item: Image | null;
 	items: MenuItem[];
+}
+
+export interface BackLinkProps {
+	full_path: string | "/";
 }

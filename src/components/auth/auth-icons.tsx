@@ -26,20 +26,20 @@ export default function AuthIcons() {
 				<>
 					<Link href="/moje-konto">
 						<button className="text-dark mr-2 flex h-10 w-10 items-center justify-center rounded-full">
-							<UserRound size={24} />
+							<UserRound size={24} className="hover:text-gray-500" />
 						</button>
 					</Link>
 					<button
 						className="text-dark mr-2 flex h-10 w-10 items-center justify-center rounded-full"
 						onClick={handleLogout}
 					>
-						<LogOut size={24} />
+						<LogOut size={24} className="hover:text-gray-500" />
 					</button>
 				</>
 			) : (
 				<Link href="/auth/login">
 					<button className="text-dark mr-2 flex h-10 w-10 items-center justify-center rounded-full">
-						<LogIn size={24} />
+						<LogIn size={24} className="hover:text-gray-500" />
 					</button>
 				</Link>
 			)}

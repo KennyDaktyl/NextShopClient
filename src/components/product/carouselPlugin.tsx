@@ -32,7 +32,7 @@ export function CarouselPlugin({ images }: { images: Image[] }) {
 		>
 			<CarouselContent className="mx-auto">
 				{images.map((image, index) => (
-					<CarouselItem key={index} className="mb-2 flex items-center justify-center pt-2">
+					<CarouselItem key={index} className="flex h-[650px] items-center justify-center">
 						<Image
 							src={image.image_url}
 							alt={image.alt || ""}

@@ -12,7 +12,7 @@ export default async function Home() {
 	const nextPage: string | null = productsResponse.next;
 	const prevPage: string | null = productsResponse.previous;
 	return (
-		<section className="mt-4">
+		<section>
 			<div className="flex w-full flex-wrap rounded-md bg-gray-100 shadow-md">
 				<div className="flex w-1/2 items-center justify-center">
 					<div className="flex w-4/5 flex-wrap items-center justify-start">
@@ -24,7 +24,7 @@ export default async function Home() {
 				</div>
 				<div className="m-auto flex w-1/2 items-center justify-center">
 					<Image
-						src="http://127.0.0.1:8000/media/thumbnails/pieczatka-colop-c20-new-id-4_350x350.webp"
+						src="https://new-serwiswrybnej-api.resto-app.pl/media/thumbnails/pieczatka-colop-c20-new-id-4_350x350.webp"
 						alt=""
 						className="max-h-[350px] max-w-[350px] rounded-md object-cover"
 						height={263}
