@@ -7,3 +7,7 @@ Chciałbym skorzystać z mozliwości jakie daje nextjs m.innymi:
 
 Projekt w budowie - live :
 https://new-serwiswrybnej.resto-app.pl/
+
+Backend Django DRF
+Adres: https://github.com/KennyDaktyl/NextShopBackend
+
