@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 
 export function ButtonBack(back_link: BackLinkProps) {
 	const router = useRouter();
-	console.log(back_link);
 	return (
 		<Button
 			className="absolute left-0 top-0 z-50 text-gray-500"

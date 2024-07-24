@@ -21,7 +21,6 @@ export default async function Page() {
 	const currentCategorySlug = "produkty";
 	try {
 		const menuItems: MenuItemsResponse = await getMenuItems({ categorySlug: currentCategorySlug });
-		console.log("menuItems", menuItems);
 		return (
 			<CategoryLayout>
 				<SideBar menuItems={menuItems} isMenuActive={false} />

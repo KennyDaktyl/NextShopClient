@@ -13,7 +13,7 @@ export const QuantityControl = ({ quantity, setQuantity, maxQuantity }: Quantity
 	const decrementQuantity = () => setQuantity(Math.max(quantity - 1, 1));
 
 	return (
-		<div className="flex items-center">
+		<div className="mb-4 flex items-center">
 			<Button
 				onClick={decrementQuantity}
 				className="rounded-l-md hover:bg-slate-50"

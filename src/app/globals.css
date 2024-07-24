@@ -101,4 +101,11 @@
 		overflow: hidden;
 		max-height: 700px;
 	}
+	.subcategory_image {
+		object-fit: contain;
+	}
+	.subcategory-list-item:hover img {
+		transition: transform 0.3s ease;
+		transform: scale(1.1);
+	}
 }

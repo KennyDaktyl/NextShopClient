@@ -1,6 +1,7 @@
 import { MenuItem } from "@/app/types";
 import Image from "next/image";
 import Link from "next/link";
+import { it } from "node:test";
 
 interface SubcategoryItemProps {
 	item: MenuItem;
@@ -10,19 +11,23 @@ const SubcategoryItem = ({ item }: SubcategoryItemProps) => {
 	return (
 		<Link
 			href={item.full_path}
-			className="flex h-[450px] cursor-pointer flex-col items-center justify-start rounded-md border p-4 shadow-md transition duration-300 ease-in-out hover:border-gray-300 hover:shadow-lg"
+			className="subcategory-list-item flex h-[310px] cursor-pointer flex-col items-center justify-start rounded-md border shadow-md transition duration-300 ease-in-out hover:border-gray-300 hover:shadow-lg md:h-[450px]"
 		>
-			<h1 className="mt-2 text-2xl font-bold">{item.name}</h1>
-			<p className="text-md mt-4 h-[100px]">{item.description}</p>
+			<div className="flex h-[160px] w-full flex-wrap justify-center p-2">
+				<h2 className="mt-2 h-[40px] text-center text-sm font-bold md:text-xl">{item.name}</h2>
+				<p className="mt-4 h-[80px] text-center text-xs md:text-sm">{item.description}</p>
+			</div>
 			{item.image_list_item && (
-				<div className="mt-4 flex justify-center">
-					<Image
-						src={item.image_list_item.image_url || ""}
-						alt={item.image_list_item.alt || "Category Image"}
-						className="rounded-md object-cover"
-						height={item.image_list_item.height || 150}
-						width={item.image_list_item.width || 150}
-					/>
+				<div className="xs:h-[125px] mt-4 flex h-[125px] w-full items-center justify-center sm:h-[270px] sm:w-[270px]">
+					<div className="relative flex h-[125px] w-[125px] items-center justify-center sm:h-[270px] sm:w-[270px]">
+						<Image
+							src={item.image_list_item.image_url || ""}
+							alt={item.image_list_item.alt || "Category Image"}
+							className="subcategory_image rounded-md object-contain"
+							fill
+							sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+						/>
+					</div>
 				</div>
 			)}
 		</Link>

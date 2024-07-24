@@ -48,6 +48,7 @@ export interface ProductListItem {
 	current_price: number;
 	min_price_last_30: number;
 	absolute_url: string;
+	variants: VariantList[];
 }
 
 export interface Tag {
@@ -107,6 +108,14 @@ export interface Variant {
 	size: Size | null;
 	brand: Brand | null;
 	material: Material | null;
+}
+
+export interface VariantList {
+	id: number;
+	name: string;
+	slug: string;
+	color: string;
+	size: Size | null;
 }
 
 export interface ProductDetails {

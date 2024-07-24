@@ -78,7 +78,7 @@ export default async function Page({
 		if (response && typeof response === "object" && "count" in response && "results" in response) {
 			const productsResponse: ProductsResponse = response as ProductsResponse;
 			const products: ProductListItem[] = productsResponse.results;
-			const totalPages: number = Math.ceil(productsResponse.count / 2);
+			const totalPages: number = Math.ceil(productsResponse.count / 20);
 			const nextPage: string | null = productsResponse.next;
 			const prevPage: string | null = productsResponse.previous;
 
