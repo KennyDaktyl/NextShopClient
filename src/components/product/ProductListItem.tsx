@@ -20,7 +20,7 @@ export const ProductListItemContainer = ({ product }: { product: ProductListItem
 			role="link"
 			href={product.absolute_url}
 			aria-current="page"
-			className="mb-8 w-[150px] cursor-pointer sm:mb-4 md:w-[350px]"
+			className="mb-8 w-[150px] cursor-pointer sm:mb-4 md:w-[346px]"
 		>
 			<Card
 				key={product.id}

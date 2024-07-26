@@ -26,6 +26,8 @@ export const ProductDetailsComponent = ({
 	const variantSlug = searchParams.get("variant");
 
 	const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
+	const [initialized, setInitialized] = useState(false);
+	const [loading, setLoading] = useState(true);
 	const [quantity, setQuantity] = useState(1);
 
 	useEffect(() => {
@@ -33,7 +35,21 @@ export const ProductDetailsComponent = ({
 			? product.variants?.find((variant) => variant.slug === variantSlug)
 			: null;
 		setSelectedVariant(initialVariant || null);
+		setInitialized(true);
+		setLoading(false);
 	}, [variantSlug, product.variants]);
+
+	if (!initialized) {
+		return null;
+	}
+
+	if (loading) {
+		return (
+			<div className="flex h-full w-full items-center justify-center">
+				<p>Loading...</p>
+			</div>
+		);
+	}
 
 	const images =
 		selectedVariant && selectedVariant.images && selectedVariant.images.length > 0
@@ -50,9 +66,13 @@ export const ProductDetailsComponent = ({
 							height: 650,
 						},
 					];
+	const tags =
+		selectedVariant && selectedVariant.tags && selectedVariant.tags.length > 0
+			? selectedVariant.tags
+			: product.tags;
 
-	function onHandleClick(variant?: Variant) {
-		if (variant) {
+	function onHandleClick(variant: Variant) {
+		if (!variant.is_main) {
 			setSelectedVariant(variant);
 			const newUrl = new URL(window.location.href);
 			newUrl.searchParams.set("variant", variant.slug);
@@ -75,42 +95,47 @@ export const ProductDetailsComponent = ({
 			<div className="w-full p-4 md:w-1/3">
 				<HeaderComponent product={product} />
 				<DescriptionComponent description={product.description} />
-				<PriceComponent
-					currentPrice={product.current_price}
-					minPriceLast30={product.min_price_last_30}
-				/>
 				<TooltipProvider>
-					{product.variants && (
+					{product.variants && product.show_variant_label && (
 						<ColorVariantsComponent
 							variants={product.variants || []}
+							label={product.variant_label}
 							onHandleClick={onHandleClick}
 						/>
 					)}
 				</TooltipProvider>
+				{product.brand && (
+					<div className="mb-2 text-sm">
+						<span className="font-semibold">Marka:</span> {product.brand.name}
+					</div>
+				)}
+				{product.material && (
+					<div className="mb-2 text-sm">
+						<span className="font-semibold">Materiał:</span> {product.material.name}
+					</div>
+				)}
+				{product.size && (
+					<div className="mb-2 text-sm">
+						<span className="font-semibold">Rozmiar:</span> {product.size.name}
+					</div>
+				)}
+				{tags && tags.length > 0 && (
+					<div className="mb-2 text-sm">
+						<TagsComponent tags={tags} />
+					</div>
+				)}
+				<div className="mb-1 sm:mb-4">
+					Dostępna ilość: {selectedVariant ? selectedVariant.qty : product.qty}
+				</div>
+				<PriceComponent
+					currentPrice={product.current_price}
+					minPriceLast30={product.min_price_last_30}
+				/>
 				<QuantityControl
 					quantity={quantity}
 					setQuantity={setQuantity}
 					maxQuantity={selectedVariant ? selectedVariant.qty : product.qty}
 				/>
-				<p className="mb-4">
-					Dostępna ilość: {selectedVariant ? selectedVariant.qty : product.qty}
-				</p>
-				{product.brand && (
-					<p className="mb-2 text-sm">
-						<span className="font-semibold">Marka:</span> {product.brand.name}
-					</p>
-				)}
-				{product.material && (
-					<p className="mb-2 text-sm">
-						<span className="font-semibold">Materiał:</span> {product.material.name}
-					</p>
-				)}
-				{product.size && (
-					<p className="mb-2 text-sm">
-						<span className="font-semibold">Rozmiar:</span> {product.size.name}
-					</p>
-				)}
-				{product.tags && product.tags.length > 0 && <TagsComponent tags={product.tags} />}
 				<Button className="w-full rounded-md text-white transition hover:bg-gray-500">
 					Dodaj do koszyka
 				</Button>

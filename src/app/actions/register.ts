@@ -35,7 +35,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 			}
 		}
 		return {
-			error: "Coś poszło nie tak.",
+			error: "Login już istnieje.",
 		};
 	}
 };

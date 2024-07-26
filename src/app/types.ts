@@ -48,6 +48,8 @@ export interface ProductListItem {
 	current_price: number;
 	min_price_last_30: number;
 	absolute_url: string;
+	variant_label: string;
+	show_variant_label: boolean;
 	variants: VariantList[];
 }
 
@@ -108,6 +110,8 @@ export interface Variant {
 	size: Size | null;
 	brand: Brand | null;
 	material: Material | null;
+	tags: Tag[] | [];
+	is_main: boolean;
 }
 
 export interface VariantList {
@@ -134,6 +138,8 @@ export interface ProductDetails {
 	current_price: number;
 	min_price_last_30: number;
 	absolute_url: string;
+	variant_label: string;
+	show_variant_label: boolean;
 	variants: Variant[];
 }
 
@@ -154,20 +160,6 @@ export interface ImageItem {
 	image_url: string;
 	alt: string | null;
 	title: string | null;
-}
-
-export interface CategoryItem {
-	id: number;
-	name: string;
-	slug: string;
-	description: string;
-	has_parent: boolean;
-	is_parent: boolean;
-	get_products_count: number;
-	has_children: boolean;
-	full_path: string;
-	back_link: string;
-	image_list_item: ImageItem | null;
 }
 
 export interface CategoryItem {

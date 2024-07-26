@@ -40,22 +40,29 @@ export const RegisterForm = () => {
 	});
 
 	const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
+		console.log("Form submitted with values:", values);
 		setError("");
 		setSuccess("");
 
 		const formData = { ...values, email: values.username };
 
 		startTransition(() => {
-			register(formData).then((data) => {
-				setError(data.error);
-				if (data.success) {
-					form.reset();
-					setSuccess("Sprawdź email w celu aktywacji konta");
-					setTimeout(() => {
-						router.push("/auth/login");
-					}, 5000);
-				}
-			});
+			register(formData)
+				.then((data) => {
+					console.log("Register response:", data);
+					setError(data.error);
+					if (data.success) {
+						form.reset();
+						setSuccess("Sprawdź email w celu aktywacji konta");
+						setTimeout(() => {
+							router.push("/auth/login");
+						}, 5000);
+					}
+				})
+				.catch((err) => {
+					console.error("Registration error:", err);
+					setError("Wystąpił błąd podczas rejestracji");
+				});
 		});
 	};
 
@@ -120,7 +127,7 @@ export const RegisterForm = () => {
 						<Checkbox id="terms" required />
 						<div className="grid gap-1.5 leading-none">
 							<label
-								htmlFor="terms1"
+								htmlFor="terms"
 								className="ml-4 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
 							>
 								Akceptuję{" "}

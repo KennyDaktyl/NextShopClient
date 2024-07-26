@@ -3,7 +3,7 @@ import { Tooltip, TooltipTrigger, TooltipContent } from "@radix-ui/react-tooltip
 import { Badge } from "@/components/ui/badge";
 
 const COLOR_CLASSES: { [key: string]: string } = {
-	"Brak koloru": "bg-gray-300 text-gray-800",
+	"Brak koloru": "bg-white border-black text-gray-800",
 	Biały: "bg-white text-gray-800",
 	Szary: "bg-gray-500 text-white",
 	Czerwony: "bg-red-500 text-white",
@@ -20,45 +20,30 @@ const COLOR_CLASSES: { [key: string]: string } = {
 
 const ColorVariantsComponent = ({
 	variants,
+	label,
 	onHandleClick,
 }: {
 	variants: Variant[];
-	onHandleClick: (variant?: Variant) => void;
+	label: string;
+	onHandleClick: (variant: Variant) => void;
 }) => (
-	<div className="mb-4">
-		<span className="text-sm font-semibold">Warianty koloru:</span>
-		<div className="mt-1 flex flex-wrap">
-			<Tooltip key={"default"}>
+	<div className="mt-1 flex flex-wrap">
+		<span className="w-full text-sm font-semibold">{label}</span>
+		{variants.map((variant) => (
+			<Tooltip key={variant.id}>
 				<TooltipTrigger asChild>
 					<div className="m-0 p-0">
 						<Badge
-							className="mb-2 mr-2 cursor-pointer rounded-full p-2"
-							variant={"outline"}
-							onClick={() => onHandleClick()}
+							className={`mb-2 mr-2 cursor-pointer rounded-full ${COLOR_CLASSES[variant.color]}`}
+							onClick={() => onHandleClick(variant)}
 						></Badge>
 					</div>
 				</TooltipTrigger>
 				<TooltipContent className="z-10 rounded bg-gray-800 px-2 py-1 text-xs text-white">
-					{"domyślny"}
+					{variant.name}
 				</TooltipContent>
 			</Tooltip>
-
-			{variants.map((variant) => (
-				<Tooltip key={variant.id}>
-					<TooltipTrigger asChild>
-						<div className="m-0 p-0">
-							<Badge
-								className={`mb-2 mr-2 cursor-pointer rounded-full p-2 ${COLOR_CLASSES[variant.color]}`}
-								onClick={() => onHandleClick(variant)}
-							></Badge>
-						</div>
-					</TooltipTrigger>
-					<TooltipContent className="z-10 rounded bg-gray-800 px-2 py-1 text-xs text-white">
-						{variant.name}
-					</TooltipContent>
-				</Tooltip>
-			))}
-		</div>
+		))}
 	</div>
 );
 
