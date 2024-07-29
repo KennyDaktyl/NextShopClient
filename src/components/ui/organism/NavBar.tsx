@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { ActiveLink } from "../atoms/ActiveLink";
-import AuthIcons from "../../auth/auth-icons";
-import { Menu, X } from "lucide-react";
+import { Menu, ShoppingCart, X } from "lucide-react";
 import React from "react";
+import Link from "next/link";
+import AuthIcons from "@/components/auth/auth-icons";
 
 type NavLink = {
 	href: string;
@@ -63,10 +64,25 @@ export default function NavBar() {
 						))}
 					</ul>
 				</div>
+				
 				<div className="hidden md:flex">
+				<Link
+                        href="/cart"
+                        className="h-full group m-2 flex items-center p-2"
+                    >
+                        <ShoppingCart className='ml-4 h-6 w-6 flex-shrink' aria-hidden="true" />
+                        <span className='sr-only'></span>
+                    </Link>
 					<AuthIcons />
 				</div>
 				<div className="flex items-center md:hidden">
+				<Link
+                        href="/cart"
+                        className="h-full group m-2 flex items-center p-2"
+                    >
+                        <ShoppingCart className='ml-4 h-6 w-6 flex-shrink' aria-hidden="true" />
+                        <span className='sr-only'></span>
+                    </Link>
 					<button onClick={toggleMenu}>{isMenuOpen ? <X size={24} /> : <Menu size={24} />}</button>
 				</div>
 			</div>

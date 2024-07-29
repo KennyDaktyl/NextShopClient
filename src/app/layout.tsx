@@ -25,8 +25,10 @@ export const metadata: Metadata = {
 
 export default function Layout({
 	children,
+	modal,
 }: Readonly<{
 	children: React.ReactNode;
+	modal: React.ReactNode;
 }>) {
 	return (
 		<html lang="pl">
@@ -41,6 +43,7 @@ export default function Layout({
 					{children}
 				</main>
 				<footer className="mt-4 h-28 w-full bg-gray-100 text-center">&copy;2024</footer>
+				{modal}
 			</body>
 		</html>
 	);
