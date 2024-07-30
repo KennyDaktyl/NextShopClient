@@ -1,4 +1,4 @@
-import { ProductListItem } from "@/app/types";
+import type { ProductListItem } from "@/app/types";
 
 export const formatMoney = (amount: number) => {
 	return new Intl.NumberFormat("pl-PL", {

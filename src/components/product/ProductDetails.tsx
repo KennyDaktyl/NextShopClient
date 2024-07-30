@@ -1,19 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { startTransition, useEffect, useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import { DEFAULT_IMAGE_URL } from "@/utils";
 import { BackLinkProps, ProductDetails, Variant } from "@/app/types";
 import { CarouselPlugin } from "@/components/product/carouselPlugin";
 import { ButtonBack } from "@/components/ui/backButton";
-import { Button } from "@/components/ui/button";
-import { QuantityControl } from "@/components/cart/ QuantityControl";
+import { QuantityControl } from "@/components/cart/QuantityControl";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import ColorVariantsComponent from "@/components/product/atoms/ColorVariantsComponent";
 import PriceComponent from "@/components/product/atoms/PriceComponent";
 import DescriptionComponent from "@/components/product/atoms/DescriptionComponent";
 import HeaderComponent from "@/components/product/atoms/HeaderComponent";
 import TagsComponent from "@/components/product/atoms/TagsComponent";
+import { addToCartAction } from "@/app/cart/actions";
+import { useFormStatus } from 'react-dom';
+import AddToCartButton from "@/components/product/atoms/AddToCartButton";
 
 export const ProductDetailsComponent = ({
 	product,
@@ -85,6 +87,16 @@ export const ProductDetailsComponent = ({
 		}
 		setQuantity(1);
 	}
+
+	const handleAddToCart = () => {
+		setQuantity(1);
+	};
+
+	const formData = new FormData();
+	formData.append("product_id", product.id.toString());
+	formData.append("variant_id", selectedVariant ? selectedVariant.id.toString() : '');
+	formData.append("quantity", quantity.toString());
+
 	return (
 		<div className="relative flex w-full min-w-full flex-wrap items-start justify-center rounded-lg bg-white shadow-lg">
 			<ButtonBack {...back_link} />
@@ -136,9 +148,7 @@ export const ProductDetailsComponent = ({
 					setQuantity={setQuantity}
 					maxQuantity={selectedVariant ? selectedVariant.qty : product.qty}
 				/>
-				<Button className="w-full rounded-md text-white transition hover:bg-gray-500">
-					Dodaj do koszyka
-				</Button>
+				<AddToCartButton formData={formData} onAddedToCart={handleAddToCart} />
 			</div>
 		</div>
 	);

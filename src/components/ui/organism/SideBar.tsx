@@ -1,4 +1,8 @@
 "use client";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { Undo2, ChevronDown, Menu, X } from "lucide-react";
+
 import {
 	Command,
 	CommandGroup,
@@ -6,10 +10,7 @@ import {
 	CommandList,
 	CommandSeparator,
 } from "@/components/ui/command";
-import { Undo2, ChevronDown, Menu, X } from "lucide-react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
 
 interface MenuItem {
 	name: string;
@@ -24,7 +25,7 @@ interface MenuItems {
 	items: MenuItem[];
 }
 
-export default function SideBar({
+export function SideBar({
 	menuItems,
 	isMenuActive,
 }: {
@@ -109,3 +110,5 @@ export default function SideBar({
 		</div>
 	);
 }
+
+export default SideBar;

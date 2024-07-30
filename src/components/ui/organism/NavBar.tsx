@@ -1,11 +1,12 @@
+// components/NavBar.tsx
 "use client";
 
 import { useState } from "react";
 import { ActiveLink } from "../atoms/ActiveLink";
 import { Menu, ShoppingCart, X } from "lucide-react";
-import React from "react";
 import Link from "next/link";
 import AuthIcons from "@/components/auth/auth-icons";
+import { formatMoney } from "@/utils";
 
 type NavLink = {
 	href: string;
@@ -35,7 +36,11 @@ const NavLinks: NavLink[] = [
 	},
 ];
 
-export default function NavBar() {
+type NavBarProps = {
+    totalPrice: number;
+};
+
+export default function NavBar({ totalPrice }: NavBarProps) {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	const toggleMenu = () => {
@@ -66,23 +71,25 @@ export default function NavBar() {
 				</div>
 				
 				<div className="hidden md:flex">
-				<Link
-                        href="/cart"
-                        className="h-full group m-2 flex items-center p-2"
-                    >
-                        <ShoppingCart className='ml-4 h-6 w-6 flex-shrink' aria-hidden="true" />
-                        <span className='sr-only'></span>
-                    </Link>
+					<Link
+						href="/cart"
+						className="h-full group m-2 flex items-center p-2"
+					>
+						<ShoppingCart className='ml-4 h-6 w-6 flex-shrink' aria-hidden="true" />
+						<span>{formatMoney(totalPrice)}</span>
+						<span className='sr-only'></span>
+					</Link>
 					<AuthIcons />
 				</div>
 				<div className="flex items-center md:hidden">
-				<Link
-                        href="/cart"
-                        className="h-full group m-2 flex items-center p-2"
-                    >
-                        <ShoppingCart className='ml-4 h-6 w-6 flex-shrink' aria-hidden="true" />
-                        <span className='sr-only'></span>
-                    </Link>
+					<Link
+						href="/cart"
+						className="h-full group m-2 flex items-center p-2"
+					>
+						<ShoppingCart className='ml-4 h-6 w-6 flex-shrink' aria-hidden="true" />
+						<span>{formatMoney(totalPrice)}</span>
+						<span className='sr-only'></span>
+					</Link>
 					<button onClick={toggleMenu}>{isMenuOpen ? <X size={24} /> : <Menu size={24} />}</button>
 				</div>
 			</div>

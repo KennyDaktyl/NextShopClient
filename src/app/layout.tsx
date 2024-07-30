@@ -1,10 +1,10 @@
-import NavBar from "../components/ui/organism/NavBar";
 import BreadCrumbs from "../components/ui/organism/BreadCrumbs";
 import { NextAuthProvider } from "../components/auth/next-auth-provider";
 
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
+import ServerNavBar from "@/components/ui/organism/ServerNavBar";
 
 const montserrat = Montserrat({
 	subsets: ["latin", "latin-ext"],
@@ -34,7 +34,7 @@ export default function Layout({
 		<html lang="pl">
 			<body className={montserrat.className} cz-shortcut-listen="false">
 				<NextAuthProvider>
-					<NavBar />
+					<ServerNavBar />
 				</NextAuthProvider>
 				<div className="mx-auto mt-1 max-w-screen-xl p-5 md:p-0">
 					<BreadCrumbs />

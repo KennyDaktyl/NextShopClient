@@ -93,6 +93,25 @@ export interface ProductsResponse {
 	results: ProductListItem[];
 }
 
+export interface CartTotalPrice {
+	total_price: number;
+}
+
+export interface CartItem {
+	id: number;
+	name: string;
+	price: number;
+	quantity: number;
+}
+
+export interface CartItems {
+	cart_items: CartItem[];
+}
+
+export interface ErrorResponse {
+	status: number;
+  };
+
 export interface ProductCategory {
 	id: number;
 	name: string;
@@ -190,4 +209,9 @@ export interface MenuItemsResponse {
 
 export interface BackLinkProps {
 	full_path: string | "/";
+}
+
+export interface CartResponse {
+    cart_id: string;
+    cart_items: any[];
 }
