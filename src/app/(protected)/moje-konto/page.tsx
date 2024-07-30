@@ -1,15 +1,22 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getUserData } from "@/api/getUserData";
+import { Session } from "next-auth";
 
 export default async function ProfilePage() {
-	const session = await auth();
-	if (!session) {
+	const session: Session | null = await auth();
+	if (!session || !session.user) {
 		redirect("/auth/login");
 		return null;
 	}
 
-	const response = await getUserData(session.user.accessToken ?? "");
+	const accessToken = session.user.accessToken;
+	if (!accessToken) {
+		redirect("/auth/login");
+		return null;
+	}
+
+	const response = await getUserData(accessToken);
 
 	if (response.status === 401) {
 		console.log("redirecting to login");
