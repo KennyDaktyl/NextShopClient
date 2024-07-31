@@ -1,6 +1,6 @@
 import { getProductDetails } from "@/api/getProduct";
 import { BackLinkProps } from "@/app/types";
-import ProductDetailsComponent from "@/components/product/ProductDetails";
+import { ProductDetailsComponent as DefaultProductDetailsComponent } from "@/components/product/ProductDetails";
 import { Metadata, ResolvingMetadata } from "next";
 
 export async function generateMetadata({
@@ -24,5 +24,5 @@ export default async function ProductPage({ params }: { params: { productSlug: s
 
 	const back_link: BackLinkProps = { full_path: productDetailsResponse.category.full_path || "/" };
 
-	return <ProductDetailsComponent product={productDetailsResponse} back_link={back_link} />;
+	return <DefaultProductDetailsComponent product={productDetailsResponse} back_link={back_link} />;
 }

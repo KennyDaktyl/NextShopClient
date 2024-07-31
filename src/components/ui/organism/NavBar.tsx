@@ -37,7 +37,7 @@ const NavLinks: NavLink[] = [
 ];
 
 type NavBarProps = {
-    totalPrice: number;
+	totalPrice: number;
 };
 
 export default function NavBar({ totalPrice }: NavBarProps) {
@@ -69,26 +69,20 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 						))}
 					</ul>
 				</div>
-				
+
 				<div className="hidden md:flex">
-					<Link
-						href="/cart"
-						className="h-full group m-2 flex items-center p-2"
-					>
-						<ShoppingCart className='ml-4 h-6 w-6 flex-shrink' aria-hidden="true" />
-						<span>{formatMoney(totalPrice)}</span>
-						<span className='sr-only'></span>
+					<Link href="/cart" className="group m-2 flex h-full items-center p-2">
+						<ShoppingCart className="ml-4 h-6 w-6 flex-shrink" aria-hidden="true" />
+						<span className="w-20 text-right">{formatMoney(totalPrice)}</span>
+						<span className="sr-only"></span>
 					</Link>
 					<AuthIcons />
 				</div>
 				<div className="flex items-center md:hidden">
-					<Link
-						href="/cart"
-						className="h-full group m-2 flex items-center p-2"
-					>
-						<ShoppingCart className='ml-4 h-6 w-6 flex-shrink' aria-hidden="true" />
-						<span>{formatMoney(totalPrice)}</span>
-						<span className='sr-only'></span>
+					<Link href="/cart" className="group m-2 flex h-full items-center p-2">
+						<ShoppingCart className="ml-4 h-6 w-6 flex-shrink" aria-hidden="true" />
+						<span className="w-20 text-right">{formatMoney(totalPrice)}</span>
+						<span className="sr-only"></span>
 					</Link>
 					<button onClick={toggleMenu}>{isMenuOpen ? <X size={24} /> : <Menu size={24} />}</button>
 				</div>
@@ -96,7 +90,7 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 			{/* Fullscreen mobile menu */}
 			{isMenuOpen && (
 				<div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white">
-					<div className="absolute left-0 top-0 flex w-full items-center justify-between p-5 text-xl font-bold shadow-md">
+					<div className="absolute left-0 top-0 z-50 flex h-24 w-full items-center justify-between bg-white p-5 text-xl font-bold shadow-md">
 						<ActiveLink role="link" href="/">
 							Shopik
 						</ActiveLink>

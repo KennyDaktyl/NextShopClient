@@ -5,8 +5,6 @@ interface CategoryLayoutProps {
 	children: ReactNode;
 }
 
-export const CategoryLayout = ({ children }: CategoryLayoutProps) => {
+export default function CategoryLayout({ children }: CategoryLayoutProps): JSX.Element {
 	return <div className="flex w-full max-w-screen-xl items-start justify-between">{children}</div>;
-};
-
-export default CategoryLayout;
+}

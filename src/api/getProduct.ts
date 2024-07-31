@@ -7,7 +7,7 @@ export const getProductDetails = async ({
 	productSlug: string;
 }): Promise<ProductDetails | null> => {
 	try {
-		const response = await fetchGetApiData<ProductDetails, {}>({
+		const response = await fetchGetApiData<ProductDetails, Record<string, unknown>>({
 			query: `/api/products/${productSlug}/`,
 			variables: {},
 			cache: "force-cache",

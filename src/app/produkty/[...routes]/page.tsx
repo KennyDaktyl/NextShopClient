@@ -5,12 +5,7 @@ import CategoryDetails from "@/components/category/CategoryDetails";
 import ProductListPage from "@/components/product/ProductListPage";
 import { getMenuItems } from "@/api/getMenuItems";
 import { getProductsByCategory } from "@/api/getProductsByCategory";
-import {
-	MenuItemsResponse,
-	ProductsResponse,
-	ProductListItem,
-	CategoryMetaData,
-} from "@/app/types";
+import { MenuItemsResponse, ProductsResponse, ProductListItem } from "@/app/types";
 import { getCategoryMetaData } from "@/api/getCategoryMetaData";
 
 export async function generateMetadata({
@@ -25,7 +20,7 @@ export async function generateMetadata({
 	const response = await getCategoryMetaData({
 		currentCategorySlug,
 	});
-	const category = response as CategoryMetaData;
+	const category = response;
 	return {
 		title: `Produkty z kategorii ${category.name}`,
 		description: category.description,
@@ -76,7 +71,7 @@ export default async function Page({
 		});
 
 		if (response && typeof response === "object" && "count" in response && "results" in response) {
-			const productsResponse: ProductsResponse = response as ProductsResponse;
+			const productsResponse: ProductsResponse = response;
 			const products: ProductListItem[] = productsResponse.results;
 			const totalPages: number = Math.ceil(productsResponse.count / 20);
 			const nextPage: string | null = productsResponse.next;

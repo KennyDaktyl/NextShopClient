@@ -25,7 +25,7 @@ interface MenuItems {
 	items: MenuItem[];
 }
 
-export function SideBar({
+export default function SideBar({
 	menuItems,
 	isMenuActive,
 }: {
@@ -110,5 +110,3 @@ export function SideBar({
 		</div>
 	);
 }
-
-export default SideBar;

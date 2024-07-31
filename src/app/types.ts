@@ -1,3 +1,5 @@
+import { UUID } from "crypto";
+
 export interface MenuItem {
 	id: number;
 	name: string;
@@ -15,13 +17,13 @@ export interface MenuItem {
 export interface MenuItemsResponse {
 	name: string;
 	slug: string;
+	description: string | null;
 	back_link: string;
 	has_children: boolean;
+	full_path: string;
 	image_list_item: Image | null;
-	description: string | null;
 	items: MenuItem[];
 }
-
 export interface Category {
 	id: number;
 	name: string;
@@ -99,9 +101,14 @@ export interface CartTotalPrice {
 
 export interface CartItem {
 	id: number;
+	item_id: UUID;
+	slug: string;
 	name: string;
 	price: number;
 	quantity: number;
+	variant: string;
+	image: Image | null;
+	url: string;
 }
 
 export interface CartItems {
@@ -110,7 +117,7 @@ export interface CartItems {
 
 export interface ErrorResponse {
 	status: number;
-  };
+}
 
 export interface ProductCategory {
 	id: number;
@@ -196,23 +203,11 @@ export interface CategoryItem {
 	items: CategoryItem[];
 }
 
-export interface MenuItemsResponse {
-	name: string;
-	slug: string;
-	description: string | null;
-	back_link: string;
-	has_children: boolean;
-	full_path: string;
-	image_list_item: Image | null;
-	items: MenuItem[];
-}
-
 export interface BackLinkProps {
-	full_path: string | "/";
+	full_path: string | null;
 }
 
 export interface CartResponse {
-    cart_id: string;
-    cart_items: any[];
+	cart_id: string;
+	cart_items: CartItem[];
 }
-

@@ -1,5 +1,5 @@
 import { getProductsList } from "@/api/getProducts";
-import { Product, ProductListItem, ProductsResponse } from "@/app/types";
+import { ProductListItem, ProductsResponse } from "@/app/types";
 import ProductListPage from "@/components/product/ProductListPage";
 import Image from "next/image";
 

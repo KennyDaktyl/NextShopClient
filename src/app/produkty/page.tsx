@@ -6,7 +6,7 @@ import { getMenuItems } from "@/api/getMenuItems";
 import CategoryDetails from "@/components/category/CategoryDetails";
 import { MenuItemsResponse } from "@/app/types";
 
-export async function generateMetadata(): Promise<Metadata | ResolvingMetadata> {
+export function generateMetadata(): Metadata | ResolvingMetadata {
 	return {
 		alternates: {
 			canonical: "/produkty",

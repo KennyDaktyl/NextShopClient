@@ -1,6 +1,6 @@
 "use client";
 
-import { startTransition, useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { DEFAULT_IMAGE_URL } from "@/utils";
 import { BackLinkProps, ProductDetails, Variant } from "@/app/types";
@@ -13,8 +13,6 @@ import PriceComponent from "@/components/product/atoms/PriceComponent";
 import DescriptionComponent from "@/components/product/atoms/DescriptionComponent";
 import HeaderComponent from "@/components/product/atoms/HeaderComponent";
 import TagsComponent from "@/components/product/atoms/TagsComponent";
-import { addToCartAction } from "@/app/cart/actions";
-import { useFormStatus } from 'react-dom';
 import AddToCartButton from "@/components/product/atoms/AddToCartButton";
 
 export const ProductDetailsComponent = ({
@@ -94,7 +92,7 @@ export const ProductDetailsComponent = ({
 
 	const formData = new FormData();
 	formData.append("product_id", product.id.toString());
-	formData.append("variant_id", selectedVariant ? selectedVariant.id.toString() : '');
+	formData.append("variant_id", selectedVariant ? selectedVariant.id.toString() : "");
 	formData.append("quantity", quantity.toString());
 
 	return (
