@@ -11,7 +11,22 @@ import Link from "next/link";
 import Image from "next/image";
 import { ProductListItem } from "@/app/types";
 import { Badge } from "lucide-react";
-import COLOR_CLASSES from "../../constans/colorClasses";
+
+const COLOR_CLASSES: { [key: string]: string } = {
+	"Brak koloru": "bg-gray-300 text-gray-800",
+	Biały: "bg-white text-gray-800",
+	Szary: "bg-gray-500 text-white",
+	Czerwony: "bg-red-500 text-white",
+	Niebieski: "bg-blue-500 text-white",
+	Zielony: "bg-green-500 text-white",
+	Żółty: "bg-yellow-500 text-gray-800",
+	Pomarańczowy: "bg-orange-500 text-white",
+	Brązowy: "bg-brown-500 text-white",
+	Różowy: "bg-pink-500 text-white",
+	Fioletowy: "bg-purple-500 text-white",
+	Beżowy: "bg-orange-100	text-gray-800",
+	Czarny: "bg-black text-white",
+};
 
 export const ProductListItemContainer = ({ product }: { product: ProductListItem }) => {
 	const productImage = getProductImage(product, 350, 350);
@@ -49,10 +64,11 @@ export const ProductListItemContainer = ({ product }: { product: ProductListItem
 				</CardFooter>
 				<div className="flex w-full items-center justify-start p-1">
 					{product.variants.map((variant) => (
-						<Badge
+						<div
 							key={"variant_key" + "_" + variant.id + "_" + product.id + "_" + variant.color}
-							className={`mb-2 mr-2 cursor-pointer rounded-full p-2 ${COLOR_CLASSES[variant.color]}`}
-						></Badge>
+							className={`mb-2 mr-2 cursor-pointer rounded-full ${COLOR_CLASSES[variant.color]}`}
+							style={{ width: "20px", height: "20px" }}
+						></div>
 					))}
 				</div>
 			</Card>

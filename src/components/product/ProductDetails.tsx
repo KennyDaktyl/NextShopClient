@@ -14,6 +14,7 @@ import DescriptionComponent from "@/components/product/atoms/DescriptionComponen
 import HeaderComponent from "@/components/product/atoms/HeaderComponent";
 import TagsComponent from "@/components/product/atoms/TagsComponent";
 import AddToCartButton from "@/components/product/atoms/AddToCartButton";
+import { toast } from "react-toastify";
 
 export const ProductDetailsComponent = ({
 	product,
@@ -114,6 +115,7 @@ export const ProductDetailsComponent = ({
 						/>
 					)}
 				</TooltipProvider>
+				{selectedVariant && <p className="mb-4 text-sm">Wybrany wariant: {selectedVariant.name}</p>}
 				{product.brand && (
 					<div className="mb-2 text-sm">
 						<span className="font-semibold">Marka:</span> {product.brand.name}

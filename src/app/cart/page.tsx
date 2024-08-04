@@ -32,19 +32,23 @@ export default async function CartPage() {
 
 	return (
 		<div className="">
-			<h1 className="mb-4 text-3xl font-semibold">Podsumowanie koszyka</h1>
+			<h1 className="mb-4 text-xl font-semibold md:text-xl">Podsumowanie koszyka</h1>
 			{cartItems.length > 0 ? (
 				<>
 					<div className="overflow-x-auto">
 						<table className="mx-auto w-full min-w-[800px] table-fixed border-collapse border border-gray-300">
 							<thead>
 								<tr>
-									<th className="w-[300px] border border-gray-300 px-4 py-2">Nazwa produktu</th>
-									<th className="w-[160px] border border-gray-300 px-4 py-2">Foto</th>
-									<th className="w-[160px] border border-gray-300 px-4 py-2">Cena za szt.</th>
-									<th className="w-[160px] border border-gray-300 px-4 py-2">Ilość</th>
-									<th className="w-[200px] border border-gray-300 px-4 py-2">Razem</th>
-									<th className="w-[100px] border border-gray-300 px-4 py-2">Akcja</th>
+									<th className="w-[300px] border border-gray-300 px-4 py-2 text-sm">
+										Nazwa produktu
+									</th>
+									<th className="w-[160px] border border-gray-300 px-4 py-2 text-sm">Foto</th>
+									<th className="w-[160px] border border-gray-300 px-4 py-2 text-sm">
+										Cena za szt.
+									</th>
+									<th className="w-[160px] border border-gray-300 px-4 py-2 text-sm">Ilość</th>
+									<th className="w-[200px] border border-gray-300 px-4 py-2 text-sm">Razem</th>
+									<th className="w-[100px] border border-gray-300 px-4 py-2 text-sm">Akcja</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -58,28 +62,30 @@ export default async function CartPage() {
 													href={item.url}
 													className="h-full hover:text-gray-600"
 												>
-													<p className="w-full text-left">{item.name}</p>
+													<p className="text-md w-full text-left">{item.name}</p>
 													{item.variant && (
 														<p className="w-full text-left text-sm text-gray-500">{item.variant}</p>
 													)}
 												</Link>
 											</div>
 										</td>
-										<td className="w-[150px] border border-gray-300 p-1">
-											{item.image ? (
-												<Image
-													src={item.image.image_url}
-													alt={item.image.alt ? item.image.alt : item.name}
-													title={item.image.title ? item.image.title : item.name}
-													className="max-h-[150px] max-w-[150px] rounded-md object-cover"
-													height={item.image.height}
-													width={item.image.width}
-												/>
-											) : (
-												<div className="flex h-[150px] w-[150px] items-center justify-center rounded-md bg-gray-200">
-													<span className="text-center text-gray-500">No image available</span>
-												</div>
-											)}
+										<td className="border border-gray-300 p-1">
+											<div className="flex w-full items-center justify-center">
+												{item.image ? (
+													<Image
+														src={item.image.image_url}
+														alt={item.image.alt ? item.image.alt : item.name}
+														title={item.image.title ? item.image.title : item.name}
+														className="max-h-[80px] max-w-[80px] rounded-md object-cover md:max-h-[150px] md:max-w-[150px]"
+														height={item.image.height}
+														width={item.image.width}
+													/>
+												) : (
+													<div className="flex h-[150px] w-[150px] items-center justify-center rounded-md bg-gray-200">
+														<span className="text-center text-gray-500">No image available</span>
+													</div>
+												)}
+											</div>
 										</td>
 										<td
 											data-testid="product-price"
@@ -95,11 +101,12 @@ export default async function CartPage() {
 										<ChangeQuantity
 											itemId={item.item_id}
 											quantity={item.quantity}
+											availableQuantity={item.available_quantity}
 											price={item.price}
 										/>
 
 										<td className="w-[100px] border border-gray-300 px-4 py-2 text-center">
-											<RemoveButton productId={item.id} />
+											<RemoveButton itemId={item.item_id} />
 										</td>
 									</tr>
 								))}

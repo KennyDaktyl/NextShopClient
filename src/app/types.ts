@@ -106,6 +106,7 @@ export interface CartItem {
 	name: string;
 	price: number;
 	quantity: number;
+	available_quantity: number;
 	variant: string;
 	image: Image | null;
 	url: string;

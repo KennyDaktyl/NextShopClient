@@ -76,6 +76,12 @@
 	.text-foreground {
 		color: hsl(var(--foreground));
 	}
+	.text-destructive {
+		color: hsl(var(--destructive));
+	}
+	.border-destructive {
+		border-color: hsl(var(--destructive));
+	}
 }
 
 @layer base {
@@ -85,9 +91,6 @@
 	body {
 		@apply bg-background text-foreground;
 	}
-	/* .product-list-item:hover {
-		opacity: 0.8;
-	} */
 
 	.product-list-item img {
 		transition: transform 0.3s ease;

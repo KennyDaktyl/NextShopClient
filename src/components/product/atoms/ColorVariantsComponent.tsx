@@ -14,7 +14,7 @@ const COLOR_CLASSES: { [key: string]: string } = {
 	Brązowy: "bg-brown-500 text-white",
 	Różowy: "bg-pink-500 text-white",
 	Fioletowy: "bg-purple-500 text-white",
-	Beżowy: "bg-beige-500 text-gray-800",
+	Beżowy: "bg-orange-100 text-gray-800",
 	Czarny: "bg-black text-white",
 };
 

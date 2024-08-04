@@ -5,6 +5,8 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import ServerNavBar from "@/components/ui/organism/ServerNavBar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const montserrat = Montserrat({
 	subsets: ["latin", "latin-ext"],
@@ -43,6 +45,7 @@ export default function Layout({
 					{children}
 				</main>
 				<footer className="mt-4 h-28 w-full bg-gray-100 text-center">&copy;2024</footer>
+				<ToastContainer />
 				{modal}
 			</body>
 		</html>
