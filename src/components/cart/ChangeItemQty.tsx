@@ -25,53 +25,53 @@ export const ChangeQuantity = ({
 		(currentState, optimisticValue: number) => optimisticValue,
 	);
 
-	const handleDecrementClick = () => {
+	const handleDecrementClick = async () => {
 		if (optimisticQuantity > 1) {
 			const newQuantity = optimisticQuantity - 1;
 			setOptimisticQuantity(newQuantity);
 			setIsPending(true);
-			changeItemQuantity({ itemId, quantity: newQuantity })
-				.then(() => {
-					toast.success("Zmniejszono ilość o 1", {
-						position: "top-right",
-						autoClose: 2000,
-						hideProgressBar: false,
-						closeOnClick: true,
-						pauseOnHover: true,
-						draggable: true,
-						progress: undefined,
-					});
-				})
-				.catch((error) => {
-					console.error("Error decrementing quantity:", error);
-					setOptimisticQuantity(optimisticQuantity);
-				})
-				.finally(() => setIsPending(false));
+			try {
+				await changeItemQuantity({ itemId, quantity: newQuantity });
+				toast.success("Zmniejszono ilość o 1", {
+					position: "top-right",
+					autoClose: 2000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				});
+			} catch (error) {
+				console.error("Error decrementing quantity:", error);
+				setOptimisticQuantity(optimisticQuantity);
+			} finally {
+				setIsPending(false);
+			}
 		}
 	};
 
-	const handleIncrementClick = () => {
+	const handleIncrementClick = async () => {
 		if (optimisticQuantity < availableQuantity) {
 			const newQuantity = optimisticQuantity + 1;
 			setOptimisticQuantity(newQuantity);
 			setIsPending(true);
-			changeItemQuantity({ itemId, quantity: newQuantity })
-				.then(() => {
-					toast.success("Zwiększono ilość o 1", {
-						position: "top-right",
-						autoClose: 2000,
-						hideProgressBar: false,
-						closeOnClick: true,
-						pauseOnHover: true,
-						draggable: true,
-						progress: undefined,
-					});
-				})
-				.catch((error) => {
-					console.error("Error incrementing quantity:", error);
-					setOptimisticQuantity(optimisticQuantity);
-				})
-				.finally(() => setIsPending(false));
+			try {
+				await changeItemQuantity({ itemId, quantity: newQuantity });
+				toast.success("Zwiększono ilość o 1", {
+					position: "top-right",
+					autoClose: 2000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				});
+			} catch (error) {
+				console.error("Error incrementing quantity:", error);
+				setOptimisticQuantity(optimisticQuantity);
+			} finally {
+				setIsPending(false);
+			}
 		}
 	};
 

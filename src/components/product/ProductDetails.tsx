@@ -15,6 +15,8 @@ import HeaderComponent from "@/components/product/atoms/HeaderComponent";
 import TagsComponent from "@/components/product/atoms/TagsComponent";
 import AddToCartButton from "@/components/product/atoms/AddToCartButton";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ProductOptionComponent } from "@/components/product/ProductOption";
 
 export const ProductDetailsComponent = ({
 	product,
@@ -27,6 +29,11 @@ export const ProductDetailsComponent = ({
 	const variantSlug = searchParams.get("variant");
 
 	const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
+	const [selectedOption, setSelectedOption] = useState<{
+		option_id: number;
+		value_id: number;
+	} | null>(null);
+
 	const [initialized, setInitialized] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [quantity, setQuantity] = useState(1);
@@ -39,6 +46,26 @@ export const ProductDetailsComponent = ({
 		setInitialized(true);
 		setLoading(false);
 	}, [variantSlug, product.variants]);
+
+	const handleOptionSelect = (optionId: number, valueId: number) => {
+		setSelectedOption({ option_id: optionId, value_id: valueId });
+	};
+
+	const handleAddToCart = () => {
+		if (product.product_option && !selectedOption) {
+			toast.error("Proszę wybrać opcję produktu", {
+				position: "top-right",
+				autoClose: 2000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
+			return false;
+		}
+		return true;
+	};
 
 	if (!initialized) {
 		return null;
@@ -87,14 +114,12 @@ export const ProductDetailsComponent = ({
 		setQuantity(1);
 	}
 
-	const handleAddToCart = () => {
-		setQuantity(1);
+	const cartItemData = {
+		product_id: product.id,
+		variant_id: selectedVariant ? selectedVariant.id : null,
+		quantity: quantity,
+		selected_option: selectedOption || undefined,
 	};
-
-	const formData = new FormData();
-	formData.append("product_id", product.id.toString());
-	formData.append("variant_id", selectedVariant ? selectedVariant.id.toString() : "");
-	formData.append("quantity", quantity.toString());
 
 	return (
 		<div className="relative flex w-full min-w-full flex-wrap items-start justify-center rounded-lg bg-white shadow-lg">
@@ -116,11 +141,20 @@ export const ProductDetailsComponent = ({
 					)}
 				</TooltipProvider>
 				{selectedVariant && <p className="mb-4 text-sm">Wybrany wariant: {selectedVariant.name}</p>}
+
+				{product.product_option && (
+					<ProductOptionComponent
+						productOption={product.product_option}
+						onOptionSelect={handleOptionSelect}
+					/>
+				)}
+
 				{product.brand && (
 					<div className="mb-2 text-sm">
 						<span className="font-semibold">Marka:</span> {product.brand.name}
 					</div>
 				)}
+
 				{product.material && (
 					<div className="mb-2 text-sm">
 						<span className="font-semibold">Materiał:</span> {product.material.name}
@@ -148,7 +182,7 @@ export const ProductDetailsComponent = ({
 					setQuantity={setQuantity}
 					maxQuantity={selectedVariant ? selectedVariant.qty : product.qty}
 				/>
-				<AddToCartButton formData={formData} onAddedToCart={handleAddToCart} />
+				<AddToCartButton cartItemData={cartItemData} onAddedToCart={handleAddToCart} />
 			</div>
 		</div>
 	);

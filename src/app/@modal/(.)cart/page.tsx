@@ -35,6 +35,7 @@ export default async function CartPage() {
 									<p className="text-sm text-gray-500">Ilość: {item.quantity}</p>
 									<p className="text-sm text-gray-500">&nbsp;X&nbsp;{formatMoney(item.price)}</p>
 									<small className="w-full">{item.variant}</small>
+									<small className="w-full">{item.selected_option}</small>
 								</div>
 								<p className="text-lg font-semibold">{formatMoney(item.quantity * item.price)}</p>
 							</div>

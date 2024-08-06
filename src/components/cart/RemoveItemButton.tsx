@@ -7,7 +7,7 @@ import { useTransition } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const RemoveButton = ({ itemId }: { itemId: UUID }) => {
+export const RemoveItemButton = ({ itemId }: { itemId: UUID }) => {
 	const [isPending, startTransition] = useTransition();
 
 	return (

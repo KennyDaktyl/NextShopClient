@@ -8,31 +8,35 @@ import { CartResponse } from "@/app/types";
 import { removeCart } from "@/api/removeCart";
 import { removeItem } from "@/api/removeItemFromCart";
 
-export async function addToCartAction(
-	formData: FormData,
-): Promise<{ success: boolean; message?: string }> {
-	const productId = formData.get("product_id") as string;
-	const quantity = parseInt(formData.get("quantity") as string);
-	const variantId = formData.get("variant_id") as string | null;
+export async function addToCartAction(cartItemData: {
+	product_id: number;
+	quantity: number;
+	variant_id: number | null;
+	selected_option?: { option_id: number; value_id: number } | undefined;
+}): Promise<{ success: boolean; message?: string }> {
+	const { product_id, quantity, variant_id, selected_option } = cartItemData;
 
 	const cartId = cookies().get("cartId")?.value;
 	let response: CartResponse;
+	console.log(selected_option);
 
 	try {
 		if (!cartId) {
 			response = await fetchPostApiData<
 				CartResponse,
 				{
-					product_id: string;
+					product_id: number;
 					quantity: number;
-					variant_id: string | null;
+					variant_id: number | null;
+					selected_option?: { option_id: number; value_id: number };
 				}
 			>({
 				query: "/api/carts/create",
 				variables: {
-					product_id: productId,
-					quantity: quantity,
-					variant_id: variantId,
+					product_id,
+					quantity,
+					variant_id,
+					selected_option,
 				},
 				token: cookies().get("token")?.value,
 			});
@@ -40,23 +44,24 @@ export async function addToCartAction(
 			response = await fetchPostApiData<
 				CartResponse,
 				{
-					product_id: string;
+					product_id: number;
 					quantity: number;
-					variant_id: string | null;
+					variant_id: number | null;
 					cart_id: string;
+					selected_option?: { option_id: number; value_id: number };
 				}
 			>({
 				query: "/api/carts/update",
 				variables: {
-					product_id: productId,
-					quantity: quantity,
-					variant_id: variantId,
+					product_id,
+					quantity,
+					variant_id,
 					cart_id: cartId,
+					selected_option,
 				},
 				token: cookies().get("token")?.value,
 			});
 		}
-
 		cookies().set("cartId", response.cart_id, {
 			httpOnly: true,
 			sameSite: "lax",
@@ -80,20 +85,20 @@ export async function removeCartAction() {
 	revalidatePath("/");
 }
 
-export const changeItemQuantity = async ({
+export async function changeItemQuantity({
 	itemId,
 	quantity,
 }: {
 	itemId: UUID;
 	quantity: number;
-}): Promise<void> => {
+}): Promise<void> {
 	await updateCartItemQty({ itemId, quantity });
 	revalidateTag("cart");
 	revalidatePath("/cart");
-};
+}
 
-export const removeItemAction = async ({ itemId }: { itemId: UUID }): Promise<void> => {
-	await removeItem({ itemId });
+export async function removeItemAction({ itemId }: { itemId: UUID }): Promise<void> {
+	await removeItem({ itemId: itemId });
 	revalidateTag("cart");
 	revalidatePath("/cart");
-};
+}

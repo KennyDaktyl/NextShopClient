@@ -6,37 +6,44 @@ import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 
 type AddToCartButtonProps = {
-	formData: FormData;
-	onAddedToCart: () => void;
+	cartItemData: {
+		product_id: number;
+		variant_id: number | null;
+		quantity: number;
+		selected_option?: { option_id: number; value_id: number } | undefined;
+	};
+	onAddedToCart: () => boolean;
 };
 
-export default function AddToCartButton({ formData, onAddedToCart }: AddToCartButtonProps) {
+export default function AddToCartButton({ cartItemData, onAddedToCart }: AddToCartButtonProps) {
 	const [isPending, startTransition] = useTransition();
 
+	console.log("AddToCartButton", cartItemData);
 	const handleClick = async () => {
 		startTransition(async () => {
-			const result = await addToCartAction(formData);
-			if (result.success) {
-				onAddedToCart();
-				toast.success("Produkt dodany do koszyka!", {
-					position: "top-right",
-					autoClose: 2000,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
-				});
-			} else {
-				toast.error(result.message || "Wystąpił błąd podczas dodawania do koszyka", {
-					position: "top-right",
-					autoClose: 2000,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
-				});
+			if (onAddedToCart()) {
+				const result = await addToCartAction(cartItemData);
+				if (result.success) {
+					toast.success("Produkt dodany do koszyka!", {
+						position: "top-right",
+						autoClose: 2000,
+						hideProgressBar: false,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+					});
+				} else {
+					toast.error(result.message || "Wystąpił błąd podczas dodawania do koszyka", {
+						position: "top-right",
+						autoClose: 2000,
+						hideProgressBar: false,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+					});
+				}
 			}
 		});
 	};

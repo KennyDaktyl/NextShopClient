@@ -15,7 +15,6 @@ export const getCartItems = async (): Promise<CartItems | { status: number }> =>
 				tags: ["cart"],
 			},
 		});
-
 		return response;
 	} catch (error) {
 		console.error("API Error:", error);

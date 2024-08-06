@@ -1,7 +1,7 @@
 import { getCartItems } from "@/api/getCartItems";
 import { getTotalPrice } from "@/api/getCartTotalPrice";
 import { ChangeQuantity } from "@/components/cart/ChangeItemQty";
-import { RemoveButton } from "@/components/cart/RemoveButton";
+import { RemoveItemButton } from "@/components/cart/RemoveItemButton";
 import RemoveCartForm from "@/components/cart/RemoveCartForm";
 import { formatMoney } from "@/utils";
 import Link from "next/link";
@@ -66,6 +66,11 @@ export default async function CartPage() {
 													{item.variant && (
 														<p className="w-full text-left text-sm text-gray-500">{item.variant}</p>
 													)}
+													{item.selected_option && (
+														<p className="w-full text-left text-sm text-gray-500">
+															{item.selected_option}
+														</p>
+													)}
 												</Link>
 											</div>
 										</td>
@@ -106,7 +111,7 @@ export default async function CartPage() {
 										/>
 
 										<td className="w-[100px] border border-gray-300 px-4 py-2 text-center">
-											<RemoveButton itemId={item.item_id} />
+											<RemoveItemButton itemId={item.item_id} />
 										</td>
 									</tr>
 								))}

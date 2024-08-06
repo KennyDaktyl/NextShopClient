@@ -108,6 +108,7 @@ export interface CartItem {
 	quantity: number;
 	available_quantity: number;
 	variant: string;
+	selected_option: string;
 	image: Image | null;
 	url: string;
 }
@@ -149,6 +150,17 @@ export interface VariantList {
 	size: Size | null;
 }
 
+export interface Option {
+	id: number;
+	name: string;
+}
+
+export interface ProductOption {
+	id: number;
+	name: string;
+	options: Option[];
+}
+
 export interface ProductDetails {
 	id: number;
 	name: string;
@@ -168,6 +180,7 @@ export interface ProductDetails {
 	variant_label: string;
 	show_variant_label: boolean;
 	variants: Variant[];
+	product_option: ProductOption;
 }
 
 export interface CategoryMetaData {
