@@ -5,7 +5,7 @@
 import { fetchGetApiData } from "@/api/fetchApiData";
 import { CartItems } from "@/app/types";
 
-export const getCartItems = async (): Promise<CartItems | { status: number }> => {
+export const getCartItems = async (sessionid: string): Promise<CartItems | { status: number }> => {
 	try {
 		const response = await fetchGetApiData<CartItems, Record<string, unknown>>({
 			query: "/api/carts/cart-items",
@@ -14,6 +14,7 @@ export const getCartItems = async (): Promise<CartItems | { status: number }> =>
 			next: {
 				tags: ["cart"],
 			},
+			sessionid,
 		});
 		return response;
 	} catch (error) {

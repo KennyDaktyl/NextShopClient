@@ -1,11 +1,11 @@
-// api/getProductsList.ts
-
 "use server";
 
 import { fetchGetApiData } from "@/api/fetchApiData";
 import { CartTotalPrice } from "@/app/types";
 
-export const getTotalPrice = async (): Promise<CartTotalPrice | { status: number }> => {
+export const getTotalPrice = async (
+	sessionid: string,
+): Promise<CartTotalPrice | { status: number }> => {
 	try {
 		const response = await fetchGetApiData<CartTotalPrice, {}>({
 			query: "/api/carts/total-price",
@@ -14,6 +14,7 @@ export const getTotalPrice = async (): Promise<CartTotalPrice | { status: number
 			next: {
 				tags: ["cart"],
 			},
+			sessionid,
 		});
 
 		return response;

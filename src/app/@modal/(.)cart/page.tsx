@@ -4,10 +4,13 @@ import { CartItems, CartTotalPrice, ErrorResponse } from "@/app/types";
 import { CartDetailsButton } from "@/components/cart/CartDetailsButton";
 import { Overlay } from "@/components/cart/Overlay";
 import { formatMoney } from "@/utils";
+import { cookies } from "next/headers";
 
 export default async function CartPage() {
-	const response: CartItems | ErrorResponse = await getCartItems();
-	const res: CartTotalPrice | ErrorResponse = await getTotalPrice();
+	const sessionId = cookies().get("sessionid")?.value ?? "";
+
+	const response: CartItems | ErrorResponse = await getCartItems(sessionId);
+	const res: CartTotalPrice | ErrorResponse = await getTotalPrice(sessionId);
 
 	let totalPrice = 0;
 	if ("total_price" in res) {

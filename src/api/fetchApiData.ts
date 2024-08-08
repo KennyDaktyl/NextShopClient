@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 export const fetchGetApiData = async <TResult, TVariables extends Record<string, unknown>>({
@@ -7,12 +6,14 @@ export const fetchGetApiData = async <TResult, TVariables extends Record<string,
 	next,
 	cache = "default",
 	token,
+	sessionid,
 }: {
 	query: string;
 	variables: TVariables;
 	next?: NextFetchRequestConfig;
 	cache?: RequestCache;
 	token?: string;
+	sessionid?: string;
 }): Promise<TResult | { status: number }> => {
 	if (!process.env.API_URL) {
 		throw new TypeError("API_URL is not defined");
@@ -23,13 +24,12 @@ export const fetchGetApiData = async <TResult, TVariables extends Record<string,
 
 	const headers: HeadersInit = {
 		"Content-Type": "application/json",
-		Cookie: `sessionid=${cookies().get("sessionid")?.value || ""}`,
+		Cookie: `sessionid=${sessionid || ""}`,
 	};
 
 	if (token) {
 		headers["Authorization"] = `Bearer ${token}`;
 	}
-
 	const res = await fetch(url.toString(), {
 		method: "GET",
 		headers,

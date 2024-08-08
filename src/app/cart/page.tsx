@@ -6,10 +6,12 @@ import RemoveCartForm from "@/components/cart/RemoveCartForm";
 import { formatMoney } from "@/utils";
 import Link from "next/link";
 import Image from "next/image";
+import { cookies } from "next/headers";
 
 export default async function CartPage() {
-	const response = await getCartItems();
-	const responseTotalPrice = await getTotalPrice();
+	const sessionId = cookies().get("sessionid")?.value ?? "";
+	const response = await getCartItems(sessionId);
+	const responseTotalPrice = await getTotalPrice(sessionId);
 	let cartItems = [];
 	let totalPrice = 0;
 	let totalNet = 0;

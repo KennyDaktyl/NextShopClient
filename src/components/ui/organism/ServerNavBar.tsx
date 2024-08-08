@@ -1,24 +1,22 @@
-// components/ServerNavBar.tsx
-
 import { cookies } from "next/headers";
 import NavBar from "@/components/ui/organism/NavBar";
 import { getTotalPrice } from "@/api/getCartTotalPrice";
 
 async function getCookieData() {
-	const cookieData = cookies().get("cartId")?.value;
-	return new Promise((resolve) =>
+	const sessionId = cookies().get("sessionid")?.value;
+	return new Promise<string | undefined>((resolve) =>
 		setTimeout(() => {
-			resolve(cookieData);
+			resolve(sessionId);
 		}, 1000),
 	);
 }
 
 export async function ServerNavBar() {
-	const cartId = await getCookieData();
+	const sessionId = await getCookieData();
 	let totalPrice = 0;
 
-	if (cartId) {
-		const response = await getTotalPrice();
+	if (sessionId) {
+		const response = await getTotalPrice(sessionId);
 		if ("total_price" in response) {
 			totalPrice = response.total_price;
 		}
