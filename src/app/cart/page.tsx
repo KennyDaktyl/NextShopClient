@@ -12,6 +12,8 @@ export default async function CartPage() {
 	const responseTotalPrice = await getTotalPrice();
 	let cartItems = [];
 	let totalPrice = 0;
+	let totalNet = 0;
+	let totalQty = 0;
 
 	if ("cart_items" in response) {
 		cartItems = response.cart_items;
@@ -29,6 +31,12 @@ export default async function CartPage() {
 	} else {
 		console.error("Error fetching total price:", responseTotalPrice.status);
 	}
+
+	cartItems.forEach((item) => {
+		totalQty += item.quantity;
+		totalNet += (item.price / 1.23) * item.quantity;
+	});
+	const vatValue = totalPrice - totalNet;
 
 	return (
 		<div className="">
@@ -62,12 +70,12 @@ export default async function CartPage() {
 													href={item.url}
 													className="h-full hover:text-gray-600"
 												>
-													<p className="text-md w-full text-left">{item.name}</p>
+													<p className="text-md w-full text-left text-sm">{item.name}</p>
 													{item.variant && (
-														<p className="w-full text-left text-sm text-gray-500">{item.variant}</p>
+														<p className="w-full text-left text-xs text-gray-500">{item.variant}</p>
 													)}
 													{item.selected_option && (
-														<p className="w-full text-left text-sm text-gray-500">
+														<p className="w-full text-left text-xs text-gray-500">
 															{item.selected_option}
 														</p>
 													)}
@@ -78,7 +86,7 @@ export default async function CartPage() {
 											<div className="flex w-full items-center justify-center">
 												{item.image ? (
 													<Image
-														src={item.image.image_url}
+														src={item.image.url}
 														alt={item.image.alt ? item.image.alt : item.name}
 														title={item.image.title ? item.image.title : item.name}
 														className="max-h-[80px] max-w-[80px] rounded-md object-cover md:max-h-[150px] md:max-w-[150px]"
@@ -86,8 +94,10 @@ export default async function CartPage() {
 														width={item.image.width}
 													/>
 												) : (
-													<div className="flex h-[150px] w-[150px] items-center justify-center rounded-md bg-gray-200">
-														<span className="text-center text-gray-500">No image available</span>
+													<div className="flex h-[80px] w-[80px] items-center justify-center rounded-md bg-gray-200">
+														<span className="text-center text-xs text-gray-500">
+															No image available
+														</span>
 													</div>
 												)}
 											</div>
@@ -116,6 +126,44 @@ export default async function CartPage() {
 									</tr>
 								))}
 							</tbody>
+							<tfoot>
+								<tr className="">
+									<td colSpan={1} className="px-4 py-2 text-left font-semibold">
+										Razem sztuk
+									</td>
+									<td colSpan={1} className="px-4 py-2 text-center">
+										{totalQty}
+									</td>
+									<td colSpan={4}></td>
+								</tr>
+								<tr className="">
+									<td colSpan={1} className="px-4 py-2 text-left font-semibold">
+										VAT
+									</td>
+									<td colSpan={1} className="px-4 py-2 text-center">
+										{formatMoney(vatValue)}
+									</td>
+									<td colSpan={4}></td>
+								</tr>
+								<tr>
+									<td colSpan={1} className="px-4 py-2 text-left font-semibold">
+										Suma netto
+									</td>
+									<td colSpan={1} className="px-4 py-2 text-center">
+										{formatMoney(totalNet)}
+									</td>
+									<td colSpan={4}></td>
+								</tr>
+								<tr>
+									<td colSpan={1} className="px-4 py-2 text-left font-semibold">
+										Suma brutto
+									</td>
+									<td colSpan={1} className="px-4 py-2 text-center">
+										{formatMoney(totalPrice)}
+									</td>
+									<td colSpan={4}></td>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
 

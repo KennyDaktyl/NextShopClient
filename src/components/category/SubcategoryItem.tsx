@@ -17,12 +17,12 @@ const SubcategoryItem = ({ item }: SubcategoryItemProps) => {
 				<h2 className="mt-2 h-[40px] text-center text-sm font-bold md:text-xl">{item.name}</h2>
 				<p className="mt-4 h-[80px] text-center text-xs md:text-sm">{item.description}</p>
 			</div>
-			{item.image_list_item && (
+			{item.image && (
 				<div className="xs:h-[125px] mt-4 flex h-[125px] w-full items-center justify-center sm:h-[270px] sm:w-[270px]">
 					<div className="relative flex h-[125px] w-[125px] items-center justify-center sm:h-[270px] sm:w-[270px]">
 						<Image
-							src={item.image_list_item.image_url || ""}
-							alt={item.image_list_item.alt || "Category Image"}
+							src={item.image.url || ""}
+							alt={item.image.alt || "Category Image"}
 							className="subcategory_image rounded-md object-contain"
 							fill
 							sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

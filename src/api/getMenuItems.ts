@@ -7,7 +7,7 @@ const defaultMenuItemsResponse: MenuItemsResponse = {
 	slug: "",
 	back_link: "",
 	has_children: false,
-	image_list_item: null,
+	image: null,
 	description: "",
 	items: [],
 	full_path: "",

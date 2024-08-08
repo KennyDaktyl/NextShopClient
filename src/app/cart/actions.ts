@@ -18,7 +18,6 @@ export async function addToCartAction(cartItemData: {
 
 	const cartId = cookies().get("cartId")?.value;
 	let response: CartResponse;
-	console.log(selected_option);
 
 	try {
 		if (!cartId) {

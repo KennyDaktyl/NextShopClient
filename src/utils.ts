@@ -10,13 +10,13 @@ export const formatMoney = (amount: number) => {
 export const DEFAULT_IMAGE_URL = "/images/no-image.webp";
 
 export const getProductImage = (product: ProductListItem, width: number, height: number) => {
-	if (product.image_list_item) {
+	if (product.image) {
 		return {
-			url: product.image_list_item.image_url,
-			width: product.image_list_item.width,
-			height: product.image_list_item.height,
-			alt: product.image_list_item.alt || product.name,
-			title: product.image_list_item.title || product.name,
+			url: product.image.url,
+			width: product.image.width,
+			height: product.image.height,
+			alt: product.image.alt || product.name,
+			title: product.image.title || product.name,
 		};
 	}
 

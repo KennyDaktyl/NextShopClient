@@ -11,7 +11,7 @@ export interface MenuItem {
 	has_children: boolean;
 	full_path: string;
 	back_link: string;
-	image_list_item: Image | null;
+	image: Image | null;
 }
 
 export interface MenuItemsResponse {
@@ -21,7 +21,7 @@ export interface MenuItemsResponse {
 	back_link: string;
 	has_children: boolean;
 	full_path: string;
-	image_list_item: Image | null;
+	image: Image | null;
 	items: MenuItem[];
 }
 export interface Category {
@@ -32,7 +32,7 @@ export interface Category {
 
 export interface Image {
 	id: number;
-	image_url: string;
+	url: string;
 	alt: string | null;
 	title: string | null;
 	width: number;
@@ -45,8 +45,7 @@ export interface ProductListItem {
 	slug: string;
 	category: Category;
 	description: string;
-	qty: number;
-	image_list_item: Image | null;
+	image: Image | null;
 	current_price: number;
 	min_price_last_30: number;
 	absolute_url: string;
@@ -197,7 +196,7 @@ export interface ImageItem {
 	id: number;
 	width: number;
 	height: number;
-	image_url: string;
+	url: string;
 	alt: string | null;
 	title: string | null;
 }
@@ -213,7 +212,7 @@ export interface CategoryItem {
 	has_children: boolean;
 	full_path: string;
 	back_link: string;
-	image_list_item: ImageItem | null;
+	image: ImageItem | null;
 	items: CategoryItem[];
 }
 
@@ -224,4 +223,28 @@ export interface BackLinkProps {
 export interface CartResponse {
 	cart_id: string;
 	cart_items: CartItem[];
+}
+
+export interface CategoryOnFirstPage {
+	id: number;
+	name: string;
+	slug: string;
+	description: string;
+	image: Image | null;
+	full_path: string;
+	products_on_first_page: ProductListItem[];
+}
+
+export interface Hero {
+	id: number;
+	title: string;
+	description: string;
+	image: Image | null;
+	link: Image | null;
+	is_active: boolean;
+}
+
+export interface FirstPageDataResponse {
+	categories: CategoryOnFirstPage[];
+	heros: Hero[];
 }

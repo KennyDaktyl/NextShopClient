@@ -9,13 +9,13 @@ export default function BreadcrumbWithCustomSeparator() {
 	const pathname = usePathname();
 	const pathSegments = pathname.split("/").filter((segment) => segment);
 
-	const excludedPaths = ["produkt", "cart"];
+	const excludedPaths = ["produkt", "cart", "szukaj", "auth"];
 
 	if (pathSegments.length === 0) {
 		return null;
 	}
 	if (excludedPaths.some((excludedPath) => pathSegments.includes(excludedPath))) {
-		return null;
+		return <div className="h-[20px] md:h-[40px]"></div>;
 	}
 	const breadcrumbs = pathSegments.map((segment, index) => {
 		const href = "/" + pathSegments.slice(0, index + 1).join("/");
@@ -36,7 +36,7 @@ export default function BreadcrumbWithCustomSeparator() {
 	});
 
 	return (
-		<Breadcrumb className="mt-3">
+		<Breadcrumb className="mb-3 mt-3">
 			<BreadcrumbList>
 				<BreadcrumbItem>
 					<ActiveLink role="link" href="/" aria-current="page">

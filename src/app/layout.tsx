@@ -7,6 +7,7 @@ import "./globals.css";
 import ServerNavBar from "@/components/ui/organism/ServerNavBar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Footer } from "@/components/ui/organism/Footer";
 
 const montserrat = Montserrat({
 	subsets: ["latin", "latin-ext"],
@@ -38,13 +39,11 @@ export default function Layout({
 				<NextAuthProvider>
 					<ServerNavBar />
 				</NextAuthProvider>
-				<div className="mx-auto mt-1 max-w-screen-xl p-5 md:p-0">
+				<main className="mx-auto mt-24 min-h-screen max-w-screen-xl overflow-hidden pl-5 pr-5 md:pl-0 md:pr-0">
 					<BreadCrumbs />
-				</div>
-				<main className="mx-auto min-h-screen max-w-screen-xl overflow-hidden pl-5 pr-5 md:p-0 xl:mt-3">
 					{children}
 				</main>
-				<footer className="mt-4 h-28 w-full bg-gray-100 text-center">&copy;2024</footer>
+				<Footer />
 				<ToastContainer />
 				{modal}
 			</body>

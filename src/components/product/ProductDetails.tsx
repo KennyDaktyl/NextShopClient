@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { DEFAULT_IMAGE_URL } from "@/utils";
@@ -37,6 +36,7 @@ export const ProductDetailsComponent = ({
 	const [initialized, setInitialized] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [quantity, setQuantity] = useState(1);
+	const [isAddedToCart, setIsAddedToCart] = useState(false);
 
 	useEffect(() => {
 		const initialVariant = variantSlug
@@ -64,6 +64,8 @@ export const ProductDetailsComponent = ({
 			});
 			return false;
 		}
+		setIsAddedToCart(true);
+		setTimeout(() => setIsAddedToCart(false), 2000);
 		return true;
 	};
 
@@ -87,7 +89,7 @@ export const ProductDetailsComponent = ({
 				: [
 						{
 							id: 0,
-							image_url: DEFAULT_IMAGE_URL,
+							url: DEFAULT_IMAGE_URL,
 							alt: product.name,
 							title: product.name,
 							width: 650,
@@ -124,7 +126,7 @@ export const ProductDetailsComponent = ({
 	return (
 		<div className="relative flex w-full min-w-full flex-wrap items-start justify-center rounded-lg bg-white shadow-lg">
 			<ButtonBack {...back_link} />
-			<div className="w-full md:w-2/3">
+			<div className="w-full pb-1 pt-1 md:w-2/3">
 				<CarouselPlugin images={images} />
 			</div>
 
@@ -146,6 +148,7 @@ export const ProductDetailsComponent = ({
 					<ProductOptionComponent
 						productOption={product.product_option}
 						onOptionSelect={handleOptionSelect}
+						onAddToCartSuccess={isAddedToCart}
 					/>
 				)}
 

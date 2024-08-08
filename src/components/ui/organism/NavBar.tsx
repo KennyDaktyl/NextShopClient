@@ -3,10 +3,11 @@
 
 import { useState } from "react";
 import { ActiveLink } from "../atoms/ActiveLink";
-import { Menu, ShoppingCart, X } from "lucide-react";
+import { Menu, Search, ShoppingCart, X } from "lucide-react";
 import Link from "next/link";
 import AuthIcons from "@/components/auth/auth-icons";
 import { formatMoney } from "@/utils";
+import SearchInput from "@/components/ui/atoms/SearchInput";
 
 type NavLink = {
 	href: string;
@@ -42,14 +43,19 @@ type NavBarProps = {
 
 export default function NavBar({ totalPrice }: NavBarProps) {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const [isSearchVisible, setSearchVisible] = useState(false);
 
 	const toggleMenu = () => {
 		setIsMenuOpen(!isMenuOpen);
 	};
 
+	const toggleSearch = () => {
+		setSearchVisible(!isSearchVisible);
+	};
+
 	return (
-		<nav className="z-50 w-full bg-white p-5 shadow-md md:p-0">
-			<div className="mx-auto flex max-w-screen-xl items-center justify-between">
+		<nav className="fixed top-0 z-50 w-full bg-white shadow-md md:p-0">
+			<div className="mx-auto flex h-24 max-w-screen-xl items-center justify-between pb-5 pl-2 pr-2 pt-5 md:pl-0 md:pr-0">
 				<div className="flex items-center">
 					<div className="text-xl font-bold">
 						<ActiveLink role="link" href="/">
@@ -70,7 +76,8 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 					</ul>
 				</div>
 
-				<div className="hidden md:flex">
+				<div className="hidden items-center md:flex">
+					<SearchInput />
 					<Link href="/cart" className="group m-2 flex h-full items-center p-2">
 						<ShoppingCart className="ml-4 h-6 w-6 flex-shrink" aria-hidden="true" />
 						<span className="w-20 text-right">{formatMoney(totalPrice)}</span>
@@ -79,10 +86,25 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 					<AuthIcons />
 				</div>
 				<div className="flex items-center md:hidden">
+					<Search
+						size={20}
+						className={`cursor-pointer ${isSearchVisible ? "hidden" : "block"}`}
+						onClick={toggleSearch}
+					/>
+					<X
+						size={20}
+						className={`cursor-pointer ${isSearchVisible ? "block" : "hidden"}`}
+						onClick={toggleSearch}
+					/>
+					<div
+						className={`absolute left-0 top-1/2 z-50 -translate-y-1/2 transform ${isSearchVisible ? "block" : "hidden"}`}
+					>
+						<SearchInput />
+					</div>
 					<Link href="/cart" className="group m-2 flex h-full items-center p-2">
 						<ShoppingCart className="ml-4 h-6 w-6 flex-shrink" aria-hidden="true" />
-						<span className="w-20 text-right">{formatMoney(totalPrice)}</span>
-						<span className="sr-only"></span>
+						<span className="hidden w-20 text-right md:block">{formatMoney(totalPrice)}</span>
+						<span className="sr-only hidden md:block"></span>
 					</Link>
 					<button onClick={toggleMenu}>{isMenuOpen ? <X size={24} /> : <Menu size={24} />}</button>
 				</div>
@@ -90,7 +112,7 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 			{/* Fullscreen mobile menu */}
 			{isMenuOpen && (
 				<div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white">
-					<div className="absolute left-0 top-0 z-50 flex h-24 w-full items-center justify-between bg-white p-5 text-xl font-bold shadow-md">
+					<div className="absolute left-0 top-0 z-50 flex h-24 w-full items-center justify-between bg-white pb-5 pl-2 pr-2 pt-5 text-xl font-bold shadow-md md:pl-0 md:pr-0">
 						<ActiveLink role="link" href="/">
 							Shopik
 						</ActiveLink>

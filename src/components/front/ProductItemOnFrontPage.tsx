@@ -27,26 +27,26 @@ const COLOR_CLASSES: { [key: string]: string } = {
 	Czarny: "bg-black text-white",
 };
 
-export const ProductListItemContainer = ({ product }: { product: ProductListItem }) => {
+export const ProductItemOnFrontPageContainer = ({ product }: { product: ProductListItem }) => {
 	const productImage = getProductImage(product, 350, 350);
 	return (
 		<Link
 			role="link"
 			href={product.absolute_url}
 			aria-current="page"
-			className="mb-8 w-[150px] cursor-pointer sm:mb-4 md:w-[346px]"
+			className="mb-8 w-[160px] cursor-pointer sm:mb-4 md:w-[310px]"
 		>
 			<Card
 				key={product.id}
-				className="product-list-item h-[350px] w-full overflow-hidden bg-slate-50 md:h-[490px]"
+				className="product-list-item w-full overflow-hidden bg-slate-50 md:h-[500px]"
 			>
 				<CardContent className="m-0 p-0">
-					<div className="flex h-[200px] items-center justify-center overflow-hidden md:h-[330px] md:w-[350px]">
+					<div className="] flex h-[150px] items-center justify-center overflow-hidden md:h-[350px]">
 						<Image
 							src={productImage.url}
 							alt={productImage.alt ? productImage.alt : ""}
 							title={productImage.title ? productImage.title : ""}
-							className="h-[150px] w-[150px] rounded-md object-cover md:h-[330px] md:w-[350px]"
+							className="rounded-md object-cover"
 							width={productImage.width}
 							height={productImage.height}
 						/>
@@ -75,4 +75,4 @@ export const ProductListItemContainer = ({ product }: { product: ProductListItem
 	);
 };
 
-export default ProductListItemContainer;
+export default ProductItemOnFrontPageContainer;

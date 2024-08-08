@@ -29,10 +29,10 @@ export default async function Page() {
 						name: menuItems.name,
 						description: menuItems.description || "",
 						image: {
-							image_url: menuItems.image_list_item?.image_url || null,
-							alt: menuItems.image_list_item?.alt || null,
-							height: menuItems.image_list_item?.height || null,
-							width: menuItems.image_list_item?.width || null,
+							url: menuItems.image?.url || null,
+							alt: menuItems.image?.alt || null,
+							height: menuItems.image?.height || null,
+							width: menuItems.image?.width || null,
 						},
 						items: menuItems.items,
 					}}

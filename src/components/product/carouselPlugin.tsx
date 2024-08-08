@@ -13,7 +13,7 @@ import Image from "next/image";
 
 interface Image {
 	id: number;
-	image_url: string;
+	url: string;
 	alt: string | null;
 	title: string | null;
 	width: number;
@@ -37,7 +37,7 @@ export function CarouselPlugin({ images }: { images: Image[] }) {
 						className="flex h-[240px] items-center justify-center md:h-[650px]"
 					>
 						<Image
-							src={image.image_url}
+							src={image.url}
 							alt={image.alt || ""}
 							className="xs:h-[240px] xs:w-[240px] mx-auto rounded-md object-cover"
 							width={image.width}

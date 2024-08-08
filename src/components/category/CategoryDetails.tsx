@@ -3,7 +3,7 @@ import Image from "next/image";
 import SubcategoryItem from "./SubcategoryItem";
 
 interface ImageProps {
-	image_url: string | null;
+	url: string | null;
 	alt: string | null;
 	height: number | null;
 	width: number | null;
@@ -29,7 +29,7 @@ const CategoryDetails = ({ category }: { category: CategoryDetailsProps }) => {
 				{category.image && (
 					<div className="m-auto flex h-[200px] w-full items-center justify-center md:h-[320px] md:w-1/2">
 						<Image
-							src={category.image.image_url || ""}
+							src={category.image.url || ""}
 							alt={category.image.alt || "Category Image"}
 							className="h-[180px] max-w-[350px] rounded-md object-cover"
 							height={180}

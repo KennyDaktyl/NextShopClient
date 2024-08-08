@@ -51,12 +51,12 @@ export default async function Page({
 					category={{
 						name: menuItems.name,
 						description: menuItems.description || "",
-						image: menuItems.image_list_item
+						image: menuItems.image
 							? {
-									image_url: menuItems.image_list_item.image_url,
-									alt: menuItems.image_list_item.alt,
-									height: menuItems.image_list_item.height,
-									width: menuItems.image_list_item.width,
+									url: menuItems.image.url,
+									alt: menuItems.image.alt,
+									height: menuItems.image.height,
+									width: menuItems.image.width,
 								}
 							: null,
 						items: menuItems.items,

@@ -51,6 +51,8 @@ export const fetchPostApiData = async <TResult, TVariables>({
 			throw new Error("Unauthorized");
 		} else if (res.status === 404) {
 			throw notFound();
+		} else if (res.status === 400) {
+			throw new Error(errorMessage);
 		} else {
 			throw new Error(`${errorMessage}: ${res.status}`);
 		}
