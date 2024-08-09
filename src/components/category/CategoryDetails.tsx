@@ -27,14 +27,16 @@ const CategoryDetails = ({ category }: { category: CategoryDetailsProps }) => {
 					</div>
 				</div>
 				{category.image && (
-					<div className="m-auto flex h-[200px] w-full items-center justify-center md:h-[320px] md:w-1/2">
-						<Image
-							src={category.image.url || ""}
-							alt={category.image.alt || "Category Image"}
-							className="h-[180px] max-w-[350px] rounded-md object-cover"
-							height={180}
-							width={180}
-						/>
+					<div className="flex h-[200px] w-full items-center justify-center p-3 md:h-[320px] md:w-1/2">
+						<div className="relative h-full max-h-[320px] w-full max-w-[350px]">
+							<Image
+								src={category.image.url || ""}
+								alt={category.image.alt || "Category Image"}
+								className="rounded-md object-cover"
+								layout="fill"
+								objectFit="cover"
+							/>
+						</div>
 					</div>
 				)}
 			</div>

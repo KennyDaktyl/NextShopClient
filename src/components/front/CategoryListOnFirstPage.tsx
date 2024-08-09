@@ -20,17 +20,19 @@ export const CategoryListOnFirstPage: React.FC<FirstPageDataResponse> = ({ categ
 								</div>
 							</div>
 							{category.image ? (
-								<div className="m-auto flex h-[200px] w-full items-center justify-center md:h-[320px] md:w-1/2">
-									<Image
-										src={category.image.url}
-										alt={category.image.alt || "Category Image"}
-										className="h-[180px] max-w-[350px] rounded-md object-cover"
-										height={180}
-										width={180}
-									/>
+								<div className="flex h-[200px] w-full items-center justify-center p-3 md:h-[350px] md:w-1/2">
+									<div className="relative h-full max-h-[320px] w-full max-w-[350px]">
+										<Image
+											src={category.image.url}
+											alt={category.image.alt || "Category Image"}
+											className="rounded-md object-cover"
+											layout="fill"
+											objectFit="cover"
+										/>
+									</div>
 								</div>
 							) : (
-								<div className="m-auto flex h-[200px] w-full items-center justify-center md:h-[320px] md:w-1/2"></div>
+								<div className="flex h-[200px] w-full items-center justify-center md:h-[320px] md:w-1/2"></div>
 							)}
 						</div>
 					</Link>
@@ -45,7 +47,7 @@ export const CategoryListOnFirstPage: React.FC<FirstPageDataResponse> = ({ categ
 										href={subcategory.full_path}
 										className="flex flex-col items-center justify-between gap-2 rounded-md border p-4 hover:bg-slate-50"
 									>
-										<span className="font-semibold">{subcategory.name}</span>
+										<span className="text-center font-semibold">{subcategory.name}</span>
 										<Badge variant="outline">{subcategory.products_count} produktów</Badge>
 									</ActiveLink>
 								))}

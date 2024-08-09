@@ -1,7 +1,6 @@
 import { MenuItem } from "@/app/types";
 import Image from "next/image";
 import Link from "next/link";
-import { it } from "node:test";
 
 interface SubcategoryItemProps {
 	item: MenuItem;
@@ -19,13 +18,13 @@ const SubcategoryItem = ({ item }: SubcategoryItemProps) => {
 			</div>
 			{item.image && (
 				<div className="xs:h-[125px] mt-4 flex h-[125px] w-full items-center justify-center sm:h-[270px] sm:w-[270px]">
-					<div className="relative flex h-[125px] w-[125px] items-center justify-center sm:h-[270px] sm:w-[270px]">
+					<div className="relative flex h-[125px] w-[125px] items-center justify-center overflow-hidden sm:h-[270px] sm:w-[270px]">
 						<Image
 							src={item.image.url || ""}
 							alt={item.image.alt || "Category Image"}
-							className="subcategory_image rounded-md object-contain"
-							fill
-							sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+							className="rounded-md object-cover"
+							layout="fill"
+							objectFit="cover"
 						/>
 					</div>
 				</div>
