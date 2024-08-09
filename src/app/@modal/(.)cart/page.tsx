@@ -47,10 +47,16 @@ export default async function CartPage() {
 					<p className="mt-4 w-full text-right text-lg font-semibold">
 						Razem: {formatMoney(totalPrice)}
 					</p>
-					<p className="mt-1 w-full text-right text-xs">
-						Netto: {formatMoney(totalPrice / 1.23)}&nbsp;+VAT:{" "}
-						{formatMoney(totalPrice - totalPrice / 1.23)}
-					</p>
+					{totalPrice !== 0 ? (
+						<p className="mt-1 w-full text-right text-xs">
+							Netto: {formatMoney(totalPrice / 1.23)}&nbsp;+VAT:{" "}
+							{formatMoney(totalPrice - totalPrice / 1.23)}
+						</p>
+					) : (
+						<p className="mt-1 w-full text-right text-xs">
+							Netto: {formatMoney(0)}&nbsp;+VAT: {formatMoney(0)}
+						</p>
+					)}
 					<CartDetailsButton />
 				</Overlay>
 			);

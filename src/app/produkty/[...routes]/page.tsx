@@ -42,7 +42,6 @@ export default async function Page({
 	const currentPage = searchParams.page ? parseInt(searchParams.page) : 1;
 
 	const menuItems: MenuItemsResponse = await getMenuItems({ categorySlug: currentCategorySlug });
-
 	if (menuItems.has_children) {
 		return (
 			<CategoryLayout>

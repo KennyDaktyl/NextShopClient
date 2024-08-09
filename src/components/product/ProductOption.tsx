@@ -7,12 +7,14 @@ interface ProductOptionsProps {
 	productOption: ProductOption;
 	onOptionSelect: (optionId: number, valueId: number) => void;
 	onAddToCartSuccess: boolean;
+	alertSetOption: boolean;
 }
 
 export const ProductOptionComponent: React.FC<ProductOptionsProps> = ({
 	productOption: option,
 	onOptionSelect,
 	onAddToCartSuccess,
+	alertSetOption,
 }) => {
 	const [selectedOptions, setSelectedOptions] = useState<{ [key: number]: number }>({});
 
@@ -36,7 +38,9 @@ export const ProductOptionComponent: React.FC<ProductOptionsProps> = ({
 				key={option.id}
 				className="option-group flex w-full flex-wrap items-center justify-start"
 			>
-				<label className="option-label w-full text-sm font-semibold">
+				<label
+					className={`option-label w-full text-sm uppercase ${alertSetOption ? "font-semibold text-red-500" : "font-semibold"}`}
+				>
 					{option.name}:<span className="text-red-500">*</span>
 				</label>
 				<select

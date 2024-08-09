@@ -1,4 +1,3 @@
-// components/NavBar.tsx
 "use client";
 
 import { useState } from "react";
@@ -53,16 +52,20 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 		setSearchVisible(!isSearchVisible);
 	};
 
+	const closeSearch = () => {
+		setSearchVisible(false);
+	};
+
 	return (
 		<nav className="fixed top-0 z-50 w-full bg-white shadow-md md:p-0">
-			<div className="mx-auto flex h-24 max-w-screen-xl items-center justify-between pb-5 pl-2 pr-2 pt-5 md:pl-0 md:pr-0">
+			<div className="mx-auto flex h-24 max-w-screen-xl items-center justify-between pb-5 pl-2 pr-2 pt-5 xl:pl-0 xl:pr-0">
 				<div className="flex items-center">
 					<div className="text-xl font-bold">
 						<ActiveLink role="link" href="/">
 							Shopik
 						</ActiveLink>
 					</div>
-					<ul className="ml-4 hidden h-16 flex-wrap items-center justify-start space-x-4 md:flex">
+					<ul className="ml-4 hidden h-16 flex-wrap items-center justify-start space-x-4 xl:flex">
 						{NavLinks.map((link, index) => (
 							<li
 								key={index}
@@ -76,8 +79,8 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 					</ul>
 				</div>
 
-				<div className="hidden items-center md:flex">
-					<SearchInput />
+				<div className="hidden items-center xl:flex">
+					<SearchInput isSearchVisible={isSearchVisible} closeSearch={closeSearch} />
 					<Link href="/cart" className="group m-2 flex h-full items-center p-2">
 						<ShoppingCart className="ml-4 h-6 w-6 flex-shrink" aria-hidden="true" />
 						<span className="w-20 text-right">{formatMoney(totalPrice)}</span>
@@ -85,21 +88,16 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 					</Link>
 					<AuthIcons />
 				</div>
-				<div className="flex items-center md:hidden">
+				<div className="flex items-center xl:hidden">
 					<Search
 						size={20}
 						className={`cursor-pointer ${isSearchVisible ? "hidden" : "block"}`}
 						onClick={toggleSearch}
 					/>
-					<X
-						size={20}
-						className={`cursor-pointer ${isSearchVisible ? "block" : "hidden"}`}
-						onClick={toggleSearch}
-					/>
 					<div
 						className={`absolute left-0 top-1/2 z-50 -translate-y-1/2 transform ${isSearchVisible ? "block" : "hidden"}`}
 					>
-						<SearchInput />
+						<SearchInput isSearchVisible={isSearchVisible} closeSearch={closeSearch} />
 					</div>
 					<Link href="/cart" className="group m-2 flex h-full items-center p-2">
 						<ShoppingCart className="ml-4 h-6 w-6 flex-shrink" aria-hidden="true" />

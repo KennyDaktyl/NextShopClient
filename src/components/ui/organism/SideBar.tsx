@@ -16,7 +16,7 @@ interface MenuItem {
 	name: string;
 	full_path: string;
 	is_parent: boolean;
-	get_products_count: number;
+	products_count: number;
 }
 
 interface MenuItems {
@@ -83,7 +83,7 @@ export default function SideBar({
 														{item.is_parent ? (
 															<ChevronDown />
 														) : (
-															<span>&nbsp; ({item.get_products_count})</span>
+															<span>&nbsp; ({item.products_count})</span>
 														)}
 													</CommandItem>
 												</a>

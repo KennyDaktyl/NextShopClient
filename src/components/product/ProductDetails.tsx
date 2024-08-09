@@ -32,7 +32,7 @@ export const ProductDetailsComponent = ({
 		option_id: number;
 		value_id: number;
 	} | null>(null);
-
+	const [alertSetOption, setAlertSetOption] = useState(false);
 	const [initialized, setInitialized] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [quantity, setQuantity] = useState(1);
@@ -53,7 +53,7 @@ export const ProductDetailsComponent = ({
 
 	const handleAddToCart = () => {
 		if (product.product_option && !selectedOption) {
-			toast.error("Proszę wybrać opcję produktu", {
+			toast.error(`Wybierz ${product.product_option.name}`, {
 				position: "top-right",
 				autoClose: 2000,
 				hideProgressBar: false,
@@ -62,9 +62,14 @@ export const ProductDetailsComponent = ({
 				draggable: true,
 				progress: undefined,
 			});
+			setAlertSetOption(true);
 			return false;
 		}
 		setIsAddedToCart(true);
+		setAlertSetOption(false);
+		setQuantity(1);
+		setSelectedOption(null);
+
 		setTimeout(() => setIsAddedToCart(false), 2000);
 		return true;
 	};
@@ -149,6 +154,7 @@ export const ProductDetailsComponent = ({
 						productOption={product.product_option}
 						onOptionSelect={handleOptionSelect}
 						onAddToCartSuccess={isAddedToCart}
+						alertSetOption={alertSetOption}
 					/>
 				)}
 
@@ -173,13 +179,13 @@ export const ProductDetailsComponent = ({
 						<TagsComponent tags={tags} />
 					</div>
 				)}
-				<div className="mb-1 sm:mb-4">
-					Dostępna ilość: {selectedVariant ? selectedVariant.qty : product.qty}
-				</div>
 				<PriceComponent
 					currentPrice={product.current_price}
 					minPriceLast30={product.min_price_last_30}
 				/>
+				<div className="mb-1 text-xs sm:mb-4">
+					Dostępna ilość: {selectedVariant ? selectedVariant.qty : product.qty}
+				</div>
 				<QuantityControl
 					quantity={quantity}
 					setQuantity={setQuantity}

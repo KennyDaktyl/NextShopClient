@@ -1,5 +1,6 @@
 import { getProductsBySearch } from "@/api/getProductsBySearch";
 import { ProductListItem, ProductsResponse } from "@/app/types";
+import ProductItemOnFrontPageContainer from "@/components/front/ProductItemOnFrontPage";
 import ProductListPage from "@/components/product/ProductListPage";
 import { redirect } from "next/navigation";
 
@@ -30,17 +31,14 @@ export default async function Page({
 
 		return (
 			<div className="justify-left flex w-full flex-wrap items-center">
-				<h1 className="text-xl font-bold leading-none tracking-tight text-foreground">
+				<h1 className="w-full text-xl font-bold leading-none tracking-tight text-foreground">
 					Lista produktów dla frazy: {searchParams.search}
 				</h1>
-				<ProductListPage
-					products={products}
-					containerName="product-list-by-category"
-					nextPage={nextPage}
-					prevPage={prevPage}
-					totalPages={totalPages}
-					currentPage={currentPage}
-				/>
+				<div className="mt-2 grid w-full grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+					{products.map((product) => (
+						<ProductItemOnFrontPageContainer key={product.id} product={product} />
+					))}
+				</div>
 			</div>
 		);
 	} else {

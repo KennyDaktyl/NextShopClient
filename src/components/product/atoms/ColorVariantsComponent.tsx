@@ -28,7 +28,7 @@ const ColorVariantsComponent = ({
 	onHandleClick: (variant: Variant) => void;
 }) => (
 	<div className="mt-1 flex flex-wrap">
-		<span className="w-full text-sm font-semibold">{label}</span>
+		<span className="w-full text-sm font-semibold uppercase">{label}</span>
 		{variants.map((variant) => (
 			<Tooltip key={variant.id}>
 				<TooltipTrigger asChild>

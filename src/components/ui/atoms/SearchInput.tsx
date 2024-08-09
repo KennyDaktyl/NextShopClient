@@ -1,8 +1,14 @@
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 
-const SearchInput = () => {
+const SearchInput = ({
+	isSearchVisible,
+	closeSearch,
+}: {
+	isSearchVisible: boolean;
+	closeSearch: () => void;
+}) => {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
 	const router = useRouter();
@@ -30,6 +36,11 @@ const SearchInput = () => {
 		setSearchTerm(event.target.value);
 	};
 
+	const clearSearch = () => {
+		setSearchTerm("");
+		closeSearch();
+	};
+
 	return (
 		<div className="flex items-center">
 			<Search size={20} className="hidden md:block" />
@@ -41,6 +52,11 @@ const SearchInput = () => {
 				onChange={handleChange}
 				className="ml-1 rounded-md border p-2"
 			/>
+			<div className="w-6">
+				{(searchTerm || isSearchVisible) && (
+					<X size={20} className="ml-2 cursor-pointer text-gray-500" onClick={clearSearch} />
+				)}
+			</div>
 		</div>
 	);
 };

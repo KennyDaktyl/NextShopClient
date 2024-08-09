@@ -39,7 +39,7 @@ export default function Layout({
 				<NextAuthProvider>
 					<ServerNavBar />
 				</NextAuthProvider>
-				<main className="mx-auto mt-24 min-h-screen max-w-screen-xl overflow-hidden pl-5 pr-5 md:pl-0 md:pr-0">
+				<main className="mx-auto mt-24 min-h-screen max-w-screen-xl overflow-hidden pl-5 pr-5 xl:pl-0 xl:pr-0">
 					<BreadCrumbs />
 					{children}
 				</main>

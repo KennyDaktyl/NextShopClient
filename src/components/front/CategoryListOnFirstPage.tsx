@@ -2,10 +2,12 @@ import { FirstPageDataResponse } from "@/app/types";
 import Image from "next/image";
 import Link from "next/link";
 import { ProductItemOnFrontPageContainer } from "@/components/front/ProductItemOnFrontPage";
+import { ActiveLink } from "@/components/ui/atoms/ActiveLink";
+import { Badge } from "@/components/ui/badge";
 
 export const CategoryListOnFirstPage: React.FC<FirstPageDataResponse> = ({ categories }) => {
 	return (
-		<div className="mb-3 mt-5 flex w-full max-w-screen-xl flex-wrap items-start justify-between">
+		<div className="mb-3 mt-9 flex w-full max-w-screen-xl flex-wrap items-start justify-between">
 			<h2 className="mt-3 w-full text-2xl font-bold">Kategorie promowane</h2>
 			{categories.map((category) => (
 				<div key={category.id} className="w-full">
@@ -32,9 +34,27 @@ export const CategoryListOnFirstPage: React.FC<FirstPageDataResponse> = ({ categ
 							)}
 						</div>
 					</Link>
+					{category.all_subcategories.length > 0 && (
+						<div className="mt-9 w-full">
+							<h3 className="text-lg font-semibold">Podkategorie</h3>
+							<ul className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
+								{category.all_subcategories.map((subcategory) => (
+									<ActiveLink
+										role="link"
+										key={subcategory.id}
+										href={subcategory.full_path}
+										className="flex flex-col items-center justify-between gap-2 rounded-md border p-4 hover:bg-slate-50"
+									>
+										<span className="font-semibold">{subcategory.name}</span>
+										<Badge variant="outline">{subcategory.products_count} produktów</Badge>
+									</ActiveLink>
+								))}
+							</ul>
+						</div>
+					)}
 					{category.products_on_first_page.length > 0 && (
-						<div>
-							<h3 className="text:2xl mb-3 mt-3 w-full font-bold">Promowane w {category.name}</h3>
+						<div className="mb-3 mt-9 w-full">
+							<h3 className="text:2xl mb-3 mt-5 w-full font-bold">Promowane w {category.name}</h3>
 							<ul
 								data-testid={"products-promo-in-" + category.slug}
 								className="flex w-full grid-cols-2 flex-wrap justify-between sm:grid-cols-3 md:gap-3 xl:grid-cols-4"

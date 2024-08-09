@@ -7,7 +7,7 @@ export interface MenuItem {
 	description: string;
 	has_parent: boolean;
 	is_parent: boolean;
-	get_products_count: number;
+	products_count: number;
 	has_children: boolean;
 	full_path: string;
 	back_link: string;
@@ -208,7 +208,7 @@ export interface CategoryItem {
 	description: string;
 	has_parent: boolean;
 	is_parent: boolean;
-	get_products_count: number;
+	products_count: number;
 	has_children: boolean;
 	full_path: string;
 	back_link: string;
@@ -225,6 +225,15 @@ export interface CartResponse {
 	cart_items: CartItem[];
 }
 
+export interface SubCategoryOnFirstPage {
+	id: number;
+	name: string;
+	slug: string;
+	description: string;
+	products_count: number;
+	full_path: string;
+}
+
 export interface CategoryOnFirstPage {
 	id: number;
 	name: string;
@@ -233,6 +242,7 @@ export interface CategoryOnFirstPage {
 	image: Image | null;
 	full_path: string;
 	products_on_first_page: ProductListItem[];
+	all_subcategories: SubCategoryOnFirstPage[];
 }
 
 export interface Hero {
