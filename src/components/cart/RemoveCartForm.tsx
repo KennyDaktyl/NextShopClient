@@ -16,11 +16,16 @@ const RemoveCartForm = () => {
 
 	return (
 		<form
+			className="mt-4"
 			onSubmit={(event) => {
 				void handleRemoveCart(event);
 			}}
 		>
-			<Button type="submit" variant="outline" className="rounded-md transition hover:bg-gray-500">
+			<Button
+				type="submit"
+				variant="outline"
+				className="rounded-md transition hover:bg-gray-500 hover:text-white"
+			>
 				Usuń koszyk
 			</Button>
 		</form>

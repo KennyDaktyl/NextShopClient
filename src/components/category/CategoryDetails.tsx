@@ -18,7 +18,7 @@ interface CategoryDetailsProps {
 
 const CategoryDetails = ({ category }: { category: CategoryDetailsProps }) => {
 	return (
-		<div className="mt-10 w-full md:mt-0">
+		<div className="mb-5 mt-10 w-full md:mt-0">
 			<div className="flex w-full flex-wrap items-center justify-center rounded-md bg-gray-100 shadow-md md:h-[350px]">
 				<div className="flex h-[200px] w-full items-center justify-center md:h-[350px] md:w-1/2">
 					<div className="flex w-4/5 flex-wrap items-center justify-start">

@@ -34,6 +34,12 @@ const NavLinks: NavLink[] = [
 		exact: true,
 		role: "link",
 	},
+	{
+		href: "/kontakt",
+		label: "Kontakt",
+		exact: true,
+		role: "link",
+	},
 ];
 
 type NavBarProps = {
@@ -58,7 +64,7 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 
 	return (
 		<nav className="fixed top-0 z-50 w-full bg-white shadow-md md:p-0">
-			<div className="mx-auto flex h-24 max-w-screen-xl items-center justify-between pb-5 pl-2 pr-2 pt-5 xl:pl-0 xl:pr-0">
+			<div className="mx-auto flex h-24 max-w-screen-xl items-center justify-between pb-5 pl-5 pr-5 pt-5 xl:pl-0 xl:pr-0">
 				<div className="flex items-center">
 					<div className="text-xl font-bold">
 						<ActiveLink role="link" href="/">

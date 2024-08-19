@@ -38,7 +38,7 @@ export const ProductItemOnFrontPageContainer = ({ product }: { product: ProductL
 		>
 			<Card
 				key={product.id}
-				className="product-list-item h-[300px] w-full overflow-hidden bg-slate-50 md:h-[500px]"
+				className="product-list-item h-[300px] w-full overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg md:h-[500px]"
 			>
 				<CardContent className="m-0 p-0">
 					<div className="] flex h-[150px] items-center justify-center overflow-hidden md:h-[350px]">
@@ -53,12 +53,17 @@ export const ProductItemOnFrontPageContainer = ({ product }: { product: ProductL
 					</div>
 				</CardContent>
 				<CardHeader className="z-10 p-1">
-					<CardTitle className="text-md h-[40px] text-sm">{product.name}</CardTitle>
-					<CardDescription className="h-[20px] text-xs">{product.category.name}</CardDescription>
+					<CardTitle className="text-md h-[40px] text-sm font-semibold text-gray-800">
+						{product.name}
+					</CardTitle>
+					<CardDescription className="h-[20px] text-xs text-gray-500">
+						{product.category.name}
+					</CardDescription>
 				</CardHeader>
 				<CardFooter className="m-0 pb-2 pl-1 pr-0 pt-2">
 					<p className="text-sm">
-						Cena: <span className="text-bold">{formatMoney(product.current_price)}</span>
+						Cena:{" "}
+						<span className="text-bold text-gray-900">{formatMoney(product.current_price)}</span>
 					</p>
 				</CardFooter>
 				<div className="flex w-full items-center justify-start p-1">

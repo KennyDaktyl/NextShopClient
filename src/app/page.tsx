@@ -15,8 +15,14 @@ export default async function Home() {
 	const activeHero = heros.find((hero) => hero.is_active);
 	return (
 		<section className="mt-5">
-			{activeHero && <HeroItem heroData={activeHero} />}
-			<CategoryListOnFirstPage categories={categories} heros={[]} />
+			{activeHero && (
+				<div className="mb-10 rounded-lg shadow-lg">
+					<HeroItem heroData={activeHero} />
+				</div>
+			)}
+			<div className="rounded-lg bg-gray-100 p-1 shadow-sm xl:p-8">
+				<CategoryListOnFirstPage categories={categories} heros={[]} />
+			</div>
 		</section>
 	);
 }

@@ -180,6 +180,7 @@ export interface ProductDetails {
 	show_variant_label: boolean;
 	variants: Variant[];
 	product_option: ProductOption;
+	free_delivery: boolean;
 }
 
 export interface CategoryMetaData {
@@ -257,4 +258,40 @@ export interface Hero {
 export interface FirstPageDataResponse {
 	categories: CategoryOnFirstPage[];
 	heros: Hero[];
+}
+
+export interface SendEmailVariables {
+	title: string;
+	email: string;
+	message: string;
+}
+
+export interface SendEmailResponse {
+	message: string;
+}
+
+export interface DeliveryMethod {
+	id: number;
+	name: string;
+	image: Image;
+	price: number;
+	price_promo: number;
+	inpost_box: boolean;
+	in_store_pickup: boolean;
+}
+
+export interface ApiResponse {
+	deliveryMethods: DeliveryMethod[];
+}
+
+export interface PaymentMethod {
+	id: number;
+	name: string;
+	image: Image;
+	price: number;
+	payment_on_delivery: boolean;
+}
+
+export interface PaymentMethods {
+	paymentMethods: PaymentMethod[];
 }
