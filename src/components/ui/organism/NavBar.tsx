@@ -64,7 +64,7 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 
 	return (
 		<nav className="fixed top-0 z-50 w-full bg-white shadow-md md:p-0">
-			<div className="mx-auto flex h-24 max-w-screen-xl items-center justify-between pb-5 pl-5 pr-5 pt-5 xl:pl-0 xl:pr-0">
+			<div className="mx-auto flex h-24 max-w-screen-xl items-center justify-between p-5 xl:pl-0 xl:pr-0">
 				<div className="flex items-center">
 					<div className="text-xl font-bold">
 						<ActiveLink role="link" href="/">
@@ -105,9 +105,11 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 					>
 						<SearchInput isSearchVisible={isSearchVisible} closeSearch={closeSearch} />
 					</div>
-					<Link href="/cart" className="group m-2 flex h-full items-center p-2">
+					<Link href="/cart" className="group relative m-2 flex h-full items-center p-2">
 						<ShoppingCart className="ml-4 h-6 w-6 flex-shrink" aria-hidden="true" />
-						<span className="hidden w-20 text-right md:block">{formatMoney(totalPrice)}</span>
+						<span className="absolute bottom-10 left-0 w-20 border bg-gray-400 text-center text-xs text-white md:block md:bg-white md:text-black">
+							{formatMoney(totalPrice)}
+						</span>
 						<span className="sr-only hidden md:block"></span>
 					</Link>
 					<button onClick={toggleMenu}>{isMenuOpen ? <X size={24} /> : <Menu size={24} />}</button>
@@ -116,7 +118,7 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 			{/* Fullscreen mobile menu */}
 			{isMenuOpen && (
 				<div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white">
-					<div className="absolute left-0 top-0 z-50 flex h-24 w-full items-center justify-between bg-white pb-5 pl-2 pr-2 pt-5 text-xl font-bold shadow-md md:pl-0 md:pr-0">
+					<div className="absolute left-0 top-0 z-50 flex h-24 w-full items-center justify-between bg-white p-5 text-xl font-bold shadow-md md:pl-0 md:pr-0">
 						<ActiveLink role="link" href="/">
 							Shopik
 						</ActiveLink>

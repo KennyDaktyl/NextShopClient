@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, startTransition } from "react";
 import { useOptimistic } from "react";
 import { formatMoney } from "@/utils";
 import { UUID } from "crypto";
@@ -13,11 +13,13 @@ export const ChangeQuantity = ({
 	quantity,
 	availableQuantity,
 	price,
+	onQuantityChange, // Dodano
 }: {
 	itemId: UUID;
 	quantity: number;
 	availableQuantity: number;
 	price: number;
+	onQuantityChange: (itemId: UUID, newQuantity: number) => void; // Dodano
 }) => {
 	const [isPending, setIsPending] = useState(false);
 	const [optimisticQuantity, setOptimisticQuantity] = useOptimistic(
@@ -27,11 +29,14 @@ export const ChangeQuantity = ({
 
 	const handleDecrementClick = async () => {
 		if (optimisticQuantity > 1) {
-			const newQuantity = optimisticQuantity - 1;
-			setOptimisticQuantity(newQuantity);
+			startTransition(() => {
+				const newQuantity = optimisticQuantity - 1;
+				setOptimisticQuantity(newQuantity);
+				onQuantityChange(itemId, newQuantity); // Dodano
+			});
 			setIsPending(true);
 			try {
-				await changeItemQuantity({ itemId, quantity: newQuantity });
+				await changeItemQuantity({ itemId, quantity: optimisticQuantity - 1 });
 				toast.success("Zmniejszono ilość o 1", {
 					position: "top-right",
 					autoClose: 2000,
@@ -43,7 +48,10 @@ export const ChangeQuantity = ({
 				});
 			} catch (error) {
 				console.error("Error decrementing quantity:", error);
-				setOptimisticQuantity(optimisticQuantity);
+				startTransition(() => {
+					setOptimisticQuantity(optimisticQuantity);
+					onQuantityChange(itemId, optimisticQuantity); // Dodano - przywrócenie starej wartości w razie błędu
+				});
 			} finally {
 				setIsPending(false);
 			}
@@ -52,11 +60,14 @@ export const ChangeQuantity = ({
 
 	const handleIncrementClick = async () => {
 		if (optimisticQuantity < availableQuantity) {
-			const newQuantity = optimisticQuantity + 1;
-			setOptimisticQuantity(newQuantity);
+			startTransition(() => {
+				const newQuantity = optimisticQuantity + 1;
+				setOptimisticQuantity(newQuantity);
+				onQuantityChange(itemId, newQuantity); // Dodano
+			});
 			setIsPending(true);
 			try {
-				await changeItemQuantity({ itemId, quantity: newQuantity });
+				await changeItemQuantity({ itemId, quantity: optimisticQuantity + 1 });
 				toast.success("Zwiększono ilość o 1", {
 					position: "top-right",
 					autoClose: 2000,
@@ -68,7 +79,10 @@ export const ChangeQuantity = ({
 				});
 			} catch (error) {
 				console.error("Error incrementing quantity:", error);
-				setOptimisticQuantity(optimisticQuantity);
+				startTransition(() => {
+					setOptimisticQuantity(optimisticQuantity);
+					onQuantityChange(itemId, optimisticQuantity); // Dodano - przywrócenie starej wartości w razie błędu
+				});
 			} finally {
 				setIsPending(false);
 			}

@@ -295,3 +295,12 @@ export interface PaymentMethod {
 export interface PaymentMethods {
 	paymentMethods: PaymentMethod[];
 }
+
+export interface UserData {
+	id: number;
+	username: string;
+	first_name: string;
+	last_name: string;
+	email: string;
+	profile: null;
+}

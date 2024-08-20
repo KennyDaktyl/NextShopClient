@@ -20,7 +20,6 @@ export const fetchPostApiData = async <TResult, TVariables>({
 	}
 
 	const url = new URL(`${process.env.API_URL}${query}`);
-
 	let headers: HeadersInit = {
 		"Content-Type": "application/json",
 		Cookie: `sessionid=${cookies().get("sessionid")?.value || ""}`,
