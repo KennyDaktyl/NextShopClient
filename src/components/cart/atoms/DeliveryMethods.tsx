@@ -1,7 +1,15 @@
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { DeliveryMethod } from "@/app/types";
-import { useState } from "react";
 import { formatMoney } from "@/utils";
+import {
+	DialogTitle,
+	DialogContent,
+	Dialog,
+	DialogHeader,
+	DialogClose,
+} from "@/components/ui/dialog";
+import { InpostGeowidget } from "@/components/cart/atoms/InpostGeoWidget";
 
 interface DeliveryMethodsProps {
 	deliveryMethods: DeliveryMethod[];
@@ -13,10 +21,21 @@ export default function DeliveryMethods({
 	onDeliveryMethodChange,
 }: DeliveryMethodsProps) {
 	const [selectedMethod, setSelectedMethod] = useState<DeliveryMethod>(deliveryMethods[0]);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [inpostBox, setInpostBox] = useState("");
 
 	const handleChange = (method: DeliveryMethod) => {
 		setSelectedMethod(method);
 		onDeliveryMethodChange(method);
+		if (method.inpost_box) {
+			setIsModalOpen(true);
+		}
+	};
+
+	const onPointCallback = (e: any) => {
+		console.log(e);
+		setIsModalOpen(false);
+		setInpostBox(e.name);
 	};
 
 	return (
@@ -51,8 +70,13 @@ export default function DeliveryMethods({
 								className="mr-4 rounded-md"
 							/>
 						)}
-						<div className="flex flex-col">
+						<div className="flex w-full flex-col">
 							<span className="text-sm font-semibold">{method.name}</span>
+							{method.inpost_box && inpostBox && (
+								<div className="flex w-full justify-start">
+									<span className="text-gray-600">Paczkomat: {inpostBox}</span>
+								</div>
+							)}
 							<span className="text-gray-600">
 								{method.price_promo !== Number("0.00")
 									? formatMoney(method.price_promo)
@@ -62,6 +86,22 @@ export default function DeliveryMethods({
 					</label>
 				))}
 			</div>
+
+			<Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+				<DialogContent className="max-w-3xl p-4">
+					<DialogHeader>
+						<DialogTitle>Wybierz paczkomat</DialogTitle>
+						<DialogClose className="absolute right-2 top-2">Zamknij</DialogClose>
+					</DialogHeader>
+					<div className="h-[500px]">
+						<InpostGeowidget
+							token={process.env.NEXT_PUBLIC_INPOST_API_KEY || ""}
+							onPoint={onPointCallback}
+							language="pl"
+						/>
+					</div>
+				</DialogContent>
+			</Dialog>
 		</div>
 	);
 }
