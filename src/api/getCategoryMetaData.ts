@@ -4,6 +4,8 @@ import { fetchGetApiData } from "./fetchApiData";
 const defaultCategoryMetaData: CategoryMetaData = {
 	name: "",
 	description: "",
+	has_children: false,
+	full_path: "",
 };
 
 export const getCategoryMetaData = async ({

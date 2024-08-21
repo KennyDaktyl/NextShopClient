@@ -23,14 +23,14 @@ const NavLinks: NavLink[] = [
 		role: "link",
 	},
 	{
-		href: "/produkty/klucze",
+		href: "/uslugi",
 		label: "Usługi",
 		exact: true,
 		role: "link",
 	},
 	{
-		href: "/regulamin",
-		label: "Regulamin",
+		href: "/blog",
+		label: "Blog",
 		exact: true,
 		role: "link",
 	},
@@ -67,7 +67,7 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 			<div className="mx-auto flex h-24 max-w-screen-xl items-center justify-between p-5 xl:pl-0 xl:pr-0">
 				<div className="flex items-center">
 					<div className="text-xl font-bold">
-						<ActiveLink role="link" href="/">
+						<ActiveLink role="link" href="/" aria-label="Przejdź do strony głównej">
 							Shopik
 						</ActiveLink>
 					</div>
@@ -87,7 +87,11 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 
 				<div className="hidden items-center xl:flex">
 					<SearchInput isSearchVisible={isSearchVisible} closeSearch={closeSearch} />
-					<Link href="/cart" className="group m-2 flex h-full items-center p-2">
+					<Link
+						href="/koszyk"
+						className="group m-2 flex h-full items-center p-2"
+						aria-label={`Koszyk, łączna kwota: ${formatMoney(totalPrice)}`}
+					>
 						<ShoppingCart className="ml-4 h-6 w-6 flex-shrink" aria-hidden="true" />
 						<span className="w-20 text-right">{formatMoney(totalPrice)}</span>
 						<span className="sr-only"></span>
@@ -99,30 +103,43 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 						size={20}
 						className={`cursor-pointer ${isSearchVisible ? "hidden" : "block"}`}
 						onClick={toggleSearch}
+						aria-label="Otwórz wyszukiwanie"
+						role="button"
+						aria-expanded={isSearchVisible}
 					/>
 					<div
 						className={`absolute left-0 top-1/2 z-50 -translate-y-1/2 transform ${isSearchVisible ? "block" : "hidden"}`}
 					>
 						<SearchInput isSearchVisible={isSearchVisible} closeSearch={closeSearch} />
 					</div>
-					<Link href="/cart" className="group relative m-2 flex h-full items-center p-2">
-						<ShoppingCart className="ml-4 h-6 w-6 flex-shrink" aria-hidden="true" />
-						<span className="absolute bottom-10 left-0 w-20 border bg-gray-400 text-center text-xs text-white md:block md:bg-white md:text-black">
+					<Link
+						href="/koszyk"
+						className="group relative m-2 flex h-full items-center p-2 text-center"
+						aria-label={`Koszyk, łączna kwota: ${formatMoney(totalPrice)}`}
+					>
+						<ShoppingCart className="h-6 w-6 flex-shrink text-center" aria-hidden="true" />
+						<span className="absolute -top-6 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full border border-black bg-white p-1 text-xs text-black">
 							{formatMoney(totalPrice)}
 						</span>
 						<span className="sr-only hidden md:block"></span>
 					</Link>
-					<button onClick={toggleMenu}>{isMenuOpen ? <X size={24} /> : <Menu size={24} />}</button>
+					<button
+						onClick={toggleMenu}
+						aria-label={isMenuOpen ? "Zamknij menu" : "Otwórz menu"}
+						aria-expanded={isMenuOpen}
+					>
+						{isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+					</button>
 				</div>
 			</div>
 			{/* Fullscreen mobile menu */}
 			{isMenuOpen && (
 				<div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white">
 					<div className="absolute left-0 top-0 z-50 flex h-24 w-full items-center justify-between bg-white p-5 text-xl font-bold shadow-md md:pl-0 md:pr-0">
-						<ActiveLink role="link" href="/">
+						<ActiveLink role="link" href="/" aria-label="Przejdź do strony głównej">
 							Shopik
 						</ActiveLink>
-						<button onClick={toggleMenu}>
+						<button onClick={toggleMenu} aria-label="Zamknij menu" aria-expanded={isMenuOpen}>
 							<X size={24} />
 						</button>
 					</div>

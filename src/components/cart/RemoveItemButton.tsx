@@ -1,6 +1,6 @@
 "use client";
 
-import { removeItemAction } from "@/app/cart/actions";
+import { removeItemAction } from "@/app/koszyk/actions";
 import { UUID } from "crypto";
 import { useTransition, useCallback } from "react";
 import { toast } from "react-toastify";

@@ -12,14 +12,13 @@ export default async function Home() {
 		return null;
 	}
 
-	const activeHero = heros.find((hero) => hero.is_active);
 	return (
 		<section className="mt-5">
-			{activeHero && (
-				<div className="mb-10 rounded-lg shadow-lg">
-					<HeroItem heroData={activeHero} />
+			{heros.map((hero, index) => (
+				<div key={hero.id} className="mb-10 rounded-lg shadow-lg">
+					<HeroItem heroData={hero} isFirst={index === 0} />
 				</div>
-			)}
+			))}
 			<div className="rounded-lg bg-gray-100 p-1 shadow-sm xl:p-8">
 				<CategoryListOnFirstPage categories={categories} heros={[]} />
 			</div>

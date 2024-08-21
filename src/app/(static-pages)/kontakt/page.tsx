@@ -1,7 +1,16 @@
+// contact-page.tsx (plik główny strony, bez "use client")
+
 import { CompanyDetails } from "@/components/contact/CompanyDetails";
-import { ContactForm } from "@/components/contact/ContactForm";
+import { ContactFormWithReCaptcha } from "@/components/contact/ContactFormWithReCaptcha";
 import { GoogleMap } from "@/components/contact/GoogleMap";
 import React from "react";
+
+export async function generateMetadata() {
+	return {
+		title: `Kontakt do nas`,
+		description: "Kontakt do nas. Tu znajdziesz wszystkie informacje kontaktowe.",
+	};
+}
 
 export default function ContactPage() {
 	return (
@@ -10,7 +19,7 @@ export default function ContactPage() {
 			<div className="grid grid-cols-1 gap-8 md:grid-cols-2">
 				<div className="rounded-lg bg-white shadow-md xl:pr-6">
 					<h2 className="mb-4 text-2xl font-semibold">Napisz do nas</h2>
-					<ContactForm />
+					<ContactFormWithReCaptcha />
 				</div>
 
 				<div className="space-y-8">

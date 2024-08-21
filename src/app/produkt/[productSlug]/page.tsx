@@ -10,7 +10,7 @@ export async function generateMetadata({
 }): Promise<Metadata | ResolvingMetadata> {
 	const productDetailsResponse = await getProductDetails({ productSlug: params.productSlug });
 	return {
-		title: `Produkt ${productDetailsResponse?.name}`,
+		title: `Produkt ${productDetailsResponse?.name} z kategorii ${productDetailsResponse?.category.name}`,
 		description: productDetailsResponse?.description,
 	};
 }

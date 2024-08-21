@@ -11,9 +11,9 @@ export function generateMetadata(): Metadata | ResolvingMetadata {
 		alternates: {
 			canonical: "/produkty",
 		},
-		title: `Lista wszystkich produktów`,
+		title: `Lista głównych kategorii produktów w sklepie internetowym`,
 		description:
-			"Lista wszystkich produktów dostępnych w naszym sklepie internetowym. Sprawdź naszą ofertę i wybierz coś dla siebie!",
+			"Lista wszystkich głównych kategorii dostępnych w naszym sklepie internetowym. Sprawdź naszą ofertę i wybierz coś dla siebie!",
 	};
 }
 

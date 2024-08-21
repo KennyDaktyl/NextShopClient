@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 			"pl-PL": "/pl-PL",
 		},
 	},
-	robots: "index, no-follow",
+	robots: "index, follow",
 };
 
 export default function Layout({

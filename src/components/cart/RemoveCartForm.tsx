@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent } from "react";
-import { removeCartAction } from "@/app/cart/actions";
+import { removeCartAction } from "@/app/koszyk/actions";
 import { Button } from "@/components/ui/button";
 
 const RemoveCartForm = () => {

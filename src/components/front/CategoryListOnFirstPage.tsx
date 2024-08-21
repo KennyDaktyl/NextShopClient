@@ -8,9 +8,9 @@ import { Badge } from "@/components/ui/badge";
 export const CategoryListOnFirstPage: React.FC<FirstPageDataResponse> = ({ categories }) => {
 	return (
 		<div className="mb-3 mt-9 flex w-full max-w-screen-xl flex-wrap items-start justify-between">
-			<h2 className="mb-6 mt-3 w-full border-b-2 border-gray-300 pb-2 text-2xl font-bold">
+			<p className="mb-6 mt-3 w-full border-b-2 border-gray-300 pb-2 text-2xl font-bold">
 				Kategorie promowane
-			</h2>
+			</p>
 			{categories.map((category) => (
 				<div
 					key={category.id}
@@ -20,7 +20,7 @@ export const CategoryListOnFirstPage: React.FC<FirstPageDataResponse> = ({ categ
 						<div className="flex w-full flex-wrap items-center justify-center md:h-[350px]">
 							<div className="flex h-[200px] w-full items-center justify-center p-4 md:h-[350px] md:w-1/2">
 								<div className="flex w-4/5 flex-wrap items-center justify-start">
-									<h1 className="w-full text-xl font-bold text-gray-800">{category.name}</h1>
+									<h2 className="w-full text-xl font-bold text-gray-800">{category.name}</h2>
 									<p className="mt-4 text-lg text-gray-600">{category.description}</p>
 								</div>
 							</div>
@@ -43,8 +43,8 @@ export const CategoryListOnFirstPage: React.FC<FirstPageDataResponse> = ({ categ
 					</Link>
 					{category.all_subcategories.length > 0 && (
 						<div className="mt-9 w-full">
-							<h3 className="mb-4 text-lg font-semibold">Podkategorie</h3>
-							<ul className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
+							<p className="mb-4 text-lg font-semibold">Podkategorie</p>
+							<div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
 								{category.all_subcategories.map((subcategory) => (
 									<ActiveLink
 										role="link"
@@ -52,26 +52,26 @@ export const CategoryListOnFirstPage: React.FC<FirstPageDataResponse> = ({ categ
 										href={subcategory.full_path}
 										className="flex flex-col items-center justify-between gap-2 rounded-md border p-4 shadow-sm hover:bg-slate-100"
 									>
-										<span className="text-center font-semibold">{subcategory.name}</span>
+										<h3 className="text-center font-semibold">{subcategory.name}</h3>
 										<Badge variant="outline">{subcategory.products_count} produktów</Badge>
 									</ActiveLink>
 								))}
-							</ul>
+							</div>
 						</div>
 					)}
 					{category.products_on_first_page.length > 0 && (
 						<div className="mb-3 mt-9 w-full">
-							<h3 className="text:2xl mb-3 mt-5 w-full font-bold text-gray-800">
+							<p className="text:2xl mb-3 mt-5 w-full font-bold text-gray-800">
 								Promowane w {category.name}
-							</h3>
-							<ul
+							</p>
+							<div
 								data-testid={"products-promo-in-" + category.slug}
-								className="flex w-full grid-cols-2 flex-wrap justify-between sm:grid-cols-3 md:gap-3 xl:grid-cols-4"
+								className="mt-2 grid w-full grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
 							>
 								{category.products_on_first_page.map((product) => (
 									<ProductItemOnFrontPageContainer key={product.id} product={product} />
 								))}
-							</ul>
+							</div>
 						</div>
 					)}
 				</div>

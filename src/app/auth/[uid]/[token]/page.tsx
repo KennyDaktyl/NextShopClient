@@ -4,6 +4,13 @@ import { useEffect, useState } from "react";
 import { activate } from "@/app/actions/activate";
 import { useRouter } from "next/navigation";
 
+// export async function generateMetadata() {
+// 	return {
+// 		title: `Aktywacja konta`,
+// 		description: "Aktywacja konta",
+// 	};
+// }
+
 export default function Page({
 	params,
 }: {

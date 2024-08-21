@@ -1,9 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import { handleContactFormSubmission } from "@/app/(static-pages)/kontakt/actions";
 import { z } from "zod";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const contactFormSchema = z.object({
 	title: z.string().min(1, "Tytuł jest wymagany"),
@@ -11,13 +12,30 @@ const contactFormSchema = z.object({
 	message: z.string().min(1, "Wiadomość jest wymagana"),
 });
 
+type ContactFormData = {
+	title: string;
+	email: string;
+	message: string;
+	gRecaptchaToken: string;
+};
+
 export const ContactForm: React.FC = () => {
+	const { executeRecaptcha } = useGoogleReCaptcha();
 	const [formData, setFormData] = useState({
 		title: "",
 		email: "",
 		message: "",
 	});
 	const [loading, setLoading] = useState(false);
+	const [honeypot, setHoneypot] = useState("");
+	const [submitStatus, setSubmitStatus] = useState<string>("");
+	const [isRecaptchaReady, setIsRecaptchaReady] = useState(false);
+
+	useEffect(() => {
+		if (executeRecaptcha) {
+			setIsRecaptchaReady(true);
+		}
+	}, [executeRecaptcha]);
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		const { name, value } = e.target;
@@ -27,46 +45,81 @@ export const ContactForm: React.FC = () => {
 		});
 	};
 
-	const handleSubmit = async (e: React.FormEvent) => {
+	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-		setLoading(true);
+		setSubmitStatus("");
 
-		const validationResult = contactFormSchema.safeParse(formData);
-
-		if (!validationResult.success) {
-			validationResult.error.errors.forEach((err) => {
-				toast.error(err.message);
-			});
+		if (honeypot) {
+			toast.error("Wykryto spam.");
 			setLoading(false);
 			return;
 		}
 
-		const result = await handleContactFormSubmission(formData);
-
-		if (result.success) {
-			toast.success(result.message, {
-				position: "top-right",
-				autoClose: 1500,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-			});
-			setFormData({
-				title: "",
-				email: "",
-				message: "",
-			});
-		} else {
-			toast.error(result.message);
+		if (!isRecaptchaReady) {
+			toast.error("ReCAPTCHA not available. Please try again later.");
+			setLoading(false);
+			return;
 		}
 
-		setLoading(false);
+		try {
+			const gRecaptchaToken = await executeRecaptcha!("contactSubmit");
+
+			const validationResult = contactFormSchema.safeParse(formData);
+
+			if (!validationResult.success) {
+				validationResult.error.errors.forEach((err) => {
+					toast.error(err.message);
+				});
+				setLoading(false);
+				return;
+			}
+
+			const dataToSubmit: ContactFormData = {
+				...formData,
+				gRecaptchaToken,
+			};
+
+			const result = await handleContactFormSubmission(dataToSubmit);
+
+			if (result.success) {
+				toast.success("Wiadomość została wysłana.");
+				setFormData({
+					title: "",
+					email: "",
+					message: "",
+				});
+			} else {
+				setSubmitStatus("Nie udało się wysłać wiadomości. Spróbuj ponownie.");
+				toast.error("Nie udało się wysłać wiadomości. Spróbuj ponownie.", {
+					position: "top-right",
+					autoClose: 1500,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				});
+			}
+		} catch (error) {
+			console.error("Error submitting form:", error);
+			setSubmitStatus("Wystąpił błąd. Spróbuj ponownie.");
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
 		<form onSubmit={handleSubmit} className="space-y-4 p-1">
+			<input
+				type="text"
+				name="honeypot"
+				value={honeypot}
+				onChange={(e) => setHoneypot(e.target.value)}
+				style={{ display: "none" }}
+				tabIndex={-1}
+				autoComplete="off"
+			/>
+
 			<div>
 				<label className="block text-sm font-medium text-gray-700">Tytuł</label>
 				<input
@@ -100,13 +153,16 @@ export const ContactForm: React.FC = () => {
 					required
 				/>
 			</div>
+
 			<Button
 				type="submit"
 				className="w-full rounded-md px-4 py-2 text-white transition"
-				disabled={loading}
+				disabled={loading || !isRecaptchaReady}
 			>
 				{loading ? "Wysyłanie..." : "Wyślij"}
 			</Button>
+
+			{submitStatus && <p className="mt-4 text-center text-sm text-red-600">{submitStatus}</p>}
 		</form>
 	);
 };

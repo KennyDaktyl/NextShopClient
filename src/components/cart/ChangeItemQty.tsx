@@ -4,7 +4,7 @@ import { useState, startTransition } from "react";
 import { useOptimistic } from "react";
 import { formatMoney } from "@/utils";
 import { UUID } from "crypto";
-import { changeItemQuantity } from "@/app/cart/actions";
+import { changeItemQuantity } from "@/app/koszyk/actions";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

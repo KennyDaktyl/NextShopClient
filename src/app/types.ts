@@ -186,6 +186,8 @@ export interface ProductDetails {
 export interface CategoryMetaData {
 	name: string;
 	description: string;
+	has_children: boolean;
+	full_path: string;
 }
 
 export interface GetCategoryMetaDataResponse {
@@ -251,7 +253,8 @@ export interface Hero {
 	title: string;
 	description: string;
 	image: Image | null;
-	link: Image | null;
+	link: string | null;
+	link_text: string | null;
 	is_active: boolean;
 }
 
@@ -303,4 +306,12 @@ export interface UserData {
 	last_name: string;
 	email: string;
 	profile: null;
+}
+
+export interface CategoryPath {
+	full_path: string;
+}
+
+export interface ProductPath {
+	get_absolute_url: string;
 }

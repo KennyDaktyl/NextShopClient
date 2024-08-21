@@ -9,6 +9,13 @@ import { getUserData } from "@/api/getUserData";
 import { Session } from "next-auth";
 import { auth } from "@/auth";
 
+export async function generateMetadata() {
+	return {
+		title: `Podsumowanie koszyka`,
+		description: "Podsumowanie koszyka",
+	};
+}
+
 export default async function CartPage() {
 	const sessionId = cookies().get("sessionid")?.value ?? "";
 

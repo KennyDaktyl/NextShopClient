@@ -21,9 +21,23 @@ export async function generateMetadata({
 		currentCategorySlug,
 	});
 	const category = response;
+
+	if (category.has_children) {
+		return {
+			title: `Kategoria ${category.name} i lista jej podkategorii`,
+			description: `Lista podkategorii dla kategorii ${category.description}`,
+			alternates: {
+				canonical: category.full_path,
+			},
+		};
+	}
+
 	return {
 		title: `Produkty z kategorii ${category.name}`,
-		description: category.description,
+		description: `Lista produktów w kategorii ${category.description}`,
+		alternates: {
+			canonical: category.full_path,
+		},
 	};
 }
 
@@ -72,7 +86,7 @@ export default async function Page({
 		if (response && typeof response === "object" && "count" in response && "results" in response) {
 			const productsResponse: ProductsResponse = response;
 			const products: ProductListItem[] = productsResponse.results;
-			const totalPages: number = Math.ceil(productsResponse.count / 20);
+			const totalPages: number = Math.ceil(productsResponse.count / 2);
 			const nextPage: string | null = productsResponse.next;
 			const prevPage: string | null = productsResponse.previous;
 

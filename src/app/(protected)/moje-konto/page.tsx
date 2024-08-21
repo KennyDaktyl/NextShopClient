@@ -3,6 +3,13 @@ import { auth } from "@/auth";
 import { getUserData } from "@/api/getUserData";
 import { Session } from "next-auth";
 
+export async function generateMetadata() {
+	return {
+		title: `Konto użytkownika`,
+		description: "Konto użytkownika",
+	};
+}
+
 export default async function ProfilePage() {
 	const session: Session | null = await auth();
 	if (!session || !session.user) {

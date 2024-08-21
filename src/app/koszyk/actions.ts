@@ -80,7 +80,7 @@ export async function addToCartAction(cartItemData: {
 export async function removeCartAction() {
 	await removeCart();
 	cookies().set("cartId", "", { maxAge: 0 });
-	revalidatePath("/cart");
+	revalidatePath("/koszyk");
 	revalidatePath("/");
 }
 
@@ -93,11 +93,11 @@ export async function changeItemQuantity({
 }): Promise<void> {
 	await updateCartItemQty({ itemId, quantity });
 	revalidateTag("cart");
-	revalidatePath("/cart");
+	revalidatePath("/koszyk");
 }
 
 export async function removeItemAction({ itemId }: { itemId: UUID }): Promise<void> {
 	await removeItem({ itemId: itemId });
 	revalidateTag("cart");
-	revalidatePath("/cart");
+	revalidatePath("/koszyk");
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { addToCartAction } from "@/app/cart/actions";
+import { addToCartAction } from "@/app/koszyk/actions";
 import React, { useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";

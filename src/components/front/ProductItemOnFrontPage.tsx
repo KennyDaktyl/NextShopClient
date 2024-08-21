@@ -34,7 +34,7 @@ export const ProductItemOnFrontPageContainer = ({ product }: { product: ProductL
 			role="link"
 			href={product.absolute_url}
 			aria-current="page"
-			className="mb-8 w-[160px] cursor-pointer sm:mb-4 md:w-[310px]"
+			className="mb-8 cursor-pointer pl-1 pr-1 sm:mb-4"
 		>
 			<Card
 				key={product.id}
