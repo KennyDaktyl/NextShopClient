@@ -39,14 +39,18 @@ export const ProductOptionComponent: React.FC<ProductOptionsProps> = ({
 				className="option-group flex w-full flex-wrap items-center justify-start"
 			>
 				<label
+					htmlFor={`option-select-${option.id}`}
 					className={`option-label w-full text-sm uppercase ${alertSetOption ? "font-semibold text-red-500" : "font-semibold"}`}
 				>
 					{option.name}:<span className="text-red-500">*</span>
 				</label>
 				<select
+					id={`option-select-${option.id}`}
 					value={selectedOptions[option.id] || ""}
 					onChange={(e) => handleOptionChange(option.id, parseInt(e.target.value))}
 					className="option-select"
+					aria-label={`Wybierz ${option.name}`}
+					aria-required="true"
 				>
 					<option value="" disabled>
 						Wybierz opcję

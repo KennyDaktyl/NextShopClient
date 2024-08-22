@@ -14,7 +14,8 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-	title: "Serwis w Rybnej. Usługi i produkty",
+	title:
+		"Pieczątki Firmowe i Dorabianie Kluczy | Profesjonalne Pieczątki i Klucze do Skrzynek Energetycznych – Serwis w Rybnej",
 	description: "Serwis w Rybnej. Usługi i produkty. Sprawdź naszą ofertę!",
 	metadataBase: new URL(`${process.env.NEXT_PUBLIC_BASE_URL}`),
 	alternates: {

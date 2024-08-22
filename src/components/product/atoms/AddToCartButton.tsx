@@ -53,6 +53,7 @@ export default function AddToCartButton({ cartItemData, onAddedToCart }: AddToCa
 			type="button"
 			onClick={handleClick}
 			disabled={isPending}
+			aria-label="Dodaj produkt do koszyka"
 			className={`w-full rounded-md text-white transition hover:bg-gray-500 ${isPending ? "cursor-wait hover:cursor-wait" : "cursor-pointer"} transition-shadow`}
 		>
 			Dodaj do koszyka

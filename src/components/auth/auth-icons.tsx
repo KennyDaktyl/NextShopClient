@@ -25,20 +25,27 @@ export default function AuthIcons() {
 			{isAuthenticated ? (
 				<>
 					<Link href="/moje-konto">
-						<button className="text-dark mr-2 flex h-10 w-10 items-center justify-center rounded-full">
+						<button
+							className="text-dark mr-2 flex h-10 w-10 items-center justify-center rounded-full"
+							aria-label="Przejdź do mojego konta"
+						>
 							<UserRound size={24} className="hover:text-gray-500" />
 						</button>
 					</Link>
 					<button
 						className="text-dark mr-2 flex h-10 w-10 items-center justify-center rounded-full"
 						onClick={handleLogout}
+						aria-label="Wyloguj się"
 					>
 						<LogOut size={24} className="hover:text-gray-500" />
 					</button>
 				</>
 			) : (
 				<Link href="/auth/login">
-					<button className="text-dark mr-2 flex h-10 w-10 items-center justify-center rounded-full">
+					<button
+						className="text-dark mr-2 flex h-10 w-10 items-center justify-center rounded-full"
+						aria-label="Zaloguj się"
+					>
 						<LogIn size={24} className="hover:text-gray-500" />
 					</button>
 				</Link>

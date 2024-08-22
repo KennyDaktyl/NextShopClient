@@ -32,8 +32,8 @@ export const HeroItem: React.FC<{ heroData: Hero; isFirst: boolean }> = ({ heroD
 							src={heroData.image.url}
 							alt={heroData.image.alt || ""}
 							className="rounded-md object-cover"
-							layout="fill"
-							objectFit="cover"
+							fill
+							sizes="(max-width: 768px) 100vw, 50vw"
 						/>
 					</div>
 				)}

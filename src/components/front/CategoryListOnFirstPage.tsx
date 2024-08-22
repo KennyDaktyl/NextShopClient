@@ -31,8 +31,8 @@ export const CategoryListOnFirstPage: React.FC<FirstPageDataResponse> = ({ categ
 											src={category.image.url}
 											alt={category.image.alt || "Category Image"}
 											className="h-full w-full object-cover"
-											layout="fill"
-											objectFit="cover"
+											fill
+											sizes="(max-width: 768px) 100vw, 50vw"
 										/>
 									</div>
 								</div>

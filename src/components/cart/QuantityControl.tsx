@@ -18,14 +18,18 @@ export const QuantityControl = ({ quantity, setQuantity, maxQuantity }: Quantity
 				onClick={decrementQuantity}
 				className="rounded-l-md hover:bg-slate-50"
 				variant="outline"
+				aria-label="Zmniejsz ilość"
 			>
 				-
 			</Button>
-			<span className="min-w-28 px-4 py-2 text-center text-gray-700">{quantity}</span>
+			<span className="min-w-28 px-4 py-2 text-center text-gray-700" aria-live="polite">
+				{quantity}
+			</span>
 			<Button
 				onClick={incrementQuantity}
 				className="rounded-r-md hover:bg-slate-50"
 				variant="outline"
+				aria-label="Zwiększ ilość"
 			>
 				+
 			</Button>

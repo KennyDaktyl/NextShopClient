@@ -7,7 +7,7 @@ import { CarouselPlugin } from "@/components/product/carouselPlugin";
 import { ButtonBack } from "@/components/ui/backButton";
 import { QuantityControl } from "@/components/cart/QuantityControl";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
-import ColorVariantsComponent from "@/components/product/atoms/ColorVariantsComponent";
+import VariantsComponent from "@/components/product/atoms/VariantsComponent";
 import PriceComponent from "@/components/product/atoms/PriceComponent";
 import DescriptionComponent from "@/components/product/atoms/DescriptionComponent";
 import HeaderComponent from "@/components/product/atoms/HeaderComponent";
@@ -140,7 +140,7 @@ export const ProductDetailsComponent = ({
 				<DescriptionComponent description={product.description} />
 				<TooltipProvider>
 					{product.variants && product.show_variant_label && (
-						<ColorVariantsComponent
+						<VariantsComponent
 							variants={product.variants || []}
 							label={product.variant_label}
 							onHandleClick={onHandleClick}

@@ -12,6 +12,9 @@ export async function generateMetadata({
 	return {
 		title: `Produkt ${productDetailsResponse?.name} z kategorii ${productDetailsResponse?.category.name}`,
 		description: productDetailsResponse?.description,
+		alternates: {
+			canonical: `${productDetailsResponse?.absolute_url}`,
+		},
 	};
 }
 
