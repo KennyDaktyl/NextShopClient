@@ -183,7 +183,7 @@ export interface ProductDetails {
 	material: Size | null;
 	current_price: number;
 	min_price_last_30: number;
-	absolute_url: string;
+	full_path: string;
 	variant_label: string;
 	show_variant_label: boolean;
 	variants: Variant[];
