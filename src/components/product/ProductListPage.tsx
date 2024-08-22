@@ -1,4 +1,3 @@
-// components/product/ProductListPage.tsx
 "use client";
 import { PaginationPage } from "@/components/product/Pagination";
 import { ProductList } from "./ProductList";

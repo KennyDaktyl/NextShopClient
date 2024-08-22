@@ -50,7 +50,7 @@ const SearchInput = ({
 				placeholder="Szukaj produktu"
 				value={searchTerm}
 				onChange={handleChange}
-				className="ml-1 rounded-md border p-2"
+				className="rounded-md border p-2"
 			/>
 			<div className="w-6">
 				{(searchTerm || isSearchVisible) && (

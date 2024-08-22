@@ -7,6 +7,7 @@ import { getMenuItems } from "@/api/getMenuItems";
 import { getProductsByCategory } from "@/api/getProductsByCategory";
 import { MenuItemsResponse, ProductsResponse, ProductListItem } from "@/app/types";
 import { getCategoryMetaData } from "@/api/getCategoryMetaData";
+import { generateCategoryJsonLd, JsonLd, mappedProductsToJsonLd } from "@/components/seo/LdJson";
 
 export async function generateMetadata({
 	params,
@@ -56,25 +57,19 @@ export default async function Page({
 	const currentPage = searchParams.page ? parseInt(searchParams.page) : 1;
 
 	const menuItems: MenuItemsResponse = await getMenuItems({ categorySlug: currentCategorySlug });
+	const category = {
+		name: menuItems.name,
+		description: menuItems.description || "",
+		image: menuItems.image || null,
+		items: menuItems.items,
+	};
+
 	if (menuItems.has_children) {
 		return (
 			<CategoryLayout>
 				<SideBar menuItems={menuItems} isMenuActive={false} />
-				<CategoryDetails
-					category={{
-						name: menuItems.name,
-						description: menuItems.description || "",
-						image: menuItems.image
-							? {
-									url: menuItems.image.url,
-									alt: menuItems.image.alt,
-									height: menuItems.image.height,
-									width: menuItems.image.width,
-								}
-							: null,
-						items: menuItems.items,
-					}}
-				/>
+				<CategoryDetails category={category} />
+				<JsonLd jsonLd={generateCategoryJsonLd(category)} />
 			</CategoryLayout>
 		);
 	} else {
@@ -101,6 +96,7 @@ export default async function Page({
 						totalPages={totalPages}
 						currentPage={currentPage}
 					/>
+					<JsonLd jsonLd={mappedProductsToJsonLd(products)} />
 				</CategoryLayout>
 			);
 		} else {

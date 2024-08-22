@@ -1,20 +1,6 @@
-import { MenuItem } from "@/app/types";
+import { CategoryDetailsProps } from "@/app/types";
 import Image from "next/image";
 import SubcategoryItem from "./SubcategoryItem";
-
-interface ImageProps {
-	url: string | null;
-	alt: string | null;
-	height: number | null;
-	width: number | null;
-}
-
-interface CategoryDetailsProps {
-	name: string;
-	description: string;
-	image: ImageProps | null;
-	items: MenuItem[];
-}
 
 const CategoryDetails = ({ category }: { category: CategoryDetailsProps }) => {
 	return (
@@ -33,8 +19,8 @@ const CategoryDetails = ({ category }: { category: CategoryDetailsProps }) => {
 								src={category.image.url || ""}
 								alt={category.image.alt || "Category Image"}
 								className="rounded-md object-cover"
-								layout="fill"
-								objectFit="cover"
+								fill
+								sizes="(max-width: 768px) 100vw, 50vw"
 							/>
 						</div>
 					</div>

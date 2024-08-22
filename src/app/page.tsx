@@ -2,6 +2,8 @@ import { getFirstPageData } from "@/api/getFirstPageData";
 import { FirstPageDataResponse } from "@/app/types";
 import { CategoryListOnFirstPage } from "@/components/front/CategoryListOnFirstPage";
 import { HeroItem } from "@/components/front/Hero";
+import { JsonLd, ownerWebsiteJsonLd } from "@/components/seo/LdJson";
+import { Thing, WithContext } from "schema-dts";
 
 export default async function Home() {
 	const res = await getFirstPageData();
@@ -22,6 +24,7 @@ export default async function Home() {
 			<div className="rounded-lg bg-gray-100 p-1 shadow-sm xl:p-8">
 				<CategoryListOnFirstPage categories={categories} heros={[]} />
 			</div>
+			<JsonLd jsonLd={ownerWebsiteJsonLd()} />
 		</section>
 	);
 }

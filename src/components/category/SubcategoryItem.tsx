@@ -23,8 +23,8 @@ const SubcategoryItem = ({ item }: SubcategoryItemProps) => {
 							src={item.image.url || ""}
 							alt={item.image.alt || "Category Image"}
 							className="rounded-md object-cover"
-							layout="fill"
-							objectFit="cover"
+							fill
+							sizes="(max-width: 768px) 100vw, 270px"
 						/>
 					</div>
 				</div>

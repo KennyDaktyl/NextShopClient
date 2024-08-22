@@ -5,6 +5,7 @@ import SideBar from "@/components/ui/organism/SideBar";
 import { getMenuItems } from "@/api/getMenuItems";
 import CategoryDetails from "@/components/category/CategoryDetails";
 import { MenuItemsResponse } from "@/app/types";
+import { generateCategoryJsonLd, JsonLd } from "@/components/seo/LdJson";
 
 export function generateMetadata(): Metadata | ResolvingMetadata {
 	return {
@@ -21,22 +22,17 @@ export default async function Page() {
 	const currentCategorySlug = "produkty";
 	try {
 		const menuItems: MenuItemsResponse = await getMenuItems({ categorySlug: currentCategorySlug });
+		const category = {
+			name: menuItems.name,
+			description: menuItems.description || "",
+			image: menuItems.image,
+			items: menuItems.items,
+		};
 		return (
 			<CategoryLayout>
 				<SideBar menuItems={menuItems} isMenuActive={false} />
-				<CategoryDetails
-					category={{
-						name: menuItems.name,
-						description: menuItems.description || "",
-						image: {
-							url: menuItems.image?.url || null,
-							alt: menuItems.image?.alt || null,
-							height: menuItems.image?.height || null,
-							width: menuItems.image?.width || null,
-						},
-						items: menuItems.items,
-					}}
-				/>
+				<CategoryDetails category={category} />
+				<JsonLd jsonLd={generateCategoryJsonLd(category)} />
 			</CategoryLayout>
 		);
 	} catch (error) {

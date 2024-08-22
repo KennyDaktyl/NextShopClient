@@ -16,6 +16,7 @@ import AddToCartButton from "@/components/product/atoms/AddToCartButton";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ProductOptionComponent } from "@/components/product/ProductOption";
+import { JsonLd, mappedProductToJsonLd } from "@/components/seo/LdJson";
 
 export const ProductDetailsComponent = ({
 	product,
@@ -193,6 +194,7 @@ export const ProductDetailsComponent = ({
 				/>
 				<AddToCartButton cartItemData={cartItemData} onAddedToCart={handleAddToCart} />
 			</div>
+			<JsonLd jsonLd={mappedProductToJsonLd(product)} />
 		</div>
 	);
 };

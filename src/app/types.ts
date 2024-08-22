@@ -30,6 +30,13 @@ export interface Category {
 	slug: string;
 }
 
+export interface CategoryDetailsProps {
+	name: string;
+	description: string;
+	image: Image | null;
+	items: MenuItem[];
+}
+
 export interface Image {
 	id: number;
 	url: string;
@@ -43,6 +50,7 @@ export interface ProductListItem {
 	id: string;
 	name: string;
 	slug: string;
+	qty: number;
 	category: Category;
 	description: string;
 	image: Image | null;
@@ -314,4 +322,14 @@ export interface CategoryPath {
 
 export interface ProductPath {
 	get_absolute_url: string;
+}
+
+export interface MappedProduct {
+	id: string;
+	name: string;
+	images: Image[];
+	description?: string;
+	current_price: number;
+	qty: number;
+	absolute_url: string;
 }

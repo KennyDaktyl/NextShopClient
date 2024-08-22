@@ -14,9 +14,8 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-	title:
-		"Pieczątki Firmowe i Dorabianie Kluczy | Profesjonalne Pieczątki i Klucze do Skrzynek Energetycznych – Serwis w Rybnej",
-	description: "Serwis w Rybnej. Usługi i produkty. Sprawdź naszą ofertę!",
+	title: process.env.NEXT_PUBLIC_SITE_TITLE,
+	description: process.env.NEXT_PUBLIC_SITE_DESCRIPTION,
 	metadataBase: new URL(`${process.env.NEXT_PUBLIC_BASE_URL}`),
 	alternates: {
 		canonical: "/",
@@ -24,7 +23,7 @@ export const metadata: Metadata = {
 			"pl-PL": "/pl-PL",
 		},
 	},
-	robots: "index, follow",
+	robots: "index, no-follow",
 };
 
 export default function Layout({

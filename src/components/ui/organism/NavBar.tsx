@@ -108,7 +108,7 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 						aria-expanded={isSearchVisible}
 					/>
 					<div
-						className={`absolute left-0 top-1/2 z-50 -translate-y-1/2 transform ${isSearchVisible ? "block" : "hidden"}`}
+						className={`absolute left-0 top-1/2 z-50 -translate-y-1/2 transform pl-5 ${isSearchVisible ? "block" : "hidden"}`}
 					>
 						<SearchInput isSearchVisible={isSearchVisible} closeSearch={closeSearch} />
 					</div>
