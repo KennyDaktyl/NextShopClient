@@ -1,5 +1,5 @@
 import { Thing, WithContext, ItemList, Product, ListItem, ImageObject, WebSite } from "schema-dts";
-import { CategoryDetailsProps, MappedProduct, ProductDetails, ProductListItem } from "@/app/types";
+import { CategoryDetailsProps, ProductDetails, ProductListItem } from "@/app/types";
 
 export const JsonLd = <T extends Thing>({ jsonLd }: { jsonLd: WithContext<T> }) => {
 	return (
@@ -46,7 +46,7 @@ export const mappedProductsToJsonLd = (
 				position: index + 1,
 				item: {
 					"@type": "Product",
-					"@id": product.absolute_url,
+					"@id": product.full_path,
 					name: product.name,
 					image: product.image?.url ?? "",
 					offers: {
@@ -73,11 +73,11 @@ export const generateCategoryJsonLd = (category: CategoryDetailsProps): WithCont
 				"@type": "ListItem",
 				position: index + 1,
 				item: {
-					"@type": "Thing", // Możesz użyć bardziej specyficznego typu, jeśli pasuje
+					"@type": "Thing",
 					"@id": item.full_path,
 					name: item.name,
 					description: item.description,
-					image: item.image?.url ?? "", // Obsługa braku obrazu
+					image: item.image?.url ?? "",
 				},
 			}),
 		),

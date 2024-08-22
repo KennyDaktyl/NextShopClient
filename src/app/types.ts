@@ -56,7 +56,7 @@ export interface ProductListItem {
 	image: Image | null;
 	current_price: number;
 	min_price_last_30: number;
-	absolute_url: string;
+	full_path: string;
 	variant_label: string;
 	show_variant_label: boolean;
 	variants: VariantList[];
@@ -92,7 +92,7 @@ export interface Product {
 	image: Image;
 	current_price: number;
 	min_price_last_30: number;
-	absolute_url: string;
+	full_: string;
 }
 
 export interface ProductsResponse {
@@ -321,7 +321,7 @@ export interface CategoryPath {
 }
 
 export interface ProductPath {
-	get_absolute_url: string;
+	full_path: string;
 }
 
 export interface MappedProduct {
@@ -331,5 +331,5 @@ export interface MappedProduct {
 	description?: string;
 	current_price: number;
 	qty: number;
-	absolute_url: string;
+	full_path: string;
 }

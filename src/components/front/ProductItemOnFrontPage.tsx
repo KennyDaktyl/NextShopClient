@@ -32,7 +32,7 @@ export const ProductItemOnFrontPageContainer = ({ product }: { product: ProductL
 	return (
 		<Link
 			role="link"
-			href={product.absolute_url}
+			href={product.full_path}
 			aria-current="page"
 			className="mb-8 cursor-pointer pl-1 pr-1 sm:mb-4"
 		>

@@ -2,7 +2,6 @@ import { getCategoriesPath } from "@/api/getCategoriesPath";
 import { type MetadataRoute } from "next";
 import { CategoryPath } from "@/app/types";
 import { getProductsPath } from "@/api/getProductsPath";
-import { url } from "inspector";
 
 export default async function Sitemap(): Promise<MetadataRoute.Sitemap> {
 	let categories = await getCategoriesPath();
@@ -86,7 +85,7 @@ export default async function Sitemap(): Promise<MetadataRoute.Sitemap> {
 	}));
 
 	const productRoutes = products.map((product) => ({
-		url: `${process.env.NEXT_PUBLIC_BASE_URL}${product.get_absolute_url}`,
+		url: `${process.env.NEXT_PUBLIC_BASE_URL}${product.full_path}`,
 		lastModified: new Date(),
 	}));
 

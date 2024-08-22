@@ -32,7 +32,7 @@ export const ProductListItemContainer = ({ product }: { product: ProductListItem
 	return (
 		<Link
 			role="link"
-			href={product.absolute_url}
+			href={product.full_path}
 			aria-current="page"
 			className="mb-8 w-[150px] cursor-pointer sm:mb-4 md:w-[346px]"
 		>
