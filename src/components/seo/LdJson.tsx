@@ -76,7 +76,7 @@ export const generateCategoryJsonLd = (category: CategoryDetailsProps): WithCont
 					"@type": "Thing",
 					"@id": item.full_path,
 					name: item.name,
-					description: item.description,
+					description: item.description ?? undefined,
 					image: item.image?.url ?? "",
 				},
 			}),

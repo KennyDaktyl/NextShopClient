@@ -20,10 +20,12 @@ const COLOR_CLASSES: { [key: string]: string } = {
 
 const ColorVariantsComponent = ({
 	variants,
+	selectedVariant,
 	label,
 	onHandleClick,
 }: {
 	variants: Variant[];
+	selectedVariant: Variant | null;
 	label: string;
 	onHandleClick: (variant: Variant) => void;
 }) => (
@@ -34,7 +36,11 @@ const ColorVariantsComponent = ({
 				<TooltipTrigger asChild>
 					<div className="m-0 p-0">
 						<Badge
-							className={`mb-2 mr-2 cursor-pointer rounded-full ${COLOR_CLASSES[variant.color]}`}
+							className={`mb-2 mr-2 transform-gpu cursor-pointer rounded-full transition-transform duration-150 ${COLOR_CLASSES[variant.color]} ${
+								selectedVariant && selectedVariant.id === variant.id
+									? "scale-125 shadow-lg"
+									: "hover:scale-125 hover:bg-opacity-75 hover:shadow-lg"
+							}`}
 							onClick={() => onHandleClick(variant)}
 						></Badge>
 					</div>

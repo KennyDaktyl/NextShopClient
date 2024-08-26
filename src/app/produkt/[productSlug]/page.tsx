@@ -8,13 +8,26 @@ export async function generateMetadata({
 	params,
 }: {
 	params: { productSlug: string };
-}): Promise<Metadata | ResolvingMetadata> {
+}): Promise<Metadata> {
 	const productDetailsResponse = await getProductDetails({ productSlug: params.productSlug });
+
+	if (!productDetailsResponse) {
+		return {
+			title: "Produkt nie znaleziony",
+			description: "Przepraszamy, nie mogliśmy znaleźć tego produktu.",
+			alternates: {
+				canonical: "/produkty",
+			},
+		};
+	}
+
+	const { name, description, category, full_path } = productDetailsResponse;
+
 	return {
-		title: `Produkt ${productDetailsResponse?.name} z kategorii ${productDetailsResponse?.category.name}`,
-		description: productDetailsResponse?.description,
+		title: `Produkt ${name} z kategorii ${category.name}`,
+		description: description?.slice(0, 160) || "Opis produktu niedostępny.",
 		alternates: {
-			canonical: `${productDetailsResponse?.full_path}`,
+			canonical: full_path,
 		},
 	};
 }

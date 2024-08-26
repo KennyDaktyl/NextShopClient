@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { ActiveLink } from "../atoms/ActiveLink";
 import { Menu, Search, ShoppingCart, X } from "lucide-react";
 import Link from "next/link";
@@ -86,42 +86,50 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 				</div>
 
 				<div className="hidden items-center xl:flex">
-					<SearchInput isSearchVisible={isSearchVisible} closeSearch={closeSearch} />
+					<Suspense>
+						<SearchInput isSearchVisible={isSearchVisible} closeSearch={closeSearch} />
+					</Suspense>
 					<Link
 						href="/koszyk"
 						className="group m-2 flex h-full items-center p-2"
 						aria-label={`Koszyk, łączna kwota: ${formatMoney(totalPrice)}`}
 					>
-						<ShoppingCart className="ml-4 h-6 w-6 flex-shrink" aria-hidden="true" />
-						<span className="w-20 text-right">{formatMoney(totalPrice)}</span>
-						<span className="sr-only"></span>
+						<Suspense>
+							<ShoppingCart className="ml-4 h-6 w-6 flex-shrink" aria-hidden="true" />
+							<span className="w-20 text-right">{formatMoney(totalPrice)}</span>
+							<span className="sr-only"></span>
+						</Suspense>
 					</Link>
 					<AuthIcons />
 				</div>
 				<div className="flex items-center xl:hidden">
-					<Search
-						size={20}
-						className={`cursor-pointer ${isSearchVisible ? "hidden" : "block"}`}
-						onClick={toggleSearch}
-						aria-label="Otwórz wyszukiwanie"
-						role="button"
-						aria-expanded={isSearchVisible}
-					/>
-					<div
-						className={`absolute left-0 top-1/2 z-50 -translate-y-1/2 transform pl-5 ${isSearchVisible ? "block" : "hidden"}`}
-					>
-						<SearchInput isSearchVisible={isSearchVisible} closeSearch={closeSearch} />
-					</div>
+					<Suspense>
+						<Search
+							size={20}
+							className={`cursor-pointer ${isSearchVisible ? "hidden" : "block"}`}
+							onClick={toggleSearch}
+							aria-label="Otwórz wyszukiwanie"
+							role="button"
+							aria-expanded={isSearchVisible}
+						/>
+						<div
+							className={`absolute left-0 top-1/2 z-50 -translate-y-1/2 transform pl-5 ${isSearchVisible ? "block" : "hidden"}`}
+						>
+							<SearchInput isSearchVisible={isSearchVisible} closeSearch={closeSearch} />
+						</div>
+					</Suspense>
 					<Link
 						href="/koszyk"
 						className="group relative m-2 flex h-full items-center p-2 text-center"
 						aria-label={`Koszyk, łączna kwota: ${formatMoney(totalPrice)}`}
 					>
-						<ShoppingCart className="h-6 w-6 flex-shrink text-center" aria-hidden="true" />
-						<span className="absolute -top-6 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full border border-black bg-white p-1 text-xs text-black">
-							{formatMoney(totalPrice)}
-						</span>
-						<span className="sr-only hidden md:block"></span>
+						<Suspense>
+							<ShoppingCart className="h-6 w-6 flex-shrink text-center" aria-hidden="true" />
+							<span className="absolute -top-6 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full border border-black bg-white p-1 text-xs text-black">
+								{formatMoney(totalPrice)}
+							</span>
+							<span className="sr-only hidden md:block"></span>
+						</Suspense>
 					</Link>
 					<button
 						onClick={toggleMenu}

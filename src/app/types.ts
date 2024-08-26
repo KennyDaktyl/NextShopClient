@@ -4,7 +4,8 @@ export interface MenuItem {
 	id: number;
 	name: string;
 	slug: string;
-	description: string;
+	description: string | null;
+	seo_text: string | null;
 	has_parent: boolean;
 	is_parent: boolean;
 	products_count: number;
@@ -15,24 +16,30 @@ export interface MenuItem {
 }
 
 export interface MenuItemsResponse {
+	id: number;
 	name: string;
 	slug: string;
 	description: string | null;
+	seo_text: string | null;
 	back_link: string;
 	has_children: boolean;
 	full_path: string;
 	image: Image | null;
 	items: MenuItem[];
+	status: number;
 }
 export interface Category {
-	id: number;
+	image: Image | null;
 	name: string;
+	description: string | null;
+	seo_text: string | null;
 	slug: string;
 }
 
 export interface CategoryDetailsProps {
 	name: string;
 	description: string;
+	seo_text: string;
 	image: Image | null;
 	items: MenuItem[];
 }
@@ -88,6 +95,7 @@ export interface Product {
 	slug: string;
 	category: Category;
 	description: string;
+	seo_text: string | null;
 	qty: number;
 	image: Image;
 	current_price: number;
@@ -174,6 +182,7 @@ export interface ProductDetails {
 	slug: string;
 	category: ProductCategory;
 	description: string;
+	seo_text: string | null;
 	qty: number;
 	images: Image[] | [];
 	color: string;
@@ -194,6 +203,7 @@ export interface ProductDetails {
 export interface CategoryMetaData {
 	name: string;
 	description: string;
+	seo_text: string | null;
 	has_children: boolean;
 	full_path: string;
 }
@@ -217,6 +227,7 @@ export interface CategoryItem {
 	name: string;
 	slug: string;
 	description: string;
+	seo_text: string | null;
 	has_parent: boolean;
 	is_parent: boolean;
 	products_count: number;
@@ -241,6 +252,7 @@ export interface SubCategoryOnFirstPage {
 	name: string;
 	slug: string;
 	description: string;
+	seo_text: string | null;
 	products_count: number;
 	full_path: string;
 }
@@ -250,6 +262,7 @@ export interface CategoryOnFirstPage {
 	name: string;
 	slug: string;
 	description: string;
+	seo_text: string | null;
 	image: Image | null;
 	full_path: string;
 	products_on_first_page: ProductListItem[];
@@ -329,6 +342,7 @@ export interface MappedProduct {
 	name: string;
 	images: Image[];
 	description?: string;
+	seo_text?: string;
 	current_price: number;
 	qty: number;
 	full_path: string;

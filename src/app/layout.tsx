@@ -14,15 +14,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-	title: process.env.NEXT_PUBLIC_SITE_TITLE,
-	description: process.env.NEXT_PUBLIC_SITE_DESCRIPTION,
 	metadataBase: new URL(`${process.env.NEXT_PUBLIC_BASE_URL}`),
-	alternates: {
-		canonical: "/",
-		languages: {
-			"pl-PL": "/pl-PL",
-		},
-	},
 	robots: "index, no-follow",
 };
 

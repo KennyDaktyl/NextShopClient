@@ -1,6 +1,7 @@
 import { CategoryDetailsProps } from "@/app/types";
 import Image from "next/image";
 import SubcategoryItem from "./SubcategoryItem";
+import DescriptionComponent from "@/components/product/atoms/DescriptionComponent";
 
 const CategoryDetails = ({ category }: { category: CategoryDetailsProps }) => {
 	return (
@@ -31,6 +32,7 @@ const CategoryDetails = ({ category }: { category: CategoryDetailsProps }) => {
 					<SubcategoryItem key={item.id} item={item} />
 				))}
 			</div>
+			<DescriptionComponent description={category.seo_text} />
 		</div>
 	);
 };

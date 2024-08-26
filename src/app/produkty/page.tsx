@@ -22,9 +22,12 @@ export default async function Page() {
 	const currentCategorySlug = "produkty";
 	try {
 		const menuItems: MenuItemsResponse = await getMenuItems({ categorySlug: currentCategorySlug });
+
 		const category = {
+			id: menuItems.id,
 			name: menuItems.name,
 			description: menuItems.description || "",
+			seo_text: menuItems.seo_text || "",
 			image: menuItems.image,
 			items: menuItems.items,
 		};

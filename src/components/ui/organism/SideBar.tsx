@@ -52,7 +52,7 @@ export default function SideBar({
 			>
 				<div className="flex min-w-[250px] flex-col gap-4 md:min-w-[200px]">
 					<div className="flex items-center justify-between border-b p-2">
-						<h2 className="text-xl font-bold">{menuItems.name}</h2>
+						<p className="text-xl font-bold">{menuItems.name}</p>
 						<button className="md:hidden" onClick={toggleSidebar} aria-label="Zamknij menu">
 							<X className="cursor-pointer hover:bg-slate-100" aria-hidden="true" />
 						</button>

@@ -1,5 +1,5 @@
 const DescriptionComponent = ({ description }: { description: string }) => (
-	<p className="mb-4">{description}</p>
+	<div className="mb-4 mt-4" dangerouslySetInnerHTML={{ __html: description }} />
 );
 
 export default DescriptionComponent;

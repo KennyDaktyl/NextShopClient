@@ -4,6 +4,7 @@ import { fetchGetApiData } from "./fetchApiData";
 const defaultCategoryMetaData: CategoryMetaData = {
 	name: "",
 	description: "",
+	seo_text: "",
 	has_children: false,
 	full_path: "",
 };

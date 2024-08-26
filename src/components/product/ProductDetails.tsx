@@ -137,11 +137,11 @@ export const ProductDetailsComponent = ({
 
 			<div className="w-full p-4 md:w-1/3">
 				<HeaderComponent product={product} />
-				<DescriptionComponent description={product.description} />
 				<TooltipProvider>
 					{product.variants && product.show_variant_label && (
 						<VariantsComponent
 							variants={product.variants || []}
+							selectedVariant={selectedVariant}
 							label={product.variant_label}
 							onHandleClick={onHandleClick}
 						/>
@@ -193,6 +193,7 @@ export const ProductDetailsComponent = ({
 				/>
 				<AddToCartButton cartItemData={cartItemData} onAddedToCart={handleAddToCart} />
 			</div>
+			<DescriptionComponent description={product.description} />
 		</div>
 	);
 };

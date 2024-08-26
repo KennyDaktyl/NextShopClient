@@ -8,37 +8,41 @@ import { getProductsByCategory } from "@/api/getProductsByCategory";
 import { MenuItemsResponse, ProductsResponse, ProductListItem } from "@/app/types";
 import { getCategoryMetaData } from "@/api/getCategoryMetaData";
 import { generateCategoryJsonLd, JsonLd, mappedProductsToJsonLd } from "@/components/seo/LdJson";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata({
 	params,
+	searchParams,
 }: {
 	params: { routes: string[] };
+	searchParams: { page?: string };
 }): Promise<Metadata | ResolvingMetadata> {
 	const routes = params.routes;
 	const lastRoute = routes[routes.length - 1];
-
 	const currentCategorySlug = lastRoute;
+
+	const currentPage = searchParams.page ? parseInt(searchParams.page) : 1;
+
 	const response = await getCategoryMetaData({
 		currentCategorySlug,
 	});
 	const category = response;
 
+	let title = `Produkty z kategorii ${category.name}`;
+	let description = `Lista produktów w kategorii ${category.name}`;
+	let alternates = {
+		canonical: category.full_path,
+	};
+
 	if (category.has_children) {
-		return {
-			title: `Kategoria ${category.name} i lista jej podkategorii`,
-			description: `Lista podkategorii dla kategorii ${category.description}`,
-			alternates: {
-				canonical: category.full_path,
-			},
-		};
+		title = `Kategoria ${category.name} i lista jej podkategorii`;
+		description = `Lista podkategorii dla kategorii ${category.description}`;
 	}
 
 	return {
-		title: `Produkty z kategorii ${category.name}`,
-		description: `Lista produktów w kategorii ${category.description}`,
-		alternates: {
-			canonical: category.full_path,
-		},
+		title,
+		description,
+		alternates,
 	};
 }
 
@@ -57,9 +61,12 @@ export default async function Page({
 	const currentPage = searchParams.page ? parseInt(searchParams.page) : 1;
 
 	const menuItems: MenuItemsResponse = await getMenuItems({ categorySlug: currentCategorySlug });
+
 	const category = {
+		slug: menuItems.slug,
 		name: menuItems.name,
 		description: menuItems.description || "",
+		seo_text: menuItems.seo_text || "",
 		image: menuItems.image || null,
 		items: menuItems.items,
 	};
@@ -78,18 +85,24 @@ export default async function Page({
 			params: { page: currentPage.toString() },
 		});
 
+		if (Array.isArray(response) && response.length === 0) {
+			notFound();
+		}
+
 		if (response && typeof response === "object" && "count" in response && "results" in response) {
 			const productsResponse: ProductsResponse = response;
 			const products: ProductListItem[] = productsResponse.results;
-			const totalPages: number = Math.ceil(productsResponse.count / 2);
+			const totalPages: number = Math.ceil(productsResponse.count / 20);
 			const nextPage: string | null = productsResponse.next;
 			const prevPage: string | null = productsResponse.previous;
 
 			return (
 				<CategoryLayout>
 					<SideBar menuItems={menuItems} isMenuActive={false} />
+
 					<ProductListPage
 						products={products}
+						category={category}
 						containerName="product-list-by-category"
 						nextPage={nextPage}
 						prevPage={prevPage}
@@ -100,7 +113,8 @@ export default async function Page({
 				</CategoryLayout>
 			);
 		} else {
-			throw new Error("Invalid response format");
+			console.error("Error fetching products:", response);
+			return <div>Error fetching products</div>;
 		}
 	}
 }

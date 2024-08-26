@@ -35,9 +35,6 @@ export default async function Sitemap(): Promise<MetadataRoute.Sitemap> {
 			url: `${process.env.NEXT_PUBLIC_BASE_URL}/koszyk`,
 		},
 		{
-			url: `${process.env.NEXT_PUBLIC_BASE_URL}/moje-konto`,
-		},
-		{
 			url: `${process.env.NEXT_PUBLIC_BASE_URL}/kontakt`,
 			lastModified: new Date(),
 		},
@@ -73,9 +70,6 @@ export default async function Sitemap(): Promise<MetadataRoute.Sitemap> {
 		},
 		{
 			url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify-email/confirm`,
-		},
-		{
-			url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/logout`,
 		},
 	];
 

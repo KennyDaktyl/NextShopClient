@@ -3,7 +3,12 @@ import { FirstPageDataResponse } from "@/app/types";
 import { CategoryListOnFirstPage } from "@/components/front/CategoryListOnFirstPage";
 import { HeroItem } from "@/components/front/Hero";
 import { JsonLd, ownerWebsiteJsonLd } from "@/components/seo/LdJson";
-import { Thing, WithContext } from "schema-dts";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: process.env.NEXT_PUBLIC_SITE_TITLE,
+	description: process.env.NEXT_PUBLIC_SITE_DESCRIPTION,
+};
 
 export default async function Home() {
 	const res = await getFirstPageData();
