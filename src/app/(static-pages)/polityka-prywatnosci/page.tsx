@@ -3,6 +3,9 @@ export async function generateMetadata() {
 		title: `Polityka prywatności.`,
 		description:
 			"Polityka prywatności. Tutaj znajdziesz informacje o tym, jakie dane przechowujemy i w jaki sposób je wykorzystujemy.",
+		alternates: {
+			canonical: "/polityka-prywatnosci",
+		},
 	};
 }
 

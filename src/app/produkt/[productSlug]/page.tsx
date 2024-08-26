@@ -3,6 +3,7 @@ import { BackLinkProps } from "@/app/types";
 import { ProductDetailsComponent as DefaultProductDetailsComponent } from "@/components/product/ProductDetails";
 import { JsonLd, mappedProductToJsonLd } from "@/components/seo/LdJson";
 import { Metadata, ResolvingMetadata } from "next";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata({
 	params,
@@ -16,7 +17,7 @@ export async function generateMetadata({
 			title: "Produkt nie znaleziony",
 			description: "Przepraszamy, nie mogliśmy znaleźć tego produktu.",
 			alternates: {
-				canonical: "/produkty",
+				canonical: `/produkt/${params.productSlug}`,
 			},
 		};
 	}
@@ -36,7 +37,7 @@ export default async function ProductPage({ params }: { params: { productSlug: s
 	const productDetailsResponse = await getProductDetails({ productSlug: params.productSlug });
 
 	if (!productDetailsResponse) {
-		return <div>Loading...</div>;
+		return notFound();
 	}
 
 	const back_link: BackLinkProps = { full_path: productDetailsResponse.category.full_path || "/" };

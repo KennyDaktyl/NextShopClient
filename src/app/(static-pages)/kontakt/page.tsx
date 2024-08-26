@@ -9,6 +9,9 @@ export async function generateMetadata() {
 	return {
 		title: `Kontakt do nas`,
 		description: "Kontakt do nas. Tu znajdziesz wszystkie informacje kontaktowe.",
+		alternates: {
+			canonical: "/kontakt",
+		},
 	};
 }
 

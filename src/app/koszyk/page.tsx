@@ -13,6 +13,9 @@ export async function generateMetadata() {
 	return {
 		title: `Podsumowanie koszyka`,
 		description: "Podsumowanie koszyka",
+		alternates: {
+			canonical: "/koszyk",
+		},
 	};
 }
 

@@ -2,6 +2,9 @@ export async function generateMetadata() {
 	return {
 		title: `Regulamin sklepu internetowego.`,
 		description: "Regulamin sklepu internetowego. Zasady korzystania z serwisu.",
+		alternates: {
+			canonical: "/requlamin",
+		},
 	};
 }
 

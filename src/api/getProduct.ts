@@ -13,6 +13,7 @@ export const getProductDetails = async ({
 			cache: "force-cache",
 			next: { tags: [`product-${productSlug}`] },
 		});
+
 		if ("status" in response) {
 			return null;
 		}
