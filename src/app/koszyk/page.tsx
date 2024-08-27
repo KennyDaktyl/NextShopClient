@@ -2,7 +2,14 @@ import { getCartItems } from "@/api/getCartItems";
 import { cookies } from "next/headers";
 import CartClient from "@/components/cart/CartClient";
 import { getDeliveryMethods } from "@/api/getDeliveryMethods";
-import { DeliveryMethod, PaymentMethod, CartItems, CartTotalPrice, UserData } from "@/app/types";
+import {
+	DeliveryMethod,
+	PaymentMethod,
+	CartItems,
+	CartTotalPrice,
+	UserData,
+	CartItem,
+} from "@/app/types";
 import { getTotalPrice } from "@/api/getCartTotalPrice";
 import { getPaymentMethods } from "@/api/getPaymentMethods";
 import { getUserData } from "@/api/getUserData";
@@ -22,7 +29,7 @@ export async function generateMetadata() {
 export default async function CartPage() {
 	const sessionId = cookies().get("sessionid")?.value ?? "";
 
-	let cartItems: any[] = [];
+	let cartItems: CartItem[] = [];
 	let totalPrice: number = 0;
 
 	const response: CartItems | { status: number } = await getCartItems(sessionId);

@@ -105,6 +105,7 @@ export default function OrderForm({
 					<DeliveryMethods
 						deliveryMethods={deliveryMethods}
 						onDeliveryMethodChange={handleDeliveryMethodChange}
+						setInpostBoxId={() => {}}
 					/>
 					<PaymentMethods
 						paymentMethods={paymentMethods}

@@ -4,9 +4,11 @@ import { fetchPostApiData } from "@/api/fetchPostApiData";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { UUID } from "crypto";
 import { updateCartItemQty } from "@/api/updateCartItemQty";
-import { CartResponse } from "@/app/types";
+import { CartResponse, OrderData, newOrderResponse } from "@/app/types";
 import { removeCart } from "@/api/removeCart";
 import { removeItem } from "@/api/removeItemFromCart";
+import { createOrder } from "@/api/addNewOrder";
+import { data } from "autoprefixer";
 
 export async function addToCartAction(cartItemData: {
 	product_id: number;
@@ -100,4 +102,30 @@ export async function removeItemAction({ itemId }: { itemId: UUID }): Promise<vo
 	await removeItem({ itemId: itemId });
 	revalidateTag("cart");
 	revalidatePath("/koszyk");
+}
+
+export async function createOrderAction({ data }: { data: OrderData }): Promise<newOrderResponse> {
+	const orderData = {
+		client_name: data.name,
+		client_email: data.email,
+		client_phone: data.phone,
+		cart_items_price: data.cart_items_price,
+		delivery_price: data.delivery_price,
+		payment_price: data.payment_price,
+		delivery_method: data.delivery_method,
+		payment_method: data.payment_method,
+		amount: data.amount,
+		cart_items: data.cart_items,
+		inpost_box_id: data.inpost_box_id,
+	};
+
+	const response = await createOrder(orderData);
+	revalidateTag("cart");
+	revalidatePath("/koszyk");
+
+	if ("order_id" in response) {
+		return response;
+	} else {
+		throw new Error("Invalid response from createOrder");
+	}
 }

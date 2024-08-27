@@ -326,7 +326,9 @@ export interface UserData {
 	first_name: string;
 	last_name: string;
 	email: string;
-	profile: null;
+	profile: {
+		phone: string;
+	};
 }
 
 export interface CategoryPath {
@@ -346,4 +348,22 @@ export interface MappedProduct {
 	current_price: number;
 	qty: number;
 	full_path: string;
+}
+
+export interface newOrderResponse {
+	order_id: number;
+}
+
+export interface OrderData {
+	name: string;
+	email: string;
+	phone: string;
+	delivery_price: string;
+	payment_price: string;
+	cart_items: CartItem[];
+	cart_items_price: string;
+	delivery_method: string;
+	payment_method: string;
+	amount: string;
+	inpost_box_id?: string;
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { DeliveryMethod } from "@/app/types";
 import { formatMoney } from "@/utils";
@@ -10,25 +10,33 @@ import {
 	DialogClose,
 } from "@/components/ui/dialog";
 import { InpostGeowidget } from "@/components/cart/atoms/InpostGeoWidget";
+import { useFormContext } from "react-hook-form";
 
 interface DeliveryMethodsProps {
 	deliveryMethods: DeliveryMethod[];
 	onDeliveryMethodChange: (method: DeliveryMethod) => void;
+	setInpostBoxId: (id: string) => void;
 }
 
 export default function DeliveryMethods({
 	deliveryMethods,
 	onDeliveryMethodChange,
+	setInpostBoxId,
 }: DeliveryMethodsProps) {
 	const [selectedMethod, setSelectedMethod] = useState<DeliveryMethod>(deliveryMethods[0]);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [inpostBox, setInpostBox] = useState("");
+	const { setValue } = useFormContext();
 
 	const handleChange = (method: DeliveryMethod) => {
 		setSelectedMethod(method);
 		onDeliveryMethodChange(method);
 		if (method.inpost_box) {
 			setIsModalOpen(true);
+			console.log("inpost_box", method.inpost_box);
+		} else {
+			setInpostBoxId("");
+			setValue("inpost_box_id", "");
 		}
 	};
 
@@ -36,6 +44,8 @@ export default function DeliveryMethods({
 		console.log(e);
 		setIsModalOpen(false);
 		setInpostBox(e.name);
+		setInpostBoxId(e.name);
+		setValue("inpost_box_id", e.name);
 	};
 
 	return (

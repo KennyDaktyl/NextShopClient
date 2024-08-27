@@ -8,22 +8,45 @@ import PaymentMethods from "@/components/cart/atoms/PaymentMethods";
 import CartTable from "@/components/cart/atoms/CartTable";
 import BasicForm from "@/components/cart/atoms/BasicForm";
 import AddressForm from "@/components/cart/atoms/AddressForm";
-import { DeliveryMethod, PaymentMethod, UserData } from "@/app/types";
+import { CartItem, DeliveryMethod, OrderData, PaymentMethod, UserData } from "@/app/types";
 import { formatMoney } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
+import { createOrderAction } from "@/app/koszyk/actions";
+
+const cartItemSchema = z.object({
+	id: z.number(),
+	item_id: z.string(),
+	name: z.string(),
+	slug: z.string(),
+	price: z.string().min(1, "Cena produktu jest wymagana"),
+	variant: z.string().optional(),
+	selected_option: z.string().optional(),
+	quantity: z.number().min(1, "Ilość jest wymagana"),
+	available_quantity: z.number(),
+	image: z.object({
+		id: z.number(),
+		width: z.number(),
+		height: z.number(),
+		url: z.string(),
+		alt: z.string().nullable().optional(),
+		title: z.string().nullable().optional(),
+	}),
+	url: z.string(),
+});
 
 const basicSchema = z.object({
 	name: z.string().min(1, "Imię i nazwisko jest wymagane"),
 	email: z.string().email("Nieprawidłowy adres e-mail"),
 	phone: z.string().min(1, "Numer telefonu jest wymagany"),
-	products_price: z.string().min(1, "Cena produktów jest wymagana"),
+	cart_items_price: z.string().min(1, "Cena produktów jest wymagana"),
 	delivery_price: z.string().min(1, "Cena dostawy jest wymagana"),
 	payment_price: z.string().min(1, "Cena płatności jest wymagana"),
-	products: z.string().min(1, "Produkty są wymagane"),
+	cart_items: z.array(cartItemSchema).min(1, "Produkty są wymagane"),
 	delivery_method: z.string().min(1, "Metoda dostawy jest wymagana"),
 	payment_method: z.string().min(1, "Metoda płatności jest wymagana"),
-	total_price: z.string().min(1, "Cena końcowa jest wymagana"),
+	amount: z.string().min(1, "Cena końcowa jest wymagana"),
+	inpost_box_id: z.string().optional(),
 });
 
 const addressSchema = basicSchema.extend({
@@ -34,7 +57,7 @@ const addressSchema = basicSchema.extend({
 });
 
 interface CartClientProps {
-	cartItems: any[];
+	cartItems: CartItem[];
 	totalPrice: number;
 	deliveryMethods: DeliveryMethod[];
 	paymentMethods: PaymentMethod[];
@@ -52,6 +75,7 @@ export default function CartClient({
 	const [selectedDelivery, setSelectedDelivery] = useState<DeliveryMethod>(deliveryMethods[0]);
 	const [selectedPayment, setSelectedPayment] = useState<PaymentMethod>(paymentMethods[0]);
 	const [currentCartItems, setCurrentCartItems] = useState(cartItems);
+	const [inpostBoxId, setInpostBoxId] = useState<string>("");
 
 	const schema = useMemo(() => {
 		return selectedDelivery.in_store_pickup || selectedDelivery.inpost_box
@@ -66,66 +90,96 @@ export default function CartClient({
 		defaultValues: {
 			...userData,
 			name: userData ? `${userData.first_name} ${userData.last_name}` : "",
-			products_price: initialTotalPrice.toString(),
-			delivery_price: selectedDelivery.price.toString(),
-			payment_price: selectedPayment.price.toString(),
-			products: JSON.stringify(cartItems),
+			email: userData?.email || "",
+			phone: userData?.profile?.phone || "",
+			cart_items_price: Number(initialTotalPrice).toFixed(2),
+			delivery_price: Number(selectedDelivery.price).toFixed(2),
+			payment_price: Number(selectedPayment.price).toFixed(2),
+			cart_items: cartItems,
 			delivery_method: selectedDelivery.id.toString(),
 			payment_method: selectedPayment.id.toString(),
-			total_price: finalPrice.toString(),
+			amount: Number(finalPrice).toFixed(2),
+			inpost_box_id: "",
 		},
 	});
+
 	useEffect(() => {
 		if (userData) {
 			methods.reset({
 				...userData,
 				name: userData ? `${userData.first_name} ${userData.last_name}` : "",
-				products_price: Number(initialTotalPrice).toFixed(2).toString(),
-				delivery_price: Number(selectedDelivery.price).toFixed(2).toString(),
-				payment_price: Number(selectedPayment.price).toFixed(2).toString(),
-				products: JSON.stringify(currentCartItems),
+				email: userData?.email || "",
+				phone: userData?.profile?.phone || "",
+				cart_items_price: Number(initialTotalPrice).toFixed(2),
+				delivery_price: Number(selectedDelivery.price).toFixed(2),
+				payment_price: Number(selectedPayment.price).toFixed(2),
+				cart_items: currentCartItems,
 				delivery_method: selectedDelivery.id.toString(),
 				payment_method: selectedPayment.id.toString(),
-				total_price: Number(finalPrice).toFixed(2).toString(),
+				amount: Number(finalPrice).toFixed(2),
+				inpost_box_id: inpostBoxId,
 			});
 		}
-	}, [userData, methods, finalPrice, selectedDelivery, currentCartItems, selectedPayment]);
+	}, [
+		userData,
+		methods,
+		finalPrice,
+		selectedDelivery,
+		currentCartItems,
+		selectedPayment,
+		inpostBoxId,
+	]);
 
 	useEffect(() => {
-		let newPrice = initialTotalPrice + Number(selectedDelivery.price);
+		let newPrice = (Number(initialTotalPrice) + Number(selectedDelivery.price)).toFixed(2);
 
 		if (selectedPayment.payment_on_delivery && !selectedDelivery.in_store_pickup) {
 			newPrice += Number(selectedPayment.price);
+			newPrice = Number(newPrice).toFixed(2);
 		}
 
-		setFinalPrice(newPrice);
+		setFinalPrice(Number(newPrice));
 
-		methods.setValue("products_price", Number(newPrice).toFixed(2).toString());
-		methods.setValue("delivery_price", Number(selectedDelivery.price).toFixed(2).toString());
-		methods.setValue("payment_price", Number(selectedPayment.price).toFixed(2).toString());
-		methods.setValue("products", JSON.stringify(currentCartItems));
-		methods.setValue("total_price", newPrice.toFixed(2).toString());
+		methods.setValue("cart_items_price", Number(newPrice).toFixed(2));
+		methods.setValue("delivery_price", Number(selectedDelivery.price).toFixed(2));
+		methods.setValue("payment_price", Number(selectedPayment.price).toFixed(2));
+		methods.setValue("cart_items", currentCartItems);
+		methods.setValue("amount", Number(newPrice).toFixed(2));
 	}, [initialTotalPrice, selectedDelivery, selectedPayment, currentCartItems]);
 
 	const handleDeliveryMethodChange = (method: DeliveryMethod) => {
 		setSelectedDelivery(method);
 		methods.setValue("delivery_method", method.id.toString());
-		methods.setValue("delivery_price", Number(method.price).toFixed(2).toString());
-		methods.setValue("total_price", Number(selectedPayment.price).toFixed(2).toString());
+		methods.setValue("delivery_price", Number(method.price).toFixed(2));
+		methods.setValue("amount", Number(finalPrice).toFixed(2));
+
+		if (!method.inpost_box) {
+			setInpostBoxId("");
+			methods.setValue("inpost_box_id", "");
+		}
 	};
 
 	const handlePaymentMethodChange = (method: PaymentMethod) => {
 		setSelectedPayment(method);
 		methods.setValue("payment_method", method.id.toString());
-		methods.setValue("payment_price", Number(method.price).toFixed(2).toString());
+		methods.setValue("payment_price", Number(method.price).toFixed(2));
 	};
 
-	const handleUpdateCartItems = (newCartItems: any[]) => {
+	const handleUpdateCartItems = (newCartItems: CartItem[]) => {
 		setCurrentCartItems(newCartItems);
 	};
 
-	const onHandleSubmit = async (data: any) => {
+	const onHandleSubmit = async (data: OrderData) => {
 		console.log("Dane formularza:", data);
+		try {
+			const response = await createOrderAction({
+				data,
+			});
+
+			console.log("Order response:", response);
+		} catch (error) {
+			console.error("Error creating order:", error);
+		}
 	};
 
 	if (currentCartItems.length === 0) {
@@ -150,6 +204,7 @@ export default function CartClient({
 						<DeliveryMethods
 							deliveryMethods={deliveryMethods}
 							onDeliveryMethodChange={handleDeliveryMethodChange}
+							setInpostBoxId={setInpostBoxId}
 						/>
 						<PaymentMethods
 							paymentMethods={paymentMethods}
