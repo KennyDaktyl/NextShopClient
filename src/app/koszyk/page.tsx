@@ -51,10 +51,17 @@ export default async function CartPage() {
 		: [];
 
 	const session: Session | null = await auth();
+	let accessToken: string | undefined;
+	if (!session || !session.user) {
+		accessToken = undefined;
+	} else {
+		accessToken = session.user.accessToken;
+	}
+
 	let userData: UserData | undefined;
 
-	if (session?.user?.accessToken) {
-		const response = await getUserData(session.user.accessToken);
+	if (accessToken) {
+		const response = await getUserData(accessToken);
 		userData = response.data;
 	} else {
 		userData = undefined;
@@ -67,6 +74,7 @@ export default async function CartPage() {
 			deliveryMethods={deliveryMethods}
 			paymentMethods={paymentMethods}
 			userData={userData}
+			accessToken={accessToken}
 		/>
 	);
 }

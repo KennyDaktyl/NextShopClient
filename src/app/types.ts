@@ -122,8 +122,8 @@ export interface CartItem {
 	price: number;
 	quantity: number;
 	available_quantity: number;
-	variant: string;
-	selected_option: string;
+	variant: string | null;
+	selected_option: string | null;
 	image: Image | null;
 	url: string;
 }
@@ -327,7 +327,7 @@ export interface UserData {
 	last_name: string;
 	email: string;
 	profile: {
-		phone: string;
+		mobile: string;
 	};
 }
 
@@ -357,7 +357,7 @@ export interface newOrderResponse {
 export interface OrderData {
 	name: string;
 	email: string;
-	phone: string;
+	mobile: string;
 	delivery_price: string;
 	payment_price: string;
 	cart_items: CartItem[];
@@ -366,4 +366,14 @@ export interface OrderData {
 	payment_method: string;
 	amount: string;
 	inpost_box_id?: string;
+	info?: string;
+}
+
+export interface CartClientProps {
+	cartItems: CartItem[];
+	totalPrice: number;
+	deliveryMethods: DeliveryMethod[];
+	paymentMethods: PaymentMethod[];
+	userData?: UserData;
+	accessToken?: string;
 }

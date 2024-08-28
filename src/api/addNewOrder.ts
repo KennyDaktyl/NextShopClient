@@ -4,7 +4,7 @@ import type { CartItem, newOrderResponse } from "@/app/types";
 export const createOrder = async ({
 	client_name,
 	client_email,
-	client_phone,
+	client_mobile,
 	delivery_price,
 	payment_price,
 	cart_items,
@@ -13,11 +13,12 @@ export const createOrder = async ({
 	payment_method,
 	amount,
 	inpost_box_id,
+	info,
 	token,
 }: {
 	client_name: string;
 	client_email: string;
-	client_phone: string;
+	client_mobile: string;
 	cart_items_price: string;
 	delivery_price: string;
 	payment_price: string;
@@ -26,12 +27,13 @@ export const createOrder = async ({
 	payment_method: string;
 	amount: string;
 	inpost_box_id?: string;
+	info?: string;
 	token?: string;
 }): Promise<newOrderResponse | { status: number }> => {
 	const variables = {
 		client_name,
 		client_email,
-		client_phone,
+		client_mobile,
 		delivery_price,
 		payment_price,
 		cart_items,
@@ -40,6 +42,7 @@ export const createOrder = async ({
 		payment_method,
 		amount,
 		inpost_box_id,
+		info,
 	};
 
 	const query = "/api/orders/create/";

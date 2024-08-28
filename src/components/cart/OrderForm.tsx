@@ -22,7 +22,7 @@ interface OrderFormProps {
 const basicSchema = z.object({
 	name: z.string().min(1, "Imię i nazwisko jest wymagane"),
 	email: z.string().email("Nieprawidłowy adres e-mail"),
-	phone: z.string().min(1, "Numer telefonu jest wymagany"),
+	mobile: z.string().min(1, "Numer telefonu jest wymagany"),
 	products_price: z.string().min(1, "Cena produktów jest wymagana"),
 	delivery_price: z.string().min(1, "Cena dostawy jest wymagana"),
 	products: z.string().min(1, "Produkty są wymagane"),

@@ -1,8 +1,9 @@
 import { getProductDetails } from "@/api/getProduct";
 import { BackLinkProps } from "@/app/types";
+import HeaderComponent from "@/components/product/atoms/HeaderComponent";
 import { ProductDetailsComponent as DefaultProductDetailsComponent } from "@/components/product/ProductDetails";
 import { JsonLd, mappedProductToJsonLd } from "@/components/seo/LdJson";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({
@@ -43,9 +44,10 @@ export default async function ProductPage({ params }: { params: { productSlug: s
 	const back_link: BackLinkProps = { full_path: productDetailsResponse.category.full_path || "/" };
 
 	return (
-		<>
+		<section className="flex flex-wrap">
+			<HeaderComponent product={productDetailsResponse} />
 			<DefaultProductDetailsComponent product={productDetailsResponse} back_link={back_link} />
 			<JsonLd jsonLd={mappedProductToJsonLd(productDetailsResponse)} />
-		</>
+		</section>
 	);
 }

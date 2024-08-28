@@ -136,7 +136,6 @@ export const ProductDetailsComponent = ({
 			</div>
 
 			<div className="w-full p-4 md:w-1/3">
-				<HeaderComponent product={product} />
 				<TooltipProvider>
 					{product.variants && product.show_variant_label && (
 						<VariantsComponent
@@ -148,7 +147,6 @@ export const ProductDetailsComponent = ({
 					)}
 				</TooltipProvider>
 				{selectedVariant && <p className="mb-4 text-sm">Wybrany wariant: {selectedVariant.name}</p>}
-
 				{product.product_option && (
 					<ProductOptionComponent
 						productOption={product.product_option}
@@ -157,13 +155,14 @@ export const ProductDetailsComponent = ({
 						alertSetOption={alertSetOption}
 					/>
 				)}
-
+				<div className="mb-2 text-sm">
+					<span className="font-semibold">Kategoria:</span> {product.category.name}
+				</div>
 				{product.brand && (
 					<div className="mb-2 text-sm">
 						<span className="font-semibold">Marka:</span> {product.brand.name}
 					</div>
 				)}
-
 				{product.material && (
 					<div className="mb-2 text-sm">
 						<span className="font-semibold">Materiał:</span> {product.material.name}

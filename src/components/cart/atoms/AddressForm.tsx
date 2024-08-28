@@ -36,14 +36,17 @@ export default function AddressForm() {
 					{errors.email && <p className="text-sm text-red-500">{getErrorMessage(errors.email)}</p>}
 				</div>
 				<div className="flex flex-col">
-					<Label htmlFor="phone" className="mb-1 text-sm font-semibold">
+					<Label htmlFor="mobile" className="mb-1 text-sm font-semibold">
 						Telefon <span className="text-red-500">*</span>
 					</Label>
-					<Input type="tel" id="phone" {...register("phone")} className="rounded-lg border p-2" />
-					{errors.phone && <p className="text-sm text-red-500">{getErrorMessage(errors.phone)}</p>}
+					<Input type="tel" id="mobile" {...register("mobile")} className="rounded-lg border p-2" />
+					{errors.mobile && (
+						<p className="text-sm text-red-500">{getErrorMessage(errors.mobile)}</p>
+					)}
 				</div>
-
-				{/* Poniżej są pola adresowe */}
+			</div>
+			<h2 className="mt-4 text-lg font-semibold">Dane do wysyłki</h2>
+			<div className="grid grid-cols-1 gap-4 md:grid-cols-2">
 				<div className="flex flex-col">
 					<Label htmlFor="street" className="mb-1 text-sm font-semibold">
 						Ulica <span className="text-red-500">*</span>

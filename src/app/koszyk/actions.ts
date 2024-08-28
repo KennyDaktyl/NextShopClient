@@ -104,11 +104,17 @@ export async function removeItemAction({ itemId }: { itemId: UUID }): Promise<vo
 	revalidatePath("/koszyk");
 }
 
-export async function createOrderAction({ data }: { data: OrderData }): Promise<newOrderResponse> {
+export async function createOrderAction({
+	data,
+	accessToken,
+}: {
+	data: OrderData;
+	accessToken?: string;
+}): Promise<newOrderResponse> {
 	const orderData = {
 		client_name: data.name,
 		client_email: data.email,
-		client_phone: data.phone,
+		client_mobile: data.mobile,
 		cart_items_price: data.cart_items_price,
 		delivery_price: data.delivery_price,
 		payment_price: data.payment_price,
@@ -117,6 +123,8 @@ export async function createOrderAction({ data }: { data: OrderData }): Promise<
 		amount: data.amount,
 		cart_items: data.cart_items,
 		inpost_box_id: data.inpost_box_id,
+		info: data.info,
+		token: accessToken,
 	};
 
 	const response = await createOrder(orderData);
