@@ -156,7 +156,7 @@ export default function CartClient({
 				paymentMethodOnline: selectedPayment.payment_online,
 			});
 
-			console.log("Order response:", response);
+			console.log("Order response:", response.order_id);
 		} catch (error) {
 			console.error("Error creating order:", error);
 		}
