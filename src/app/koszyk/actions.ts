@@ -9,6 +9,8 @@ import { removeCart } from "@/api/removeCart";
 import { removeItem } from "@/api/removeItemFromCart";
 import { createOrder } from "@/api/addNewOrder";
 import { data } from "autoprefixer";
+import { redirect } from "next/navigation";
+import Stripe from "stripe";
 
 export async function addToCartAction(cartItemData: {
 	product_id: number;
@@ -107,9 +109,11 @@ export async function removeItemAction({ itemId }: { itemId: UUID }): Promise<vo
 export async function createOrderAction({
 	data,
 	accessToken,
+	paymentMethodOnline,
 }: {
 	data: OrderData;
 	accessToken?: string;
+	paymentMethodOnline: boolean;
 }): Promise<newOrderResponse> {
 	const orderData = {
 		client_name: data.name,
@@ -130,6 +134,75 @@ export async function createOrderAction({
 	const response = await createOrder(orderData);
 	revalidateTag("cart");
 	revalidatePath("/koszyk");
+
+	if (paymentMethodOnline) {
+		const orderId = (response as newOrderResponse).order_id;
+
+		if (!process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY) {
+			throw new Error("Missing STRIPE_SECRET_KEY env variable");
+		}
+
+		const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY, {
+			apiVersion: "2024-06-20",
+			typescript: true,
+		});
+
+		const lineItems = orderData.cart_items.map((item) => ({
+			price_data: {
+				currency: "pln",
+				product_data: {
+					name: item.name || "",
+					images: item.image?.url ? [item.image.url] : [],
+				},
+				unit_amount: Math.round(Number(item.price) * 100),
+			},
+			quantity: item.quantity,
+		}));
+
+		if (Number(orderData.delivery_price) > 0) {
+			lineItems.push({
+				price_data: {
+					currency: "pln",
+					product_data: {
+						name: "Koszt dostawy",
+						images: [],
+					},
+					unit_amount: Math.round(Number(orderData.delivery_price) * 100),
+				},
+				quantity: 1,
+			});
+		}
+
+		if (Number(orderData.payment_price) > 0) {
+			lineItems.push({
+				price_data: {
+					currency: "pln",
+					product_data: {
+						name: "Koszt płatności" || "",
+						images: [],
+					},
+					unit_amount: Math.round(Number(orderData.payment_price) * 100),
+				},
+				quantity: 1,
+			});
+		}
+		const session = await stripe.checkout.sessions.create({
+			payment_method_types: ["card", "blik", "p24"],
+			metadata: {
+				orderId: orderId,
+			},
+			line_items: lineItems,
+			customer_email: orderData.client_email,
+			locale: "pl",
+			mode: "payment",
+			success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/zamowienie/platnosc-udana?session_id={CHECKOUT_SESSION_ID}`,
+			cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/zamowienie/platnosc-anulowana`,
+		});
+
+		if (session.url) {
+			redirect(session.url);
+		}
+	}
 
 	if ("order_id" in response) {
 		return response;

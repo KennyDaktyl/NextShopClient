@@ -13,6 +13,8 @@ import { Button } from "@/components/ui/button";
 import { createOrderAction } from "@/app/koszyk/actions";
 import { addressSchema, basicSchema } from "@/app/koszyk/schemas";
 import InfoForm from "@/components/cart/atoms/InfoForm";
+import { redirect } from "next/navigation";
+import Stripe from "stripe";
 
 export default function CartClient({
 	cartItems,
@@ -153,6 +155,7 @@ export default function CartClient({
 			const response = await createOrderAction({
 				data,
 				accessToken,
+				paymentMethodOnline: selectedPayment.payment_online,
 			});
 
 			console.log("Order response:", response);

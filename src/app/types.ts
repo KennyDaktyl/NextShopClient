@@ -314,6 +314,7 @@ export interface PaymentMethod {
 	image: Image;
 	price: number;
 	payment_on_delivery: boolean;
+	payment_online: boolean;
 }
 
 export interface PaymentMethods {
