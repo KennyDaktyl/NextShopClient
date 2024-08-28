@@ -10,14 +10,16 @@ export const cartItemSchema = z.object({
 	selected_option: z.string().nullable().optional(),
 	quantity: z.number().min(1, "Ilość jest wymagana"),
 	available_quantity: z.number(),
-	image: z.object({
-		id: z.number(),
-		width: z.number(),
-		height: z.number(),
-		url: z.string(),
-		alt: z.string().nullable().optional(),
-		title: z.string().nullable().optional(),
-	}),
+	image: z
+		.object({
+			id: z.number(),
+			width: z.number(),
+			height: z.number(),
+			url: z.string(),
+			alt: z.string().nullable().optional(),
+			title: z.string().nullable().optional(),
+		})
+		.nullable(),
 	url: z.string(),
 });
 
