@@ -44,7 +44,7 @@ export default async function ProductPage({ params }: { params: { productSlug: s
 	const back_link: BackLinkProps = { full_path: productDetailsResponse.category.full_path || "/" };
 
 	return (
-		<section className="flex flex-wrap">
+		<section className="flex w-full flex-wrap">
 			<HeaderComponent product={productDetailsResponse} />
 			<DefaultProductDetailsComponent product={productDetailsResponse} back_link={back_link} />
 			<JsonLd jsonLd={mappedProductToJsonLd(productDetailsResponse)} />

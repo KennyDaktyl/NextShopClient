@@ -3,6 +3,9 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "Usługi",
 	description: "Usługi description",
+	alternates: {
+		canonical: "/uslugi",
+	},
 };
 
 export default async function PageServices() {

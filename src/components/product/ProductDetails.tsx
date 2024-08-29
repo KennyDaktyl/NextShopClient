@@ -174,7 +174,7 @@ export const ProductDetailsComponent = ({
 					</div>
 				)}
 				{tags && tags.length > 0 && (
-					<div className="mb-2 text-sm">
+					<div className="mb-2 flex flex-wrap text-sm">
 						<TagsComponent tags={tags} />
 					</div>
 				)}

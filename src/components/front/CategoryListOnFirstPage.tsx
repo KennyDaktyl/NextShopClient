@@ -14,18 +14,18 @@ export const CategoryListOnFirstPage: React.FC<FirstPageDataResponse> = ({ categ
 			{categories.map((category) => (
 				<div
 					key={category.id}
-					className="mb-8 w-full rounded-lg bg-white p-6 shadow-md hover:shadow-lg"
+					className="mb-8 w-full rounded-lg bg-white shadow-md hover:shadow-lg md:p-6"
 				>
 					<Link href={category.full_path} className="block rounded-lg hover:bg-slate-50">
 						<div className="flex w-full flex-wrap items-center justify-center md:h-[350px]">
-							<div className="flex h-[200px] w-full items-center justify-center p-4 md:h-[350px] md:w-1/2">
-								<div className="flex w-4/5 flex-wrap items-center justify-start">
+							<div className="flex h-[200px] w-full items-center justify-center p-1 md:h-[350px] md:w-1/2 xl:p-4">
+								<div className="flex w-full flex-wrap items-center justify-start">
 									<h2 className="w-full text-xl font-bold text-gray-800">{category.name}</h2>
 									<p className="mt-4 text-lg text-gray-600">{category.description}</p>
 								</div>
 							</div>
 							{category.image ? (
-								<div className="flex h-[200px] w-full items-center justify-center p-3 md:h-[350px] md:w-1/2">
+								<div className="flex h-[200px] w-full items-center justify-center p-2 md:h-[350px] md:w-1/2">
 									<div className="relative h-full max-h-[320px] w-full max-w-[350px] overflow-hidden rounded-lg shadow-md">
 										<Image
 											src={category.image.url}
@@ -42,7 +42,7 @@ export const CategoryListOnFirstPage: React.FC<FirstPageDataResponse> = ({ categ
 						</div>
 					</Link>
 					{category.all_subcategories.length > 0 && (
-						<div className="mt-9 w-full">
+						<div className="mt-9 w-full p-2">
 							<p className="mb-4 text-lg font-semibold">Podkategorie</p>
 							<div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
 								{category.all_subcategories.map((subcategory) => (
@@ -60,7 +60,7 @@ export const CategoryListOnFirstPage: React.FC<FirstPageDataResponse> = ({ categ
 						</div>
 					)}
 					{category.products_on_first_page.length > 0 && (
-						<div className="mb-3 mt-9 w-full">
+						<div className="mb-3 mt-9 w-full p-2">
 							<p className="text:2xl mb-3 mt-5 w-full font-bold text-gray-800">
 								Promowane w {category.name}
 							</p>

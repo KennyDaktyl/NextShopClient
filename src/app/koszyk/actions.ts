@@ -10,6 +10,7 @@ import { removeItem } from "@/api/removeItemFromCart";
 import { createOrder } from "@/api/addNewOrder";
 import { redirect } from "next/navigation";
 import Stripe from "stripe";
+import { updateOrderStatus } from "@/api/updateOrderStatus";
 
 export async function addToCartAction(cartItemData: {
 	product_id: number;
@@ -133,12 +134,12 @@ export async function createOrderAction({
 	const response = await createOrder(orderData);
 	revalidateTag("cart");
 	revalidatePath("/koszyk");
-	await removeCart();
+
 	cookies().set("cartId", "", { maxAge: 0 });
 
-	if (paymentMethodOnline) {
-		const orderId = (response as newOrderResponse).order_id;
+	const orderId = (response as newOrderResponse).order_id;
 
+	if (paymentMethodOnline) {
 		if (!process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY) {
 			throw new Error("Missing STRIPE_SECRET_KEY env variable");
 		}
@@ -195,24 +196,41 @@ export async function createOrderAction({
 		const session = await stripe.checkout.sessions.create({
 			payment_method_types: ["card", "blik", "p24"],
 			metadata: {
-				orderId: orderId,
+				order_id: orderId,
 			},
 			line_items: lineItems,
 			customer_email: orderData.client_email,
 			locale: "pl",
 			mode: "payment",
-			success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/koszyk/platnosc-udana?session_id={CHECKOUT_SESSION_ID}`,
-			cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/koszyk/platnosc-anulowana`,
+			success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/koszyk/platnosc-udana?session_id={CHECKOUT_SESSION_ID}&order_id=${orderId}`,
+			cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/koszyk/platnosc-anulowana/?order_id=${orderId}`,
 		});
-
-		if (session.url) {
+		console.log("session", session);
+		if (session.url && session.id) {
+			await updateOrderStatus({ status: 1, orderId, checkoutSessionId: session.id });
+			await removeCart();
 			redirect(session.url);
+		} else {
+			await updateOrderStatus({ status: 7, orderId });
+			throw new Error("Invalid response from stripe");
 		}
 	}
 
 	if ("order_id" in response) {
+		await updateOrderStatus({ status: 5, orderId });
+		await removeCart();
 		return response;
 	} else {
 		throw new Error("Invalid response from createOrder");
 	}
+}
+
+export async function updateOrderStatusAction({
+	orderId,
+	status,
+}: {
+	orderId: number;
+	status: number;
+}): Promise<void> {
+	await updateOrderStatus({ status, orderId });
 }

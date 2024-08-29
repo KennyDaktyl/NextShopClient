@@ -92,7 +92,6 @@ export default function CartClient({
 	useEffect(() => {
 		let newPrice = Number(initialTotalPrice) + Number(selectedDelivery.price);
 
-		// Dodajemy cenę płatności przy odbiorze, jeśli jest wybrana i nie jest to odbiór osobisty
 		if (selectedPayment.payment_on_delivery && !selectedDelivery.in_store_pickup) {
 			newPrice += Number(selectedPayment.price);
 		}

@@ -8,6 +8,9 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
 	title: process.env.NEXT_PUBLIC_SITE_TITLE,
 	description: process.env.NEXT_PUBLIC_SITE_DESCRIPTION,
+	alternates: {
+		canonical: process.env.NEXT_PUBLIC_BASE_URL,
+	},
 };
 
 export default async function Home() {

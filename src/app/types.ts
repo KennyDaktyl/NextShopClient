@@ -378,3 +378,7 @@ export interface CartClientProps {
 	userData?: UserData;
 	accessToken?: string;
 }
+
+export interface OrderStatusResponse {
+	status: number;
+}
