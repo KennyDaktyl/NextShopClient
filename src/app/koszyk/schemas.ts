@@ -47,7 +47,7 @@ export const addressSchema = basicSchema.extend({
 	city: z.string().min(1, "Miasto jest wymagane"),
 });
 
-export const invoiceSchema = addressSchema.extend({
+export const invoiceSchema = basicSchema.extend({
 	company: z.string().min(1, "Nazwa firmy jest wymagana"),
 	company_payer: z.string().optional().nullable(),
 	nip: z.string().min(1, "NIP jest wymagany"),
