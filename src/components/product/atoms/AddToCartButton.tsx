@@ -18,7 +18,6 @@ type AddToCartButtonProps = {
 export default function AddToCartButton({ cartItemData, onAddedToCart }: AddToCartButtonProps) {
 	const [isPending, startTransition] = useTransition();
 
-	console.log("AddToCartButton", cartItemData);
 	const handleClick = async () => {
 		startTransition(async () => {
 			if (onAddedToCart()) {

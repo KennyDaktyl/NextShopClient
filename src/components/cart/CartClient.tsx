@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, use } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import DeliveryMethods from "@/components/cart/atoms/DeliveryMethods";
@@ -11,8 +11,12 @@ import { CartClientProps, CartItem, DeliveryMethod, OrderData, PaymentMethod } f
 import { formatMoney } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { createOrderAction } from "@/app/koszyk/actions";
-import { addressSchema, basicSchema } from "@/app/koszyk/schemas";
+import { addressSchema, basicSchema, invoiceSchema } from "@/app/koszyk/schemas";
 import InfoForm from "@/components/cart/atoms/InfoForm";
+import { User } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import InvoiceDataForm from "@/components/cart/atoms/InvoiceDataForm";
 
 export default function CartClient({
 	cartItems,
@@ -28,12 +32,16 @@ export default function CartClient({
 	const [currentCartItems, setCurrentCartItems] = useState(cartItems);
 	const [inpostBoxId, setInpostBoxId] = useState<string>("");
 	const [info, setInfo] = useState<string>("");
+	const [showInvoiceForm, setShowInvoiceForm] = useState<boolean>(false);
 
 	const schema = useMemo(() => {
+		if (showInvoiceForm) {
+			return invoiceSchema;
+		}
 		return selectedDelivery.in_store_pickup || selectedDelivery.inpost_box
 			? basicSchema
 			: addressSchema;
-	}, [selectedDelivery]);
+	}, [selectedDelivery, showInvoiceForm]);
 
 	const methods = useForm({
 		resolver: zodResolver(schema),
@@ -44,6 +52,13 @@ export default function CartClient({
 			name: userData ? `${userData.first_name} ${userData.last_name}` : "",
 			email: userData?.email || "",
 			mobile: userData?.profile?.mobile || "",
+
+			street: userData?.profile?.street || "",
+			house_number: userData?.profile?.house_number || "",
+			local_number: userData?.profile?.local_number || "",
+			postal_code: userData?.profile?.postal_code || "",
+			city: userData?.profile?.city || "",
+
 			cart_items_price: Number(initialTotalPrice).toFixed(2),
 			delivery_price: Number(selectedDelivery.price).toFixed(2),
 			payment_price: selectedDelivery.in_store_pickup
@@ -55,6 +70,15 @@ export default function CartClient({
 			amount: Number(finalPrice).toFixed(2),
 			inpost_box_id: "",
 			info: "",
+			invoice: userData?.profile?.invoice || false,
+			company: userData?.profile?.company || "",
+			company_payer: userData?.profile?.company_payer || "",
+			nip: userData?.profile?.nip || "",
+			invoice_street: userData?.profile?.invoice_street || "",
+			invoice_house_number: userData?.profile?.invoice_house_number || "",
+			invoice_local_number: userData?.profile?.invoice_local_number || "",
+			invoice_city: userData?.profile?.invoice_city || "",
+			invoice_postal_code: userData?.profile?.invoice_postal_code || "",
 		},
 	});
 
@@ -64,7 +88,15 @@ export default function CartClient({
 				...userData,
 				name: userData ? `${userData.first_name} ${userData.last_name}` : "",
 				email: userData?.email || "",
+
 				mobile: userData?.profile?.mobile || "",
+
+				street: userData?.profile?.street || "",
+				house_number: userData?.profile?.house_number || "",
+				local_number: userData?.profile?.local_number || "",
+				postal_code: userData?.profile?.postal_code || "",
+				city: userData?.profile?.city || "",
+
 				cart_items_price: Number(initialTotalPrice).toFixed(2),
 				delivery_price: Number(selectedDelivery.price).toFixed(2),
 				payment_price: selectedDelivery.in_store_pickup
@@ -76,6 +108,16 @@ export default function CartClient({
 				amount: Number(finalPrice).toFixed(2),
 				inpost_box_id: inpostBoxId,
 				info: info,
+
+				invoice: userData?.profile?.invoice || false,
+				company: userData?.profile?.company || "",
+				company_payer: userData?.profile?.company_payer || "",
+				nip: userData?.profile?.nip || "",
+				invoice_street: userData?.profile?.invoice_street || "",
+				invoice_house_number: userData?.profile?.invoice_house_number || "",
+				invoice_local_number: userData?.profile?.invoice_local_number || "",
+				invoice_city: userData?.profile?.invoice_city || "",
+				invoice_postal_code: userData?.profile?.invoice_postal_code || "",
 			});
 		}
 	}, [
@@ -88,6 +130,20 @@ export default function CartClient({
 		inpostBoxId,
 		info,
 	]);
+
+	useEffect(() => {
+		if (userData?.profile?.invoice) {
+			setShowInvoiceForm(true);
+			methods.setValue("invoice", userData.profile.invoice);
+			methods.setValue("company", userData.profile.company || "");
+			methods.setValue("nip", userData.profile.nip || "");
+			methods.setValue("invoice_street", userData.profile.invoice_street || "");
+			methods.setValue("invoice_house_number", userData.profile.invoice_house_number || "");
+			methods.setValue("invoice_local_number", userData.profile.invoice_local_number || "");
+			methods.setValue("invoice_city", userData.profile.invoice_city || "");
+			methods.setValue("invoice_postal_code", userData.profile.invoice_postal_code || "");
+		}
+	}, [userData, methods]);
 
 	useEffect(() => {
 		let newPrice = Number(initialTotalPrice) + Number(selectedDelivery.price);
@@ -149,13 +205,14 @@ export default function CartClient({
 	const onHandleSubmit = async (data: OrderData) => {
 		console.log("Dane formularza:", data);
 		try {
-			const response = await createOrderAction({
+			window.scrollTo({ top: 0, behavior: "smooth" });
+			await createOrderAction({
 				data,
 				accessToken,
 				paymentMethodOnline: selectedPayment.payment_online,
 			});
 
-			console.log("Order response:", response.order_id);
+			console.log("Order response OK");
 		} catch (error) {
 			console.error("Error creating order:", error);
 		}
@@ -199,6 +256,24 @@ export default function CartClient({
 						) : (
 							<AddressForm />
 						)}
+
+						<div className="mt-6 flex items-center">
+							<Label htmlFor="invoice" className="mb-1 text-sm font-semibold">
+								Potrzebujesz faktury?
+							</Label>
+							<Switch
+								id="invoice"
+								{...methods.register("invoice")}
+								checked={showInvoiceForm}
+								onCheckedChange={(checked) => {
+									setShowInvoiceForm(checked);
+									methods.setValue("invoice", checked);
+								}}
+								className="ml-2"
+							/>
+						</div>
+
+						{showInvoiceForm && <InvoiceDataForm userData={userData} />}
 
 						<InfoForm value={info} onChange={(e) => setInfo(e.target.value)} />
 						<div className="mt-4 w-full text-right">

@@ -328,7 +328,21 @@ export interface UserData {
 	last_name: string;
 	email: string;
 	profile: {
-		mobile: string;
+		mobile?: string;
+		street?: string;
+		house_number?: string;
+		local_number?: string;
+		postal_code?: string;
+		city?: string;
+		invoice: boolean;
+		company?: string;
+		company_payer?: string;
+		nip?: string;
+		invoice_street?: string;
+		invoice_house_number?: string;
+		invoice_local_number?: string;
+		invoice_city?: string;
+		invoice_postal_code?: string;
 	};
 }
 
@@ -368,6 +382,20 @@ export interface OrderData {
 	amount: string;
 	inpost_box_id?: string;
 	info?: string;
+	invoice: boolean;
+	company?: string;
+	company_payer?: string;
+	nip?: string;
+	invoice_street?: string;
+	invoice_house_number?: string;
+	invoice_local_number?: string;
+	invoice_city?: string;
+	invoice_postal_code?: string;
+	street?: string;
+	house_number?: string;
+	local_number?: string;
+	city?: string;
+	postal_code?: string;
 }
 
 export interface CartClientProps {

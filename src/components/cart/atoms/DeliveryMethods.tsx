@@ -31,21 +31,29 @@ export default function DeliveryMethods({
 	const handleChange = (method: DeliveryMethod) => {
 		setSelectedMethod(method);
 		onDeliveryMethodChange(method);
+
 		if (method.inpost_box) {
 			setIsModalOpen(true);
-			console.log("inpost_box", method.inpost_box);
 		} else {
 			setInpostBoxId("");
 			setValue("inpost_box_id", "");
 		}
 	};
 
-	const onPointCallback = (e: any) => {
-		console.log(e);
+	const handleCloseModal = () => {
+		if (!inpostBox) {
+			const defaultMethod = deliveryMethods[0];
+			setSelectedMethod(defaultMethod);
+			onDeliveryMethodChange(defaultMethod);
+		}
 		setIsModalOpen(false);
+	};
+
+	const onPointCallback = (e: any) => {
 		setInpostBox(e.name);
 		setInpostBoxId(e.name);
 		setValue("inpost_box_id", e.name);
+		setIsModalOpen(false);
 	};
 
 	return (
@@ -97,7 +105,7 @@ export default function DeliveryMethods({
 				))}
 			</div>
 
-			<Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+			<Dialog open={isModalOpen} onOpenChange={handleCloseModal}>
 				<DialogContent className="max-w-3xl p-4">
 					<DialogHeader>
 						<DialogTitle>Wybierz paczkomat</DialogTitle>

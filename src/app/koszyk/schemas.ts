@@ -36,11 +36,26 @@ export const basicSchema = z.object({
 	amount: z.string().min(1, "Cena końcowa jest wymagana"),
 	inpost_box_id: z.string().optional(),
 	info: z.string().optional().nullable(),
+	invoice: z.boolean(),
 });
 
 export const addressSchema = basicSchema.extend({
 	street: z.string().min(1, "Ulica jest wymagana"),
-	house: z.string().min(1, "Numer domu jest wymagany"),
-	postalCode: z.string().regex(/^[0-9]{2}-[0-9]{3}$/, "Nieprawidłowy format kodu pocztowego"),
+	house_number: z.string().min(1, "Numer domu jest wymagany"),
+	local_number: z.string().nullable().optional(),
+	postal_code: z.string().regex(/^[0-9]{2}-[0-9]{3}$/, "Nieprawidłowy format kodu pocztowego"),
 	city: z.string().min(1, "Miasto jest wymagane"),
+});
+
+export const invoiceSchema = addressSchema.extend({
+	company: z.string().min(1, "Nazwa firmy jest wymagana"),
+	company_payer: z.string().optional().nullable(),
+	nip: z.string().min(1, "NIP jest wymagany"),
+	invoice_street: z.string().min(1, "Ulica jest wymagana"),
+	invoice_house_number: z.string().min(1, "Numer domu jest wymagany"),
+	invoice_local_number: z.string().nullable().optional(),
+	invoice_city: z.string().min(1, "Miasto jest wymagane"),
+	invoice_postal_code: z
+		.string()
+		.regex(/^[0-9]{2}-[0-9]{3}$/, "Nieprawidłowy format kodu pocztowego"),
 });

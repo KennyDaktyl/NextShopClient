@@ -129,6 +129,20 @@ export async function createOrderAction({
 		inpost_box_id: data.inpost_box_id,
 		info: data.info,
 		token: accessToken,
+		company: data.company,
+		company_payer: data.company_payer,
+		nip: data.nip,
+		invoice_street: data.invoice_street,
+		invoice_house_number: data.invoice_house_number,
+		invoice_local_number: data.invoice_local_number,
+		invoice_city: data.invoice_city,
+		invoice_postal_code: data.invoice_postal_code,
+		street: data.street,
+		house_number: data.house_number,
+		local_number: data.local_number,
+		city: data.city,
+		postal_code: data.postal_code,
+		invoice: data.invoice,
 	};
 
 	const response = await createOrder(orderData);
@@ -205,7 +219,6 @@ export async function createOrderAction({
 			success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/koszyk/platnosc-udana?session_id={CHECKOUT_SESSION_ID}&order_id=${orderId}`,
 			cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/koszyk/platnosc-anulowana/?order_id=${orderId}`,
 		});
-		console.log("session", session);
 		if (session.url && session.id) {
 			await updateOrderStatus({ status: 1, orderId, checkoutSessionId: session.id });
 			await removeCart();
@@ -219,7 +232,7 @@ export async function createOrderAction({
 	if ("order_id" in response) {
 		await updateOrderStatus({ status: 5, orderId });
 		await removeCart();
-		return response;
+		redirect(`/koszyk/zamowienie-w-przygotowaniu?order_id=${orderId}`);
 	} else {
 		throw new Error("Invalid response from createOrder");
 	}

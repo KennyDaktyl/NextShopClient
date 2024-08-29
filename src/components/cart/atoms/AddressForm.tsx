@@ -64,25 +64,30 @@ export default function AddressForm() {
 
 				<div className="grid grid-cols-2 gap-4">
 					<div className="flex flex-col">
-						<Label htmlFor="house" className="mb-1 text-sm font-semibold">
+						<Label htmlFor="house_number" className="mb-1 text-sm font-semibold">
 							Nr domu <span className="text-red-500">*</span>
 						</Label>
 						<Input
 							type="text"
-							id="house"
-							{...register("house")}
+							id="house_number"
+							{...register("house_number")}
 							className="rounded-lg border p-2"
 						/>
-						{errors.house && (
-							<p className="text-sm text-red-500">{getErrorMessage(errors.house)}</p>
+						{errors.house_number && (
+							<p className="text-sm text-red-500">{getErrorMessage(errors.house_number)}</p>
 						)}
 					</div>
 
 					<div className="flex flex-col">
-						<Label htmlFor="door" className="mb-1 text-sm font-semibold">
+						<Label htmlFor="local_number" className="mb-1 text-sm font-semibold">
 							Nr lokalu
 						</Label>
-						<Input type="text" id="door" {...register("door")} className="rounded-lg border p-2" />
+						<Input
+							type="text"
+							id="local_number"
+							{...register("local_number")}
+							className="rounded-lg border p-2"
+						/>
 					</div>
 				</div>
 
@@ -96,17 +101,17 @@ export default function AddressForm() {
 					</div>
 
 					<div className="flex flex-col">
-						<Label htmlFor="postalCode" className="mb-1 text-sm font-semibold">
+						<Label htmlFor="postal_code" className="mb-1 text-sm font-semibold">
 							Kod pocztowy <span className="text-red-500">*</span>
 						</Label>
 						<Input
 							type="text"
-							id="postalCode"
-							{...register("postalCode")}
+							id="postal_code"
+							{...register("postal_code")}
 							className="rounded-lg border p-2"
 						/>
-						{errors.postalCode && (
-							<p className="text-sm text-red-500">{getErrorMessage(errors.postalCode)}</p>
+						{errors.postal_code && (
+							<p className="text-sm text-red-500">{getErrorMessage(errors.postal_code)}</p>
 						)}
 					</div>
 				</div>
