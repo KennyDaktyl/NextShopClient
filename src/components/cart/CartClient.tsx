@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useMemo, use } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import DeliveryMethods from "@/components/cart/atoms/DeliveryMethods";
@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { createOrderAction } from "@/app/koszyk/actions";
 import { addressSchema, basicSchema, invoiceSchema } from "@/app/koszyk/schemas";
 import InfoForm from "@/components/cart/atoms/InfoForm";
-import { User } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import InvoiceDataForm from "@/components/cart/atoms/InvoiceDataForm";
@@ -34,9 +33,12 @@ export default function CartClient({
 	const [info, setInfo] = useState<string>("");
 	const [showInvoiceForm, setShowInvoiceForm] = useState<boolean>(false);
 
+	// Dynamiczny schemat walidacji
 	const schema = useMemo(() => {
 		if (showInvoiceForm) {
-			return invoiceSchema;
+			return selectedDelivery.in_store_pickup || selectedDelivery.inpost_box
+				? invoiceSchema
+				: invoiceSchema.extend(addressSchema.shape);
 		}
 		return selectedDelivery.in_store_pickup || selectedDelivery.inpost_box
 			? basicSchema
@@ -82,13 +84,13 @@ export default function CartClient({
 		},
 	});
 
+	// Ustawienia metod i danych użytkownika
 	useEffect(() => {
 		if (userData) {
 			methods.reset({
 				...userData,
 				name: userData ? `${userData.first_name} ${userData.last_name}` : "",
 				email: userData?.email || "",
-
 				mobile: userData?.profile?.mobile || "",
 
 				street: userData?.profile?.street || "",
@@ -131,39 +133,7 @@ export default function CartClient({
 		info,
 	]);
 
-	useEffect(() => {
-		if (userData?.profile?.invoice) {
-			setShowInvoiceForm(true);
-			methods.setValue("invoice", userData.profile.invoice);
-			methods.setValue("company", userData.profile.company || "");
-			methods.setValue("nip", userData.profile.nip || "");
-			methods.setValue("invoice_street", userData.profile.invoice_street || "");
-			methods.setValue("invoice_house_number", userData.profile.invoice_house_number || "");
-			methods.setValue("invoice_local_number", userData.profile.invoice_local_number || "");
-			methods.setValue("invoice_city", userData.profile.invoice_city || "");
-			methods.setValue("invoice_postal_code", userData.profile.invoice_postal_code || "");
-		}
-	}, [userData, methods]);
-
-	useEffect(() => {
-		let newPrice = Number(initialTotalPrice) + Number(selectedDelivery.price);
-
-		if (selectedPayment.payment_on_delivery && !selectedDelivery.in_store_pickup) {
-			newPrice += Number(selectedPayment.price);
-		}
-
-		setFinalPrice(newPrice);
-
-		methods.setValue("cart_items_price", Number(initialTotalPrice).toFixed(2));
-		methods.setValue("delivery_price", Number(selectedDelivery.price).toFixed(2));
-		methods.setValue(
-			"payment_price",
-			selectedDelivery.in_store_pickup ? "0.00" : Number(selectedPayment.price).toFixed(2),
-		);
-		methods.setValue("cart_items", currentCartItems);
-		methods.setValue("amount", newPrice.toFixed(2));
-	}, [initialTotalPrice, selectedDelivery, selectedPayment, currentCartItems]);
-
+	// Obsługa zmiany metody dostawy
 	const handleDeliveryMethodChange = (method: DeliveryMethod) => {
 		setSelectedDelivery(method);
 		methods.setValue("delivery_method", method.id.toString());
@@ -184,6 +154,7 @@ export default function CartClient({
 		}
 	};
 
+	// Obsługa zmiany metody płatności
 	const handlePaymentMethodChange = (method: PaymentMethod) => {
 		setSelectedPayment(method);
 		methods.setValue("payment_method", method.id.toString());
@@ -198,10 +169,12 @@ export default function CartClient({
 		methods.setValue("amount", newPrice.toFixed(2));
 	};
 
+	// Obsługa aktualizacji produktów w koszyku
 	const handleUpdateCartItems = (newCartItems: CartItem[]) => {
 		setCurrentCartItems(newCartItems);
 	};
 
+	// Obsługa złożenia zamówienia
 	const onHandleSubmit = async (data: OrderData) => {
 		console.log("Dane formularza:", data);
 		try {
