@@ -31,7 +31,9 @@ export default function CartClient({
 	const [currentCartItems, setCurrentCartItems] = useState(cartItems);
 	const [inpostBoxId, setInpostBoxId] = useState<string>("");
 	const [info, setInfo] = useState<string>("");
-	const [showInvoiceForm, setShowInvoiceForm] = useState<boolean>(false);
+	const [showInvoiceForm, setShowInvoiceForm] = useState<boolean>(
+		userData?.profile?.invoice || false,
+	);
 
 	// Dynamiczny schemat walidacji
 	const schema = useMemo(() => {
