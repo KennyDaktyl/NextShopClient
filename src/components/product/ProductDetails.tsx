@@ -10,7 +10,6 @@ import { TooltipProvider } from "@radix-ui/react-tooltip";
 import VariantsComponent from "@/components/product/atoms/VariantsComponent";
 import PriceComponent from "@/components/product/atoms/PriceComponent";
 import DescriptionComponent from "@/components/product/atoms/DescriptionComponent";
-import HeaderComponent from "@/components/product/atoms/HeaderComponent";
 import TagsComponent from "@/components/product/atoms/TagsComponent";
 import AddToCartButton from "@/components/product/atoms/AddToCartButton";
 import { toast } from "react-toastify";
