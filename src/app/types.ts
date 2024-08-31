@@ -321,6 +321,21 @@ export interface PaymentMethods {
 	paymentMethods: PaymentMethod[];
 }
 
+export interface Order {
+	id: number;
+	order_number: string;
+	created_date: string;
+	amount: string;
+	status: string;
+	payment_method: PaymentMethod;
+	delivery_method: DeliveryMethod;
+	delivery_address: string;
+	delivery_price: string;
+	payment_price: string;
+	is_paid: boolean;
+	cart_items: string;
+}
+
 export interface UserData {
 	id: number;
 	username: string;
@@ -344,6 +359,7 @@ export interface UserData {
 		invoice_city?: string;
 		invoice_postal_code?: string;
 	};
+	orders: Order[];
 }
 
 export interface CategoryPath {

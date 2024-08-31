@@ -50,6 +50,7 @@ const SearchInput = ({
 				placeholder="Szukaj produktu"
 				value={searchTerm}
 				onChange={handleChange}
+				autoComplete="off"
 				className="rounded-md border p-2"
 			/>
 			<div className="w-6">

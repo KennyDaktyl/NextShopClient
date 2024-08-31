@@ -2,7 +2,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import DeliveryMethods from "@/components/cart/atoms/DeliveryMethods";
 import PaymentMethods from "@/components/cart/atoms/PaymentMethods";
 import CartTable from "@/components/cart/atoms/CartTable";
 import BasicForm from "@/components/cart/atoms/BasicForm";
@@ -16,6 +15,7 @@ import InfoForm from "@/components/cart/atoms/InfoForm";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import InvoiceDataForm from "@/components/cart/atoms/InvoiceDataForm";
+import DeliveryMethods from "@/components/cart/atoms/DeliveryMethods";
 
 export default function CartClient({
 	cartItems,

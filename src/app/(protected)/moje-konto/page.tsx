@@ -1,7 +1,9 @@
+// ProfilePage.tsx (Server Component)
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getUserData } from "@/api/getUserData";
 import { Session } from "next-auth";
+import ClientProfilePage from "@/components/account/ClientProfilePage";
 
 export async function generateMetadata() {
 	return {
@@ -34,12 +36,7 @@ export default async function ProfilePage() {
 	if (response.status === 200) {
 		const user = response.data;
 
-		return (
-			<div className="w-full">
-				<h1>User Profile</h1>
-				<pre>{JSON.stringify(user, null, 2)}</pre>
-			</div>
-		);
+		return <ClientProfilePage user={user} />;
 	}
 
 	console.error("Error fetching user data");
