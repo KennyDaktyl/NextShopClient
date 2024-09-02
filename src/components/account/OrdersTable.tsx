@@ -12,7 +12,7 @@ import {
 	DialogFooter,
 	DialogDescription,
 } from "@/components/ui/dialog";
-import { Check, XCircle, FileText, File } from "lucide-react";
+import { Check, XCircle, FileText, File, Hourglass } from "lucide-react";
 import { CartItem, Order } from "@/app/types";
 import Link from "next/link";
 import { formatMoney } from "@/utils";
@@ -162,7 +162,9 @@ export const OrdersTable = ({ orders }: { orders: Order[] }) => {
 									)}
 								</td>
 								<td className="border px-4 py-2 text-center">
-									{order.invoice?.pdf ? (
+									{order.make_invoice === false ? (
+										<XCircle className="inline-block text-red-500" />
+									) : order.invoice?.pdf ? (
 										<Button
 											variant="ghost"
 											onClick={() => order.invoice && handlePdfOpen(order.invoice.pdf)}
@@ -170,7 +172,9 @@ export const OrdersTable = ({ orders }: { orders: Order[] }) => {
 											<File className="h-5 w-5" />
 										</Button>
 									) : (
-										<XCircle className="inline-block text-red-500" />
+										<Button variant="ghost">
+											<Hourglass className="h-5 w-5 text-yellow-500" />
+										</Button>
 									)}
 								</td>
 								<td className="border px-4 py-2 text-center text-xs">

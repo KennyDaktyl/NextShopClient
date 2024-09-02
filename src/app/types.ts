@@ -341,6 +341,7 @@ export interface Order {
 	is_paid: boolean;
 	cart_items: string;
 	invoice: Invoice | null;
+	make_invoice: boolean;
 }
 
 export interface UserData {
