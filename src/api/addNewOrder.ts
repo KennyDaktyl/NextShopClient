@@ -20,7 +20,7 @@ export const createOrder = async ({
 	local_number,
 	city,
 	postal_code,
-	invoice,
+	make_invoice,
 	company,
 	company_payer,
 	nip,
@@ -48,7 +48,7 @@ export const createOrder = async ({
 	local_number?: string;
 	city?: string;
 	postal_code?: string;
-	invoice?: boolean;
+	make_invoice?: boolean;
 	company?: string;
 	company_payer?: string;
 	nip?: string;
@@ -76,7 +76,7 @@ export const createOrder = async ({
 		local_number,
 		city,
 		postal_code,
-		invoice,
+		make_invoice,
 		company,
 		company_payer,
 		nip,

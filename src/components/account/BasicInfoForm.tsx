@@ -1,3 +1,5 @@
+import { updateUserMainData } from "@/api/updateUserMainData";
+import { updateUserMainDataAction } from "@/app/(protected)/moje-konto/actions";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -11,8 +13,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import React from "react";
 import { useFormContext } from "react-hook-form";
+import { toast } from "react-toastify";
 
-export const BasicInfoForm = () => {
+interface BasicInfoFormProps {
+	token: string;
+}
+
+export const BasicInfoForm = ({ token }: BasicInfoFormProps) => {
 	const {
 		register,
 		handleSubmit,
@@ -23,14 +30,28 @@ export const BasicInfoForm = () => {
 		return error?.message || null;
 	};
 
-	const onHandleSubmit = (data: any) => {
-		console.log("Dane formularza:", data);
+	const onHandleSubmit = async (data: any) => {
 		try {
-			window.scrollTo({ top: 0, behavior: "smooth" });
+			await updateUserMainDataAction({
+				email: data.email,
+				first_name: data.first_name,
+				last_name: data.last_name,
+				token: token,
+			});
 
+			window.scrollTo({ top: 0, behavior: "smooth" });
 			console.log("Order response OK");
+			toast.success("Zmieniono dane użytkownika", {
+				position: "top-right",
+				autoClose: 1000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
 		} catch (error) {
-			console.error("Error creating order:", error);
+			console.error("Error updating user data:", error);
 		}
 	};
 

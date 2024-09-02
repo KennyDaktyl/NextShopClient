@@ -24,7 +24,7 @@ export default function InvoiceDataForm({ userData }: { userData: UserData | und
 	const showInvoiceForm = useWatch({ name: "invoice" });
 
 	useEffect(() => {
-		if (showInvoiceForm && userData?.profile?.invoice) {
+		if (showInvoiceForm && userData?.profile?.make_invoice) {
 			// Ustawienie pól na podstawie danych użytkownika
 			setValue("company", userData.profile.company || "");
 			setValue("nip", userData.profile.nip || "");

@@ -18,10 +18,10 @@ import { ChangePasswordForm } from "@/components/account/ChangePasswordForm";
 
 interface ClientProfilePageProps {
 	user: UserData;
+	token: string;
 }
 
-export default function ClientProfilePage({ user }: ClientProfilePageProps) {
-	// Formularz do danych podstawowych
+export default function ClientProfilePage({ user, token }: ClientProfilePageProps) {
 	const basicUserDataFormMethods = useForm({
 		resolver: zodResolver(basicUserDataSchema),
 		defaultValues: {
@@ -71,33 +71,33 @@ export default function ClientProfilePage({ user }: ClientProfilePageProps) {
 	return (
 		<div className="w-full">
 			<Tabs defaultValue="account" className="w-full">
-				<TabsList className="grid w-full grid-cols-2 bg-muted p-1 xl:grid-cols-4">
+				<TabsList className="grid w-full grid-cols-2 rounded-md bg-muted p-1 xl:grid-cols-4">
 					<TabsTrigger
-						className="p-4 transition-colors duration-300 data-[state=active]:bg-white data-[state=active]:text-black"
+						className="rounded-md p-4 transition-colors duration-300 data-[state=active]:bg-white data-[state=active]:text-black"
 						value="account"
 					>
 						Dane konta
 					</TabsTrigger>
 					<TabsTrigger
-						className="p-4 transition-colors duration-300 data-[state=active]:bg-white data-[state=active]:text-black"
+						className="rounded-md p-4 transition-colors duration-300 data-[state=active]:bg-white data-[state=active]:text-black"
 						value="new_password"
 					>
 						Zmień hasło
 					</TabsTrigger>
 					<TabsTrigger
-						className="p-4 transition-colors duration-300 data-[state=active]:bg-white data-[state=active]:text-black"
+						className="rounded-md p-4 transition-colors duration-300 data-[state=active]:bg-white data-[state=active]:text-black"
 						value="address"
 					>
 						Adres
 					</TabsTrigger>
 					<TabsTrigger
-						className="p-4 transition-colors duration-300 data-[state=active]:bg-white data-[state=active]:text-black"
+						className="rounded-md p-4 transition-colors duration-300 data-[state=active]:bg-white data-[state=active]:text-black"
 						value="invoice"
 					>
 						Faktura
 					</TabsTrigger>
 					<TabsTrigger
-						className="p-4 transition-colors duration-300 data-[state=active]:bg-white data-[state=active]:text-black"
+						className="rounded-md p-4 transition-colors duration-300 data-[state=active]:bg-white data-[state=active]:text-black"
 						value="orders"
 					>
 						Zamówienia
@@ -106,25 +106,25 @@ export default function ClientProfilePage({ user }: ClientProfilePageProps) {
 
 				<TabsContent value="account">
 					<FormProvider {...basicUserDataFormMethods}>
-						<BasicInfoForm />
+						<BasicInfoForm token={token} />
 					</FormProvider>
 				</TabsContent>
 
 				<TabsContent value="new_password">
 					<FormProvider {...ChangePasswordFormMethods}>
-						<ChangePasswordForm />
+						<ChangePasswordForm token={token} />
 					</FormProvider>
 				</TabsContent>
 
 				<TabsContent value="address">
 					<FormProvider {...addressUserDataFormMethods}>
-						<AddressForm />
+						<AddressForm token={token} />
 					</FormProvider>
 				</TabsContent>
 
 				<TabsContent value="invoice">
 					<FormProvider {...invoiceUserDataFormMethods}>
-						<InvoiceForm />
+						<InvoiceForm token={token} />
 					</FormProvider>
 				</TabsContent>
 

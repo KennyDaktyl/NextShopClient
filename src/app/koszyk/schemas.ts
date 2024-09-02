@@ -36,7 +36,7 @@ export const basicSchema = z.object({
 	amount: z.string().min(1, "Cena końcowa jest wymagana"),
 	inpost_box_id: z.string().optional(),
 	info: z.string().optional().nullable(),
-	invoice: z.boolean(),
+	make_invoice: z.boolean(),
 });
 
 export const addressSchema = basicSchema.extend({

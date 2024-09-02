@@ -11,8 +11,10 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
+import { updateUserAddressAction } from "@/app/(protected)/moje-konto/actions";
+import { toast } from "react-toastify";
 
-export const AddressForm = () => {
+export const AddressForm = ({ token }: { token: string }) => {
 	const {
 		register,
 		handleSubmit,
@@ -26,14 +28,30 @@ export const AddressForm = () => {
 		return null;
 	};
 
-	const onHandleSubmit = (data: any) => {
-		console.log("Dane formularza:", data);
+	const onHandleSubmit = async (data: any) => {
 		try {
-			window.scrollTo({ top: 0, behavior: "smooth" });
+			await updateUserAddressAction({
+				street: data.street,
+				house_number: data.house_number,
+				local_number: data.local_number,
+				postal_code: data.postal_code,
+				city: data.city,
+				token: token,
+			});
 
+			window.scrollTo({ top: 0, behavior: "smooth" });
 			console.log("Order response OK");
+			toast.success("Zmieniono adres użytkownika", {
+				position: "top-right",
+				autoClose: 1000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
 		} catch (error) {
-			console.error("Error creating order:", error);
+			console.error("Error updating user data:", error);
 		}
 	};
 
@@ -61,7 +79,7 @@ export const AddressForm = () => {
 								className="rounded-lg border p-2"
 							/>
 							{errors.street && (
-								<p className="text-sm text-red-500">{getErrorMessage(errors.street.message)}</p>
+								<p className="text-sm text-red-500">{getErrorMessage(errors.street)}</p>
 							)}
 						</div>
 						<div className="flex flex-col">
@@ -75,9 +93,7 @@ export const AddressForm = () => {
 								className="rounded-lg border p-2"
 							/>
 							{errors.house_number && (
-								<p className="text-sm text-red-500">
-									{getErrorMessage(errors.house_number.message)}
-								</p>
+								<p className="text-sm text-red-500">{getErrorMessage(errors.house_number)}</p>
 							)}
 						</div>
 						<div className="flex flex-col">
@@ -91,9 +107,7 @@ export const AddressForm = () => {
 								className="rounded-lg border p-2"
 							/>
 							{errors.postal_code && (
-								<p className="text-sm text-red-500">
-									{getErrorMessage(errors.postal_code.message)}
-								</p>
+								<p className="text-sm text-red-500">{getErrorMessage(errors.postal_code)}</p>
 							)}
 						</div>
 						<div className="flex flex-col">
@@ -107,7 +121,7 @@ export const AddressForm = () => {
 								className="rounded-lg border p-2"
 							/>
 							{errors.city && (
-								<p className="text-sm text-red-500">{getErrorMessage(errors.city.message)}</p>
+								<p className="text-sm text-red-500">{getErrorMessage(errors.city)}</p>
 							)}
 						</div>
 					</div>

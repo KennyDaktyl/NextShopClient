@@ -18,7 +18,7 @@ export const addressUserDataSchema = z.object({
 export const invoiceUserDataSchema = z.object({
 	company: z.string().min(1, "Nazwa firmy jest wymagana"),
 	company_payer: z.string().optional().nullable(),
-	nip: z.string().min(1, "NIP jest wymagany"),
+	nip: z.string().min(1, "NIP jest wymagany").max(10, "NIP jest za długi"),
 	invoice_street: z.string().min(1, "Ulica jest wymagana"),
 	invoice_house_number: z.string().min(1, "Numer domu jest wymagany"),
 	invoice_local_number: z.string().nullable().optional(),
@@ -30,15 +30,15 @@ export const invoiceUserDataSchema = z.object({
 
 export const ChangePasswordSchema = z
 	.object({
-		password: z.string().min(7, { message: "Minimum 7 znaków" }),
-		re_password: z.string().min(7, { message: "Minimum 7 znaków" }),
+		new_password: z.string().min(7, { message: "Minimum 7 znaków" }),
+		re_new_password: z.string().min(7, { message: "Minimum 7 znaków" }),
 	})
 	.refine(
 		(data) => {
-			return data.password === data.re_password;
+			return data.new_password === data.re_new_password;
 		},
 		{
 			message: "Hasła muszą być takie same",
-			path: ["re_password"],
+			path: ["re_new_password"],
 		},
 	);

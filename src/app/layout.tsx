@@ -28,6 +28,7 @@ export default function Layout({
 	return (
 		<html lang="pl">
 			<body className={montserrat.className} cz-shortcut-listen="false">
+				{modal}
 				<NextAuthProvider>
 					<ServerNavBar />
 				</NextAuthProvider>
@@ -37,7 +38,6 @@ export default function Layout({
 				</main>
 				<Footer />
 				<ToastContainer />
-				{modal}
 			</body>
 		</html>
 	);

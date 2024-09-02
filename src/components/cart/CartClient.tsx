@@ -32,8 +32,23 @@ export default function CartClient({
 	const [inpostBoxId, setInpostBoxId] = useState<string>("");
 	const [info, setInfo] = useState<string>("");
 	const [showInvoiceForm, setShowInvoiceForm] = useState<boolean>(
-		userData?.profile?.invoice || false,
+		userData?.profile?.make_invoice || false,
 	);
+
+	// Przeliczanie finalPrice przy pierwszym załadowaniu strony
+	useEffect(() => {
+		const initialDeliveryPrice = deliveryMethods[0]?.price || 0;
+		const initialPaymentPrice = paymentMethods[0]?.price || 0;
+
+		let newPrice = Number(initialTotalPrice) + Number(initialDeliveryPrice);
+
+		if (paymentMethods[0].payment_on_delivery && !deliveryMethods[0].in_store_pickup) {
+			newPrice += Number(initialPaymentPrice);
+		}
+
+		setFinalPrice(newPrice);
+		methods.setValue("amount", newPrice.toFixed(2));
+	}, [initialTotalPrice, deliveryMethods, paymentMethods]);
 
 	// Dynamiczny schemat walidacji
 	const schema = useMemo(() => {
@@ -74,7 +89,7 @@ export default function CartClient({
 			amount: Number(finalPrice).toFixed(2),
 			inpost_box_id: "",
 			info: "",
-			invoice: userData?.profile?.invoice || false,
+			make_invoice: userData?.profile?.make_invoice || false,
 			company: userData?.profile?.company || "",
 			company_payer: userData?.profile?.company_payer || "",
 			nip: userData?.profile?.nip || "",
@@ -113,7 +128,7 @@ export default function CartClient({
 				inpost_box_id: inpostBoxId,
 				info: info,
 
-				invoice: userData?.profile?.invoice || false,
+				make_invoice: userData?.profile?.make_invoice || false,
 				company: userData?.profile?.company || "",
 				company_payer: userData?.profile?.company_payer || "",
 				nip: userData?.profile?.nip || "",
@@ -141,6 +156,7 @@ export default function CartClient({
 		methods.setValue("delivery_method", method.id.toString());
 		methods.setValue("delivery_price", Number(method.price).toFixed(2));
 
+		// Oblicz nową cenę końcową uwzględniającą koszty przesyłki
 		let newPrice = Number(initialTotalPrice) + Number(method.price);
 
 		if (selectedPayment.payment_on_delivery && !method.in_store_pickup) {
@@ -160,7 +176,9 @@ export default function CartClient({
 	const handlePaymentMethodChange = (method: PaymentMethod) => {
 		setSelectedPayment(method);
 		methods.setValue("payment_method", method.id.toString());
+		methods.setValue("payment_price", Number(method.price).toFixed(2));
 
+		// Oblicz nową cenę końcową uwzględniającą koszty płatności
 		let newPrice = Number(initialTotalPrice) + Number(selectedDelivery.price);
 
 		if (method.payment_on_delivery && !selectedDelivery.in_store_pickup) {
@@ -233,16 +251,16 @@ export default function CartClient({
 						)}
 
 						<div className="mt-6 flex items-center">
-							<Label htmlFor="invoice" className="mb-1 text-sm font-semibold">
+							<Label htmlFor="make_invoice" className="mb-1 text-sm font-semibold">
 								Potrzebujesz faktury?
 							</Label>
 							<Switch
-								id="invoice"
-								{...methods.register("invoice")}
+								id="make_invoice"
+								{...methods.register("make_invoice")}
 								checked={showInvoiceForm}
 								onCheckedChange={(checked) => {
 									setShowInvoiceForm(checked);
-									methods.setValue("invoice", checked);
+									methods.setValue("make_invoice", checked);
 								}}
 								className="ml-2"
 							/>

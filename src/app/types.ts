@@ -321,19 +321,26 @@ export interface PaymentMethods {
 	paymentMethods: PaymentMethod[];
 }
 
+export interface Invoice {
+	pdf: string;
+}
+
 export interface Order {
-	id: number;
+	id: string;
 	order_number: string;
 	created_date: string;
 	amount: string;
 	status: string;
 	payment_method: PaymentMethod;
 	delivery_method: DeliveryMethod;
+	inpost_box_id: string;
 	delivery_address: string;
 	delivery_price: string;
 	payment_price: string;
+	cart_items_price: string;
 	is_paid: boolean;
 	cart_items: string;
+	invoice: Invoice | null;
 }
 
 export interface UserData {
@@ -349,7 +356,7 @@ export interface UserData {
 		local_number?: string;
 		postal_code?: string;
 		city?: string;
-		invoice: boolean;
+		make_invoice: boolean;
 		company?: string;
 		company_payer?: string;
 		nip?: string;
@@ -359,7 +366,7 @@ export interface UserData {
 		invoice_city?: string;
 		invoice_postal_code?: string;
 	};
-	orders: Order[];
+	orders: Order[] | [];
 }
 
 export interface CategoryPath {
@@ -398,7 +405,7 @@ export interface OrderData {
 	amount: string;
 	inpost_box_id?: string;
 	info?: string;
-	invoice: boolean;
+	make_invoice: boolean;
 	company?: string;
 	company_payer?: string;
 	nip?: string;
@@ -424,5 +431,9 @@ export interface CartClientProps {
 }
 
 export interface OrderStatusResponse {
+	status: number;
+}
+
+export interface StatusResponse {
 	status: number;
 }

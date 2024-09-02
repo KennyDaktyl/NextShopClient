@@ -142,7 +142,7 @@ export async function createOrderAction({
 		local_number: data.local_number,
 		city: data.city,
 		postal_code: data.postal_code,
-		invoice: data.invoice,
+		make_invoice: data.make_invoice,
 	};
 
 	const response = await createOrder(orderData);

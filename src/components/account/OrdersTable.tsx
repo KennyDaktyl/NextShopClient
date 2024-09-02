@@ -10,23 +10,30 @@ import {
 	DialogTitle,
 	DialogClose,
 	DialogFooter,
+	DialogDescription,
 } from "@/components/ui/dialog";
-import { Check, XCircle, FileText } from "lucide-react";
+import { Check, XCircle, FileText, File } from "lucide-react";
 import { CartItem, Order } from "@/app/types";
+import Link from "next/link";
+import { formatMoney } from "@/utils";
 
 export const OrdersTable = ({ orders }: { orders: Order[] }) => {
-	const [isDialogOpen, setIsDialogOpen] = useState(false);
+	const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
 	const [selectedOrderItems, setSelectedOrderItems] = useState<CartItem[]>([]);
 
-	const openOrderItemsDialog = (cartItemsJson: string) => {
+	const openOrderItemsDialog = (orderId: string, cartItemsJson: string) => {
 		const items = JSON.parse(cartItemsJson) as CartItem[];
 		setSelectedOrderItems(items);
-		setIsDialogOpen(true);
+		setSelectedOrderId(orderId);
 	};
 
 	const closeOrderItemsDialog = () => {
 		setSelectedOrderItems([]);
-		setIsDialogOpen(false);
+		setSelectedOrderId(null);
+	};
+
+	const handlePdfOpen = (pdfUrl: string) => {
+		window.open(pdfUrl, "_blank");
 	};
 
 	return (
@@ -36,19 +43,15 @@ export const OrdersTable = ({ orders }: { orders: Order[] }) => {
 			</CardHeader>
 			<CardContent className="overflow-x-auto p-0">
 				<table className="w-full min-w-full table-auto border-collapse">
-					<thead className="bg-gray-200">
+					<thead className="bg-muted">
 						<tr>
 							<th className="border px-4 py-2">Numer Zamówienia</th>
 							<th className="border px-4 py-2">Data</th>
 							<th className="border px-4 py-2">Kwota</th>
 							<th className="border px-4 py-2">Produkty</th>
-							<th className="border px-4 py-2">Dokument</th>
+							<th className="border px-4 py-2">Faktura</th>
 							<th className="border px-4 py-2">Status</th>
 							<th className="border px-4 py-2">Zapłacone</th>
-							<th className="border px-4 py-2">Metoda płatności</th>
-							<th className="border px-4 py-2">Metoda dostawy</th>
-							<th className="border px-4 py-2">Koszt dostawy</th>
-							<th className="border px-4 py-2">Koszt płatności</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -63,50 +66,109 @@ export const OrdersTable = ({ orders }: { orders: Order[] }) => {
 								</td>
 								<td className="border px-4 py-2 text-center text-xs">
 									{order.cart_items.length > 0 ? (
-										<Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-											<DialogTrigger asChild>
-												<Button
-													variant="ghost"
-													onClick={() => openOrderItemsDialog(order.cart_items)}
-												>
-													<FileText className="h-5 w-5" />
-												</Button>
-											</DialogTrigger>
-											<DialogContent className="max-w-3xl p-4">
-												<DialogHeader>
-													<DialogTitle>Szczegóły zamówienia</DialogTitle>
-													<DialogClose className="absolute right-2 top-2"></DialogClose>
-												</DialogHeader>
-												<div className="space-y-4">
-													{selectedOrderItems.map((item) => (
-														<div key={item.id} className="flex space-x-4 py-2">
-															<img
-																src={item.image?.url || ""}
-																alt={item.image?.alt || item.name}
-																className="h-16 w-16 object-cover"
-															/>
-															<div>
-																<p className="font-semibold">{item.name}</p>
-																<p className="text-sm text-gray-600">Ilość: {item.quantity}</p>
-																<p className="text-sm text-gray-600">Cena: {item.price} zł</p>
-															</div>
+										<>
+											<Button
+												variant="ghost"
+												onClick={() => openOrderItemsDialog(order.id, order.cart_items)}
+											>
+												<FileText className="h-5 w-5" />
+											</Button>
+											<Dialog
+												open={selectedOrderId === order.id}
+												onOpenChange={closeOrderItemsDialog}
+												aria-describedby
+											>
+												<DialogContent className="max-w-3xl p-4">
+													<DialogHeader>
+														<DialogTitle>
+															Szczegóły zamówienia&nbsp;{order.order_number}
+														</DialogTitle>
+														<DialogDescription>
+															Opis zamówienia i szczegóły płatności
+														</DialogDescription>{" "}
+														<DialogClose className="absolute right-2 top-2"></DialogClose>
+													</DialogHeader>
+													<div className="space-y-4">
+														{selectedOrderItems.map((item) => (
+															<Link
+																href={item.url}
+																role="link"
+																key={item.item_id}
+																className="flex space-x-4 py-2 hover:bg-gray-100"
+															>
+																<img
+																	src={item.image?.url || ""}
+																	alt={item.image?.alt || item.name}
+																	className="h-16 w-16 object-cover"
+																/>
+																<div>
+																	<p className="font-semibold">
+																		{item.name}
+																		<br />
+																		<small className="font-xs">{item.variant}</small>
+																		<br />
+																		<small className="font-xs">{item.selected_option}</small>{" "}
+																	</p>
+																	<p className="text-sm text-gray-600">Ilość: {item.quantity}</p>
+																	<p className="text-sm text-gray-600">
+																		Cena: {formatMoney(Number(item.price))}
+																	</p>
+																</div>
+															</Link>
+														))}
+														<div className="mt-4">
+															<p className="text-sm text-gray-600">
+																<strong>Metoda płatności:</strong> {order.payment_method.name}
+															</p>
+															<p className="text-sm text-gray-600">
+																<strong>Metoda dostawy:</strong> {order.delivery_method.name}{" "}
+																{order.delivery_method.inpost_box && order.inpost_box_id && (
+																	<span className="text-xs text-gray-500">
+																		{order.inpost_box_id}
+																	</span>
+																)}
+															</p>
+															{Number(order.delivery_price) > 0 && (
+																<p className="text-sm text-gray-600">
+																	<strong>Koszt dostawy:</strong>{" "}
+																	{formatMoney(Number(order.delivery_price))}
+																</p>
+															)}
+															{Number(order.payment_price) > 0 && (
+																<p className="text-sm text-gray-600">
+																	<strong>Koszt płatności:</strong>{" "}
+																	{formatMoney(Number(order.payment_price))}
+																</p>
+															)}
+															<p className="text-sm text-gray-600">
+																<strong>Koszt za produkty:</strong>{" "}
+																{formatMoney(Number(order.cart_items_price))}
+															</p>
+															<p className="mt-2 text-sm text-gray-600">
+																<strong>Suma:&nbsp;{order.amount} zł</strong>
+															</p>
 														</div>
-													))}
-												</div>
-												<DialogFooter>
-													<Button variant="outline" onClick={closeOrderItemsDialog}>
-														Zamknij
-													</Button>
-												</DialogFooter>
-											</DialogContent>
-										</Dialog>
+													</div>
+													<DialogFooter>
+														<Button variant="outline" onClick={closeOrderItemsDialog}>
+															Zamknij
+														</Button>
+													</DialogFooter>
+												</DialogContent>
+											</Dialog>
+										</>
 									) : (
 										<span>Brak produktów</span>
 									)}
 								</td>
 								<td className="border px-4 py-2 text-center">
-									{order.is_paid ? (
-										<Check className="inline-block text-green-500" />
+									{order.invoice?.pdf ? (
+										<Button
+											variant="ghost"
+											onClick={() => order.invoice && handlePdfOpen(order.invoice.pdf)}
+										>
+											<File className="h-5 w-5" />
+										</Button>
 									) : (
 										<XCircle className="inline-block text-red-500" />
 									)}
@@ -123,14 +185,6 @@ export const OrdersTable = ({ orders }: { orders: Order[] }) => {
 										<XCircle className="inline-block text-red-500" />
 									)}
 								</td>
-								<td className="border px-4 py-2 text-center text-xs">
-									{order.payment_method.name}
-								</td>
-								<td className="border px-4 py-2 text-center text-xs">
-									{order.delivery_method.name}
-								</td>
-								<td className="border px-4 py-2 text-center text-xs">{order.delivery_price} zł</td>
-								<td className="border px-4 py-2 text-center text-xs">{order.payment_price} zł</td>
 							</tr>
 						))}
 					</tbody>

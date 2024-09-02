@@ -1,7 +1,7 @@
 // ProfilePage.tsx (Server Component)
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
-import { getUserData } from "@/api/getUserData";
+import { getUserFullData } from "@/api/getUserData";
 import { Session } from "next-auth";
 import ClientProfilePage from "@/components/account/ClientProfilePage";
 
@@ -25,7 +25,7 @@ export default async function ProfilePage() {
 		return null;
 	}
 
-	const response = await getUserData(accessToken);
+	const response = await getUserFullData(accessToken);
 
 	if (response.status === 401) {
 		console.log("redirecting to login");
@@ -35,8 +35,7 @@ export default async function ProfilePage() {
 
 	if (response.status === 200) {
 		const user = response.data;
-
-		return <ClientProfilePage user={user} />;
+		return <ClientProfilePage user={user} token={accessToken} />;
 	}
 
 	console.error("Error fetching user data");

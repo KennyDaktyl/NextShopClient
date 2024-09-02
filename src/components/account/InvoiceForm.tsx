@@ -1,3 +1,4 @@
+import { updateUserInvoiceDataAction } from "@/app/(protected)/moje-konto/actions";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -12,8 +13,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@radix-ui/react-label";
 import React from "react";
 import { useFormContext } from "react-hook-form";
+import { toast } from "react-toastify";
 
-export const InvoiceForm = () => {
+export const InvoiceForm = ({ token }: { token: string }) => {
 	const {
 		register,
 		handleSubmit,
@@ -27,14 +29,33 @@ export const InvoiceForm = () => {
 		return null;
 	};
 
-	const onHandleSubmit = (data: any) => {
-		console.log("Dane formularza:", data);
+	const onHandleSubmit = async (data: any) => {
 		try {
-			window.scrollTo({ top: 0, behavior: "smooth" });
+			await updateUserInvoiceDataAction({
+				company: data.company,
+				company_payer: data.company_payer,
+				nip: data.nip,
+				invoice_street: data.invoice_street,
+				invoice_house_number: data.invoice_house_number,
+				invoice_local_number: data.invoice_local_number,
+				invoice_postal_code: data.invoice_postal_code,
+				invoice_city: data.invoice_city,
+				token: token,
+			});
 
+			window.scrollTo({ top: 0, behavior: "smooth" });
 			console.log("Order response OK");
+			toast.success("Zmieniono dane do faktury", {
+				position: "top-right",
+				autoClose: 1000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
 		} catch (error) {
-			console.error("Error creating order:", error);
+			console.error("Error updating user data:", error);
 		}
 	};
 
