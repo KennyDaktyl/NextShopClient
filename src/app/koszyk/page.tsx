@@ -31,13 +31,19 @@ export default async function CartPage() {
 
 	let cartItems: CartItem[] = [];
 	let totalPrice: number = 0;
+	let freeDelivery: boolean = false;
 
 	const response: CartItems | { status: number } = await getCartItems(sessionId);
 	const responseTotalPrice: CartTotalPrice | { status: number } = await getTotalPrice(sessionId);
 
-	if ("cart_items" in response && "total_price" in responseTotalPrice) {
+	if (
+		"cart_items" in response &&
+		"total_price" in responseTotalPrice &&
+		"free_delivery" in response
+	) {
 		cartItems = response.cart_items ?? [];
 		totalPrice = responseTotalPrice.total_price ?? 0;
+		freeDelivery = response.free_delivery ?? false;
 	}
 
 	const deliveryMethodsResponse = await getDeliveryMethods(sessionId);
@@ -70,6 +76,7 @@ export default async function CartPage() {
 	return (
 		<CartClient
 			cartItems={cartItems}
+			freeDelivery={freeDelivery}
 			totalPrice={totalPrice}
 			deliveryMethods={deliveryMethods}
 			paymentMethods={paymentMethods}

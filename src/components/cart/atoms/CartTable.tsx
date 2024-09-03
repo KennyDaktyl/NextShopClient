@@ -7,6 +7,7 @@ import { CartTableFooter } from "@/components/cart/atoms/CartTableFooter";
 
 interface CartTableProps {
 	cartItems: CartItem[];
+	freeDelivery: boolean;
 	onUpdateCartItems: (newCartItems: any[]) => void;
 	deliveryMethod: DeliveryMethod;
 	paymentMethod: PaymentMethod;
@@ -14,6 +15,7 @@ interface CartTableProps {
 
 export default function CartTable({
 	cartItems,
+	freeDelivery,
 	onUpdateCartItems,
 	deliveryMethod,
 	paymentMethod,
@@ -58,6 +60,7 @@ export default function CartTable({
 			</div>
 			<CartTableFooter
 				cartItems={cartItems}
+				freeDelivery={freeDelivery}
 				deliveryMethod={deliveryMethod}
 				paymentMethod={paymentMethod}
 			/>

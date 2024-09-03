@@ -124,7 +124,9 @@ export const ProductDetailsComponent = ({
 		product_id: product.id,
 		variant_id: selectedVariant ? selectedVariant.id : null,
 		quantity: quantity,
+		is_available: selectedVariant ? selectedVariant.qty > 0 : product.qty > 0,
 		selected_option: selectedOption || undefined,
+		free_delivery: product.free_delivery,
 	};
 
 	return (
@@ -181,17 +183,32 @@ export const ProductDetailsComponent = ({
 					currentPrice={product.current_price}
 					minPriceLast30={product.min_price_last_30}
 				/>
+				{product.free_delivery && (
+					<div className="mb-2 text-sm">
+						<span className="font-semibold text-blue-500">*Darmowa dostawa</span>
+					</div>
+				)}
 				<div className="mb-1 text-xs sm:mb-4">
 					Dostępna ilość: {selectedVariant ? selectedVariant.qty : product.qty}
 				</div>
-				<QuantityControl
-					quantity={quantity}
-					setQuantity={setQuantity}
-					maxQuantity={selectedVariant ? selectedVariant.qty : product.qty}
-				/>
+				{cartItemData.is_available ? (
+					<p className="mb-2 text-sm text-green-500">Produkt dostępny</p>
+				) : (
+					<p className="mb-2 text-sm text-red-500">Produkt niedostępny</p>
+				)}
+				{cartItemData.is_available && (
+					<QuantityControl
+						quantity={quantity}
+						setQuantity={setQuantity}
+						maxQuantity={selectedVariant ? selectedVariant.qty : product.qty}
+					/>
+				)}
 				<AddToCartButton cartItemData={cartItemData} onAddedToCart={handleAddToCart} />
+				<DescriptionComponent title="Opis produktu" description={product.description} />
 			</div>
-			<DescriptionComponent description={product.description} />
+			{product.seo_text && (
+				<DescriptionComponent title="Szczegóły produktu" description={product.seo_text} />
+			)}
 		</div>
 	);
 };

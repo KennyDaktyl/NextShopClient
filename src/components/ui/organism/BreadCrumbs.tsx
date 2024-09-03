@@ -9,7 +9,7 @@ export default function BreadcrumbWithCustomSeparator() {
 	const pathname = usePathname();
 	const pathSegments = pathname.split("/").filter((segment) => segment);
 
-	const excludedPaths = ["produkt", "cart", "szukaj", "auth"];
+	const excludedPaths = ["produkt", "cart", "szukaj", "auth", "usluga"];
 
 	if (pathSegments.length === 0) {
 		return null;

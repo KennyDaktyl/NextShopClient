@@ -14,6 +14,7 @@ import PaymentMethods from "@/components/cart/atoms/PaymentMethods";
 
 interface OrderFormProps {
 	deliveryMethods: DeliveryMethod[];
+	freeDelivery: boolean;
 	paymentMethods: PaymentMethod[];
 	initialTotalPrice: number;
 	cartItems: any[];
@@ -39,6 +40,7 @@ const addressSchema = basicSchema.extend({
 
 export default function OrderForm({
 	deliveryMethods,
+	freeDelivery,
 	paymentMethods,
 	initialTotalPrice,
 	cartItems,
@@ -104,6 +106,7 @@ export default function OrderForm({
 				<form className="mt-4 w-full" onSubmit={methods.handleSubmit(onHandleSubmit)}>
 					<DeliveryMethods
 						deliveryMethods={deliveryMethods}
+						freeDelivery={freeDelivery}
 						onDeliveryMethodChange={handleDeliveryMethodChange}
 						setInpostBoxId={() => {}}
 					/>

@@ -1,21 +1,23 @@
 "use client";
 
-import { DeliveryMethod, PaymentMethod } from "@/app/types";
+import { CartItem, DeliveryMethod, PaymentMethod } from "@/app/types";
 import { formatMoney } from "@/utils";
 
 interface CartTableFooterProps {
-	cartItems: any[];
+	cartItems: CartItem[];
+	freeDelivery: boolean;
 	deliveryMethod: DeliveryMethod;
 	paymentMethod: PaymentMethod;
 }
 
 export const CartTableFooter = ({
 	cartItems,
+	freeDelivery,
 	deliveryMethod,
 	paymentMethod,
 }: CartTableFooterProps) => {
 	let paymentMethodPrice = paymentMethod.price;
-	let deliveryMethodPrice = deliveryMethod.price;
+	let deliveryMethodPrice = freeDelivery ? deliveryMethod.price_promo : deliveryMethod.price;
 
 	if (deliveryMethod.in_store_pickup && paymentMethod.payment_on_delivery) {
 		paymentMethodPrice = 0;

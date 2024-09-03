@@ -67,6 +67,7 @@ export interface ProductListItem {
 	variant_label: string;
 	show_variant_label: boolean;
 	variants: VariantList[];
+	is_service: boolean;
 }
 
 export interface Tag {
@@ -101,6 +102,7 @@ export interface Product {
 	current_price: number;
 	min_price_last_30: number;
 	full_: string;
+	free_delivery: boolean;
 }
 
 export interface ProductsResponse {
@@ -126,10 +128,12 @@ export interface CartItem {
 	selected_option: string | null;
 	image: Image | null;
 	url: string;
+	free_delivery: boolean;
 }
 
 export interface CartItems {
 	cart_items: CartItem[];
+	free_delivery: boolean;
 }
 
 export interface ErrorResponse {
@@ -424,6 +428,7 @@ export interface OrderData {
 
 export interface CartClientProps {
 	cartItems: CartItem[];
+	freeDelivery: boolean;
 	totalPrice: number;
 	deliveryMethods: DeliveryMethod[];
 	paymentMethods: PaymentMethod[];

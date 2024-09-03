@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import Image from "next/image";
 import { DeliveryMethod } from "@/app/types";
@@ -14,12 +15,14 @@ import { useFormContext } from "react-hook-form";
 
 interface DeliveryMethodsProps {
 	deliveryMethods: DeliveryMethod[];
+	freeDelivery: boolean;
 	onDeliveryMethodChange: (method: DeliveryMethod) => void;
 	setInpostBoxId: (id: string) => void;
 }
 
 export default function DeliveryMethods({
 	deliveryMethods,
+	freeDelivery,
 	onDeliveryMethodChange,
 	setInpostBoxId,
 }: DeliveryMethodsProps) {
@@ -55,7 +58,8 @@ export default function DeliveryMethods({
 		setValue("inpost_box_id", e.name);
 		setIsModalOpen(false);
 	};
-
+	const freeDeliveryInCart = freeDelivery;
+	console.log("freeDelivery", freeDeliveryInCart);
 	return (
 		<div className="mb-4 mt-10">
 			<h2 className="w-full text-lg font-semibold">Rodzaj dostawy</h2>
@@ -96,9 +100,7 @@ export default function DeliveryMethods({
 								</div>
 							)}
 							<span className="text-gray-600">
-								{method.price_promo !== Number("0.00")
-									? formatMoney(method.price_promo)
-									: formatMoney(method.price)}
+								{freeDeliveryInCart ? formatMoney(method.price_promo) : formatMoney(method.price)}
 							</span>
 						</div>
 					</label>

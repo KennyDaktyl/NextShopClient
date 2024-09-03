@@ -35,7 +35,7 @@ export default function ProductListPage({
 					prevPage={prevPage}
 				/>
 			)}
-			<DescriptionComponent description={category.seo_text ?? ""} />
+			<DescriptionComponent title="Szczegóły kategorii" description={category.seo_text ?? ""} />
 		</div>
 	);
 }

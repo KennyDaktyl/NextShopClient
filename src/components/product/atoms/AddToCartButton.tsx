@@ -10,6 +10,7 @@ type AddToCartButtonProps = {
 		product_id: number;
 		variant_id: number | null;
 		quantity: number;
+		is_available: boolean;
 		selected_option?: { option_id: number; value_id: number } | undefined;
 	};
 	onAddedToCart: () => boolean;
@@ -17,6 +18,7 @@ type AddToCartButtonProps = {
 
 export default function AddToCartButton({ cartItemData, onAddedToCart }: AddToCartButtonProps) {
 	const [isPending, startTransition] = useTransition();
+	const outOffStock = false ? cartItemData.is_available : true;
 
 	const handleClick = async () => {
 		startTransition(async () => {
@@ -51,7 +53,7 @@ export default function AddToCartButton({ cartItemData, onAddedToCart }: AddToCa
 		<Button
 			type="button"
 			onClick={handleClick}
-			disabled={isPending}
+			disabled={isPending || outOffStock}
 			aria-label="Dodaj produkt do koszyka"
 			className={`w-full rounded-md text-white transition hover:bg-gray-500 ${isPending ? "cursor-wait hover:cursor-wait" : "cursor-pointer"} transition-shadow`}
 		>

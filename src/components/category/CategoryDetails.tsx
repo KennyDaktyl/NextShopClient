@@ -32,7 +32,7 @@ const CategoryDetails = ({ category }: { category: CategoryDetailsProps }) => {
 					<SubcategoryItem key={item.id} item={item} />
 				))}
 			</div>
-			<DescriptionComponent description={category.seo_text} />
+			<DescriptionComponent title="Szczegóły kategorii" description={category.seo_text} />
 		</div>
 	);
 };

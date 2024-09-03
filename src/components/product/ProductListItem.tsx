@@ -29,6 +29,7 @@ const COLOR_CLASSES: { [key: string]: string } = {
 
 export const ProductListItemContainer = ({ product }: { product: ProductListItem }) => {
 	const productImage = getProductImage(product, 350, 350);
+	const isService = product.is_service;
 	return (
 		<Link
 			role="link"
@@ -57,19 +58,29 @@ export const ProductListItemContainer = ({ product }: { product: ProductListItem
 					<CardDescription className="h-[20px] text-xs">{product.category.name}</CardDescription>
 				</CardHeader>
 				<CardFooter className="m-0 pb-2 pl-1 pr-0 pt-2">
-					<p className="text-sm">
-						Cena: <span className="text-bold">{formatMoney(product.current_price)}</span>
-					</p>
+					{!isService ? (
+						<>
+							Cena:
+							<span className="font-bold">&nbsp;{formatMoney(product.current_price)}</span>
+						</>
+					) : (
+						<>
+							Oferta od:
+							<span className="font-bold">&nbsp;{formatMoney(product.current_price)}*</span>
+						</>
+					)}
 				</CardFooter>
-				<div className="flex w-full items-center justify-start p-1">
-					{product.variants.map((variant) => (
-						<div
-							key={"variant_key" + "_" + variant.id + "_" + product.id + "_" + variant.color}
-							className={`mb-2 mr-2 cursor-pointer rounded-full ${COLOR_CLASSES[variant.color]}`}
-							style={{ width: "20px", height: "20px" }}
-						></div>
-					))}
-				</div>
+				{product.show_variant_label && (
+					<div className="flex w-full items-center justify-start p-1">
+						{product.variants.map((variant) => (
+							<div
+								key={"variant_key" + "_" + variant.id + "_" + product.id + "_" + variant.color}
+								className={`mb-2 mr-2 cursor-pointer rounded-full ${COLOR_CLASSES[variant.color]}`}
+								style={{ width: "20px", height: "20px" }}
+							></div>
+						))}
+					</div>
+				)}
 			</Card>
 		</Link>
 	);

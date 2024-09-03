@@ -12,23 +12,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 const contactFormSchema = z.object({
-	title: z.string().min(1, "Tytuł jest wymagany"),
 	email: z.string().email("Podaj poprawny adres email"),
 	message: z.string().min(1, "Wiadomość jest wymagana"),
 });
 
 type ContactFormData = z.infer<typeof contactFormSchema> & {
 	gRecaptchaToken: string;
+	title: string;
 };
 
-export const ContactForm: React.FC = () => {
+const ContactForm: React.FC<{ productTitle: string }> = ({ productTitle }) => {
 	const { executeRecaptcha } = useGoogleReCaptcha();
 	const methods = useForm<ContactFormData>({
 		resolver: zodResolver(contactFormSchema),
 		defaultValues: {
-			title: "",
 			email: "",
 			message: "",
+			title: productTitle,
 		},
 	});
 
@@ -64,6 +64,7 @@ export const ContactForm: React.FC = () => {
 			const dataToSubmit = {
 				...data,
 				gRecaptchaToken,
+				title: productTitle,
 			};
 
 			const result = await handleContactFormSubmission(dataToSubmit);
@@ -73,15 +74,7 @@ export const ContactForm: React.FC = () => {
 				methods.reset(); // Resetuje formularz po udanym wysłaniu
 			} else {
 				setSubmitStatus("Nie udało się wysłać wiadomości. Spróbuj ponownie.");
-				toast.error("Nie udało się wysłać wiadomości. Spróbuj ponownie.", {
-					position: "top-right",
-					autoClose: 1500,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
-				});
+				toast.error("Nie udało się wysłać wiadomości. Spróbuj ponownie.");
 			}
 		} catch (error) {
 			console.error("Error submitting form:", error);
@@ -106,7 +99,6 @@ export const ContactForm: React.FC = () => {
 					/>
 					{errors.title && <p className="text-sm text-red-500">{errors.title.message}</p>}
 				</div>
-
 				<div>
 					<Label htmlFor="email" className="mb-1 text-sm font-semibold">
 						Adres e-mail <span className="text-red-500">*</span>
@@ -119,7 +111,6 @@ export const ContactForm: React.FC = () => {
 					/>
 					{errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
 				</div>
-
 				<div>
 					<Label htmlFor="message" className="mb-1 text-sm font-semibold">
 						Wiadomość <span className="text-red-500">*</span>
@@ -138,7 +129,7 @@ export const ContactForm: React.FC = () => {
 					className="w-full rounded-md px-4 py-2 text-white transition"
 					disabled={loading || !isRecaptchaReady}
 				>
-					{loading ? "Wysyłanie..." : "Wyślij"}
+					{loading ? "Wysyłanie..." : "Wyślij wiadomość"}
 				</Button>
 
 				{submitStatus && <p className="mt-4 text-center text-sm text-red-600">{submitStatus}</p>}

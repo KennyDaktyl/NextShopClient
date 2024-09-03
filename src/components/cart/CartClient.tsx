@@ -19,6 +19,7 @@ import DeliveryMethods from "@/components/cart/atoms/DeliveryMethods";
 
 export default function CartClient({
 	cartItems,
+	freeDelivery,
 	totalPrice: initialTotalPrice,
 	deliveryMethods,
 	paymentMethods,
@@ -37,7 +38,14 @@ export default function CartClient({
 
 	// Przeliczanie finalPrice przy pierwszym załadowaniu strony
 	useEffect(() => {
-		const initialDeliveryPrice = deliveryMethods[0]?.price || 0;
+		let initialDeliveryPrice = 0;
+
+		if (!freeDelivery) {
+			initialDeliveryPrice = deliveryMethods[0]?.price || 0;
+		} else {
+			initialDeliveryPrice = deliveryMethods[0]?.price_promo || 0;
+		}
+
 		const initialPaymentPrice = paymentMethods[0]?.price || 0;
 
 		let newPrice = Number(initialTotalPrice) + Number(initialDeliveryPrice);
@@ -154,10 +162,20 @@ export default function CartClient({
 	const handleDeliveryMethodChange = (method: DeliveryMethod) => {
 		setSelectedDelivery(method);
 		methods.setValue("delivery_method", method.id.toString());
-		methods.setValue("delivery_price", Number(method.price).toFixed(2));
+
+		if (!freeDelivery) {
+			methods.setValue("delivery_price", Number(method.price).toFixed(2));
+		} else {
+			methods.setValue("delivery_price", Number(method.price_promo).toFixed(2));
+		}
 
 		// Oblicz nową cenę końcową uwzględniającą koszty przesyłki
-		let newPrice = Number(initialTotalPrice) + Number(method.price);
+		let newPrice = Number(initialTotalPrice);
+		if (!freeDelivery) {
+			newPrice += Number(method.price);
+		} else {
+			newPrice += Number(method.price_promo);
+		}
 
 		if (selectedPayment.payment_on_delivery && !method.in_store_pickup) {
 			newPrice += Number(selectedPayment.price);
@@ -179,7 +197,8 @@ export default function CartClient({
 		methods.setValue("payment_price", Number(method.price).toFixed(2));
 
 		// Oblicz nową cenę końcową uwzględniającą koszty płatności
-		let newPrice = Number(initialTotalPrice) + Number(selectedDelivery.price);
+		let deliveryPrice = freeDelivery ? selectedDelivery.price_promo : selectedDelivery.price;
+		let newPrice = Number(initialTotalPrice) + Number(deliveryPrice);
 
 		if (method.payment_on_delivery && !selectedDelivery.in_store_pickup) {
 			newPrice += Number(method.price);
@@ -225,6 +244,7 @@ export default function CartClient({
 				<div className="mt-4 w-full">
 					<CartTable
 						cartItems={currentCartItems}
+						freeDelivery={freeDelivery}
 						onUpdateCartItems={handleUpdateCartItems}
 						deliveryMethod={selectedDelivery}
 						paymentMethod={selectedPayment}
@@ -236,6 +256,7 @@ export default function CartClient({
 					>
 						<DeliveryMethods
 							deliveryMethods={deliveryMethods}
+							freeDelivery={freeDelivery}
 							onDeliveryMethodChange={handleDeliveryMethodChange}
 							setInpostBoxId={setInpostBoxId}
 						/>
