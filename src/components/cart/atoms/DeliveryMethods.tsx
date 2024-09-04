@@ -59,7 +59,6 @@ export default function DeliveryMethods({
 		setIsModalOpen(false);
 	};
 	const freeDeliveryInCart = freeDelivery;
-	console.log("freeDelivery", freeDeliveryInCart);
 	return (
 		<div className="mb-4 mt-10">
 			<h2 className="w-full text-lg font-semibold">Rodzaj dostawy</h2>

@@ -7,12 +7,12 @@ export const HeroItem: React.FC<{ heroData: Hero; isFirst: boolean }> = ({ heroD
 	return (
 		<div
 			className={`mt-2 flex w-full flex-wrap items-center rounded-md bg-gray-100 shadow-md ${
-				isFirst ? "h-[1000px] md:h-[500px]" : "h-[700px] md:h-[350px]"
+				isFirst ? "h-[1100px] md:h-[550px]" : "h-[800px] md:h-[380px]"
 			}`}
 		>
 			<div
 				className={`flex items-center justify-center p-1 ${
-					isFirst ? "h-[500px] md:w-1/2" : "h-[350px] md:w-1/2"
+					isFirst ? "h-[500px] md:w-1/2" : "h-[380px] md:w-1/2"
 				}`}
 			>
 				<div className="flex w-4/5 flex-wrap items-center justify-start">
@@ -37,18 +37,20 @@ export const HeroItem: React.FC<{ heroData: Hero; isFirst: boolean }> = ({ heroD
 			</div>
 			<div
 				className={`m-auto flex items-center justify-center p-3 ${
-					isFirst ? "h-[500px] w-full md:w-1/2" : "h-[350px] w-full md:w-1/2"
+					isFirst ? "h-[500px] w-full md:w-1/2" : "h-[300px] w-full md:w-1/2"
 				}`}
 			>
 				{heroData.image && (
 					<div
 						className={`relative h-full w-full ${
-							isFirst ? "max-h-[500px] max-w-[500px]" : "max-h-[350px] max-w-[350px]"
+							isFirst ? "max-h-[500px] max-w-[500px]" : "max-h-[300px]"
 						}`}
 					>
 						<Image
 							src={heroData.image.url}
 							alt={heroData.image.alt || ""}
+							title={heroData.image.title || ""}
+							loading="eager"
 							className="rounded-md object-cover"
 							fill
 							sizes="(max-width: 768px) 100vw, 50vw"

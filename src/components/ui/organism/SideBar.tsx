@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 
 interface MenuItem {
 	name: string;
+	item_label: string;
 	full_path: string;
 	is_parent: boolean;
 	products_count: number;
@@ -21,6 +22,7 @@ interface MenuItem {
 
 interface MenuItems {
 	name: string;
+	item_label: string;
 	back_link: string;
 	items: MenuItem[];
 }
@@ -52,12 +54,12 @@ export default function SideBar({
 			>
 				<div className="flex min-w-[250px] flex-col gap-4 md:min-w-[200px]">
 					<div className="flex items-center justify-between border-b p-2">
-						<p className="text-xl font-bold">{menuItems.name}</p>
+						<p className="text-xl font-bold">{menuItems.item_label}</p>
 						<button className="md:hidden" onClick={toggleSidebar} aria-label="Zamknij menu">
 							<X className="cursor-pointer hover:bg-slate-100" aria-hidden="true" />
 						</button>
 					</div>
-					{menuItems.name === "" ? (
+					{menuItems.item_label === "" ? (
 						<div className="grow">
 							<Command className="rounded-lg border shadow-md">
 								<CommandList>
@@ -88,7 +90,7 @@ export default function SideBar({
 											<Link key={index} href={item.full_path} legacyBehavior>
 												<a>
 													<CommandItem className="flex w-full cursor-pointer items-center justify-between pl-0 pr-0 hover:bg-slate-100">
-														<span className="w-4/5">{item.name}</span>
+														<span className="w-4/5">{item.item_label}</span>
 														{item.is_parent ? (
 															<ChevronDown className="w-1/5" aria-hidden="true" />
 														) : (

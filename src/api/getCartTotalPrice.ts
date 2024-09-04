@@ -10,7 +10,7 @@ export const getTotalPrice = async (
 		const response = await fetchGetApiData<CartTotalPrice, {}>({
 			query: "/api/carts/total-price",
 			variables: {},
-			cache: "force-cache",
+			cache: "no-store",
 			next: {
 				tags: ["cart"],
 			},

@@ -87,7 +87,9 @@ export default function CartClient({
 			city: userData?.profile?.city || "",
 
 			cart_items_price: Number(initialTotalPrice).toFixed(2),
-			delivery_price: Number(selectedDelivery.price).toFixed(2),
+			delivery_price: freeDelivery
+				? Number(selectedDelivery.price_promo).toFixed(2)
+				: Number(selectedDelivery.price).toFixed(2),
 			payment_price: selectedDelivery.in_store_pickup
 				? "0.00"
 				: Number(selectedPayment.price).toFixed(2),
@@ -125,7 +127,9 @@ export default function CartClient({
 				city: userData?.profile?.city || "",
 
 				cart_items_price: Number(initialTotalPrice).toFixed(2),
-				delivery_price: Number(selectedDelivery.price).toFixed(2),
+				delivery_price: freeDelivery
+					? Number(selectedDelivery.price_promo).toFixed(2)
+					: Number(selectedDelivery.price).toFixed(2),
 				payment_price: selectedDelivery.in_store_pickup
 					? "0.00"
 					: Number(selectedPayment.price).toFixed(2),
@@ -222,6 +226,7 @@ export default function CartClient({
 				data,
 				accessToken,
 				paymentMethodOnline: selectedPayment.payment_online,
+				freeDelivery,
 			});
 
 			console.log("Order response OK");

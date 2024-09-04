@@ -10,7 +10,7 @@ export const removeItem = async ({ itemId }: { itemId: UUID }): Promise<void> =>
 	await fetchPostApiData<CartResponse, typeof variables>({
 		query: "/api/carts/remove-item",
 		variables,
-		cache: "force-cache",
+		cache: "no-store",
 		next: {
 			tags: ["cart"],
 		},

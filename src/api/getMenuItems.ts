@@ -12,6 +12,7 @@ class SomeErrorClass {
 const defaultMenuItemsResponse: MenuItemsResponse = {
 	id: 0,
 	name: "",
+	item_label: "",
 	slug: "",
 	back_link: "",
 	has_children: false,

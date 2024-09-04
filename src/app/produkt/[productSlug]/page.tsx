@@ -1,5 +1,4 @@
 import { getProductDetails } from "@/api/getProduct";
-import { getProductsList } from "@/api/getProducts";
 import { BackLinkProps, Product } from "@/app/types";
 import HeaderComponent from "@/components/product/atoms/HeaderComponent";
 import { ProductDetailsComponent as DefaultProductDetailsComponent } from "@/components/product/ProductDetails";

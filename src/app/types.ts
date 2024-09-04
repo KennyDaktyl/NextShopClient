@@ -3,6 +3,7 @@ import { UUID } from "crypto";
 export interface MenuItem {
 	id: number;
 	name: string;
+	item_label: string;
 	slug: string;
 	description: string | null;
 	seo_text: string | null;
@@ -18,6 +19,7 @@ export interface MenuItem {
 export interface MenuItemsResponse {
 	id: number;
 	name: string;
+	item_label: string;
 	slug: string;
 	description: string | null;
 	seo_text: string | null;

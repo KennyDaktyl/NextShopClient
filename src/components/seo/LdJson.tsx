@@ -16,6 +16,8 @@ export const mappedProductToJsonLd = (product: ProductDetails): WithContext<Prod
 	return {
 		"@context": "https://schema.org",
 		"@type": "Product",
+		"@id": `${process.env.NEXT_PUBLIC_BASE_URL}` + product.full_path,
+		url: `${process.env.NEXT_PUBLIC_BASE_URL}` + product.full_path,
 		name: product.name,
 		image: {
 			"@type": "ImageObject",
@@ -46,7 +48,8 @@ export const mappedProductsToJsonLd = (
 				position: index + 1,
 				item: {
 					"@type": "Product",
-					"@id": product.full_path,
+					"@id": `${process.env.NEXT_PUBLIC_BASE_URL}` + product.full_path,
+					url: `${process.env.NEXT_PUBLIC_BASE_URL}` + product.full_path,
 					name: product.name,
 					image: product.image?.url ?? "",
 					offers: {
@@ -74,7 +77,8 @@ export const generateCategoryJsonLd = (category: CategoryDetailsProps): WithCont
 				position: index + 1,
 				item: {
 					"@type": "Thing",
-					"@id": item.full_path,
+					"@id": `${process.env.NEXT_PUBLIC_BASE_URL}` + item.full_path,
+					url: `${process.env.NEXT_PUBLIC_BASE_URL}` + item.full_path,
 					name: item.name,
 					description: item.description ?? undefined,
 					image: item.image?.url ?? "",

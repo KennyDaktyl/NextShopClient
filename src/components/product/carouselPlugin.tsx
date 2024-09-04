@@ -39,6 +39,8 @@ export function CarouselPlugin({ images }: { images: Image[] }) {
 						<Image
 							src={image.url}
 							alt={image.alt || ""}
+							title={image.title || ""}
+							loading="eager"
 							className="xs:h-[240px] xs:w-[240px] mx-auto rounded-md object-cover"
 							width={image.width}
 							height={image.height}

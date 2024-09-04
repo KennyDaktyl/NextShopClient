@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Variant } from "@/app/types";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@radix-ui/react-tooltip";
 import { Badge } from "@/components/ui/badge";
@@ -20,7 +21,7 @@ const COLOR_CLASSES: { [key: string]: string } = {
 
 const ColorVariantsComponent = ({
 	variants,
-	selectedVariant,
+	selectedVariant: propSelectedVariant, // prop to get the selected variant from parent
 	label,
 	onHandleClick,
 }: {
@@ -28,29 +29,47 @@ const ColorVariantsComponent = ({
 	selectedVariant: Variant | null;
 	label: string;
 	onHandleClick: (variant: Variant) => void;
-}) => (
-	<div className="mt-1 flex flex-wrap">
-		<span className="w-full text-sm font-semibold uppercase">{label}</span>
-		{variants.map((variant) => (
-			<Tooltip key={variant.id}>
-				<TooltipTrigger asChild>
-					<div className="m-0 p-0">
-						<Badge
-							className={`mb-2 mr-2 transform-gpu cursor-pointer rounded-full transition-transform duration-150 ${COLOR_CLASSES[variant.color]} ${
-								selectedVariant && selectedVariant.id === variant.id
-									? "scale-125 shadow-lg"
-									: "hover:scale-125 hover:bg-opacity-75 hover:shadow-lg"
-							}`}
-							onClick={() => onHandleClick(variant)}
-						></Badge>
-					</div>
-				</TooltipTrigger>
-				<TooltipContent className="z-10 rounded bg-gray-800 px-2 py-1 text-xs text-white">
-					{variant.name}
-				</TooltipContent>
-			</Tooltip>
-		))}
-	</div>
-);
+}) => {
+	const [selectedVariant, setSelectedVariant] = useState<Variant | null>(propSelectedVariant);
+
+	// Effect to set default selected variant (first one if not set)
+	useEffect(() => {
+		if (!propSelectedVariant && variants.length > 0) {
+			setSelectedVariant(variants[0]);
+			onHandleClick(variants[0]); // Set first variant as selected
+		}
+	}, [propSelectedVariant, variants, onHandleClick]);
+
+	// Function to handle variant selection
+	const handleClick = (variant: Variant) => {
+		setSelectedVariant(variant);
+		onHandleClick(variant);
+	};
+
+	return (
+		<div className="mt-1 flex flex-wrap">
+			<span className="w-full text-sm font-semibold uppercase">{label}</span>
+			{variants.map((variant) => (
+				<Tooltip key={variant.id}>
+					<TooltipTrigger asChild>
+						<div className="m-0 p-0">
+							<Badge
+								className={`mb-2 mr-2 transform-gpu cursor-pointer rounded-full transition-transform duration-150 ${COLOR_CLASSES[variant.color]} ${
+									selectedVariant && selectedVariant.id === variant.id
+										? "scale-125 shadow-lg"
+										: "hover:scale-125 hover:bg-opacity-75 hover:shadow-lg"
+								}`}
+								onClick={() => handleClick(variant)}
+							></Badge>
+						</div>
+					</TooltipTrigger>
+					<TooltipContent className="z-10 rounded bg-gray-800 px-2 py-1 text-xs text-white">
+						{variant.name}
+					</TooltipContent>
+				</Tooltip>
+			))}
+		</div>
+	);
+};
 
 export default ColorVariantsComponent;

@@ -117,7 +117,6 @@ export const ProductDetailsComponent = ({
 			newUrl.searchParams.delete("variant");
 			window.history.replaceState(null, "", newUrl.toString());
 		}
-		setQuantity(1);
 	}
 
 	const cartItemData = {
@@ -194,7 +193,12 @@ export const ProductDetailsComponent = ({
 				{cartItemData.is_available ? (
 					<p className="mb-2 text-sm text-green-500">Produkt dostępny</p>
 				) : (
-					<p className="mb-2 text-sm text-red-500">Produkt niedostępny</p>
+					<div>
+						<p className="mb-2 text-sm text-red-500">Produkt niedostępny</p>
+						{product.variants && (
+							<p className="mb-2 text-sm text-green-500">Sprawdź inny wariant!</p>
+						)}
+					</div>
 				)}
 				{cartItemData.is_available && (
 					<QuantityControl
@@ -204,7 +208,9 @@ export const ProductDetailsComponent = ({
 					/>
 				)}
 				<AddToCartButton cartItemData={cartItemData} onAddedToCart={handleAddToCart} />
-				<DescriptionComponent title="Opis produktu" description={product.description} />
+				{product.description && (
+					<DescriptionComponent title="Opis produktu" description={product.description} />
+				)}
 			</div>
 			{product.seo_text && (
 				<DescriptionComponent title="Szczegóły produktu" description={product.seo_text} />

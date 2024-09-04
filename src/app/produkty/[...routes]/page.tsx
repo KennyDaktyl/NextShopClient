@@ -65,6 +65,7 @@ export default async function Page({
 	const category = {
 		slug: menuItems.slug,
 		name: menuItems.name,
+		item_label: menuItems.item_label || menuItems.name,
 		description: menuItems.description || "",
 		seo_text: menuItems.seo_text || "",
 		image: menuItems.image || null,

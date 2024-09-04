@@ -8,7 +8,7 @@ export const removeCart = async (): Promise<CartItems | { status: number }> => {
 		const response = await fetchPostApiData<CartItems, object>({
 			query: "/api/carts/remove-cart",
 			variables: {},
-			cache: "force-cache",
+			cache: "no-store",
 			next: {
 				tags: ["cart"],
 			},

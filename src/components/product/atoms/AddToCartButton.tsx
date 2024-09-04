@@ -12,14 +12,14 @@ type AddToCartButtonProps = {
 		quantity: number;
 		is_available: boolean;
 		selected_option?: { option_id: number; value_id: number } | undefined;
+		free_delivery: boolean;
 	};
 	onAddedToCart: () => boolean;
 };
 
 export default function AddToCartButton({ cartItemData, onAddedToCart }: AddToCartButtonProps) {
 	const [isPending, startTransition] = useTransition();
-	const outOffStock = false ? cartItemData.is_available : true;
-
+	const outOffStock = !cartItemData.is_available;
 	const handleClick = async () => {
 		startTransition(async () => {
 			if (onAddedToCart()) {
@@ -57,7 +57,7 @@ export default function AddToCartButton({ cartItemData, onAddedToCart }: AddToCa
 			aria-label="Dodaj produkt do koszyka"
 			className={`w-full rounded-md text-white transition hover:bg-gray-500 ${isPending ? "cursor-wait hover:cursor-wait" : "cursor-pointer"} transition-shadow`}
 		>
-			Dodaj do koszyka
+			Dodaj do koszyka {outOffStock}
 		</Button>
 	);
 }

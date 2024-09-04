@@ -10,10 +10,8 @@ export const getCartItems = async (sessionid: string): Promise<CartItems | { sta
 		const response = await fetchGetApiData<CartItems, Record<string, unknown>>({
 			query: "/api/carts/cart-items",
 			variables: {},
-			cache: "force-cache",
-			next: {
-				tags: ["cart"],
-			},
+			cache: "no-store",
+			next: {},
 			sessionid,
 		});
 		return response;

@@ -18,7 +18,7 @@ export const CategoryListOnFirstPage: React.FC<FirstPageDataResponse> = ({ categ
 				>
 					<Link href={category.full_path} className="block rounded-lg hover:bg-slate-50">
 						<div className="flex w-full flex-wrap items-center justify-center md:h-[350px]">
-							<div className="flex h-[200px] w-full items-center justify-center p-1 md:h-[350px] md:w-1/2 xl:p-4">
+							<div className="flex h-[300px] w-full items-center justify-center p-1 md:h-[350px] md:w-1/2 xl:p-4">
 								<div className="flex w-full flex-wrap items-center justify-start">
 									<h2 className="w-full text-xl font-bold text-gray-800">{category.name}</h2>
 									<p className="mt-4 text-lg text-gray-600">{category.description}</p>

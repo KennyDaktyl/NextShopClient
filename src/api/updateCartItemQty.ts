@@ -17,7 +17,7 @@ export const updateCartItemQty = async ({
 	await fetchPostApiData<CartResponse, typeof variables>({
 		query: "/api/carts/update-item-qty",
 		variables,
-		cache: "force-cache",
+		cache: "no-store",
 		next: {
 			tags: ["cart"],
 		},
