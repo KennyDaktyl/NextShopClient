@@ -10,7 +10,7 @@ const SubcategoryItem = ({ item }: SubcategoryItemProps) => {
 	return (
 		<Link
 			href={item.full_path}
-			className="subcategory-list-item flex h-[410px] cursor-pointer flex-col items-center justify-start rounded-md border shadow-md transition duration-300 ease-in-out hover:border-gray-300 hover:shadow-lg md:h-[550px]"
+			className="subcategory-list-item flex h-[410px] cursor-pointer flex-col items-center justify-start rounded-md border shadow-md transition duration-300 ease-in-out hover:border-gray-300 hover:shadow-lg md:h-[580px]"
 		>
 			<div className="flex h-[360px] w-full flex-wrap justify-center p-2">
 				<h2 className="mt-2 h-[40px] text-center text-sm font-bold md:text-xl">{item.name}</h2>

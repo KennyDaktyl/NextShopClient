@@ -10,7 +10,7 @@ export const getDeliveryMethods = async (sessionid: string) => {
 		const response = await fetchGetApiData<ApiResponse, {}>({
 			query: "/api/deliveries/delivery-methods",
 			variables: {},
-			cache: "force-cache",
+			cache: "no-store",
 			next: { tags: ["delivery-methods"] },
 			sessionid,
 		});
