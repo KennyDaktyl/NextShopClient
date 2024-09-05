@@ -7,8 +7,8 @@ import { Badge } from "@/components/ui/badge";
 
 export const CategoryListOnFirstPage: React.FC<FirstPageDataResponse> = ({ categories }) => {
 	return (
-		<div className="mb-3 mt-9 flex w-full max-w-screen-xl flex-wrap items-start justify-between">
-			<p className="mb-6 mt-3 w-full border-b-2 border-gray-300 pb-2 text-2xl font-bold">
+		<div className="mb-3 flex w-full max-w-screen-xl flex-wrap items-start justify-between">
+			<p className="mb-6 w-full border-b-2 border-gray-300 pb-2 text-2xl font-bold">
 				Kategorie promowane
 			</p>
 			{categories.map((category) => (
@@ -62,7 +62,7 @@ export const CategoryListOnFirstPage: React.FC<FirstPageDataResponse> = ({ categ
 					{category.products_on_first_page.length > 0 && (
 						<div className="mb-3 mt-9 w-full p-2">
 							<p className="text:2xl mb-3 mt-5 w-full font-bold text-gray-800">
-								Promowane w {category.name}
+								Promowane produkty w kategorii {category.name}
 							</p>
 							<div
 								data-testid={"products-promo-in-" + category.slug}

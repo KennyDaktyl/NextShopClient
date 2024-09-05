@@ -12,7 +12,6 @@ type AddToCartButtonProps = {
 		quantity: number;
 		is_available: boolean;
 		selected_option?: { option_id: number; value_id: number } | undefined;
-		free_delivery: boolean;
 	};
 	onAddedToCart: () => boolean;
 };

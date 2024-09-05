@@ -130,7 +130,6 @@ export interface CartItem {
 	selected_option: string | null;
 	image: Image | null;
 	url: string;
-	free_delivery: boolean;
 }
 
 export interface CartItems {

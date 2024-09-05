@@ -12,18 +12,16 @@ export const HeroItem: React.FC<{ heroData: Hero; isFirst: boolean }> = ({ heroD
 		>
 			<div
 				className={`flex items-center justify-center p-1 ${
-					isFirst ? "h-[500px] md:w-1/2" : "h-[380px] md:w-1/2"
+					isFirst ? "h-[500px] md:w-1/2" : "h-[440px] md:w-1/2"
 				}`}
 			>
 				<div className="flex w-4/5 flex-wrap items-center justify-start">
 					{isFirst ? (
-						<h1 className="w-full text-3xl font-bold">{heroData.title}</h1>
+						<h1 className="w-full text-xl font-bold">{heroData.title}</h1>
 					) : (
-						<h2 className="w-full text-2xl font-bold md:text-2xl">{heroData.title}</h2>
+						<h2 className="w-full text-xl font-bold">{heroData.title}</h2>
 					)}
-					<p className={`mt-4 ${isFirst ? "text-xl" : "text-lg md:text-base"}`}>
-						{heroData.description}
-					</p>
+					<p className="mt-4 text-lg">{heroData.description}</p>
 					{heroData.link && heroData.link_text && (
 						<div className="mt-4">
 							<Link href={heroData.link} role="link">

@@ -7,10 +7,10 @@ const CategoryDetails = ({ category }: { category: CategoryDetailsProps }) => {
 	return (
 		<div className="mb-5 mt-10 w-full md:mt-0">
 			<div className="flex w-full flex-wrap items-center justify-center rounded-md bg-gray-100 shadow-md md:h-[350px]">
-				<div className="flex h-[400px] w-full items-center justify-center md:h-[350px] md:w-1/2">
+				<div className="flex h-[450px] w-full items-center justify-center md:h-[350px] md:w-1/2">
 					<div className="flex w-4/5 flex-wrap items-center justify-start">
-						<h1 className="w-full text-xl font-bold">{category.name}</h1>
-						<p className="mt-4 text-lg">{category.description}</p>
+						<h1 className="w-full text-lg font-bold">{category.name}</h1>
+						<p className="mt-4 text-sm leading-6">{category.description}</p>
 					</div>
 				</div>
 				{category.image && (

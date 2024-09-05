@@ -72,7 +72,6 @@ export default async function CartPage() {
 	} else {
 		userData = undefined;
 	}
-	console.log("free_delivery", freeDelivery);
 	return (
 		<CartClient
 			cartItems={cartItems}

@@ -125,7 +125,6 @@ export const ProductDetailsComponent = ({
 		quantity: quantity,
 		is_available: selectedVariant ? selectedVariant.qty > 0 : product.qty > 0,
 		selected_option: selectedOption || undefined,
-		free_delivery: product.free_delivery,
 	};
 
 	return (

@@ -56,7 +56,7 @@ export default function CartClient({
 
 		setFinalPrice(newPrice);
 		methods.setValue("amount", newPrice.toFixed(2));
-	}, [initialTotalPrice, deliveryMethods, paymentMethods]);
+	}, [initialTotalPrice, deliveryMethods, paymentMethods, freeDelivery, currentCartItems]);
 
 	// Dynamiczny schemat walidacji
 	const schema = useMemo(() => {
@@ -160,8 +160,10 @@ export default function CartClient({
 		selectedPayment,
 		inpostBoxId,
 		info,
+		freeDelivery,
 	]);
 
+	console.log("free_delivery Client", freeDelivery);
 	// Obsługa zmiany metody dostawy
 	const handleDeliveryMethodChange = (method: DeliveryMethod) => {
 		setSelectedDelivery(method);
