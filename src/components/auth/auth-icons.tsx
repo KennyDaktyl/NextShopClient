@@ -21,7 +21,7 @@ export default function AuthIcons() {
 	};
 
 	return (
-		<div className="flex items-center justify-end">
+		<div className="flex w-20 items-center justify-end">
 			{isAuthenticated ? (
 				<>
 					<Link href="/moje-konto">

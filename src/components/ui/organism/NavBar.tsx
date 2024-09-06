@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useState, useEffect, useRef } from "react";
 import { ActiveLink } from "../atoms/ActiveLink";
 import { Menu, Search, ShoppingCart, X } from "lucide-react";
 import Link from "next/link";
@@ -16,30 +16,10 @@ type NavLink = {
 };
 
 const NavLinks: NavLink[] = [
-	{
-		href: "/produkty",
-		label: "Produkty",
-		exact: true,
-		role: "link",
-	},
-	{
-		href: "/uslugi",
-		label: "Usługi",
-		exact: true,
-		role: "link",
-	},
-	{
-		href: "/blog",
-		label: "Blog",
-		exact: true,
-		role: "link",
-	},
-	{
-		href: "/kontakt",
-		label: "Kontakt",
-		exact: true,
-		role: "link",
-	},
+	{ href: "/produkty", label: "Produkty", exact: true, role: "link" },
+	{ href: "/uslugi", label: "Usługi", exact: true, role: "link" },
+	{ href: "/blog", label: "Blog", exact: true, role: "link" },
+	{ href: "/kontakt", label: "Kontakt", exact: true, role: "link" },
 ];
 
 type NavBarProps = {
@@ -49,18 +29,29 @@ type NavBarProps = {
 export default function NavBar({ totalPrice }: NavBarProps) {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isSearchVisible, setSearchVisible] = useState(false);
+	const searchRef = useRef<HTMLDivElement>(null);
 
-	const toggleMenu = () => {
-		setIsMenuOpen(!isMenuOpen);
-	};
+	const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-	const toggleSearch = () => {
-		setSearchVisible(!isSearchVisible);
-	};
+	const toggleSearch = () => setSearchVisible(!isSearchVisible);
 
 	const closeSearch = () => {
 		setSearchVisible(false);
 	};
+
+	// Zamykanie wyszukiwania po kliknięciu poza input
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+				closeSearch(); // Zamknięcie inputu i czyszczenie frazy
+			}
+		};
+
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, []);
 
 	return (
 		<nav className="fixed top-0 z-50 w-full bg-white shadow-md md:p-0">
@@ -97,12 +88,11 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 						<Suspense>
 							<ShoppingCart className="ml-4 h-6 w-6 flex-shrink" aria-hidden="true" />
 							<span className="w-20 text-right">{formatMoney(totalPrice)}</span>
-							<span className="sr-only"></span>
 						</Suspense>
 					</Link>
 					<AuthIcons />
 				</div>
-				<div className="flex items-center xl:hidden">
+				<div className="flex items-center xl:hidden" ref={searchRef}>
 					<Suspense>
 						<Search
 							size={20}
@@ -113,7 +103,9 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 							aria-expanded={isSearchVisible}
 						/>
 						<div
-							className={`absolute left-0 top-1/2 z-50 -translate-y-1/2 transform pl-5 ${isSearchVisible ? "block" : "hidden"}`}
+							className={`absolute left-0 top-1/2 z-50 -translate-y-1/2 transform pl-5 ${
+								isSearchVisible ? "block" : "hidden"
+							}`}
 						>
 							<SearchInput isSearchVisible={isSearchVisible} closeSearch={closeSearch} />
 						</div>
