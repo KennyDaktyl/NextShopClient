@@ -62,7 +62,7 @@ export default function SideBar({
 					{menuItems.item_label === "" ? (
 						<div className="grow">
 							<Command className="rounded-lg border shadow-md">
-								<CommandList>
+								<CommandList className="h-full">
 									<CommandGroup heading="Loading...">
 										<CommandSeparator />
 									</CommandGroup>
