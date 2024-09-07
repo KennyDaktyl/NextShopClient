@@ -12,7 +12,7 @@ export const HeroItem: React.FC<{ heroData: Hero; isFirst: boolean }> = ({ heroD
 		>
 			<div
 				className={`flex items-center justify-center p-1 ${
-					isFirst ? "h-[500px] md:w-1/2" : "h-[440px] md:w-1/2"
+					isFirst ? "h-[500px] md:w-1/2" : "max-h-[440px] md:w-1/2"
 				}`}
 			>
 				<div className="flex w-4/5 flex-wrap items-center justify-start">

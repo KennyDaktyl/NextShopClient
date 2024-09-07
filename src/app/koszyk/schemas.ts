@@ -22,6 +22,7 @@ export const cartItemSchema = z.object({
 		.nullable(),
 	url: z.string(),
 	free_delivery: z.boolean(),
+	info: z.string().nullable().optional(),
 });
 
 export const basicSchema = z.object({

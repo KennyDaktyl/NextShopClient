@@ -15,6 +15,8 @@ import AddToCartButton from "@/components/product/atoms/AddToCartButton";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ProductOptionComponent } from "@/components/product/ProductOption";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export const ProductDetailsComponent = ({
 	product,
@@ -26,6 +28,7 @@ export const ProductDetailsComponent = ({
 	const searchParams = useSearchParams();
 	const variantSlug = searchParams.get("variant");
 
+	const [textareaValue, setTextareaValue] = useState("");
 	const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
 	const [selectedOption, setSelectedOption] = useState<{
 		option_id: number;
@@ -125,6 +128,7 @@ export const ProductDetailsComponent = ({
 		quantity: quantity,
 		is_available: selectedVariant ? selectedVariant.qty > 0 : product.qty > 0,
 		selected_option: selectedOption || undefined,
+		info: textareaValue || undefined,
 	};
 
 	return (
@@ -207,6 +211,19 @@ export const ProductDetailsComponent = ({
 					/>
 				)}
 				<AddToCartButton cartItemData={cartItemData} onAddedToCart={handleAddToCart} />
+				<div className="mb-4 mt-4">
+					<Label htmlFor="info" className="mb-1 text-sm font-semibold">
+						Wiadomość <span className="text-red-500">*</span>
+					</Label>
+					<Textarea
+						id="info"
+						maxLength={255}
+						className="mt-1 block w-full rounded-md border p-2"
+						rows={5}
+						value={textareaValue}
+						onChange={(e) => setTextareaValue(e.target.value)}
+					/>
+				</div>
 				{product.description && (
 					<DescriptionComponent title="Opis produktu" description={product.description} />
 				)}

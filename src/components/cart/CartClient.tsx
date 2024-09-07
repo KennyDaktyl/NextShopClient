@@ -164,7 +164,6 @@ export default function CartClient({
 		freeDelivery,
 	]);
 
-	console.log("userData", userData);
 	// Obsługa zmiany metody dostawy
 	const handleDeliveryMethodChange = (method: DeliveryMethod) => {
 		setSelectedDelivery(method);

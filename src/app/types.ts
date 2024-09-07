@@ -1,3 +1,4 @@
+import { info } from "console";
 import { UUID } from "crypto";
 
 export interface MenuItem {
@@ -130,6 +131,7 @@ export interface CartItem {
 	selected_option: string | null;
 	image: Image | null;
 	url: string;
+	info: string | null;
 }
 
 export interface CartItems {
@@ -351,6 +353,7 @@ export interface Order {
 	cart_items: string;
 	invoice: Invoice | null;
 	make_invoice: boolean;
+	info: string | null;
 }
 
 export interface UserData {

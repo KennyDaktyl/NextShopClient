@@ -17,8 +17,9 @@ export async function addToCartAction(cartItemData: {
 	quantity: number;
 	variant_id: number | null;
 	selected_option?: { option_id: number; value_id: number } | undefined;
+	info?: string | undefined;
 }): Promise<{ success: boolean; message?: string }> {
-	const { product_id, quantity, variant_id, selected_option } = cartItemData;
+	const { product_id, quantity, variant_id, selected_option, info } = cartItemData;
 
 	const cartId = cookies().get("cartId")?.value;
 	let response: CartResponse;
@@ -32,6 +33,7 @@ export async function addToCartAction(cartItemData: {
 					quantity: number;
 					variant_id: number | null;
 					selected_option?: { option_id: number; value_id: number };
+					info: string | undefined;
 				}
 			>({
 				query: "/api/carts/create",
@@ -40,6 +42,7 @@ export async function addToCartAction(cartItemData: {
 					quantity,
 					variant_id,
 					selected_option,
+					info,
 				},
 				token: cookies().get("token")?.value,
 			});
@@ -52,6 +55,7 @@ export async function addToCartAction(cartItemData: {
 					variant_id: number | null;
 					cart_id: string;
 					selected_option?: { option_id: number; value_id: number };
+					info: string | undefined;
 				}
 			>({
 				query: "/api/carts/update",
@@ -61,6 +65,7 @@ export async function addToCartAction(cartItemData: {
 					variant_id,
 					cart_id: cartId,
 					selected_option,
+					info,
 				},
 				token: cookies().get("token")?.value,
 			});
@@ -110,14 +115,12 @@ export async function createOrderAction({
 	data,
 	accessToken,
 	paymentMethodOnline,
-	freeDelivery,
 }: {
 	data: OrderData;
 	accessToken?: string;
 	paymentMethodOnline: boolean;
 	freeDelivery: boolean;
 }): Promise<newOrderResponse> {
-	console.log(freeDelivery);
 	const orderData = {
 		client_name: data.name,
 		client_email: data.email,

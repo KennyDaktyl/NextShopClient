@@ -31,6 +31,7 @@ export const CartTableRow = ({ item, onQuantityChange, onRemoveItem }: CartTable
 						{item.selected_option && (
 							<p className="w-full text-left text-xs text-gray-500">{item.selected_option}</p>
 						)}
+						{item.info && <p className="w-full text-left text-xs text-gray-500">{item.info}</p>}
 					</Link>
 				</div>
 			</td>

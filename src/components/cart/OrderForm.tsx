@@ -97,7 +97,7 @@ export default function OrderForm({
 	};
 
 	const onHandleSubmit = async (data: any) => {
-		console.log("Dane formularza:", data);
+		// console.log("Dane formularza:", data);
 	};
 
 	return (

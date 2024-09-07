@@ -12,11 +12,13 @@ type AddToCartButtonProps = {
 		quantity: number;
 		is_available: boolean;
 		selected_option?: { option_id: number; value_id: number } | undefined;
+		info?: string | undefined;
 	};
 	onAddedToCart: () => boolean;
 };
 
 export default function AddToCartButton({ cartItemData, onAddedToCart }: AddToCartButtonProps) {
+	console.log("AddToCartButton", cartItemData);
 	const [isPending, startTransition] = useTransition();
 	const outOffStock = !cartItemData.is_available;
 	const handleClick = async () => {

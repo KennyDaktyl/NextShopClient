@@ -102,14 +102,23 @@ export const OrdersTable = ({ orders }: { orders: Order[] }) => {
 																	className="h-16 w-16 object-cover"
 																/>
 																<div>
-																	<p className="font-semibold">
-																		{item.name}
-																		<br />
-																		<small className="font-xs">{item.variant}</small>
-																		<br />
-																		<small className="font-xs">{item.selected_option}</small>{" "}
+																	<p className="font-semibold">{item.name}</p>
+																	{item.variant && (
+																		<small className="font-xs w-full">
+																			Wariant:&nbsp;{item.variant}
+																		</small>
+																	)}
+																	{item.selected_option && (
+																		<small className="font-xs w-full">
+																			Opcja:&nbsp;{item.selected_option}
+																		</small>
+																	)}
+																	{item.info && (
+																		<small className="font-xs w-full">Info:&nbsp;{item.info}</small>
+																	)}
+																	<p className="w-full text-sm text-gray-600">
+																		Ilość: {item.quantity}
 																	</p>
-																	<p className="text-sm text-gray-600">Ilość: {item.quantity}</p>
 																	<p className="text-sm text-gray-600">
 																		Cena: {formatMoney(Number(item.price))}
 																	</p>
@@ -144,6 +153,12 @@ export const OrdersTable = ({ orders }: { orders: Order[] }) => {
 																<strong>Koszt za produkty:</strong>{" "}
 																{formatMoney(Number(order.cart_items_price))}
 															</p>
+															{order.info && (
+																<div className="flex items-center">
+																	<strong className="text-sm text-gray-600">Informacje:</strong>
+																	<p className="ml-3 text-sm text-gray-600">{order.info}</p>
+																</div>
+															)}
 															<p className="mt-2 text-sm text-gray-600">
 																<strong>Suma:&nbsp;{order.amount} zł</strong>
 															</p>
