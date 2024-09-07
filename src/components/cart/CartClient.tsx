@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import InvoiceDataForm from "@/components/cart/atoms/InvoiceDataForm";
 import DeliveryMethods from "@/components/cart/atoms/DeliveryMethods";
+import { ActiveLink } from "@/components/ui/atoms/ActiveLink";
 
 export default function CartClient({
 	cartItems,
@@ -163,7 +164,7 @@ export default function CartClient({
 		freeDelivery,
 	]);
 
-	console.log("free_delivery Client", freeDelivery);
+	console.log("userData", userData);
 	// Obsługa zmiany metody dostawy
 	const handleDeliveryMethodChange = (method: DeliveryMethod) => {
 		setSelectedDelivery(method);
@@ -271,7 +272,18 @@ export default function CartClient({
 							paymentMethods={paymentMethods}
 							onPaymentMethodChange={handlePaymentMethodChange}
 						/>
-
+						{!userData && (
+							<ActiveLink
+								role="link"
+								aria-label="Zaloguj się"
+								href="auth/login"
+								className="text-sm font-semibold text-slate-950 underline"
+							>
+								<Button className="mt-4 w-full rounded-lg border bg-slate-950 py-2 font-semibold text-white shadow transition-colors hover:bg-slate-800 xl:w-64">
+									Posiadasz konto? Zaloguj się
+								</Button>
+							</ActiveLink>
+						)}
 						{selectedDelivery.in_store_pickup || selectedDelivery.inpost_box ? (
 							<BasicForm />
 						) : (

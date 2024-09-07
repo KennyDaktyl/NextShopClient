@@ -1,9 +1,6 @@
 import { getProductDetails } from "@/api/getProduct";
-import { getProductsList } from "@/api/getProducts";
-import { BackLinkProps, Product } from "@/app/types";
-import HeaderComponent from "@/components/product/atoms/HeaderComponent";
+import { BackLinkProps } from "@/app/types";
 import ServiceDetailsComponent from "@/components/product/atoms/ServiceDetailsComponent";
-import { ProductDetailsComponent as DefaultProductDetailsComponent } from "@/components/product/ProductDetails";
 import { JsonLd, mappedProductToJsonLd } from "@/components/seo/LdJson";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -17,21 +14,46 @@ export async function generateMetadata({
 
 	if (!productDetailsResponse) {
 		return {
-			title: "Produkt nie znaleziony",
-			description: "Przepraszamy, nie mogliśmy znaleźć tego produktu.",
+			title: "Usługa nie znaleziona",
+			description: "Przepraszamy, nie mogliśmy znaleźć tej usługi.",
 			alternates: {
-				canonical: `/produkt/${params.productSlug}`,
+				canonical: `/usługa/${params.productSlug}`,
 			},
 		};
 	}
 
-	const { name, description, category, full_path } = productDetailsResponse;
+	const { name, description, category, full_path, images } = productDetailsResponse;
 
 	return {
-		title: `Produkt ${name} z kategorii ${category.name}`,
-		description: description?.slice(0, 160) || "Opis produktu niedostępny.",
+		title: `Usługa ${name} z kategorii ${category.name}`,
+		description: description?.slice(0, 160) || "Opis usługi niedostępny.",
 		alternates: {
 			canonical: full_path,
+		},
+		openGraph: {
+			title: `Produkt ${name} z kategorii ${category.name}`,
+			description: description?.slice(0, 160),
+			url: process.env.NEXT_PUBLIC_BASE_URL + full_path,
+			siteName: process.env.NEXT_PUBLIC_SITE_TITLE,
+			images: images.map((image) => ({
+				url: image.url || "",
+				width: image.width || 0,
+				height: image.height || 0,
+				alt: image.alt || "",
+			})),
+			locale: "pl_PL",
+			type: "website",
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: `Produkt ${name} z kategorii ${category.name}`,
+			description: description?.slice(0, 160),
+			images: images.map((image) => ({
+				url: image.url || "",
+				width: image.width || 0,
+				height: image.height || 0,
+				alt: image.alt || "",
+			})),
 		},
 	};
 }

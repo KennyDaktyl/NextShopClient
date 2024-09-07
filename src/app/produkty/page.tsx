@@ -7,7 +7,19 @@ import CategoryDetails from "@/components/category/CategoryDetails";
 import { MenuItemsResponse } from "@/app/types";
 import { generateCategoryJsonLd, JsonLd } from "@/components/seo/LdJson";
 
-export function generateMetadata(): Metadata | ResolvingMetadata {
+export async function generateMetadata(): Promise<Metadata> {
+	const currentCategorySlug = "produkty";
+	const menuItems: MenuItemsResponse = await getMenuItems({
+		categorySlug: currentCategorySlug,
+	});
+
+	const category = {
+		name: menuItems.name,
+		description: menuItems.description || "",
+		image: menuItems.image,
+		full_path: menuItems.full_path,
+	};
+
 	return {
 		alternates: {
 			canonical: "/produkty",
@@ -15,6 +27,36 @@ export function generateMetadata(): Metadata | ResolvingMetadata {
 		title: `Lista głównych kategorii produktów w sklepie internetowym`,
 		description:
 			"Lista wszystkich głównych kategorii dostępnych w naszym sklepie internetowym. Sprawdź naszą ofertę i wybierz coś dla siebie!",
+
+		openGraph: {
+			title: `Kategoria ${category.name}`,
+			description: category.description?.slice(0, 160),
+			url: process.env.NEXT_PUBLIC_BASE_URL + category.full_path,
+			siteName: process.env.NEXT_PUBLIC_SITE_TITLE,
+			images: [
+				{
+					url: category.image?.url || "",
+					width: category.image?.width || 0,
+					height: category.image?.height || 0,
+					alt: category.image?.alt || "",
+				},
+			],
+			locale: "pl_PL",
+			type: "website",
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: `Kategoria ${category.name}`,
+			description: category.description?.slice(0, 160),
+			images: [
+				{
+					url: category.image?.url || "",
+					width: category.image?.width || 0,
+					height: category.image?.height || 0,
+					alt: category.image?.alt || "",
+				},
+			],
+		},
 	};
 }
 

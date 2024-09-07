@@ -22,7 +22,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-export const LoginForm = () => {
+export const LoginForm = ({ reffer }: { reffer: string }) => {
 	const router = useRouter();
 	const [success, setSuccess] = useState<string | undefined>("");
 	const [error, setError] = useState<string | undefined>("");
@@ -56,7 +56,7 @@ export const LoginForm = () => {
 						setSuccess("Login successful!");
 					}
 					setSuccess("Login successful!");
-					router.push("/");
+					router.push(reffer);
 					form.reset();
 				} catch (error) {
 					setError("Niepoprawny login lub hasło !");

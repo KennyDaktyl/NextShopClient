@@ -35,14 +35,43 @@ export async function generateMetadata({
 	};
 
 	if (category.has_children) {
-		title = `Kategoria ${category.name} i lista jej podkategorii`;
-		description = `Lista podkategorii dla kategorii ${category.description}`;
+		title = `Usługa ${category.name} i lista jej podkategorii`;
+		description = `Lista usług dla kategorii Usługi - ${category.description}`;
 	}
 
 	return {
 		title,
 		description,
 		alternates,
+		openGraph: {
+			title: `Usługa ${category.name}`,
+			description: category.description?.slice(0, 160),
+			url: process.env.NEXT_PUBLIC_BASE_URL + category.full_path,
+			siteName: process.env.NEXT_PUBLIC_SITE_TITLE,
+			images: [
+				{
+					url: category.image?.url || "",
+					width: category.image?.width || 0,
+					height: category.image?.height || 0,
+					alt: category.image?.alt || "",
+				},
+			],
+			locale: "pl_PL",
+			type: "website",
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: `Usługa ${category.name}`,
+			description: category.description?.slice(0, 160),
+			images: [
+				{
+					url: category.image?.url || "",
+					width: category.image?.width || 0,
+					height: category.image?.height || 0,
+					alt: category.image?.alt || "",
+				},
+			],
+		},
 	};
 }
 

@@ -1,4 +1,5 @@
 import { LoginForm } from "@/components/auth/login-form";
+import { cookies, headers } from "next/headers";
 
 export async function generateMetadata() {
 	return {
@@ -8,5 +9,8 @@ export async function generateMetadata() {
 }
 
 export default function Page() {
-	return <LoginForm />;
+	const headersList = headers();
+	const referer = headersList.get("referer") || "/";
+
+	return <LoginForm reffer={referer} />;
 }

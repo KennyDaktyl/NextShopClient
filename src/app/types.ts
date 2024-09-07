@@ -137,6 +137,10 @@ export interface CartItems {
 	free_delivery: boolean;
 }
 
+export interface ContactData {
+	image: Image | null;
+}
+
 export interface ErrorResponse {
 	status: number;
 }
@@ -208,9 +212,9 @@ export interface ProductDetails {
 export interface CategoryMetaData {
 	name: string;
 	description: string;
-	seo_text: string | null;
 	has_children: boolean;
 	full_path: string;
+	image: Image | null;
 }
 
 export interface GetCategoryMetaDataResponse {

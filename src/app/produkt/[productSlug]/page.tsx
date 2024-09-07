@@ -23,7 +23,7 @@ export async function generateMetadata({
 		};
 	}
 
-	const { name, description, category, full_path } = productDetailsResponse;
+	const { name, description, category, full_path, images } = productDetailsResponse;
 
 	return {
 		title: `Produkt ${name} z kategorii ${category.name}`,
@@ -31,27 +31,33 @@ export async function generateMetadata({
 		alternates: {
 			canonical: full_path,
 		},
+		openGraph: {
+			title: `Produkt ${name} z kategorii ${category.name}`,
+			description: description?.slice(0, 160),
+			url: process.env.NEXT_PUBLIC_BASE_URL + full_path,
+			siteName: process.env.NEXT_PUBLIC_SITE_TITLE,
+			images: images.map((image) => ({
+				url: image.url || "",
+				width: image.width || 0,
+				height: image.height || 0,
+				alt: image.alt || "",
+			})),
+			locale: "pl_PL",
+			type: "website",
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: `Produkt ${name} z kategorii ${category.name}`,
+			description: description?.slice(0, 160),
+			images: images.map((image) => ({
+				url: image.url || "",
+				width: image.width || 0,
+				height: image.height || 0,
+				alt: image.alt || "",
+			})),
+		},
 	};
 }
-
-// export async function generateStaticParams() {
-// 	try {
-// 		const productsResponse = await getProductsList({ params: { page: "1" } });
-
-// 		if (Array.isArray(productsResponse) && productsResponse.length > 0) {
-// 			const paths = productsResponse.map((product: Product) => ({
-// 				productSlug: product.slug,
-// 			}));
-// 			console.log("Generated static paths for products:", paths);
-// 			return paths;
-// 		} else {
-// 			return [];
-// 		}
-// 	} catch (error) {
-// 		console.error("Error generating static params:", error);
-// 		return [];
-// 	}
-// }
 
 export default async function ProductPage({ params }: { params: { productSlug: string } }) {
 	const productDetailsResponse = await getProductDetails({ productSlug: params.productSlug });

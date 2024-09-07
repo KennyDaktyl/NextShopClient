@@ -1,5 +1,6 @@
 // contact-page.tsx (plik główny strony, bez "use client")
 
+import { getContactData } from "@/api/getContactData";
 import { CompanyDetails } from "@/components/contact/CompanyDetails";
 import { ContactFormWithReCaptcha } from "@/components/contact/ContactFormWithReCaptcha";
 import { GoogleMap } from "@/components/contact/GoogleMap";
@@ -12,10 +13,26 @@ export async function generateMetadata() {
 		alternates: {
 			canonical: "/kontakt",
 		},
+		openGraph: {
+			title: `Kontakt do nas`,
+			description: "Kontakt do nas. Tu znajdziesz wszystkie informacje kontaktowe.",
+			url: process.env.NEXT_PUBLIC_BASE_URL + "/kontakt",
+			siteName: process.env.NEXT_PUBLIC_SITE_TITLE,
+			images: [],
+			locale: "pl_PL",
+			type: "website",
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: `Kontakt do nas`,
+			description: "Kontakt do nas. Tu znajdziesz wszystkie informacje kontaktowe.",
+			images: [],
+		},
 	};
 }
 
-export default function ContactPage() {
+export default async function ContactPage() {
+	const contactData = await getContactData();
 	return (
 		<section className="z-10 mx-auto mb-5 mt-5 w-full max-w-screen-xl p-0">
 			<h1 className="mb-8 text-center text-3xl font-bold">Kontakt</h1>

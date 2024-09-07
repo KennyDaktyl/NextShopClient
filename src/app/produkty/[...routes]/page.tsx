@@ -43,6 +43,35 @@ export async function generateMetadata({
 		title,
 		description,
 		alternates,
+		openGraph: {
+			title: title,
+			description: description,
+			url: process.env.NEXT_PUBLIC_BASE_URL + category.full_path,
+			siteName: process.env.NEXT_PUBLIC_SITE_TITLE,
+			images: [
+				{
+					url: category.image?.url || "",
+					width: category.image?.width || 0,
+					height: category.image?.height || 0,
+					alt: category.image?.alt || "",
+				},
+			],
+			locale: "pl_PL",
+			type: "website",
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: title,
+			description: description?.slice(0, 160),
+			images: [
+				{
+					url: category.image?.url || "",
+					width: category.image?.width || 0,
+					height: category.image?.height || 0,
+					alt: category.image?.alt || "",
+				},
+			],
+		},
 	};
 }
 
