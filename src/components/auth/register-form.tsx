@@ -49,18 +49,16 @@ export const RegisterForm = () => {
 		startTransition(() => {
 			register(formData)
 				.then((data) => {
-					console.log("Register response:", data);
 					setError(data.error);
 					if (data.success) {
 						form.reset();
 						setSuccess("Sprawdź email w celu aktywacji konta");
 						setTimeout(() => {
 							router.push("/auth/login");
-						}, 5000);
+						}, 2000);
 					}
 				})
 				.catch((err) => {
-					console.error("Registration error:", err);
 					setError("Wystąpił błąd podczas rejestracji");
 				});
 		});

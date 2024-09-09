@@ -36,6 +36,7 @@ export const BasicInfoForm = ({ token }: BasicInfoFormProps) => {
 				email: data.email,
 				first_name: data.first_name,
 				last_name: data.last_name,
+				mobile: data.mobile,
 				token: token,
 			});
 

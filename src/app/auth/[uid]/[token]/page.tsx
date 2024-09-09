@@ -1,15 +1,7 @@
 "use client";
-
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { activate } from "@/app/actions/activate";
 import { useRouter } from "next/navigation";
-
-// export async function generateMetadata() {
-// 	return {
-// 		title: `Aktywacja konta`,
-// 		description: "Aktywacja konta",
-// 	};
-// }
 
 export default function Page({
 	params,
@@ -23,9 +15,13 @@ export default function Page({
 	const router = useRouter();
 	const [success, setSuccess] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	const hasActivated = useRef(false);
 
 	useEffect(() => {
 		const activateAccount = async () => {
+			if (hasActivated.current) return;
+			hasActivated.current = true;
+
 			const response = await activate({ uid, token });
 			if (response.success) {
 				setSuccess(response.success);

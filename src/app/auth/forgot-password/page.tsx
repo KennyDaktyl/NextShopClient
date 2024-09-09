@@ -1,4 +1,4 @@
-import { LoginForm } from "@/components/auth/login-form";
+import { EmailForResetPasswordSchemaForm } from "@/components/auth/send-email-fot-reset_password";
 import { headers } from "next/headers";
 
 export async function generateMetadata() {
@@ -12,5 +12,5 @@ export default function Page() {
 	const headersList = headers();
 	const referer = headersList.get("referer") || "/";
 
-	return <LoginForm reffer={referer} />;
+	return <EmailForResetPasswordSchemaForm reffer={referer} />;
 }

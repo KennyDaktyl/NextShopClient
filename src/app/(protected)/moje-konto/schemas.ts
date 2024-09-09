@@ -1,3 +1,4 @@
+import { MobileIcon } from "@radix-ui/react-icons";
 import { z } from "zod";
 
 export const basicUserDataSchema = z.object({
@@ -5,6 +6,7 @@ export const basicUserDataSchema = z.object({
 	first_name: z.string().min(1, "Imię jest wymagane"),
 	last_name: z.string().min(1, "Nazwisko jest wymagane"),
 	email: z.string().email("Nieprawidłowy adres e-mail"),
+	mobile: z.string().min(9, "Numer telefonu jest wymagany"),
 });
 
 export const addressUserDataSchema = z.object({

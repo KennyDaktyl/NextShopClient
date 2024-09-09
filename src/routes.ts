@@ -28,4 +28,4 @@ export const apiRoutes = ["/api/"];
 
 export const apiAuthPrefix = "/api/auth";
 
-export const DEAFAULT_LOGIN_REDIRECT = "/moje-konto";
+export const DEAFAULT_LOGIN_REDIRECT = "/";

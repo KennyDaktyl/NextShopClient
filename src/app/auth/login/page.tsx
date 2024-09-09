@@ -10,7 +10,12 @@ export async function generateMetadata() {
 
 export default function Page() {
 	const headersList = headers();
-	const referer = headersList.get("referer") || "/";
+	let referer = headersList.get("referer") || "/";
 
+	const refferAllowed = ["/koszyk"];
+
+	if (!refferAllowed.includes(referer)) {
+		referer = "/";
+	}
 	return <LoginForm reffer={referer} />;
 }

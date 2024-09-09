@@ -8,14 +8,16 @@ export async function updateUserMainDataAction({
 	email,
 	first_name,
 	last_name,
+	mobile,
 	token,
 }: {
 	email: string;
 	first_name: string;
 	last_name: string;
+	mobile: string;
 	token: string;
 }): Promise<void> {
-	const response = await updateUserMainData({ email, first_name, last_name, token });
+	const response = await updateUserMainData({ email, first_name, last_name, mobile, token });
 }
 
 export async function updateUserPasswordAction({
