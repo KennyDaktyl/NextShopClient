@@ -157,7 +157,7 @@ export async function createOrderAction({
 
 	cookies().set("cartId", "", { maxAge: 0 });
 
-	const orderId = (response as newOrderResponse).order_id;
+	const orderUid = (response as newOrderResponse).order_uid;
 
 	if (paymentMethodOnline) {
 		if (!process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY) {
@@ -216,40 +216,40 @@ export async function createOrderAction({
 		const session = await stripe.checkout.sessions.create({
 			payment_method_types: ["card", "blik", "p24"],
 			metadata: {
-				order_id: orderId,
+				order_uid: orderUid,
 			},
 			line_items: lineItems,
 			customer_email: orderData.client_email,
 			locale: "pl",
 			mode: "payment",
-			success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/koszyk/platnosc-udana?session_id={CHECKOUT_SESSION_ID}&order_id=${orderId}`,
-			cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/koszyk/platnosc-anulowana/?order_id=${orderId}`,
+			success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/koszyk/platnosc-udana?session_id={CHECKOUT_SESSION_ID}&order_uid=${orderUid}`,
+			cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/koszyk/platnosc-anulowana/?order_uid=${orderUid}`,
 		});
 		if (session.url && session.id) {
-			await updateOrderStatus({ status: 1, orderId, checkoutSessionId: session.id });
+			await updateOrderStatus({ status: 1, orderUid, checkoutSessionId: session.id });
 			await removeCart();
 			redirect(session.url);
 		} else {
-			await updateOrderStatus({ status: 7, orderId });
+			await updateOrderStatus({ status: 7, orderUid });
 			throw new Error("Invalid response from stripe");
 		}
 	}
 
-	if ("order_id" in response) {
-		await updateOrderStatus({ status: 5, orderId });
+	if ("order_uid" in response) {
+		await updateOrderStatus({ status: 5, orderUid });
 		await removeCart();
-		redirect(`/koszyk/zamowienie-w-przygotowaniu?order_id=${orderId}`);
+		redirect(`/koszyk/zamowienie-w-przygotowaniu?order_uid=${orderUid}`);
 	} else {
 		throw new Error("Invalid response from createOrder");
 	}
 }
 
 export async function updateOrderStatusAction({
-	orderId,
+	orderUid,
 	status,
 }: {
-	orderId: number;
+	orderUid: string;
 	status: number;
 }): Promise<void> {
-	await updateOrderStatus({ status, orderId });
+	await updateOrderStatus({ status, orderUid });
 }

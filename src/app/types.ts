@@ -402,7 +402,7 @@ export interface MappedProduct {
 }
 
 export interface newOrderResponse {
-	order_id: number;
+	order_uid: string;
 }
 
 export interface OrderData {

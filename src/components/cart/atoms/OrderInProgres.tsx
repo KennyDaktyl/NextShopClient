@@ -6,20 +6,17 @@ import { useEffect } from "react";
 
 export default function OrderInProgresPage() {
 	const searchParams = useSearchParams();
-	const orderId = searchParams.get("order_id");
+	const orderUid = searchParams.get("order_uid");
 
 	useEffect(() => {
-		if (orderId) {
-			const orderIdNumber = parseInt(orderId, 10);
-			if (!isNaN(orderIdNumber)) {
-				updateOrderStatusAction({ orderId: orderIdNumber, status: 8 });
-			}
+		if (orderUid) {
+			updateOrderStatusAction({ orderUid: orderUid, status: 8 });
 		}
-	}, [orderId]);
+	}, [orderUid]);
 
 	return (
 		<div className="flex h-full flex-col items-center justify-center">
-			<h1 className="text-3xl font-bold">Zamówienie w przygotowaniu {orderId}</h1>
+			<h1 className="text-3xl font-bold">Zamówienie w przygotowaniu {orderUid}</h1>
 		</div>
 	);
 }

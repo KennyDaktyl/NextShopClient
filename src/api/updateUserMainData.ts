@@ -27,7 +27,7 @@ export const updateUserMainData = async ({
 		cache: "force-cache",
 		token,
 		next: {
-			tags: ["order-status"],
+			tags: ["update-main-data"],
 		},
 	});
 };

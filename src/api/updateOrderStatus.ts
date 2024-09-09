@@ -1,13 +1,14 @@
+import { UUID } from "crypto";
 import { fetchPostApiData } from "./fetchPostApiData";
 import type { OrderStatusResponse } from "@/app/types";
 
 export const updateOrderStatus = async ({
 	status,
-	orderId,
+	orderUid,
 	checkoutSessionId,
 }: {
 	status: number;
-	orderId: number;
+	orderUid: string;
 	checkoutSessionId?: string;
 }): Promise<void> => {
 	const variables = {
@@ -16,7 +17,7 @@ export const updateOrderStatus = async ({
 	};
 
 	await fetchPostApiData<OrderStatusResponse, typeof variables>({
-		query: `/api/orders/update-status/${orderId}/`,
+		query: `/api/orders/update-status/${orderUid}/`,
 		variables,
 		cache: "force-cache",
 		next: {
