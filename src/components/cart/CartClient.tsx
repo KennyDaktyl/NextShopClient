@@ -17,6 +17,8 @@ import { Switch } from "@/components/ui/switch";
 import InvoiceDataForm from "@/components/cart/atoms/InvoiceDataForm";
 import DeliveryMethods from "@/components/cart/atoms/DeliveryMethods";
 import { ActiveLink } from "@/components/ui/atoms/ActiveLink";
+import { Checkbox } from "@/components/ui/checkbox";
+import Link from "next/link";
 
 export default function CartClient({
 	cartItems,
@@ -308,6 +310,20 @@ export default function CartClient({
 						{showInvoiceForm && <InvoiceDataForm userData={userData} />}
 
 						<InfoForm value={info} onChange={(e) => setInfo(e.target.value)} />
+						<div className="mb-5 mt-5 flex h-4 w-full items-center justify-start">
+							<Checkbox id="terms" required />
+							<div className="grid gap-1.5 leading-none">
+								<label
+									htmlFor="terms"
+									className="ml-4 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+								>
+									Akceptuję{" "}
+									<Link className="text-blue-500" href="/regulamin">
+										Regulamin
+									</Link>
+								</label>
+							</div>
+						</div>
 						<div className="mt-4 w-full text-right">
 							<Button
 								type="submit"

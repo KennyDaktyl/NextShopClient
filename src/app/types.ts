@@ -54,6 +54,8 @@ export interface Image {
 	title: string | null;
 	width: number;
 	height: number;
+	height_expected: number;
+	width_expected: number;
 }
 
 export interface ProductListItem {
@@ -113,6 +115,39 @@ export interface ProductsResponse {
 	next: string | null;
 	previous: string | null;
 	results: ProductListItem[];
+}
+
+export interface ArticlesResponse {
+	count: number;
+	next: string | null;
+	previous: string | null;
+	results: ArticleListItem[];
+}
+
+export interface ArticleResponse {
+	id: number;
+	name: string;
+	description: string | null;
+	slug: string;
+	created_date: string;
+	category: ProductCategory;
+	content: string;
+	meta_description: string;
+	meta_title: string;
+	image: Image;
+	gallery: Image[];
+	full_path: string;
+}
+
+export interface ArticleListItem {
+	id: number;
+	name: string;
+	description: string | null;
+	slug: string;
+	created_date: string;
+	category: ProductCategory;
+	image_listing: Image;
+	full_path: string;
 }
 
 export interface CartTotalPrice {

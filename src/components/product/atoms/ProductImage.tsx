@@ -24,6 +24,8 @@ const ProductImage = ({ product }: { product: ProductDetails }) => {
 								title: product.name,
 								width: 650,
 								height: 650,
+								width_expected: 650,
+								height_expected: 650,
 							},
 						],
 			);

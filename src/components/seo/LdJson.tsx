@@ -1,5 +1,10 @@
 import { Thing, WithContext, ItemList, Product, ListItem, ImageObject, WebSite } from "schema-dts";
-import { CategoryDetailsProps, ProductDetails, ProductListItem } from "@/app/types";
+import {
+	ArticleListItem,
+	CategoryDetailsProps,
+	ProductDetails,
+	ProductListItem,
+} from "@/app/types";
 
 export const JsonLd = <T extends Thing>({ jsonLd }: { jsonLd: WithContext<T> }) => {
 	return (
@@ -114,5 +119,29 @@ export const ownerWebsiteJsonLd = (): WithContext<WebSite> => {
 			name: process.env.NEXT_PUBLIC_SITE_NAME ?? "",
 			url: process.env.NEXT_PUBLIC_BASE_URL ?? "",
 		},
+	};
+};
+
+export const mappedArticlesToJsonLd = (
+	articles: readonly ArticleListItem[],
+): WithContext<ItemList> => {
+	return {
+		"@context": "https://schema.org",
+		"@type": "ItemList",
+		itemListElement: articles.map(
+			(article, index): ListItem => ({
+				"@type": "ListItem",
+				position: index + 1,
+				item: {
+					"@type": "Article",
+					"@id": `${process.env.NEXT_PUBLIC_BASE_URL}/blog/${article.slug}`,
+					url: `${process.env.NEXT_PUBLIC_BASE_URL}/blog/${article.slug}`,
+					headline: article.name,
+					description: article.description ?? "Brak opisu",
+					image: article.image_listing?.url ?? "",
+					datePublished: new Date(article.created_date).toISOString(),
+				},
+			}),
+		),
 	};
 };
