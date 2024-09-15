@@ -75,7 +75,7 @@ export const generateCategoryJsonLd = (category: CategoryDetailsProps): WithCont
 		"@context": "https://schema.org",
 		"@type": "ItemList",
 		name: category.name,
-		description: category.description,
+		description: category.meta_description || category.description,
 		itemListElement: category.items.map(
 			(item, index): ListItem => ({
 				"@type": "ListItem",

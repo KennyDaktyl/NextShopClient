@@ -35,8 +35,9 @@ export async function generateMetadata({
 	};
 
 	if (category.has_children) {
-		title = `Kategoria ${category.name} i lista jej podkategorii`;
-		description = `Lista podkategorii dla kategorii ${category.description}`;
+		title = category.meta_title || `Kategoria ${category.name} i lista jej podkategorii`;
+		description =
+			category.meta_description || `Lista podkategorii dla kategorii ${category.description}`;
 	}
 
 	return {
@@ -93,6 +94,8 @@ export default async function Page({
 
 	const category = {
 		slug: menuItems.slug,
+		meta_title: menuItems.meta_title || menuItems.name,
+		meta_description: menuItems.meta_description || menuItems.description,
 		name: menuItems.name,
 		item_label: menuItems.item_label || menuItems.name,
 		description: menuItems.description || "",

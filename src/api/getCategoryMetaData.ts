@@ -3,6 +3,8 @@ import { fetchGetApiData } from "./fetchApiData";
 
 const defaultCategoryMetaData: CategoryMetaData = {
 	name: "",
+	meta_title: "",
+	meta_description: "",
 	description: "",
 	image: null,
 	has_children: false,

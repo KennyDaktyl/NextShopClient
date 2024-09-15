@@ -28,15 +28,16 @@ export async function generateMetadata({
 	});
 	const category = response;
 
-	let title = `Usługi z kategorii ${category.name}`;
-	let description = `Lista usług w kategorii ${category.name}`;
+	let title = category.meta_title || `Usługi z kategorii ${category.name}`;
+	let description = category.meta_description || `Lista usług w kategorii ${category.name}`;
 	let alternates = {
 		canonical: category.full_path,
 	};
 
 	if (category.has_children) {
-		title = `Usługa ${category.name} i lista jej podkategorii`;
-		description = `Lista usług dla kategorii Usługi - ${category.description}`;
+		title = category.meta_title || `Usługa ${category.name} i lista jej podkategorii`;
+		description =
+			category.meta_description || `Lista usług dla kategorii Usługi - ${category.description}`;
 	}
 
 	return {
@@ -44,8 +45,8 @@ export async function generateMetadata({
 		description,
 		alternates,
 		openGraph: {
-			title: `Usługa ${category.name}`,
-			description: category.description?.slice(0, 160),
+			title: category.meta_title || `Usługa ${category.name}`,
+			description: category.meta_description || category.description?.slice(0, 160),
 			url: process.env.NEXT_PUBLIC_BASE_URL + category.full_path,
 			siteName: process.env.NEXT_PUBLIC_SITE_TITLE,
 			images: [
@@ -61,8 +62,8 @@ export async function generateMetadata({
 		},
 		twitter: {
 			card: "summary_large_image",
-			title: `Usługa ${category.name}`,
-			description: category.description?.slice(0, 160),
+			title: category.meta_title || `Usługa ${category.name}`,
+			description: category.meta_description || category.description?.slice(0, 160),
 			images: [
 				{
 					url: category.image?.url || "",
@@ -93,6 +94,8 @@ export default async function Page({
 
 	const category = {
 		slug: menuItems.slug,
+		meta_title: menuItems.meta_title || menuItems.name,
+		meta_description: menuItems.meta_description || menuItems.description,
 		name: menuItems.name,
 		description: menuItems.description || "",
 		seo_text: menuItems.seo_text || "",

@@ -15,6 +15,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 	const category = {
 		name: menuItems.name,
+		meta_title: menuItems.meta_title || menuItems.name,
+		meta_description: menuItems.meta_description || "",
 		description: menuItems.description || "",
 		image: menuItems.image,
 		full_path: menuItems.full_path,
@@ -68,6 +70,8 @@ export default async function Page() {
 		const category = {
 			id: menuItems.id,
 			name: menuItems.name,
+			meta_title: menuItems.meta_title || menuItems.name,
+			meta_description: menuItems.meta_description || menuItems.description,
 			item_label: menuItems.item_label || menuItems.name,
 			description: menuItems.description || "",
 			seo_text: menuItems.seo_text || "",

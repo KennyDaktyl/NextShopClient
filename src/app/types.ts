@@ -19,6 +19,8 @@ export interface MenuItem {
 
 export interface MenuItemsResponse {
 	id: number;
+	meta_title: string | null;
+	meta_description: string | null;
 	name: string;
 	item_label: string;
 	slug: string;
@@ -41,6 +43,8 @@ export interface Category {
 
 export interface CategoryDetailsProps {
 	name: string;
+	meta_title: string | null;
+	meta_description: string | null;
 	description: string;
 	seo_text: string;
 	image: Image | null;
@@ -251,6 +255,8 @@ export interface ProductDetails {
 
 export interface CategoryMetaData {
 	name: string;
+	meta_title: string | null;
+	meta_description: string | null;
 	description: string;
 	has_children: boolean;
 	full_path: string;
