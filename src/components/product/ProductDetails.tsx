@@ -139,6 +139,9 @@ export const ProductDetailsComponent = ({
 			</div>
 
 			<div className="w-full p-4 md:w-1/3">
+				{product.h1_tag && (
+					<p className="g mb-4 w-full text-left font-bold uppercase">{product.name}</p>
+				)}
 				<TooltipProvider>
 					{product.variants && product.show_variant_label && (
 						<VariantsComponent

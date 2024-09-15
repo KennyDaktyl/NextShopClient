@@ -2,6 +2,7 @@ import { getCategoriesPath } from "@/api/getCategoriesPath";
 import { type MetadataRoute } from "next";
 import { CategoryPath } from "@/app/types";
 import { getProductsPath } from "@/api/getProductsPath";
+import { getArticlesPath } from "@/api/getArticlesPath";
 
 export default async function Sitemap(): Promise<MetadataRoute.Sitemap> {
 	let categories = await getCategoriesPath();
@@ -14,17 +15,14 @@ export default async function Sitemap(): Promise<MetadataRoute.Sitemap> {
 		products = [];
 	}
 
+	let articles = await getArticlesPath();
+	if ("status" in articles) {
+		articles = [];
+	}
+
 	const staticRoutes = [
 		{
 			url: `${process.env.NEXT_PUBLIC_BASE_URL}`,
-			lastModified: new Date(),
-		},
-		{
-			url: `${process.env.NEXT_PUBLIC_BASE_URL}/produkty`,
-			lastModified: new Date(),
-		},
-		{
-			url: `${process.env.NEXT_PUBLIC_BASE_URL}/uslugi`,
 			lastModified: new Date(),
 		},
 		{
@@ -72,6 +70,10 @@ export default async function Sitemap(): Promise<MetadataRoute.Sitemap> {
 			url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify-email/confirm`,
 		},
 	];
+	const articleRoutes = articles.map((article) => ({
+		url: `${process.env.NEXT_PUBLIC_BASE_URL}${article.full_path}`,
+		lastModified: new Date(),
+	}));
 
 	const categoryRoutes = categories.map((category: CategoryPath) => ({
 		url: `${process.env.NEXT_PUBLIC_BASE_URL}${category.full_path}`,
@@ -83,5 +85,5 @@ export default async function Sitemap(): Promise<MetadataRoute.Sitemap> {
 		lastModified: new Date(),
 	}));
 
-	return [...staticRoutes, ...categoryRoutes, ...productRoutes];
+	return [...staticRoutes, ...articleRoutes, ...categoryRoutes, ...productRoutes];
 }

@@ -3,14 +3,17 @@ import React from "react";
 
 export const CompanyDetails: React.FC = () => {
 	return (
-		<div className="rounded-lg bg-white p-6 shadow-md">
+		<div className="rounded-lg bg-white p-2 shadow-md">
 			<h2 className="mb-4 text-2xl font-semibold">Dane Firmowe</h2>
 			<p className="mb-2">
 				<strong>Adres:</strong> ul. Wspólna 2, 32-061 Rybna
 			</p>
-			<p className="mb-2">
-				<strong>Telefon:</strong> +48 506 029 980
-			</p>
+			<div className="mb-2">
+				<strong>Telefon:</strong>{" "}
+				<a href="tel:+48506029980" className="text-blue-500">
+					+48 506 029 980
+				</a>
+			</div>
 			<ActiveLink
 				role="link"
 				href={`mailto:${"michal.pielak81".replace(/\./g, "[dot]")}@gmail.com`.replace(
@@ -22,8 +25,9 @@ export const CompanyDetails: React.FC = () => {
 					<strong>Wyślij Email</strong>
 				</p>
 			</ActiveLink>
-			<p className="mb-2">
-				<strong>Numer konta bankowego:</strong>47 1020 2906 0000 1902 0166 6429
+			<p className="mb-2 flex flex-wrap justify-start">
+				<strong className="w-full">Numer konta bankowego:</strong>
+				<p className="w-full">47 1020 2906 0000 1902 0166 6429</p>
 			</p>
 			<div className="mt-6">
 				<h3 className="mb-2 text-xl font-semibold">Godziny Pracy</h3>

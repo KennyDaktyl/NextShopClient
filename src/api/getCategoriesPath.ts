@@ -6,7 +6,7 @@ export const getCategoriesPath = async () => {
 		const response = await fetchGetApiData<CategoryPath[], {}>({
 			query: "/api/categories/categories-path-list/",
 			variables: {},
-			cache: "force-cache",
+			cache: "no-store",
 			next: { tags: ["categories-path"] },
 		});
 

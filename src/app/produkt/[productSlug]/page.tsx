@@ -23,17 +23,18 @@ export async function generateMetadata({
 		};
 	}
 
-	const { name, description, category, full_path, images } = productDetailsResponse;
+	const { name, meta_title, meta_description, description, category, full_path, images } =
+		productDetailsResponse;
 
 	return {
-		title: `Produkt ${name} z kategorii ${category.name}`,
-		description: description?.slice(0, 160) || "Opis produktu niedostępny.",
+		title: meta_title || `Produkt ${name} z kategorii ${category.name}`,
+		description: meta_description || description?.slice(0, 160),
 		alternates: {
 			canonical: full_path,
 		},
 		openGraph: {
-			title: `Produkt ${name} z kategorii ${category.name}`,
-			description: description?.slice(0, 160),
+			title: meta_title || `Produkt ${name} z kategorii ${category.name}`,
+			description: meta_description || description?.slice(0, 160),
 			url: process.env.NEXT_PUBLIC_BASE_URL + full_path,
 			siteName: process.env.NEXT_PUBLIC_SITE_TITLE,
 			images: images.map((image) => ({
@@ -47,8 +48,8 @@ export async function generateMetadata({
 		},
 		twitter: {
 			card: "summary_large_image",
-			title: `Produkt ${name} z kategorii ${category.name}`,
-			description: description?.slice(0, 160),
+			title: meta_title || `Produkt ${name} z kategorii ${category.name}`,
+			description: meta_description || description?.slice(0, 160),
 			images: images.map((image) => ({
 				url: image.url || "",
 				width: image.width || 0,

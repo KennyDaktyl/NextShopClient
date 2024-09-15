@@ -34,7 +34,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
 
 	return (
 		<div className="mx-auto max-w-6xl xl:p-6">
-			<h1 className="mb-8 text-center text-4xl font-bold">{article.name}</h1>
+			<h1 className="mb-8 text-center text-2xl font-bold">{article.name}</h1>
 			<ArticleDetail article={article} />
 		</div>
 	);

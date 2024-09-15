@@ -224,6 +224,9 @@ export interface ProductOption {
 
 export interface ProductDetails {
 	id: number;
+	meta_title: string | null;
+	meta_description: string | null;
+	h1_tag: string | null;
 	name: string;
 	slug: string;
 	category: ProductCategory;
@@ -418,6 +421,10 @@ export interface UserData {
 }
 
 export interface CategoryPath {
+	full_path: string;
+}
+
+export interface ArticlePath {
 	full_path: string;
 }
 

@@ -1,0 +1,18 @@
+import { ArticlePath } from "@/app/types";
+import { fetchGetApiData } from "./fetchApiData";
+
+export const getArticlesPath = async () => {
+	try {
+		const response = await fetchGetApiData<ArticlePath[], {}>({
+			query: "/api/articles/articles-path-list/",
+			variables: {},
+			cache: "no-store",
+			next: {},
+		});
+
+		return response ?? [];
+	} catch (error) {
+		console.error("API Error:", error);
+		return [];
+	}
+};
