@@ -65,6 +65,8 @@ export default async function Page() {
 
 		const category = {
 			id: menuItems.id,
+			meta_title: menuItems.meta_title || null,
+			meta_description: menuItems.meta_description || null,
 			name: menuItems.name,
 			description: menuItems.description || "",
 			seo_text: menuItems.seo_text || "",

@@ -15,8 +15,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 	const category = {
 		name: menuItems.name,
-		meta_title: menuItems.meta_title || menuItems.name,
-		meta_description: menuItems.meta_description || "",
+		meta_title: menuItems.meta_title || null,
+		meta_description: menuItems.meta_description || null,
 		description: menuItems.description || "",
 		image: menuItems.image,
 		full_path: menuItems.full_path,
