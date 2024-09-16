@@ -7,15 +7,11 @@ export const HeroItem: React.FC<{ heroData: Hero; isFirst: boolean }> = ({ heroD
 	return (
 		<div
 			className={`mt-2 flex w-full flex-wrap items-center rounded-md bg-gray-100 shadow-md ${
-				isFirst ? "h-[1100px] md:h-[550px]" : "h-[800px] md:h-[380px]"
+				isFirst ? "md:h-[550px]" : "md:h-[380px]"
 			}`}
 		>
-			<div
-				className={`flex items-center justify-center p-1 ${
-					isFirst ? "h-[500px] md:w-1/2" : "max-h-[440px] md:w-1/2"
-				}`}
-			>
-				<div className="flex w-4/5 flex-wrap items-center justify-start">
+			<div className={`flex items-center justify-center py-4 ${isFirst ? "md:w-1/2" : "md:w-1/2"}`}>
+				<div className="flex flex-wrap items-center justify-start px-2 py-4 md:px-4">
 					{isFirst ? (
 						<h1 className="w-full text-xl font-bold">{heroData.title}</h1>
 					) : (

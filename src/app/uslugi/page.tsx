@@ -13,22 +13,23 @@ export async function generateMetadata(): Promise<Metadata> {
 	});
 
 	const category = {
+		meta_title: menuItems.meta_title || null,
+		meta_description: menuItems.meta_description || null,
 		name: menuItems.name,
 		description: menuItems.description || "",
 		image: menuItems.image,
 		full_path: menuItems.full_path,
 	};
-
 	return {
 		alternates: {
 			canonical: "/uslugi",
 		},
-		title: `Usługi wykonywane w punkcie w Rybnej`,
-		description: category.description || "",
+		title: category.meta_title || `Usługi wykonywane w punkcie w Rybnej`,
+		description: category.meta_description || category.description || "",
 
 		openGraph: {
-			title: `Usługa ${category.name}`,
-			description: category.description?.slice(0, 160),
+			title: category.meta_title || `Usługa ${category.name}`,
+			description: category.meta_description?.slice(0, 160) || category.description?.slice(0, 160),
 			url: process.env.NEXT_PUBLIC_BASE_URL + category.full_path,
 			siteName: process.env.NEXT_PUBLIC_SITE_TITLE,
 			images: [
@@ -44,8 +45,8 @@ export async function generateMetadata(): Promise<Metadata> {
 		},
 		twitter: {
 			card: "summary_large_image",
-			title: `Usługa ${category.name}`,
-			description: category.description?.slice(0, 160),
+			title: category.meta_title || `Usługa ${category.name}`,
+			description: category.meta_description?.slice(0, 160) || category.description?.slice(0, 160),
 			images: [
 				{
 					url: category.image?.url || "",

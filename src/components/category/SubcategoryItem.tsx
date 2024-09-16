@@ -17,8 +17,8 @@ const SubcategoryItem = ({ item }: SubcategoryItemProps) => {
 				{/* <p className="mt-2 h-[100px] text-center text-xs md:text-sm">{item.description}</p> */}
 			</div>
 			{item.image && (
-				<div className="mb-4 mt-auto flex w-full items-center justify-center">
-					<div className="relative flex h-[125px] w-[125px] items-center justify-center overflow-hidden sm:h-[200px] sm:w-[200px]">
+				<div className="mb-4 mt-auto flex w-full items-center justify-center px-2 py-4">
+					<div className="relative flex h-[125px] w-full items-center justify-center overflow-hidden sm:h-[200px] sm:w-[200px]">
 						<Image
 							src={item.image.url || ""}
 							alt={item.image.alt || item.name}
