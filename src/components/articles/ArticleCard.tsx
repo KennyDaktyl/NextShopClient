@@ -15,14 +15,16 @@ export default function ArticleCard({ article }: { article: ArticleListItem }) {
 			<Card className="flex h-[400px] w-full flex-col p-4 shadow-lg transition-shadow duration-300 hover:bg-slate-50 hover:shadow-xl md:flex-row">
 				{/* Obrazek - mobilnie nad treścią */}
 				<div className="mb-4 h-[200px] w-full flex-shrink-0 overflow-hidden rounded-lg md:h-full md:w-1/3">
-					<Image
-						src={article.image_listing.url}
-						alt={article.image_listing.alt || article.name}
-						title={article.image_listing.alt || article.name}
-						width={350}
-						height={350}
-						className="h-full w-full rounded-lg object-cover"
-					/>
+					{article.image_listing && (
+						<Image
+							src={article.image_listing.url}
+							alt={article.image_listing.alt || article.name}
+							title={article.image_listing.alt || article.name}
+							width={350}
+							height={350}
+							className="h-full w-full rounded-lg object-cover"
+						/>
+					)}
 				</div>
 
 				{/* Treść artykułu */}

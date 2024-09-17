@@ -6,14 +6,16 @@ export default function ArticleDetail({ article }: { article: ArticleResponse })
 	return (
 		<div>
 			<div className="mb-8">
-				<Image
-					src={article.image.url}
-					alt={article.image.alt || article.name}
-					title={article.image.title || article.name}
-					width={article.image.width}
-					height={article.image.height}
-					className="rounded-lg"
-				/>
+				{article.image && (
+					<Image
+						src={article.image.url}
+						alt={article.image.alt || article.name}
+						title={article.image.title || article.name}
+						width={article.image.width}
+						height={article.image.height}
+						className="rounded-lg"
+					/>
+				)}
 				<div className="mt-4">
 					<span className="text-sm text-gray-600">{article.category.name}</span>
 					<div
