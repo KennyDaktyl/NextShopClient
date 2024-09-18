@@ -34,7 +34,7 @@ export const getMenuItems = async ({
 	const response = await fetchGetApiData<MenuItemsResponse, {}>({
 		query: `/api/categories/menu-items/${categorySlug}/`,
 		variables: {},
-		cache: "force-cache",
+		cache: "no-cache",
 		next: { tags: [`menu-items-${categorySlug}`] },
 	});
 

@@ -12,7 +12,7 @@ export default function ArticleCard({ article }: { article: ArticleListItem }) {
 			className="transition-shadow duration-300 hover:cursor-pointer hover:shadow-lg"
 		>
 			{/* Karta artykułu */}
-			<Card className="flex h-[400px] w-full flex-col p-4 shadow-lg transition-shadow duration-300 hover:bg-slate-50 hover:shadow-xl md:flex-row">
+			<Card className="flex w-full flex-col p-4 shadow-lg transition-shadow duration-300 hover:bg-slate-50 hover:shadow-xl md:flex-row xl:h-[400px]">
 				{/* Obrazek - mobilnie nad treścią */}
 				<div className="mb-4 h-[200px] w-full flex-shrink-0 overflow-hidden rounded-lg md:h-full md:w-1/3">
 					{article.image_listing && (
