@@ -45,15 +45,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	// Dynamiczne ścieżki dla artykułów, kategorii i produktów
 	const dynamicRoutes = [
 		...articles.map((article) => ({
-			url: `${publicUrl}/article${article.full_path}`,
+			url: `${publicUrl}${article.full_path}`,
 			lastModified: article.modified_date,
 		})),
 		...categories.map((category) => ({
-			url: `${publicUrl}/category${category.full_path}`,
+			url: `${publicUrl}${category.full_path}`,
 			lastModified: category.modified_date,
 		})),
 		...products.map((product) => ({
-			url: `${publicUrl}/product${product.full_path}`,
+			url: `${publicUrl}${product.full_path}`,
 			lastModified: product.modified_date,
 		})),
 	];
