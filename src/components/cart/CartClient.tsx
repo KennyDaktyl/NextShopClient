@@ -19,6 +19,7 @@ import DeliveryMethods from "@/components/cart/atoms/DeliveryMethods";
 import { ActiveLink } from "@/components/ui/atoms/ActiveLink";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 export default function CartClient({
 	cartItems,
@@ -223,9 +224,17 @@ export default function CartClient({
 
 	// Obsługa złożenia zamówienia
 	const onHandleSubmit = async (data: OrderData) => {
-		console.log("Dane formularza:", data);
 		try {
 			window.scrollTo({ top: 0, behavior: "smooth" });
+			toast.success("Zamówienie złożone pomyślnie!", {
+				position: "top-right",
+				autoClose: 2000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
 			await createOrderAction({
 				data,
 				accessToken,
@@ -235,6 +244,15 @@ export default function CartClient({
 
 			console.log("Order response OK");
 		} catch (error) {
+			toast.error("Wystąpił błąd podczas składania zamówienia. Spróbuj ponownie.", {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
 			console.error("Error creating order:", error);
 		}
 	};

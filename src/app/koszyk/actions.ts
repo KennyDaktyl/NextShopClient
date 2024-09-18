@@ -247,9 +247,11 @@ export async function createOrderAction({
 export async function updateOrderStatusAction({
 	orderUid,
 	status,
+	checkoutSessionId,
 }: {
 	orderUid: string;
 	status: number;
+	checkoutSessionId?: string;
 }): Promise<void> {
-	await updateOrderStatus({ status, orderUid });
+	await updateOrderStatus({ status, orderUid, checkoutSessionId });
 }

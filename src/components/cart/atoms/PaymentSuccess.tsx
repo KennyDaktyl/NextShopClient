@@ -1,7 +1,7 @@
-"use client"; // Dodaj to na początku, aby komponent działał po stronie klienta
+"use client";
 
 import OrderDetailsByUid from "@/components/cart/atoms/OrderDetailsByUid";
-import { useSearchParams } from "next/navigation"; // To może działać tylko w Client Component
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getOrderDetails } from "@/api/getOrderByUid";
 import { UUID } from "crypto";
@@ -13,23 +13,25 @@ export default function Page() {
 	const [loading, setLoading] = useState(true);
 	const searchParams = useSearchParams();
 	const orderUid = searchParams.get("order_uid");
+	const checkoutSessionId = searchParams.get("session_id") as string | undefined;
 
 	useEffect(() => {
 		if (orderUid) {
-			updateOrderStatusAction({ orderUid: orderUid, status: 3 });
-		}
-	}, [orderUid]);
+			const updateAndFetchOrder = async () => {
+				await updateOrderStatusAction({
+					orderUid: orderUid,
+					status: 3,
+					checkoutSessionId: checkoutSessionId,
+				});
 
-	useEffect(() => {
-		if (orderUid) {
-			const fetchOrder = async () => {
 				const order = await getOrderDetails({ orderUid: orderUid as UUID });
 				setOrderDetails(order);
 				setLoading(false);
 			};
-			fetchOrder();
+
+			updateAndFetchOrder();
 		}
-	}, [orderUid]);
+	}, [orderUid, checkoutSessionId]);
 
 	if (loading) {
 		return <div>Ładowanie...</div>;

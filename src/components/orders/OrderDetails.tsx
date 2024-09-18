@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { formatMoney, handlePdfOpen } from "@/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { XCircle, File, Hourglass } from "lucide-react";
+import { XCircle, File, Hourglass, CheckCircle } from "lucide-react";
 
 interface OrderDetailsProps {
 	order: Order;
@@ -31,6 +31,16 @@ export default function OrderDetails({ order }: OrderDetailsProps) {
 			<Badge variant={"outline"} className="mb-4 mt-4">
 				<span className="text-xs">{order.status}</span>
 			</Badge>
+			{order.payment_method.payment_online && (
+				<div className="flex items-center space-x-2">
+					<p>Potwierdzenie z systemu Stripe:</p>
+					{order.is_paid ? (
+						<CheckCircle className="text-green-500" size={24} />
+					) : (
+						<XCircle className="text-red-500" size={24} />
+					)}
+				</div>
+			)}
 			<div className="space-y-4">
 				<p className="text-sm text-gray-600">Lista produktów:</p>
 				{cartItems.length > 0 ? (

@@ -19,7 +19,7 @@ export const updateOrderStatus = async ({
 	await fetchPostApiData<OrderStatusResponse, typeof variables>({
 		query: `/api/orders/update-status/${orderUid}/`,
 		variables,
-		cache: "force-cache",
+		cache: "no-cache",
 		next: {
 			tags: ["order-status"],
 		},

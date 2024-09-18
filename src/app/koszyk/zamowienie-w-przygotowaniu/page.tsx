@@ -16,7 +16,10 @@ export default function Page() {
 
 	useEffect(() => {
 		if (orderUid) {
-			updateOrderStatusAction({ orderUid: orderUid, status: 8 });
+			const updateOrderStatus = async () => {
+				await updateOrderStatusAction({ orderUid: orderUid, status: 8 });
+			};
+			updateOrderStatus();
 		}
 	}, [orderUid]);
 
