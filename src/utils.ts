@@ -28,3 +28,7 @@ export const getProductImage = (product: ProductListItem, width: number, height:
 		title: product.name,
 	};
 };
+
+export const handlePdfOpen = (pdfUrl: string) => {
+	window.open(pdfUrl, "_blank");
+};

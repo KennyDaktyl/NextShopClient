@@ -14,47 +14,47 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const staticRoutes = [
 		{
 			url: `${publicUrl}`,
-			lastModified: new Date().toISOString(),
+			lastModified: new Date("2024-09-18").toISOString(),
 		},
 		{
 			url: `${publicUrl}/szukaj`,
-			lastModified: new Date().toISOString(),
+			lastModified: new Date("2024-09-18").toISOString(),
 		},
 		{
 			url: `${publicUrl}/koszyk`,
-			lastModified: new Date().toISOString(),
+			lastModified: new Date("2024-09-18").toISOString(),
 		},
 		{
 			url: `${publicUrl}/kontakt`,
-			lastModified: new Date().toISOString(),
+			lastModified: new Date("2024-09-18").toISOString(),
 		},
 		{
 			url: `${publicUrl}/blog`,
-			lastModified: new Date().toISOString(),
+			lastModified: new Date("2024-09-18").toISOString(),
 		},
 		{
 			url: `${publicUrl}/regulamin`,
-			lastModified: new Date().toISOString(),
+			lastModified: new Date("2024-09-18").toISOString(),
 		},
 		{
 			url: `${publicUrl}/polityka-prywatnosci`,
-			lastModified: new Date().toISOString(),
+			lastModified: new Date("2024-09-18").toISOString(),
 		},
 	];
 
 	// Dynamiczne ścieżki dla artykułów, kategorii i produktów
 	const dynamicRoutes = [
 		...articles.map((article) => ({
-			url: `${publicUrl}/article/${article.full_path}`,
-			lastModified: new Date().toISOString(),
+			url: `${publicUrl}/article${article.full_path}`,
+			lastModified: article.modified_date,
 		})),
 		...categories.map((category) => ({
-			url: `${publicUrl}/category/${category.full_path}`,
-			lastModified: new Date().toISOString(),
+			url: `${publicUrl}/category${category.full_path}`,
+			lastModified: category.modified_date,
 		})),
 		...products.map((product) => ({
-			url: `${publicUrl}/product/${product.full_path}`,
-			lastModified: new Date().toISOString(),
+			url: `${publicUrl}/product${product.full_path}`,
+			lastModified: product.modified_date,
 		})),
 	];
 

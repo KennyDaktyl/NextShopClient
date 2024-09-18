@@ -15,7 +15,7 @@ import {
 import { Check, XCircle, FileText, File, Hourglass } from "lucide-react";
 import { CartItem, Order } from "@/app/types";
 import Link from "next/link";
-import { formatMoney } from "@/utils";
+import { formatMoney, handlePdfOpen } from "@/utils";
 
 export const OrdersTable = ({ orders }: { orders: Order[] }) => {
 	const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
@@ -30,10 +30,6 @@ export const OrdersTable = ({ orders }: { orders: Order[] }) => {
 	const closeOrderItemsDialog = () => {
 		setSelectedOrderItems([]);
 		setSelectedOrderId(null);
-	};
-
-	const handlePdfOpen = (pdfUrl: string) => {
-		window.open(pdfUrl, "_blank");
 	};
 
 	return (

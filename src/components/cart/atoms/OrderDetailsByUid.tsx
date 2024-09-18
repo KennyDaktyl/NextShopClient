@@ -1,14 +1,19 @@
-"use client";
+import { Order } from "@/app/types";
+import OrderDetails from "@/components/orders/OrderDetails";
 
-import { useSearchParams } from "next/navigation";
+interface OrderDetailsByUidProps {
+	order: Order | null;
+}
 
-export default function OrderDetailsByUidPage() {
-	const searchParams = useSearchParams();
-	const orderUid = searchParams.get("order_uid");
+export default function OrderDetailsByUid({ order }: OrderDetailsByUidProps) {
+	if (!order) {
+		return <div>Nie znaleziono zamówienia.</div>;
+	}
 
 	return (
-		<div className="flex h-full flex-col items-center justify-center">
-			<h1 className="text-3xl font-bold">Zamówienie szczegóły {orderUid}</h1>
+		<div className="flex h-full w-full flex-col items-center justify-center">
+			<h1 className="text-3xl font-bold">Szczegóły zamówienia {order.order_number}</h1>
+			<OrderDetails order={order} />
 		</div>
 	);
 }

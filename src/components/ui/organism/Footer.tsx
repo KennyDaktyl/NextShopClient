@@ -47,7 +47,7 @@ export function Footer() {
 							<li>
 								<ActiveLink
 									role="link"
-									href={`/produkty/pieczatki`}
+									href={`/uslugi/klucze-samochodowe/programowanie-kluczy-samochodowych`}
 									aria-label="Programowanie kluczy samochodowych"
 								>
 									Programowanie kluczy samochodowych
@@ -56,7 +56,7 @@ export function Footer() {
 							<li>
 								<ActiveLink
 									role="link"
-									href={`/produkty/klucze`}
+									href={`/uslugi/klucze-samochodowe/kopiowanie-immobilizerow`}
 									aria-label="Kopiowanie immobilizerów"
 								>
 									Kopiowanie immobilizerów

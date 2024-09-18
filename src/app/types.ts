@@ -428,14 +428,17 @@ export interface UserData {
 
 export interface CategoryPath {
 	full_path: string;
+	modified_date: string;
 }
 
 export interface ArticlePath {
 	full_path: string;
+	modified_date: string;
 }
 
 export interface ProductPath {
 	full_path: string;
+	modified_date: string;
 }
 
 export interface MappedProduct {
@@ -480,6 +483,11 @@ export interface OrderData {
 	local_number?: string;
 	city?: string;
 	postal_code?: string;
+}
+
+export interface ErrorResponse {
+	status: number;
+	message?: string;
 }
 
 export interface CartClientProps {
