@@ -6,7 +6,7 @@ export const getProductsPath = async () => {
 		const response = await fetchGetApiData<ProductPath[], {}>({
 			query: "/api/products/products-list-path/",
 			variables: {},
-			cache: "force-cache",
+			cache: "no-cache",
 			next: { tags: ["products-path"] },
 		});
 
