@@ -62,6 +62,15 @@ export function Footer() {
 									Kopiowanie immobilizerów
 								</ActiveLink>
 							</li>
+							<li>
+								<ActiveLink
+									role="link"
+									href={`/uslugi/naprawy-telefonow`}
+									aria-label="Naprawa telefonów"
+								>
+									Naprawa telefonów
+								</ActiveLink>
+							</li>
 						</ul>
 					</section>
 					<section aria-labelledby="support" className="xl:flex xl:flex-wrap xl:justify-end">
@@ -93,6 +102,15 @@ export function Footer() {
 									aria-label="Wyślij email do nas"
 								>
 									Wyślij Email
+								</ActiveLink>
+							</li>
+							<li>
+								<ActiveLink
+									role="link"
+									href="/wysylka-i-uslugi-na-miejscu-w-rybnej"
+									aria-label="Informacje dla kogo świadczymy usługi i gdzie"
+								>
+									Wysyłka i usługi w Rybnej
 								</ActiveLink>
 							</li>
 							<li>

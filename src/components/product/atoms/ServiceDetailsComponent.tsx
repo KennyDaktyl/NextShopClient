@@ -3,7 +3,6 @@ import { CarouselPlugin } from "@/components/product/carouselPlugin";
 import { ButtonBack } from "@/components/ui/backButton";
 import DescriptionComponent from "@/components/product/atoms/DescriptionComponent";
 import TagsComponent from "@/components/product/atoms/TagsComponent";
-import ServicePriceComponent from "@/components/product/atoms/ServicePriceComponent";
 import { ContactFormWithReCaptcha } from "@/components/product/atoms/ContactFormWithReCaptcha";
 import { formatMoney } from "@/utils";
 

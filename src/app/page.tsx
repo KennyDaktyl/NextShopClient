@@ -6,16 +6,16 @@ import { JsonLd, ownerWebsiteJsonLd } from "@/components/seo/LdJson";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: process.env.NEXT_PUBLIC_SITE_TITLE,
-	description: process.env.NEXT_PUBLIC_SITE_DESCRIPTION,
+	title: "Pieczątki i Dorabianie Kluczy – Profesjonalny Serwis w Rybnej",
+	description:
+		"Specjalizujemy się w pieczątkach firmowych i dorabianiu kluczy. Szybka realizacja, konkurencyjne ceny, klucze do skrzynek energetycznych. Sprawdź nas!",
 	alternates: {
 		canonical: process.env.NEXT_PUBLIC_BASE_URL,
 	},
 	openGraph: {
-		title:
-			"Serwis w Rybnej. Sklep z pieczątkiami. Usługi dorabiania kluczy w tym kluczy samochodowych.",
+		title: "Pieczątki i Dorabianie Kluczy – Profesjonalny Serwis w Rybnej",
 		description:
-			"Witamy w naszym serwisie w Rybnej, gdzie oferujemy szeroki wybór pieczątek firmowych, imiennych oraz specjalistycznych. W naszym sklepie znajdziesz pieczątki dopasowane do Twoich potrzeb, wykonane z najwyższą precyzją i w oparciu o najnowsze technologie. Zamów online i odbierz swoją pieczątkę w naszym punkcie lub skorzystaj z szybkiej dostawy na terenie całego kraju.",
+			"Specjalizujemy się w pieczątkach firmowych i dorabianiu kluczy. Szybka realizacja, konkurencyjne ceny, klucze do skrzynek energetycznych. Sprawdź nas!",
 		url: process.env.NEXT_PUBLIC_BASE_URL,
 		siteName: process.env.NEXT_PUBLIC_SITE_TITLE,
 		images: [
@@ -31,8 +31,9 @@ export const metadata: Metadata = {
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: process.env.NEXT_PUBLIC_SITE_TITLE,
-		description: process.env.NEXT_PUBLIC_SITE_DESCRIPTION,
+		title: "Pieczątki i Dorabianie Kluczy – Profesjonalny Serwis w Rybnej",
+		description:
+			"Specjalizujemy się w pieczątkach firmowych i dorabianiu kluczy. Szybka realizacja, konkurencyjne ceny, klucze do skrzynek energetycznych. Sprawdź nas!",
 		images: [
 			{
 				url: "https://new-serwiswrybnej-api.resto-app.pl/media/thumbnails/dorabianie-kluczy-samochodowych-i-mieszkaniowych-szybko-i-profesjonalnie_650x650.webp",

@@ -24,8 +24,6 @@ export default function OrderDetails({ order }: OrderDetailsProps) {
 		}
 	}, [order.cart_items]);
 
-	console.log(order);
-
 	return (
 		<Card className="mx-auto w-full p-4">
 			<Badge variant={"outline"} className="mb-4 mt-4">
@@ -111,7 +109,10 @@ export default function OrderDetails({ order }: OrderDetailsProps) {
 			</CardFooter>
 
 			{order.make_invoice === false ? (
-				<XCircle className="inline-block text-red-500" />
+				<div className="flex items-center">
+					<p className="text-gray-600">Paragon: </p>
+					<CheckCircle className="ml-4 text-green-500" size={24} />
+				</div>
 			) : order.invoice?.pdf ? (
 				<div className="flex items-center">
 					<p className="text-gray-600">Faktura do pobrania: </p>

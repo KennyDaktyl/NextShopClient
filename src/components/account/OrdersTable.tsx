@@ -16,7 +16,7 @@ import { Check, XCircle, FileText, File, Hourglass } from "lucide-react";
 import { CartItem, Order } from "@/app/types";
 import Link from "next/link";
 import { formatMoney, handlePdfOpen } from "@/utils";
-
+import Image from "next/image";
 export const OrdersTable = ({ orders }: { orders: Order[] }) => {
 	const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
 	const [selectedOrderItems, setSelectedOrderItems] = useState<CartItem[]>([]);
@@ -92,10 +92,12 @@ export const OrdersTable = ({ orders }: { orders: Order[] }) => {
 																key={item.item_id}
 																className="flex space-x-4 py-2 hover:bg-gray-100"
 															>
-																<img
+																<Image
 																	src={item.image?.url || ""}
 																	alt={item.image?.alt || item.name}
-																	className="h-16 w-16 object-cover"
+																	className="object-cover"
+																	width={64}
+																	height={64}
 																/>
 																<div>
 																	<p className="font-semibold">{item.name}</p>

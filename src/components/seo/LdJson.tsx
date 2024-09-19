@@ -1,4 +1,4 @@
-import { Thing, WithContext, ItemList, Product, ListItem, ImageObject, WebSite } from "schema-dts";
+import { Thing, ItemList, Product, ListItem } from "schema-dts";
 import {
 	ArticleListItem,
 	CategoryDetailsProps,
@@ -93,10 +93,12 @@ export const generateCategoryJsonLd = (category: CategoryDetailsProps): WithCont
 	};
 };
 
-export const ownerWebsiteJsonLd = (): WithContext<WebSite> => {
+import { WithContext, WebSite, LocalBusiness } from "schema-dts";
+
+export const ownerWebsiteJsonLd = (): WithContext<WebSite | LocalBusiness> => {
 	const logoUrl = `${process.env.API_URL}/media/logo.webp`;
 
-	return {
+	const websiteSchema: WithContext<WebSite> = {
 		"@context": "https://schema.org",
 		"@type": "WebSite",
 		name: process.env.NEXT_PUBLIC_SITE_NAME ?? "",
@@ -112,13 +114,59 @@ export const ownerWebsiteJsonLd = (): WithContext<WebSite> => {
 			image: {
 				"@type": "ImageObject",
 				url: logoUrl,
-			} as ImageObject,
+			},
 		}),
 		publisher: {
 			"@type": "Organization",
 			name: process.env.NEXT_PUBLIC_SITE_NAME ?? "",
 			url: process.env.NEXT_PUBLIC_BASE_URL ?? "",
 		},
+	};
+
+	const localBusinessSchema: WithContext<LocalBusiness> = {
+		"@context": "https://schema.org",
+		"@type": "LocalBusiness",
+		name: process.env.NEXT_PUBLIC_SITE_NAME ?? "",
+		image: logoUrl,
+		"@id": process.env.NEXT_PUBLIC_BASE_URL ?? "",
+		url: process.env.NEXT_PUBLIC_BASE_URL ?? "",
+		telephone: process.env.NEXT_PUBLIC_PHONE_NUMBER ?? "+48 506 029 980",
+		address: {
+			"@type": "PostalAddress",
+			streetAddress: process.env.NEXT_PUBLIC_STREET_ADDRESS ?? "Wspólna 2",
+			addressLocality: process.env.NEXT_PUBLIC_CITY ?? "Rybna",
+			addressRegion: process.env.NEXT_PUBLIC_REGION ?? "Małopolskie",
+			postalCode: process.env.NEXT_PUBLIC_POSTAL_CODE ?? "",
+			addressCountry: process.env.NEXT_PUBLIC_COUNTRY ?? "PL",
+		},
+		geo: {
+			"@type": "GeoCoordinates",
+			latitude: 50.0421112,
+			longitude: 19.6403306,
+		},
+		openingHoursSpecification: [
+			{
+				"@type": "OpeningHoursSpecification",
+				dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+				opens: "08:00",
+				closes: "17:00",
+			},
+			// {
+			// 	"@type": "OpeningHoursSpecification",
+			// 	dayOfWeek: "Saturday",
+			// 	opens: "10:00",
+			// 	closes: "14:00",
+			// },
+		],
+		sameAs: [
+			process.env.NEXT_PUBLIC_FACEBOOK_URL ?? "",
+			process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? "",
+		],
+	};
+
+	return {
+		...websiteSchema,
+		...localBusinessSchema,
 	};
 };
 

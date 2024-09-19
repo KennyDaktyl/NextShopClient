@@ -25,10 +25,10 @@ export const CompanyDetails: React.FC = () => {
 					<strong>Wyślij Email</strong>
 				</p>
 			</ActiveLink>
-			<p className="mb-2 flex flex-wrap justify-start">
+			<div className="mb-2 flex flex-wrap justify-start">
 				<strong className="w-full">Numer konta bankowego:</strong>
 				<p className="w-full">47 1020 2906 0000 1902 0166 6429</p>
-			</p>
+			</div>
 			<div className="mt-6">
 				<h3 className="mb-2 text-xl font-semibold">Godziny Pracy</h3>
 				<ul className="space-y-1">

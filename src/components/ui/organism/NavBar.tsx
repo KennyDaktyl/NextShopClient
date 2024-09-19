@@ -7,6 +7,7 @@ import Link from "next/link";
 import AuthIcons from "@/components/auth/auth-icons";
 import { formatMoney } from "@/utils";
 import SearchInput from "@/components/ui/atoms/SearchInput";
+import Image from "next/image";
 
 type NavLink = {
 	href: string;
@@ -39,11 +40,10 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 		setSearchVisible(false);
 	};
 
-	// Zamykanie wyszukiwania po kliknięciu poza input
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
 			if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-				closeSearch(); // Zamknięcie inputu i czyszczenie frazy
+				closeSearch();
 			}
 		};
 
@@ -59,7 +59,12 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 				<div className="flex items-center">
 					<div className="text-xl font-bold">
 						<ActiveLink role="link" href="/" aria-label="Przejdź do strony głównej">
-							Shopik
+							<Image
+								src="/images/logo-serwiswrybnej-pl.webp"
+								alt="Logo serwiswrybnej.pl"
+								width={96}
+								height={48}
+							/>
 						</ActiveLink>
 					</div>
 					<ul className="ml-4 hidden h-16 flex-wrap items-center justify-start space-x-4 xl:flex">
