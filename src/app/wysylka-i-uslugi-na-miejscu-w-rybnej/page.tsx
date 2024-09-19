@@ -50,10 +50,7 @@ export default function Page() {
 
 			<ul className="my-6 list-inside list-disc text-lg text-gray-700">
 				<li>
-					<Link
-						href="/produkty/pieczatki-firmowe-imienne-i-personalizowane-szeroki-wybor"
-						className="text-blue-500 hover:underline"
-					>
+					<Link href="/produkty/pieczatki" className="text-blue-500 hover:underline">
 						Wyrób pieczątek firmowych i personalizowanych
 					</Link>{" "}
 					– szybka realizacja i szeroki wybór.
@@ -65,7 +62,10 @@ export default function Page() {
 					– od kluczy mieszkaniowych po klucze samochodowe i piloty.
 				</li>
 				<li>
-					<Link href="/dorabianie-kluczy-mieszkaniowych" className="text-blue-500 hover:underline">
+					<Link
+						href="/uslugi/dorabianie-kluczy-mieszkaniowych"
+						className="text-blue-500 hover:underline"
+					>
 						Dorabianie kluczy mieszkaniowych
 					</Link>{" "}
 					– 5 minut i gotowe!

@@ -40,7 +40,6 @@ export const RegisterForm = () => {
 	});
 
 	const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-		console.log("Form submitted with values:", values);
 		setError("");
 		setSuccess("");
 

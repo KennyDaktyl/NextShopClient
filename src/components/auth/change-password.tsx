@@ -47,7 +47,6 @@ export const ChangePasswordForm = ({ uid, token }: { uid: string; token: string 
 				const url = `${process.env.API_URL}/auth/users/reset_password_confirm/`;
 				try {
 					const response = await axios.post(url, validatedFields.data);
-					console.log(response);
 					setSuccess("Hasło zmienione pomyślnie! Przekierowywanie...");
 					form.reset();
 					setTimeout(() => {

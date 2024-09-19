@@ -2,6 +2,7 @@ import { getArticlesPath } from "@/api/getArticlesPath";
 import { getCategoriesPath } from "@/api/getCategoriesPath";
 import { getProductsPath } from "@/api/getProductsPath";
 import { ArticlePath, CategoryPath, ProductPath } from "@/app/types";
+import { url } from "inspector";
 import { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -38,6 +39,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 		},
 		{
 			url: `${publicUrl}/polityka-prywatnosci`,
+			lastModified: new Date("2024-09-18").toISOString(),
+		},
+		{
+			url: `${publicUrl}/wysylka-i-uslugi-na-miejscu-w-rybnej`,
 			lastModified: new Date("2024-09-18").toISOString(),
 		},
 	];
