@@ -43,6 +43,7 @@ export const ProductItemOnFrontPageContainer = ({ product }: { product: ProductL
 				<CardContent className="m-0 p-0">
 					<div className="] flex h-[150px] items-center justify-center overflow-hidden md:h-[350px]">
 						<Image
+							loading="lazy"
 							src={productImage.url}
 							alt={productImage.alt ? productImage.alt : ""}
 							title={productImage.title ? productImage.title : ""}

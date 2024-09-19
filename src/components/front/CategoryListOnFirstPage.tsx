@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProductItemOnFrontPageContainer } from "@/components/front/ProductItemOnFrontPage";
 import { ActiveLink } from "@/components/ui/atoms/ActiveLink";
-import { Badge } from "@/components/ui/badge";
 
 export const CategoryListOnFirstPage: React.FC<FirstPageDataResponse> = ({ categories }) => {
 	return (
@@ -28,6 +27,7 @@ export const CategoryListOnFirstPage: React.FC<FirstPageDataResponse> = ({ categ
 								<div className="flex h-[200px] w-full items-center justify-center p-2 md:h-[350px] md:w-1/2">
 									<div className="relative h-full max-h-[320px] w-full max-w-[350px] overflow-hidden rounded-lg shadow-md">
 										<Image
+											loading="lazy"
 											src={category.image.url}
 											alt={category.image.alt || "Category Image"}
 											className="h-full w-full object-cover"
