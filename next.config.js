@@ -41,6 +41,14 @@ const nextConfig = {
 							.replace(/\s{2,}/g, " ")
 							.trim(),
 					},
+					{
+						key: "X-Frame-Options",
+						value: "DENY",
+					},
+					{
+						key: "X-Content-Type-Options",
+						value: "nosniff",
+					},
 				],
 			},
 		];
@@ -137,6 +145,7 @@ const nextConfig = {
 			},
 		];
 	},
+	poweredByHeader: false,
 };
 
 module.exports = nextConfig;
