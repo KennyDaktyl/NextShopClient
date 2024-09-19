@@ -2,8 +2,13 @@ import { getArticlesPath } from "@/api/getArticlesPath";
 import { getCategoriesPath } from "@/api/getCategoriesPath";
 import { getProductsPath } from "@/api/getProductsPath";
 import { ArticlePath, CategoryPath, ProductPath } from "@/app/types";
-import { url } from "inspector";
 import { MetadataRoute } from "next";
+
+// Funkcja do formatowania daty bez milisekund
+function formatDate(date: string | Date): string {
+	const d = new Date(date);
+	return d.toISOString().split("T")[0]; // Usunięcie części czasu i milisekund
+}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const articles = (await getArticlesPath()) as ArticlePath[] | [];
@@ -15,35 +20,35 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const staticRoutes = [
 		{
 			url: `${publicUrl}`,
-			lastModified: new Date("2024-09-18").toISOString(),
+			lastModified: formatDate("2024-09-18"),
 		},
 		{
 			url: `${publicUrl}/szukaj`,
-			lastModified: new Date("2024-09-18").toISOString(),
+			lastModified: formatDate("2024-09-18"),
 		},
 		{
 			url: `${publicUrl}/koszyk`,
-			lastModified: new Date("2024-09-18").toISOString(),
+			lastModified: formatDate("2024-09-18"),
 		},
 		{
 			url: `${publicUrl}/kontakt`,
-			lastModified: new Date("2024-09-18").toISOString(),
+			lastModified: formatDate("2024-09-18"),
 		},
 		{
 			url: `${publicUrl}/blog`,
-			lastModified: new Date("2024-09-18").toISOString(),
+			lastModified: formatDate("2024-09-18"),
 		},
 		{
 			url: `${publicUrl}/regulamin`,
-			lastModified: new Date("2024-09-18").toISOString(),
+			lastModified: formatDate("2024-09-18"),
 		},
 		{
 			url: `${publicUrl}/polityka-prywatnosci`,
-			lastModified: new Date("2024-09-18").toISOString(),
+			lastModified: formatDate("2024-09-18"),
 		},
 		{
 			url: `${publicUrl}/wysylka-i-uslugi-na-miejscu-w-rybnej`,
-			lastModified: new Date("2024-09-18").toISOString(),
+			lastModified: formatDate("2024-09-18"),
 		},
 	];
 
@@ -51,15 +56,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const dynamicRoutes = [
 		...articles.map((article) => ({
 			url: `${publicUrl}${article.full_path}`,
-			lastModified: article.modified_date,
+			lastModified: formatDate(article.modified_date),
 		})),
 		...categories.map((category) => ({
 			url: `${publicUrl}${category.full_path}`,
-			lastModified: category.modified_date,
+			lastModified: formatDate(category.modified_date),
 		})),
 		...products.map((product) => ({
 			url: `${publicUrl}${product.full_path}`,
-			lastModified: product.modified_date,
+			lastModified: formatDate(product.modified_date),
 		})),
 	];
 

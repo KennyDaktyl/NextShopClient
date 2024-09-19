@@ -33,7 +33,6 @@ const SearchInput = ({
 		}
 	}, [debouncedSearchTerm, router]);
 
-	// Ustawia focus na input po otwarciu
 	useEffect(() => {
 		if (isSearchVisible && inputRef.current) {
 			inputRef.current.focus();
