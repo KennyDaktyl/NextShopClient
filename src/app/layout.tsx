@@ -8,6 +8,7 @@ import ServerNavBar from "@/components/ui/organism/ServerNavBar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Footer } from "@/components/ui/organism/Footer";
+import Script from "next/script";
 
 const montserrat = Montserrat({
 	subsets: ["latin", "latin-ext"],
@@ -15,7 +16,7 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
 	metadataBase: new URL(`${process.env.NEXT_PUBLIC_BASE_URL}`),
-	robots: "index, no-follow",
+	robots: "index, follow",
 };
 
 export default function Layout({
@@ -27,6 +28,17 @@ export default function Layout({
 }>) {
 	return (
 		<html lang="pl">
+			<head>
+				<Script async src="https://www.googletagmanager.com/gtag/js?id=G-7TMZLLG9YZ"></Script>
+				<Script id="google-analytics" strategy="afterInteractive">
+					{`
+						window.dataLayer = window.dataLayer || [];
+						function gtag(){dataLayer.push(arguments);}
+						gtag('js', new Date());
+						gtag('config', 'G-7TMZLLG9YZ');
+					`}
+				</Script>
+			</head>
 			<body className={montserrat.className} cz-shortcut-listen="false">
 				<NextAuthProvider>
 					<ServerNavBar />
