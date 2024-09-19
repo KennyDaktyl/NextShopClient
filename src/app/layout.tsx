@@ -29,14 +29,17 @@ export default function Layout({
 	return (
 		<html lang="pl">
 			<head>
-				<Script async src="https://www.googletagmanager.com/gtag/js?id=G-7TMZLLG9YZ"></Script>
-				<Script id="google-analytics" strategy="afterInteractive">
+				<Script
+					src="https://www.googletagmanager.com/gtag/js?id=G-7TMZLLG9YZ"
+					strategy="lazyOnload"
+				/>
+				<Script id="google-analytics" strategy="lazyOnload">
 					{`
-						window.dataLayer = window.dataLayer || [];
-						function gtag(){dataLayer.push(arguments);}
-						gtag('js', new Date());
-						gtag('config', 'G-7TMZLLG9YZ');
-					`}
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7TMZLLG9YZ');
+  `}
 				</Script>
 			</head>
 			<body className={montserrat.className} cz-shortcut-listen="false">

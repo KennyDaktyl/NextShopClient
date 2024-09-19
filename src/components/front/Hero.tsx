@@ -44,7 +44,7 @@ export const HeroItem: React.FC<{ heroData: Hero; isFirst: boolean }> = ({ heroD
 							src={heroData.image.url}
 							alt={heroData.image.alt || ""}
 							title={heroData.image.title || ""}
-							loading="eager"
+							loading="lazy"
 							className="rounded-md object-cover"
 							fill
 							sizes="(max-width: 768px) 100vw, 50vw"
