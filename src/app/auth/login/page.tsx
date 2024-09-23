@@ -5,6 +5,7 @@ export async function generateMetadata() {
 	return {
 		title: `Logowanie do aplikacji`,
 		description: "Logowanie do aplikacji",
+		robots: "no-index, no-follow",
 	};
 }
 

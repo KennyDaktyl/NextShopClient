@@ -4,16 +4,17 @@ import { getProductsPath } from "@/api/getProductsPath";
 import { ArticlePath, CategoryPath, ProductPath } from "@/app/types";
 import { MetadataRoute } from "next";
 
-// Funkcja do formatowania daty bez milisekund
 function formatDate(date: string | Date): string {
 	const d = new Date(date);
-	return d.toISOString().split("T")[0]; // Usunięcie części czasu i milisekund
+	return d.toISOString().split("T")[0];
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const articles = (await getArticlesPath()) as ArticlePath[] | [];
 	const categories = (await getCategoriesPath()) as CategoryPath[] | [];
 	const products = (await getProductsPath()) as ProductPath[] | [];
+
+	console.log("articles", articles);
 
 	const publicUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -52,7 +53,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 		},
 	];
 
-	// Dynamiczne ścieżki dla artykułów, kategorii i produktów
 	const dynamicRoutes = [
 		...articles.map((article) => ({
 			url: `${publicUrl}${article.full_path}`,
@@ -68,6 +68,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 		})),
 	];
 
-	// Łączenie statycznych i dynamicznych ścieżek
 	return [...staticRoutes, ...dynamicRoutes];
 }

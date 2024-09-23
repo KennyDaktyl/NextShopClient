@@ -7,6 +7,7 @@ export async function generateMetadata() {
 		alternates: {
 			canonical: "/requlamin",
 		},
+		robots: "no-index, no-follow",
 	};
 }
 

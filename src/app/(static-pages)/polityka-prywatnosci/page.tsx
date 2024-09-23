@@ -8,6 +8,7 @@ export async function generateMetadata() {
 		alternates: {
 			canonical: "/polityka-prywatnosci",
 		},
+		robots: "no-index, no-follow",
 	};
 }
 

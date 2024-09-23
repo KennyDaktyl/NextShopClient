@@ -23,6 +23,7 @@ export async function generateMetadata() {
 		alternates: {
 			canonical: "/koszyk",
 		},
+		robots: "no-index, no-follow",
 	};
 }
 

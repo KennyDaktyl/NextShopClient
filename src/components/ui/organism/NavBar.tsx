@@ -142,7 +142,12 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 				<div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white">
 					<div className="absolute left-0 top-0 z-50 flex h-24 w-full items-center justify-between bg-white p-5 text-xl font-bold shadow-md md:pl-0 md:pr-0">
 						<ActiveLink role="link" href="/" aria-label="Przejdź do strony głównej">
-							Shopik
+							<Image
+								src="/images/logo-serwiswrybnej-pl.webp"
+								alt="Logo serwiswrybnej.pl"
+								width={96}
+								height={48}
+							/>
 						</ActiveLink>
 						<button onClick={toggleMenu} aria-label="Zamknij menu" aria-expanded={isMenuOpen}>
 							<X size={24} />

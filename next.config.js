@@ -117,6 +117,36 @@ const nextConfig = {
 				permanent: true,
 			},
 			{
+				source: "/wyrob-pieczatek-online-do-miast-na-(.*)",
+				destination: "/wysylka-i-uslugi-na-miejscu-w-rybnej",
+				permanent: true,
+			},
+			{
+				source: "/produkty/klucze-mieszkaniowe(.*)",
+				destination: "/produkty/klucze/klucze-mieszkaniowe",
+				permanent: true,
+			},
+			{
+				source: "/serwis-i-naprawy-telefonow-w-okolicy-(.*)",
+				destination: "/wysylka-i-uslugi-na-miejscu-w-rybnej",
+				permanent: true,
+			},
+			{
+				source: "/dorabianie-kluczy-mieszkaniowych",
+				destination: "/uslugi/dorabianie-kluczy-mieszkaniowych",
+				permanent: true,
+			},
+			{
+				source: "/sklep_online/produkty/(.*)",
+				destination: "/produkty",
+				permanent: true,
+			},
+			{
+				source: "/produkty/kategoria/(.*)",
+				destination: "/produkty",
+				permanent: true,
+			},
+			{
 				source: "/blog/dorabianie-kluczy/czas-wymienic-obudowe-klucza-w-twoim-samochodzie/1",
 				destination:
 					"/blog/wymiana-obudowy-pilota-samochodowego-profesjonalna-usluga-w-okolicach-czernichowa-liszek-alwerni-i-krzeszowic-id-3",
