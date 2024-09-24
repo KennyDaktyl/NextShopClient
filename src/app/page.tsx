@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 		siteName: process.env.NEXT_PUBLIC_SITE_TITLE,
 		images: [
 			{
-				url: "https://new-serwiswrybnej-api.resto-app.pl/media/thumbnails/dorabianie-kluczy-samochodowych-i-mieszkaniowych-szybko-i-profesjonalnie_650x650.webp",
+				url: "https://api.serwiswrybnej.pl/media/thumbnails/dorabianie-kluczy-samochodowych-i-mieszkaniowych-szybko-i-profesjonalnie_650x650.webp",
 				width: 650,
 				height: 650,
 				alt: "Sklep z pieczątkiami - Profesjonalne Pieczątki Firmowe i Imienne na Zamówienie Online",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 			"Specjalizujemy się w pieczątkach firmowych i dorabianiu kluczy. Szybka realizacja, konkurencyjne ceny, klucze do skrzynek energetycznych. Sprawdź nas!",
 		images: [
 			{
-				url: "https://new-serwiswrybnej-api.resto-app.pl/media/thumbnails/dorabianie-kluczy-samochodowych-i-mieszkaniowych-szybko-i-profesjonalnie_650x650.webp",
+				url: "https://api.serwiswrybnej.pl/media/thumbnails/dorabianie-kluczy-samochodowych-i-mieszkaniowych-szybko-i-profesjonalnie_650x650.webp",
 				width: 650,
 				height: 650,
 				alt: "Sklep z pieczątkiami - Profesjonalne Pieczątki Firmowe i Imienne na Zamówienie Online",
