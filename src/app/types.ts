@@ -507,3 +507,7 @@ export interface OrderStatusResponse {
 export interface StatusResponse {
 	status: number;
 }
+
+export interface Window {
+	gtag: (event: string, action: string, params: Record<string, any>) => void;
+}

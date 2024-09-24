@@ -4,6 +4,7 @@ import { addToCartAction } from "@/app/koszyk/actions";
 import React, { useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
+import { gtagEvent } from "@/utils";
 
 type AddToCartButtonProps = {
 	cartItemData: {
@@ -33,6 +34,11 @@ export default function AddToCartButton({ cartItemData, onAddedToCart }: AddToCa
 						pauseOnHover: true,
 						draggable: true,
 						progress: undefined,
+					});
+					gtagEvent("add_to_cart", {
+						product_id: cartItemData.product_id,
+						quantity: cartItemData.quantity,
+						is_available: cartItemData.is_available,
 					});
 				} else {
 					toast.error(result.message || "Wystąpił błąd podczas dodawania do koszyka", {

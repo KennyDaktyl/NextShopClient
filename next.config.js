@@ -4,7 +4,7 @@ const nextConfig = {
 		remotePatterns: [
 			{
 				protocol: "https",
-				hostname: "new-serwiswrybnej-api.resto-app.pl",
+				hostname: "https://api-serwiswrybnej.pl",
 				pathname: "/media/thumbnails/**",
 			},
 			{

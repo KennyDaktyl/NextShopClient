@@ -62,7 +62,6 @@ export default function CartClient({
 		methods.setValue("amount", newPrice.toFixed(2));
 	}, [initialTotalPrice, deliveryMethods, paymentMethods, freeDelivery, currentCartItems]);
 
-	// Dynamiczny schemat walidacji
 	const schema = useMemo(() => {
 		if (showInvoiceForm) {
 			return selectedDelivery.in_store_pickup || selectedDelivery.inpost_box
@@ -115,7 +114,6 @@ export default function CartClient({
 		},
 	});
 
-	// Ustawienia metod i danych użytkownika
 	useEffect(() => {
 		if (userData) {
 			methods.reset({
@@ -167,7 +165,6 @@ export default function CartClient({
 		freeDelivery,
 	]);
 
-	// Obsługa zmiany metody dostawy
 	const handleDeliveryMethodChange = (method: DeliveryMethod) => {
 		setSelectedDelivery(method);
 		methods.setValue("delivery_method", method.id.toString());
@@ -178,7 +175,6 @@ export default function CartClient({
 			methods.setValue("delivery_price", Number(method.price_promo).toFixed(2));
 		}
 
-		// Oblicz nową cenę końcową uwzględniającą koszty przesyłki
 		let newPrice = Number(initialTotalPrice);
 		if (!freeDelivery) {
 			newPrice += Number(method.price);
@@ -199,13 +195,11 @@ export default function CartClient({
 		}
 	};
 
-	// Obsługa zmiany metody płatności
 	const handlePaymentMethodChange = (method: PaymentMethod) => {
 		setSelectedPayment(method);
 		methods.setValue("payment_method", method.id.toString());
 		methods.setValue("payment_price", Number(method.price).toFixed(2));
 
-		// Oblicz nową cenę końcową uwzględniającą koszty płatności
 		let deliveryPrice = freeDelivery ? selectedDelivery.price_promo : selectedDelivery.price;
 		let newPrice = Number(initialTotalPrice) + Number(deliveryPrice);
 
@@ -217,12 +211,10 @@ export default function CartClient({
 		methods.setValue("amount", newPrice.toFixed(2));
 	};
 
-	// Obsługa aktualizacji produktów w koszyku
 	const handleUpdateCartItems = (newCartItems: CartItem[]) => {
 		setCurrentCartItems(newCartItems);
 	};
 
-	// Obsługa złożenia zamówienia
 	const onHandleSubmit = async (data: OrderData) => {
 		try {
 			window.scrollTo({ top: 0, behavior: "smooth" });

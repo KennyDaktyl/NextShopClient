@@ -1,7 +1,6 @@
 import { fetchGetApiData } from "./fetchApiData";
 import { Order, ErrorResponse } from "@/app/types";
 
-// Funkcja do sprawdzania, czy odpowiedź to błąd
 function isErrorResponse(response: any): response is ErrorResponse {
 	return response && typeof response.status === "number";
 }

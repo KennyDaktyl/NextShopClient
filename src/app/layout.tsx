@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Footer } from "@/components/ui/organism/Footer";
 import Script from "next/script";
+import CookiesModal from "@/components/front/CookiesModal";
 
 const montserrat = Montserrat({
 	subsets: ["latin", "latin-ext"],
@@ -35,11 +36,11 @@ export default function Layout({
 				/>
 				<Script id="google-analytics" strategy="lazyOnload">
 					{`
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-7TMZLLG9YZ');
-  `}
+						window.dataLayer = window.dataLayer || [];
+						function gtag(){dataLayer.push(arguments);}
+						gtag('js', new Date());
+						gtag('config', 'G-7TMZLLG9YZ');
+					`}
 				</Script>
 			</head>
 			<body className={montserrat.className} cz-shortcut-listen="false">
@@ -50,6 +51,7 @@ export default function Layout({
 					<BreadCrumbs />
 					{children}
 				</main>
+				<CookiesModal />
 				<Footer />
 				<ToastContainer />
 				{modal}

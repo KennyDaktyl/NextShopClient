@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import { CardWrapperRegister } from "@/components/auth/card-wrapper-register";
+import { gtagEvent } from "@/utils";
 
 export const RegisterForm = () => {
 	const router = useRouter();
@@ -55,6 +56,9 @@ export const RegisterForm = () => {
 						setTimeout(() => {
 							router.push("/auth/login");
 						}, 2000);
+						gtagEvent("register_new_user", {
+							username: formData.username,
+						});
 					}
 				})
 				.catch((err) => {
