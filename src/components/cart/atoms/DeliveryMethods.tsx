@@ -60,7 +60,7 @@ export default function DeliveryMethods({
 	};
 	const freeDeliveryInCart = freeDelivery;
 	return (
-		<div className="mb-4 mt-10">
+		<div className="mb-4 mt-4">
 			<h2 className="w-full text-lg font-semibold">Rodzaj dostawy</h2>
 			<div className="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
 				{deliveryMethods.map((method) => (

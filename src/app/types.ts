@@ -176,6 +176,7 @@ export interface CartItem {
 export interface CartItems {
 	cart_items: CartItem[];
 	free_delivery: boolean;
+	free_delivery_treshold: number;
 }
 
 export interface ContactData {
@@ -251,6 +252,8 @@ export interface ProductDetails {
 	variants: Variant[];
 	product_option: ProductOption;
 	free_delivery: boolean;
+	free_delivery_threshold: number;
+	free_delivery_threshold_passed: boolean;
 }
 
 export interface CategoryMetaData {
@@ -493,6 +496,7 @@ export interface ErrorResponse {
 export interface CartClientProps {
 	cartItems: CartItem[];
 	freeDelivery: boolean;
+	freeDeliveryTreshold: number;
 	totalPrice: number;
 	deliveryMethods: DeliveryMethod[];
 	paymentMethods: PaymentMethod[];

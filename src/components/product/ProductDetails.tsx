@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { DEFAULT_IMAGE_URL } from "@/utils";
+import { DEFAULT_IMAGE_URL, formatMoney } from "@/utils";
 import { BackLinkProps, ProductDetails, Variant } from "@/app/types";
 import { CarouselPlugin } from "@/components/product/carouselPlugin";
 import { ButtonBack } from "@/components/ui/backButton";
@@ -188,10 +188,19 @@ export const ProductDetailsComponent = ({
 					currentPrice={product.current_price}
 					minPriceLast30={product.min_price_last_30}
 				/>
-				{product.free_delivery && (
+				{product.free_delivery || product.free_delivery_threshold_passed ? (
 					<div className="mb-2 text-sm">
 						<span className="font-semibold text-blue-500">*Darmowa dostawa</span>
 					</div>
+				) : (
+					product.free_delivery_threshold && (
+						<div className="mb-2 text-sm">
+							<span className="font-semibold text-red-500">
+								Zamów za minimum {formatMoney(product.free_delivery_threshold)} zł, aby otrzymać
+								darmową przesyłkę!
+							</span>
+						</div>
+					)
 				)}
 				<div className="mb-1 text-xs sm:mb-4">
 					Dostępna ilość: {selectedVariant ? selectedVariant.qty : product.qty}

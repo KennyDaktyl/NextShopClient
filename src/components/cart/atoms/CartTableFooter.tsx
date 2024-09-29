@@ -1,6 +1,7 @@
 "use client";
 
 import { CartItem, DeliveryMethod, PaymentMethod } from "@/app/types";
+import { useEffect, useState } from "react";
 import { formatMoney } from "@/utils";
 
 interface CartTableFooterProps {
@@ -16,9 +17,15 @@ export const CartTableFooter = ({
 	deliveryMethod,
 	paymentMethod,
 }: CartTableFooterProps) => {
-	let paymentMethodPrice = paymentMethod.price;
-	let deliveryMethodPrice = freeDelivery ? deliveryMethod.price_promo : deliveryMethod.price;
+	const [deliveryMethodPrice, setDeliveryMethodPrice] = useState(
+		freeDelivery ? deliveryMethod.price_promo : deliveryMethod.price,
+	);
 
+	useEffect(() => {
+		setDeliveryMethodPrice(freeDelivery ? deliveryMethod.price_promo : deliveryMethod.price);
+	}, [freeDelivery, deliveryMethod]);
+
+	let paymentMethodPrice = paymentMethod.price;
 	if (deliveryMethod.in_store_pickup && paymentMethod.payment_on_delivery) {
 		paymentMethodPrice = 0;
 	}

@@ -24,6 +24,7 @@ import { toast } from "react-toastify";
 export default function CartClient({
 	cartItems,
 	freeDelivery,
+	freeDeliveryTreshold,
 	totalPrice: initialTotalPrice,
 	deliveryMethods,
 	paymentMethods,
@@ -40,7 +41,9 @@ export default function CartClient({
 		userData?.profile?.make_invoice || false,
 	);
 
-	// Przeliczanie finalPrice przy pierwszym załadowaniu strony
+	const MINIMUM_FREE_DELIVERY_PRICE = Number(freeDeliveryTreshold);
+	const [isEligibleForFreeDelivery, setIsEligibleForFreeDelivery] = useState<boolean>(freeDelivery);
+
 	useEffect(() => {
 		let initialDeliveryPrice = 0;
 
@@ -60,7 +63,17 @@ export default function CartClient({
 
 		setFinalPrice(newPrice);
 		methods.setValue("amount", newPrice.toFixed(2));
-	}, [initialTotalPrice, deliveryMethods, paymentMethods, freeDelivery, currentCartItems]);
+		setIsEligibleForFreeDelivery(
+			freeDelivery || Number(initialTotalPrice) >= MINIMUM_FREE_DELIVERY_PRICE,
+		);
+	}, [
+		initialTotalPrice,
+		deliveryMethods,
+		paymentMethods,
+		freeDelivery,
+		currentCartItems,
+		isEligibleForFreeDelivery,
+	]);
 
 	const schema = useMemo(() => {
 		if (showInvoiceForm) {
@@ -163,6 +176,7 @@ export default function CartClient({
 		inpostBoxId,
 		info,
 		freeDelivery,
+		isEligibleForFreeDelivery,
 	]);
 
 	const handleDeliveryMethodChange = (method: DeliveryMethod) => {
@@ -256,7 +270,6 @@ export default function CartClient({
 			</div>
 		);
 	}
-
 	return (
 		<FormProvider {...methods}>
 			<div className="mb-5">
@@ -264,10 +277,21 @@ export default function CartClient({
 					<CartTable
 						cartItems={currentCartItems}
 						freeDelivery={freeDelivery}
+						freeDeliveryTreshold={freeDeliveryTreshold}
 						onUpdateCartItems={handleUpdateCartItems}
 						deliveryMethod={selectedDelivery}
 						paymentMethod={selectedPayment}
 					/>
+					{isEligibleForFreeDelivery ? (
+						<div className="mt-4 text-center text-green-500">
+							Gratulacje! Przesyłka jest darmowa.
+						</div>
+					) : (
+						<div className="mt-4 text-center text-red-500">
+							Zamów za minimum {formatMoney(MINIMUM_FREE_DELIVERY_PRICE)} zł, aby otrzymać darmową
+							przesyłkę!
+						</div>
+					)}
 					<form
 						onSubmit={methods.handleSubmit(onHandleSubmit, (errors) => {
 							console.log("Błędy walidacji:", errors);

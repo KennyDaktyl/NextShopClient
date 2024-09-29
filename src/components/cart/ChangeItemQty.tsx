@@ -13,13 +13,13 @@ export const ChangeQuantity = ({
 	quantity,
 	availableQuantity,
 	price,
-	onQuantityChange, // Dodano
+	onQuantityChange,
 }: {
 	itemId: UUID;
 	quantity: number;
 	availableQuantity: number;
 	price: number;
-	onQuantityChange: (itemId: UUID, newQuantity: number) => void; // Dodano
+	onQuantityChange: (itemId: UUID, newQuantity: number) => void;
 }) => {
 	const [isPending, setIsPending] = useState(false);
 	const [optimisticQuantity, setOptimisticQuantity] = useOptimistic(
@@ -32,7 +32,7 @@ export const ChangeQuantity = ({
 			startTransition(() => {
 				const newQuantity = optimisticQuantity - 1;
 				setOptimisticQuantity(newQuantity);
-				onQuantityChange(itemId, newQuantity); // Dodano
+				onQuantityChange(itemId, newQuantity);
 			});
 			setIsPending(true);
 			try {
@@ -50,7 +50,7 @@ export const ChangeQuantity = ({
 				console.error("Error decrementing quantity:", error);
 				startTransition(() => {
 					setOptimisticQuantity(optimisticQuantity);
-					onQuantityChange(itemId, optimisticQuantity); // Dodano - przywrócenie starej wartości w razie błędu
+					onQuantityChange(itemId, optimisticQuantity);
 				});
 			} finally {
 				setIsPending(false);
@@ -63,7 +63,7 @@ export const ChangeQuantity = ({
 			startTransition(() => {
 				const newQuantity = optimisticQuantity + 1;
 				setOptimisticQuantity(newQuantity);
-				onQuantityChange(itemId, newQuantity); // Dodano
+				onQuantityChange(itemId, newQuantity);
 			});
 			setIsPending(true);
 			try {
@@ -81,7 +81,7 @@ export const ChangeQuantity = ({
 				console.error("Error incrementing quantity:", error);
 				startTransition(() => {
 					setOptimisticQuantity(optimisticQuantity);
-					onQuantityChange(itemId, optimisticQuantity); // Dodano - przywrócenie starej wartości w razie błędu
+					onQuantityChange(itemId, optimisticQuantity);
 				});
 			} finally {
 				setIsPending(false);

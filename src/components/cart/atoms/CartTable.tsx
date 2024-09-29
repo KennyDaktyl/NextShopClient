@@ -4,11 +4,13 @@ import { UUID } from "crypto";
 import { CartItem, DeliveryMethod, PaymentMethod } from "@/app/types";
 import { CartTableRow } from "@/components/cart/atoms/CartTableRow";
 import { CartTableFooter } from "@/components/cart/atoms/CartTableFooter";
+import { useEffect, useState } from "react";
 
 interface CartTableProps {
 	cartItems: CartItem[];
 	freeDelivery: boolean;
-	onUpdateCartItems: (newCartItems: any[]) => void;
+	freeDeliveryTreshold: number;
+	onUpdateCartItems: (newCartItems: CartItem[]) => void;
 	deliveryMethod: DeliveryMethod;
 	paymentMethod: PaymentMethod;
 }
@@ -16,21 +18,35 @@ interface CartTableProps {
 export default function CartTable({
 	cartItems,
 	freeDelivery,
+	freeDeliveryTreshold,
 	onUpdateCartItems,
 	deliveryMethod,
 	paymentMethod,
 }: CartTableProps) {
+	const [isFreeDelivery, setIsFreeDelivery] = useState(freeDelivery);
+
 	const handleQuantityChange = (itemId: UUID, newQuantity: number) => {
 		const updatedItems = cartItems.map((item) =>
 			item.item_id === itemId ? { ...item, quantity: newQuantity } : item,
 		);
 		onUpdateCartItems(updatedItems);
+		updateFreeDelivery(updatedItems);
 	};
 
 	const handleRemoveItem = (itemId: UUID) => {
 		const updatedItems = cartItems.filter((item) => item.item_id !== itemId);
 		onUpdateCartItems(updatedItems);
+		updateFreeDelivery(updatedItems);
 	};
+
+	const updateFreeDelivery = (items: CartItem[]) => {
+		const productsTotal = items.reduce((acc, item) => acc + item.quantity * item.price, 0);
+		setIsFreeDelivery(productsTotal >= freeDeliveryTreshold);
+	};
+
+	useEffect(() => {
+		updateFreeDelivery(cartItems);
+	}, [cartItems]);
 
 	return (
 		<>
@@ -47,20 +63,28 @@ export default function CartTable({
 						</tr>
 					</thead>
 					<tbody>
-						{cartItems.map((item) => (
-							<CartTableRow
-								key={item.item_id}
-								item={item}
-								onQuantityChange={handleQuantityChange}
-								onRemoveItem={handleRemoveItem}
-							/>
-						))}
+						{cartItems.length > 0 ? (
+							cartItems.map((item) => (
+								<CartTableRow
+									key={item.item_id}
+									item={item}
+									onQuantityChange={handleQuantityChange}
+									onRemoveItem={handleRemoveItem}
+								/>
+							))
+						) : (
+							<tr>
+								<td colSpan={6} className="py-4 text-center">
+									Brak produktów w koszyku
+								</td>
+							</tr>
+						)}
 					</tbody>
 				</table>
 			</div>
 			<CartTableFooter
 				cartItems={cartItems}
-				freeDelivery={freeDelivery}
+				freeDelivery={isFreeDelivery}
 				deliveryMethod={deliveryMethod}
 				paymentMethod={paymentMethod}
 			/>

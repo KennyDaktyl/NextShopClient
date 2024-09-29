@@ -33,6 +33,7 @@ export default async function CartPage() {
 	let cartItems: CartItem[] = [];
 	let totalPrice: number = 0;
 	let freeDelivery: boolean = false;
+	let free_delivery_treshold: number = 0;
 
 	const response: CartItems | { status: number } = await getCartItems(sessionId);
 	const responseTotalPrice: CartTotalPrice | { status: number } = await getTotalPrice(sessionId);
@@ -45,6 +46,7 @@ export default async function CartPage() {
 		cartItems = response.cart_items ?? [];
 		totalPrice = responseTotalPrice.total_price ?? 0;
 		freeDelivery = response.free_delivery ?? false;
+		free_delivery_treshold = response.free_delivery_treshold ?? 0;
 	}
 
 	const deliveryMethodsResponse = await getDeliveryMethods(sessionId);
@@ -77,6 +79,7 @@ export default async function CartPage() {
 		<CartClient
 			cartItems={cartItems}
 			freeDelivery={freeDelivery}
+			freeDeliveryTreshold={free_delivery_treshold}
 			totalPrice={totalPrice}
 			deliveryMethods={deliveryMethods}
 			paymentMethods={paymentMethods}

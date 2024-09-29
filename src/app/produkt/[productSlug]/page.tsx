@@ -4,6 +4,7 @@ import HeaderComponent from "@/components/product/atoms/HeaderComponent";
 import { ProductDetailsComponent as DefaultProductDetailsComponent } from "@/components/product/ProductDetails";
 import { JsonLd, mappedProductToJsonLd } from "@/components/seo/LdJson";
 import { Metadata } from "next";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({
@@ -11,7 +12,11 @@ export async function generateMetadata({
 }: {
 	params: { productSlug: string };
 }): Promise<Metadata> {
-	const productDetailsResponse = await getProductDetails({ productSlug: params.productSlug });
+	const sessionId = cookies().get("sessionid")?.value ?? "";
+	const productDetailsResponse = await getProductDetails({
+		productSlug: params.productSlug,
+		sessionid: sessionId,
+	});
 
 	if (!productDetailsResponse) {
 		return {
@@ -61,7 +66,11 @@ export async function generateMetadata({
 }
 
 export default async function ProductPage({ params }: { params: { productSlug: string } }) {
-	const productDetailsResponse = await getProductDetails({ productSlug: params.productSlug });
+	const sessionId = cookies().get("sessionid")?.value ?? "";
+	const productDetailsResponse = await getProductDetails({
+		productSlug: params.productSlug,
+		sessionid: sessionId,
+	});
 
 	if (!productDetailsResponse) {
 		return notFound();
