@@ -7,6 +7,7 @@ import { formatMoney, handlePdfOpen } from "@/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { XCircle, File, Hourglass, CheckCircle } from "lucide-react";
+import { GoogleMap } from "@/components/contact/GoogleMap";
 
 interface OrderDetailsProps {
 	order: Order;
@@ -126,6 +127,39 @@ export default function OrderDetails({ order }: OrderDetailsProps) {
 					<Button variant="ghost">
 						<Hourglass className="h-5 w-5 text-yellow-500" />
 					</Button>
+				</div>
+			)}
+
+			{order.payment_method.bank_transfer && (
+				<div className="mt-6 rounded-md bg-gray-100 p-4">
+					<h3 className="text-md font-semibold text-gray-800">
+						Wybrałeś sposób zapłaty przelewem tradycyjnym.
+					</h3>
+					<p className="mt-2 text-sm text-gray-600">Dokonaj wpłaty na poniższe dane:</p>
+					<p className="mt-1 text-sm text-gray-600">
+						<strong>Nazwa odbiorcy:</strong> Michał Pielak Miktel
+						<br />
+						<strong>Numer konta:</strong> 21 1020 2906 0000 1702 0373 8333
+						<br />
+						<strong>Tytuł przelewu:</strong> Zamówienie #{order.order_number}
+					</p>
+					<p className="mt-2 text-sm text-gray-600">
+						Pamiętaj, że przetworzenie zamówienia może zająć kilka dni roboczych po zaksięgowaniu
+						wpłaty.
+					</p>
+				</div>
+			)}
+
+			{order.delivery_method.in_store_pickup && (
+				<div className="mt-6 rounded-md bg-gray-100 p-4">
+					<h3 className="text-md font-semibold text-gray-800">Wybrałeś odbiór osobisty.</h3>
+					<p className="mt-2 text-sm text-gray-600">Zapraszamy do punktu</p>
+					<p className="mt-1 text-sm text-gray-600">
+						<strong>Nazwa odbiorcy:</strong> Michał Pielak Miktel
+						<br />
+						<strong>Adres:</strong> 32-061 Rybna, ul. Wspólna 2
+					</p>
+					<GoogleMap />
 				</div>
 			)}
 		</Card>

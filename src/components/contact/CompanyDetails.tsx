@@ -26,8 +26,10 @@ export const CompanyDetails: React.FC = () => {
 				</p>
 			</ActiveLink>
 			<div className="mb-2 flex flex-wrap justify-start">
+				<p className="w-full">Michał Pielak Miktel</p>
+				<p className="w-full">Nip: 678 280 52 34</p>
 				<strong className="w-full">Numer konta bankowego:</strong>
-				<p className="w-full">47 1020 2906 0000 1902 0166 6429</p>
+				<p className="w-full">21 1020 2906 0000 1702 0373 8333</p>
 			</div>
 			<div className="mt-6">
 				<h3 className="mb-2 text-xl font-semibold">Godziny Pracy</h3>

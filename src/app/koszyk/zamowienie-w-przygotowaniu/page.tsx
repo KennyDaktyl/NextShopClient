@@ -16,21 +16,22 @@ export default function Page() {
 
 	useEffect(() => {
 		if (orderUid) {
-			const updateOrderStatus = async () => {
-				await updateOrderStatusAction({ orderUid: orderUid, status: 8 });
-			};
-			updateOrderStatus();
-		}
-	}, [orderUid]);
-
-	useEffect(() => {
-		if (orderUid) {
-			const fetchOrder = async () => {
+			const fetchAndUpdateOrder = async () => {
 				const order = await getOrderDetails({ orderUid: orderUid as UUID });
 				setOrderDetails(order);
 				setLoading(false);
+
+				console.log("hello: ", order);
+				if (order) {
+					if (order.payment_method.bank_transfer) {
+						await updateOrderStatusAction({ orderUid: orderUid, status: 4 });
+					} else {
+						await updateOrderStatusAction({ orderUid: orderUid, status: 8 });
+					}
+				}
 			};
-			fetchOrder();
+
+			fetchAndUpdateOrder();
 		}
 	}, [orderUid]);
 

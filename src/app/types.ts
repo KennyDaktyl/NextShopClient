@@ -373,6 +373,7 @@ export interface PaymentMethod {
 	price: number;
 	payment_on_delivery: boolean;
 	payment_online: boolean;
+	bank_transfer: boolean;
 }
 
 export interface PaymentMethods {
