@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { DEFAULT_IMAGE_URL, formatMoney } from "@/utils";
+import { DEFAULT_IMAGE_URL, formatMoney, trackViewItem } from "@/utils";
 import { BackLinkProps, ProductDetails, Variant } from "@/app/types";
 import { CarouselPlugin } from "@/components/product/carouselPlugin";
 import { ButtonBack } from "@/components/ui/backButton";
@@ -48,6 +48,24 @@ export const ProductDetailsComponent = ({
 		setInitialized(true);
 		setLoading(false);
 	}, [variantSlug, product.variants]);
+
+	useEffect(() => {
+		if (product) {
+			const trackedItem = selectedVariant || product;
+			const price = product.current_price;
+
+			trackViewItem({
+				item_id: trackedItem.id.toString(),
+				item_name: trackedItem.name,
+				price: price,
+				quantity: 1,
+				currency: "PLN",
+				category: product.category?.name || "",
+				brand: product.brand?.name || "",
+				variant: selectedVariant?.name || "",
+			});
+		}
+	}, [product, selectedVariant]);
 
 	const handleOptionSelect = (optionId: number, valueId: number) => {
 		setSelectedOption({ option_id: optionId, value_id: valueId });

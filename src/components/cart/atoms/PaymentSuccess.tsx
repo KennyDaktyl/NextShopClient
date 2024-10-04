@@ -7,6 +7,7 @@ import { getOrderDetails } from "@/api/getOrderByUid";
 import { UUID } from "crypto";
 import { Order } from "@/app/types";
 import { updateOrderStatusAction } from "@/app/koszyk/actions";
+import { trackPurchase } from "@/utils";
 
 export default function Page() {
 	const [orderDetails, setOrderDetails] = useState<Order | null>(null);
@@ -27,6 +28,18 @@ export default function Page() {
 				const order = await getOrderDetails({ orderUid: orderUid as UUID });
 				setOrderDetails(order);
 				setLoading(false);
+
+				if (order) {
+					const cartItems = JSON.parse(order.cart_items);
+					const products = cartItems.map((item: any) => ({
+						item_id: item.id,
+						item_name: item.name,
+						quantity: item.quantity,
+						price: parseFloat(item.price),
+					}));
+
+					trackPurchase(orderUid, parseFloat(order.amount), "PLN", products);
+				}
 			};
 
 			updateAndFetchOrder();

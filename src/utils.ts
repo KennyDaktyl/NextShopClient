@@ -50,23 +50,13 @@ export const gtagEvent = (eventName: string, eventData: Record<string, any>) => 
 	}
 };
 
-/**
- * Funkcja do śledzenia zakupu produktu w Google Analytics 4
- * @param transactionId - ID transakcji
- * @param value - Całkowita kwota transakcji
- * @param currency - Waluta transakcji (np. "PLN", "USD")
- * @param paymentMethod - Metoda płatności (opcjonalne)
- * @param products - Lista produktów kupionych, zawierająca id, nazwę, kategorię, ilość, cenę
- */
 export const trackPurchase = (
 	transactionId: string,
 	value: number,
 	currency: string,
-	paymentMethod: string,
 	products: Array<{
-		id: string;
-		name: string;
-		category: string;
+		item_id: number;
+		item_name: string;
 		quantity: number;
 		price: number;
 	}>,
@@ -75,16 +65,56 @@ export const trackPurchase = (
 		transaction_id: transactionId,
 		value: value,
 		currency: currency,
-		payment_method: paymentMethod,
 		items: products.map((product) => ({
-			item_id: product.id,
-			item_name: product.name,
-			item_category: product.category,
+			item_id: product.item_id,
+			item_name: product.item_name,
 			quantity: product.quantity,
 			price: product.price,
 		})),
 	};
+	if (process.env.NODE_ENV === "production") {
+		gtagEvent("purchase", eventData);
+	} else {
+		console.log("purchase", eventData);
+	}
+};
 
-	// Wyślij zdarzenie purchase do Google Analytics
-	gtagEvent("purchase", eventData);
+export const trackViewItem = ({
+	item_id,
+	item_name,
+	price,
+	quantity,
+	currency,
+	category,
+	brand,
+	variant,
+}: {
+	item_id: string;
+	item_name: string;
+	price: number;
+	quantity: number;
+	currency: string;
+	category?: string;
+	brand?: string;
+	variant?: string;
+}) => {
+	const eventData = {
+		currency: currency,
+		value: price * quantity,
+		items: [
+			{
+				item_id: item_id,
+				item_name: item_name,
+				price: price,
+				item_category: category,
+				item_brand: brand,
+				item_variant: variant,
+			},
+		],
+	};
+	if (process.env.NODE_ENV === "production") {
+		gtagEvent("view_item", eventData);
+	} else {
+		console.log("view_item", eventData);
+	}
 };
