@@ -16,10 +16,7 @@ export const CompanyDetails: React.FC = () => {
 			</div>
 			<ActiveLink
 				role="link"
-				href={`mailto:${"michal.pielak81".replace(/\./g, "[dot]")}@gmail.com`.replace(
-					/\[dot\]/g,
-					".",
-				)}
+				href={`mailto:${"admin".replace(/\./g, "[dot]")}@serwiswrybnej.pl`.replace(/\[dot\]/g, ".")}
 			>
 				<p className="mb-2">
 					<strong>Wyślij Email</strong>

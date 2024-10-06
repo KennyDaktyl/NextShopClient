@@ -160,7 +160,7 @@ export default function Page() {
 				Administratorem poprzez e-mail:{" "}
 				<ActiveLink
 					role="link"
-					href={`mailto:${"michal.pielak81".replace(/\./g, "[dot]")}@gmail.com`.replace(
+					href={`mailto:${"admin".replace(/\./g, "[dot]")}@serwiswrybnej.pl`.replace(
 						/\[dot\]/g,
 						".",
 					)}
