@@ -48,6 +48,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 			lastModified: formatDate("2024-09-18"),
 		},
 		{
+			url: `${publicUrl}/dostawa-i-zwroty`,
+			lastModified: formatDate("2024-10-09"),
+		},
+		{
 			url: `${publicUrl}/wysylka-i-uslugi-na-miejscu-w-rybnej`,
 			lastModified: formatDate("2024-09-18"),
 		},

@@ -95,6 +95,15 @@ export function Footer() {
 							<li>
 								<ActiveLink
 									role="link"
+									href="/dostawa-i-zwroty"
+									aria-label="Informacje dotyczące dostaw i zwrotów"
+								>
+									Dostawa i zwroty
+								</ActiveLink>
+							</li>
+							<li>
+								<ActiveLink
+									role="link"
 									href={`mailto:${"admin".replace(/\./g, "[dot]")}@serwiswrybnej.pl`.replace(
 										/\[dot\]/g,
 										".",

@@ -70,7 +70,7 @@ export const ContactForm: React.FC = () => {
 
 			if (result.success) {
 				toast.success("Wiadomość została wysłana.");
-				methods.reset(); // Resetuje formularz po udanym wysłaniu
+				methods.reset();
 			} else {
 				setSubmitStatus("Nie udało się wysłać wiadomości. Spróbuj ponownie.");
 				toast.error("Nie udało się wysłać wiadomości. Spróbuj ponownie.", {
