@@ -215,9 +215,9 @@ export const ProductDetailsComponent = ({
 						<TagsComponent tags={tags} />
 					</div>
 				)}
-				<div className="mb-2 flex flex-wrap">
-					<span className="w-full font-semibold">Wysyłka:</span>
-					<span className="mb-2 mr-2 text-sm text-gray-700">Od 1 do 3 dni roboczych</span>
+				<div className="mb-2 text-sm">
+					<span className="font-semibold">Wysyłka:</span>
+					<span className="mb-2 ml-2 text-sm text-gray-700">Od 1 do 3 dni roboczych</span>
 					{product.free_delivery || product.free_delivery_threshold_passed ? (
 						<div className="mb-2 w-full text-sm">
 							<span className="font-semibold text-blue-500">*Darmowa dostawa</span>
