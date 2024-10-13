@@ -6,6 +6,7 @@ import { getMenuItems } from "@/api/getMenuItems";
 import CategoryDetails from "@/components/category/CategoryDetails";
 import { MenuItemsResponse } from "@/app/types";
 import { generateCategoryJsonLd, JsonLd } from "@/components/seo/LdJson";
+import { title } from "process";
 
 export async function generateMetadata(): Promise<Metadata> {
 	const currentCategorySlug = "produkty";
@@ -21,18 +22,22 @@ export async function generateMetadata(): Promise<Metadata> {
 		image: menuItems.image,
 		full_path: menuItems.full_path,
 	};
-
+	const title = category.meta_title
+		? category.meta_title
+		: `Lista głównych kategorii produktów w sklepie internetowym`;
+	const description = category.meta_description
+		? category.meta_description
+		: "Lista wszystkich głównych kategorii dostępnych w naszym sklepie internetowym. Sprawdź naszą ofertę i wybierz coś dla siebie!";
 	return {
 		alternates: {
 			canonical: "/produkty",
 		},
-		title: `Lista głównych kategorii produktów w sklepie internetowym`,
-		description:
-			"Lista wszystkich głównych kategorii dostępnych w naszym sklepie internetowym. Sprawdź naszą ofertę i wybierz coś dla siebie!",
+		title: title,
+		description: description,
 
 		openGraph: {
-			title: `Kategoria ${category.name}`,
-			description: category.description?.slice(0, 160),
+			title: title,
+			description: description,
 			url: process.env.NEXT_PUBLIC_BASE_URL + category.full_path,
 			siteName: process.env.NEXT_PUBLIC_SITE_TITLE,
 			images: [
@@ -48,8 +53,8 @@ export async function generateMetadata(): Promise<Metadata> {
 		},
 		twitter: {
 			card: "summary_large_image",
-			title: `Kategoria ${category.name}`,
-			description: category.description?.slice(0, 160),
+			title: title,
+			description: description,
 			images: [
 				{
 					url: category.image?.url || "",

@@ -29,16 +29,21 @@ export async function generateMetadata({
 	});
 	const category = response;
 
-	let title = `Produkty z kategorii ${category.name}`;
-	let description = `Lista produktów w kategorii ${category.name}`;
+	let title = category.meta_title ? category.meta_title : `Produkty z kategorii ${category.name}`;
+	let description = category.meta_description
+		? `${category.meta_description}`
+		: `Lista produktów w kategorii ${category.name}`;
 	let alternates = {
 		canonical: category.full_path,
 	};
 
 	if (category.has_children) {
-		title = category.meta_title || `Kategoria ${category.name} i lista jej podkategorii`;
-		description =
-			category.meta_description || `Lista podkategorii dla kategorii ${category.description}`;
+		title = category.meta_title
+			? category.meta_title
+			: `Kategoria ${category.name} i lista jej podkategorii`;
+		description = category.meta_description
+			? category.meta_description
+			: `Lista podkategorii dla kategorii ${category.description}`;
 	}
 
 	return {

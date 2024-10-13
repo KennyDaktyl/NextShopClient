@@ -57,13 +57,15 @@ export const ProductListItemContainer = ({ product }: { product: ProductListItem
 				<CardHeader className="z-10 p-1">
 					<CardTitle className="text-md h-[40px] text-sm">{product.name}</CardTitle>
 					<div className="mb-4 flex items-center">
-						<StarRatings
-							rating={product.average_rating}
-							starRatedColor="gold"
-							numberOfStars={5}
-							starDimension="16px"
-							starSpacing="3px"
-						/>
+						{!product.is_service && (
+							<StarRatings
+								rating={product.average_rating}
+								starRatedColor="gold"
+								numberOfStars={5}
+								starDimension="16px"
+								starSpacing="3px"
+							/>
+						)}
 					</div>
 					<CardDescription className="h-[20px] text-xs">{product.category.name}</CardDescription>
 				</CardHeader>
