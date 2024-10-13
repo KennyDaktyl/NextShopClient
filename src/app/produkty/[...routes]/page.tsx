@@ -134,7 +134,7 @@ export default async function Page({
 				<CategoryLayout>
 					<SideBar menuItems={menuItems} isMenuActive={false} />
 
-					<div className="flex w-full flex-wrap">
+					<div className="mb-5 mt-10 flex w-full flex-wrap md:mt-0">
 						<div className="flex w-full flex-wrap items-center justify-center rounded-md bg-gray-100 shadow-md md:h-[350px]">
 							<div className="flex w-full items-center justify-center md:h-[350px] md:w-1/2">
 								<div className="flex flex-wrap items-center justify-start px-2 py-4">
