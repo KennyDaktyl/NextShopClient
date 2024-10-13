@@ -205,7 +205,7 @@ export async function createOrderAction({
 				price_data: {
 					currency: "pln",
 					product_data: {
-						name: "Koszt płatności" || "",
+						name: "Koszt płatności",
 						images: [],
 					},
 					unit_amount: Math.round(Number(orderData.payment_price) * 100),
