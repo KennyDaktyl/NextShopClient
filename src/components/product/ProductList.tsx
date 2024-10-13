@@ -13,7 +13,7 @@ export const ProductList = ({
 			{products.length > 0 ? (
 				<ul
 					data-testid={containerName}
-					className="flex w-full grid-cols-2 flex-wrap gap-4 sm:grid-cols-3 xl:grid-cols-4"
+					className="flex w-full grid-cols-2 flex-wrap items-center justify-center gap-4 sm:grid-cols-3 xl:grid-cols-4"
 				>
 					{products.map((product) => (
 						<ProductListItemContainer key={product.id} product={product} />

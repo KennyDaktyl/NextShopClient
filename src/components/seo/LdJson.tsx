@@ -1,4 +1,4 @@
-import { Thing, ItemList, Product, ListItem } from "schema-dts";
+import { Thing, ItemList, Product, ListItem, AggregateRating } from "schema-dts";
 import {
 	ArticleListItem,
 	CategoryDetailsProps,
@@ -17,6 +17,15 @@ export const JsonLd = <T extends Thing>({ jsonLd }: { jsonLd: WithContext<T> }) 
 
 export const mappedProductToJsonLd = (product: ProductDetails): WithContext<Product> => {
 	const formattedPrice = product.current_price.toFixed(2);
+	const aggregateRating: AggregateRating | undefined = product.review_count
+		? {
+				"@type": "AggregateRating",
+				ratingValue: product.average_rating.toFixed(1),
+				reviewCount: product.review_count,
+				bestRating: "5",
+				worstRating: "1",
+			}
+		: undefined;
 
 	return {
 		"@context": "https://schema.org",
@@ -38,6 +47,7 @@ export const mappedProductToJsonLd = (product: ProductDetails): WithContext<Prod
 			availability:
 				product.qty > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
 		},
+		aggregateRating,
 	};
 };
 
@@ -64,6 +74,15 @@ export const mappedProductsToJsonLd = (
 						availability:
 							product.qty > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
 					},
+					aggregateRating: product.average_rating
+						? {
+								"@type": "AggregateRating",
+								ratingValue: product.average_rating.toFixed(1),
+								reviewCount: product.review_count,
+								bestRating: "5",
+								worstRating: "1",
+							}
+						: undefined,
 				},
 			}),
 		),

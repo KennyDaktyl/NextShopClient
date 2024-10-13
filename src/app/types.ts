@@ -77,6 +77,8 @@ export interface ProductListItem {
 	show_variant_label: boolean;
 	variants: VariantList[];
 	is_service: boolean;
+	average_rating: number;
+	review_count: number;
 }
 
 export interface Tag {
@@ -254,6 +256,8 @@ export interface ProductDetails {
 	free_delivery: boolean;
 	free_delivery_threshold: number;
 	free_delivery_threshold_passed: boolean;
+	average_rating: number;
+	review_count: number;
 }
 
 export interface CategoryMetaData {

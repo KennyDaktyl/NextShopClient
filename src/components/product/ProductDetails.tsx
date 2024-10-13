@@ -17,6 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ProductOptionComponent } from "@/components/product/ProductOption";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import StarRatings from "react-star-ratings";
 
 export const ProductDetailsComponent = ({
 	product,
@@ -158,8 +159,20 @@ export const ProductDetailsComponent = ({
 
 			<div className="w-full p-4 md:w-1/3">
 				{product.h1_tag && (
-					<p className="g mb-4 w-full text-left font-bold uppercase">{product.name}</p>
+					<p className="g mb-1 w-full text-left font-bold uppercase">{product.name}</p>
 				)}
+				<div className="mb-4 flex items-center">
+					<StarRatings
+						rating={product.average_rating}
+						starRatedColor="gold"
+						numberOfStars={5}
+						starDimension="20px"
+						starSpacing="5px"
+					/>
+					<p className="ml-1 text-sm">
+						{product.average_rating.toFixed(1)} - ({product.review_count})
+					</p>
+				</div>
 				<TooltipProvider>
 					{product.variants && product.show_variant_label && (
 						<VariantsComponent
@@ -202,24 +215,28 @@ export const ProductDetailsComponent = ({
 						<TagsComponent tags={tags} />
 					</div>
 				)}
+				<div className="mb-2 flex flex-wrap">
+					<span className="w-full font-semibold">Wysyłka:</span>
+					<span className="mb-2 mr-2 text-sm text-gray-700">Od 1 do 3 dni roboczych</span>
+					{product.free_delivery || product.free_delivery_threshold_passed ? (
+						<div className="mb-2 w-full text-sm">
+							<span className="font-semibold text-blue-500">*Darmowa dostawa</span>
+						</div>
+					) : (
+						product.free_delivery_threshold && (
+							<div className="mb-2 w-full text-sm">
+								<span className="font-semibold text-red-500">
+									Zamów za minimum {formatMoney(product.free_delivery_threshold)} zł, aby otrzymać
+									darmową przesyłkę!
+								</span>
+							</div>
+						)
+					)}
+				</div>
 				<PriceComponent
 					currentPrice={product.current_price}
 					minPriceLast30={product.min_price_last_30}
 				/>
-				{product.free_delivery || product.free_delivery_threshold_passed ? (
-					<div className="mb-2 text-sm">
-						<span className="font-semibold text-blue-500">*Darmowa dostawa</span>
-					</div>
-				) : (
-					product.free_delivery_threshold && (
-						<div className="mb-2 text-sm">
-							<span className="font-semibold text-red-500">
-								Zamów za minimum {formatMoney(product.free_delivery_threshold)} zł, aby otrzymać
-								darmową przesyłkę!
-							</span>
-						</div>
-					)
-				)}
 				<div className="mb-1 text-xs sm:mb-4">
 					Dostępna ilość: {selectedVariant ? selectedVariant.qty : product.qty}
 				</div>

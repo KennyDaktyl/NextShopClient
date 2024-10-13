@@ -10,6 +10,7 @@ import { formatMoney, getProductImage } from "@/utils";
 import Link from "next/link";
 import Image from "next/image";
 import { ProductListItem } from "@/app/types";
+import StarRatings from "react-star-ratings";
 
 const COLOR_CLASSES: { [key: string]: string } = {
 	"Brak koloru": "bg-gray-300 text-gray-800",
@@ -39,7 +40,7 @@ export const ProductListItemContainer = ({ product }: { product: ProductListItem
 		>
 			<Card
 				key={product.id}
-				className="product-list-item h-[350px] w-full overflow-hidden bg-slate-50 md:h-[490px]"
+				className="product-list-item h-[380px] w-full overflow-hidden bg-slate-50 md:h-[520px]"
 			>
 				<CardContent className="m-0 p-0">
 					<div className="flex h-[200px] items-center justify-center overflow-hidden md:h-[330px] md:w-[350px]">
@@ -55,6 +56,15 @@ export const ProductListItemContainer = ({ product }: { product: ProductListItem
 				</CardContent>
 				<CardHeader className="z-10 p-1">
 					<CardTitle className="text-md h-[40px] text-sm">{product.name}</CardTitle>
+					<div className="mb-4 flex items-center">
+						<StarRatings
+							rating={product.average_rating}
+							starRatedColor="gold"
+							numberOfStars={5}
+							starDimension="16px"
+							starSpacing="3px"
+						/>
+					</div>
 					<CardDescription className="h-[20px] text-xs">{product.category.name}</CardDescription>
 				</CardHeader>
 				<CardFooter className="m-0 pb-2 pl-1 pr-0 pt-2">
