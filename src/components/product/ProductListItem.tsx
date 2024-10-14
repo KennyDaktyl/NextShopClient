@@ -40,7 +40,7 @@ export const ProductListItemContainer = ({ product }: { product: ProductListItem
 		>
 			<Card
 				key={product.id}
-				className="product-list-item h-[380px] w-full overflow-hidden bg-slate-50 md:h-[520px]"
+				className="product-list-item h-[420px] w-full overflow-hidden bg-slate-50 md:h-[540px]"
 			>
 				<CardContent className="m-0 p-0">
 					<div className="flex h-[200px] items-center justify-center overflow-hidden md:h-[330px] md:w-[350px]">
@@ -55,7 +55,7 @@ export const ProductListItemContainer = ({ product }: { product: ProductListItem
 					</div>
 				</CardContent>
 				<CardHeader className="z-10 p-1">
-					<CardTitle className="text-md h-[40px] text-sm">{product.name}</CardTitle>
+					<CardTitle className="text-md h-[50px] text-sm">{product.name}</CardTitle>
 					<div className="mb-4 flex items-center">
 						{!product.is_service && (
 							<StarRatings
@@ -67,7 +67,7 @@ export const ProductListItemContainer = ({ product }: { product: ProductListItem
 							/>
 						)}
 					</div>
-					<CardDescription className="h-[20px] text-xs">{product.category.name}</CardDescription>
+					<CardDescription className="h-[40px] text-xs">{product.category.name}</CardDescription>
 				</CardHeader>
 				<CardFooter className="m-0 pb-2 pl-1 pr-0 pt-2">
 					{!isService ? (
