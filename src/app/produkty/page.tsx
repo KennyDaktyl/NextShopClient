@@ -6,7 +6,6 @@ import { getMenuItems } from "@/api/getMenuItems";
 import CategoryDetails from "@/components/category/CategoryDetails";
 import { MenuItemsResponse } from "@/app/types";
 import { generateCategoryJsonLd, JsonLd } from "@/components/seo/LdJson";
-import { title } from "process";
 
 export async function generateMetadata(): Promise<Metadata> {
 	const currentCategorySlug = "produkty";

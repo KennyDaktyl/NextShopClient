@@ -31,6 +31,7 @@ export default function CartClient({
 	userData,
 	accessToken,
 }: CartClientProps) {
+	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [finalPrice, setFinalPrice] = useState<number>(initialTotalPrice);
 	const [selectedDelivery, setSelectedDelivery] = useState<DeliveryMethod>(deliveryMethods[0]);
 	const [selectedPayment, setSelectedPayment] = useState<PaymentMethod>(paymentMethods[0]);
@@ -231,6 +232,7 @@ export default function CartClient({
 
 	const onHandleSubmit = async (data: OrderData) => {
 		try {
+			setIsSubmitting(true);
 			window.scrollTo({ top: 0, behavior: "smooth" });
 			toast.success("Zamówienie złożone pomyślnie!", {
 				position: "top-right",
@@ -361,10 +363,17 @@ export default function CartClient({
 						<div className="mt-4 w-full text-right">
 							<Button
 								type="submit"
-								className="h-[75px] w-full rounded-lg border bg-slate-950 py-2 font-semibold text-white shadow transition-colors hover:bg-slate-800 xl:w-64"
+								disabled={isSubmitting}
+								className={`h-[75px] w-full rounded-lg border bg-slate-950 py-2 font-semibold text-white shadow transition-colors hover:bg-slate-800 xl:w-64 ${isSubmitting ? "cursor-not-allowed opacity-50" : ""}`}
 							>
-								<p className="">Złóż zamówienie</p>&nbsp;
-								<p className="w-11">{formatMoney(finalPrice)}</p>
+								{isSubmitting ? (
+									"Składanie zamówienia..."
+								) : (
+									<>
+										<p>Złóż zamówienie</p>&nbsp;
+										<p className="w-11">{formatMoney(finalPrice)}</p>
+									</>
+								)}
 							</Button>
 						</div>
 					</form>
