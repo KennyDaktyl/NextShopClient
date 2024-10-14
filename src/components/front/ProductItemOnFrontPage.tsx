@@ -38,7 +38,7 @@ export const ProductItemOnFrontPageContainer = ({ product }: { product: ProductL
 		>
 			<Card
 				key={product.id}
-				className="product-list-item h-[320px] w-full overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg md:h-[500px]"
+				className="product-list-item h-[320px] w-full overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg md:h-[520px]"
 			>
 				<CardContent className="m-0 p-0">
 					<div className="] flex h-[150px] items-center justify-center overflow-hidden md:h-[350px]">

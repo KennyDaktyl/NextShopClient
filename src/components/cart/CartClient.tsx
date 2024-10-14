@@ -274,7 +274,7 @@ export default function CartClient({
 	}
 	return (
 		<FormProvider {...methods}>
-			<div className="mb-5">
+			<div className="mb-5 px-1">
 				<div className="mt-4 w-full">
 					<CartTable
 						cartItems={currentCartItems}
