@@ -42,6 +42,8 @@ export default function Layout({
 						gtag('config', 'G-7TMZLLG9YZ');
 					`}
 				</Script>
+				<link rel="icon" href="/images/favicon-180x180.svg" type="image/svg+xml" />
+				<link rel="apple-touch-icon" href="/images/favicon-180x180.png" />
 			</head>
 			<body className={montserrat.className} cz-shortcut-listen="false">
 				<NextAuthProvider>

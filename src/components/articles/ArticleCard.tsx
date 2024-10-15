@@ -29,16 +29,16 @@ export default function ArticleCard({ article }: { article: ArticleListItem }) {
 
 				{/* Treść artykułu */}
 				<div className="flex h-full flex-grow flex-col justify-between">
-					<CardHeader className="mb-2">
+					<CardHeader className="mb-2 p-0 md:p-4">
 						<h2 className="w-full text-xl font-bold text-gray-800">{article.name}</h2>
 						<span className="text-gray-600">{article.category.name}</span>
 					</CardHeader>
-					<CardContent className="flex-grow">
+					<CardContent className="flex-grow p-0 md:p-4">
 						<p className="text-gray-600">
 							{article.description ? article.description : "Brak opisu"}
 						</p>
 					</CardContent>
-					<CardFooter className="mt-4 text-sm text-gray-500">
+					<CardFooter className="mt-4 p-0 text-sm text-gray-500 md:p-4">
 						Data utworzenia: {new Date(article.created_date).toLocaleDateString()}
 					</CardFooter>
 				</div>

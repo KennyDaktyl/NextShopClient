@@ -61,6 +61,7 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 						<ActiveLink role="link" href="/" aria-label="Przejdź do strony głównej">
 							<Image
 								src="/images/logo-serwiswrybnej-pl.webp"
+								// src="/images/favicon-180x180.png"
 								alt="Logo serwiswrybnej.pl"
 								width={96}
 								height={48}
