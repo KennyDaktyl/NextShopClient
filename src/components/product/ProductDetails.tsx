@@ -280,19 +280,19 @@ export const ProductDetailsComponent = ({
 				<TabsList className="grid w-full grid-cols-3 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground">
 					<TabsTrigger
 						value="details"
-						className="roundend-md h-10 data-[state=active]:bg-white data-[state=active]:text-black"
+						className="h-14 rounded-md data-[state=active]:rounded-md data-[state=active]:bg-white data-[state=active]:text-black"
 					>
 						Opis produktu
 					</TabsTrigger>
 					<TabsTrigger
 						value="specyfication"
-						className="roundend-md h-10 data-[state=active]:bg-white data-[state=active]:text-black"
+						className="h-14 rounded-md data-[state=active]:rounded-md data-[state=active]:bg-white data-[state=active]:text-black"
 					>
 						Specyfikacja
 					</TabsTrigger>
 					<TabsTrigger
 						value="reviews"
-						className="roundend-md h-10 data-[state=active]:bg-white data-[state=active]:text-black"
+						className="h-14 rounded-md data-[state=active]:rounded-md data-[state=active]:bg-white data-[state=active]:text-black"
 					>
 						Opinie
 					</TabsTrigger>
@@ -302,8 +302,12 @@ export const ProductDetailsComponent = ({
 						<DescriptionComponent title="Szczegóły produktu" description={product.seo_text} />
 					)}
 				</TabsContent>
-				<TabsContent value="specyfication">Brak</TabsContent>
-				<TabsContent value="reviews">Brak</TabsContent>
+				<TabsContent value="specyfication">
+					<p className="mb-3 mt-3 px-2">Brak specyfikacji</p>
+				</TabsContent>
+				<TabsContent value="reviews">
+					<p className="mb-3 mt-3 px-2">Brak opinii</p>
+				</TabsContent>
 			</Tabs>
 		</div>
 	);
