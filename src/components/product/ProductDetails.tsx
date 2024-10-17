@@ -18,6 +18,7 @@ import { ProductOptionComponent } from "@/components/product/ProductOption";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import StarRatings from "react-star-ratings";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 
 export const ProductDetailsComponent = ({
 	product,
@@ -275,9 +276,35 @@ export const ProductDetailsComponent = ({
 					<DescriptionComponent title="Opis produktu" description={product.description} />
 				)}
 			</div>
-			{product.seo_text && (
-				<DescriptionComponent title="Szczegóły produktu" description={product.seo_text} />
-			)}
+			<Tabs defaultValue="details" className="w-full">
+				<TabsList className="grid w-full grid-cols-3 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground">
+					<TabsTrigger
+						value="details"
+						className="roundend-md h-10 data-[state=active]:bg-white data-[state=active]:text-black"
+					>
+						Opis produktu
+					</TabsTrigger>
+					<TabsTrigger
+						value="specyfication"
+						className="roundend-md h-10 data-[state=active]:bg-white data-[state=active]:text-black"
+					>
+						Specyfikacja
+					</TabsTrigger>
+					<TabsTrigger
+						value="reviews"
+						className="roundend-md h-10 data-[state=active]:bg-white data-[state=active]:text-black"
+					>
+						Opinie
+					</TabsTrigger>
+				</TabsList>
+				<TabsContent value="details">
+					{product.seo_text && (
+						<DescriptionComponent title="Szczegóły produktu" description={product.seo_text} />
+					)}
+				</TabsContent>
+				<TabsContent value="specyfication">Brak</TabsContent>
+				<TabsContent value="reviews">Brak</TabsContent>
+			</Tabs>
 		</div>
 	);
 };

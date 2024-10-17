@@ -14,7 +14,9 @@ const PriceComponent = ({
 		<div>
 			<p className="text:sm font-semibold sm:text-xl">Cena: {formatMoney(currentPrice)}</p>
 			<small className="text:xs sm:sm mb-2">Cena netto: {formatMoney(netPrice)} + VAT 23%</small>
-			<small className="mb-4 block">Cena z ostatnich 30 dni: {formatMoney(minPriceLast30)}</small>
+			<small className="mb-4 block">
+				Najniższa cena z ostatnich 30 dni: {formatMoney(minPriceLast30)}
+			</small>
 		</div>
 	);
 };
