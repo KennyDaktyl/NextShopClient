@@ -114,6 +114,7 @@ export const generateCategoryJsonLd = (category: CategoryDetailsProps): WithCont
 };
 
 import { WithContext, WebSite, LocalBusiness } from "schema-dts";
+import { stripHtmlTags } from "@/utils";
 
 export const ownerWebsiteJsonLd = (): WithContext<WebSite | LocalBusiness> => {
 	const logoUrl = `${process.env.API_URL}/media/logo.webp`;
@@ -225,7 +226,7 @@ export const mappedArticleToJsonLd = (
 		url: `${process.env.NEXT_PUBLIC_BASE_URL}${article.full_path}`,
 		headline: article.meta_title || article.name,
 		description: article.meta_description || article.description || "Brak opisu",
-		articleBody: article.content, // 
+		articleBody: stripHtmlTags(article.content),
 		image: {
 			"@type": "ImageObject",
 			url: article.image?.url || "", 

@@ -118,3 +118,7 @@ export const trackViewItem = ({
 		console.log("view_item", eventData);
 	}
 };
+
+export const stripHtmlTags = (html: string): string => {
+	return html.replace(/<\/?[^>]+(>|$)/g, "");
+};
