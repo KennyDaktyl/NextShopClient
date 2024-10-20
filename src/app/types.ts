@@ -229,6 +229,15 @@ export interface ProductOption {
 	options: Option[];
 }
 
+export interface Review {
+	id: number;
+	name: string;
+	user: { username: string } | null;
+	rating: number;
+	message: string;
+	created_at: string;
+}
+
 export interface ProductDetails {
 	id: number;
 	meta_title: string | null;
@@ -258,6 +267,7 @@ export interface ProductDetails {
 	free_delivery_threshold_passed: boolean;
 	average_rating: number;
 	review_count: number;
+	reviews: Review[];
 }
 
 export interface CategoryMetaData {
@@ -353,6 +363,17 @@ export interface SendEmailVariables {
 }
 
 export interface SendEmailResponse {
+	message: string;
+}
+
+export interface SendReviewVariables {
+	name: string;
+	product: number;
+	rating: number;
+	message: string;
+}
+
+export interface SendReviewResponse {
 	message: string;
 }
 
