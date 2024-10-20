@@ -1,9 +1,12 @@
 import { getFirstPageData } from "@/api/getFirstPageData";
 import { FirstPageDataResponse } from "@/app/types";
+import ArticleList from "@/components/articles/ArticleList";
 import { CategoryListOnFirstPage } from "@/components/front/CategoryListOnFirstPage";
 import { HeroItem } from "@/components/front/Hero";
 import { JsonLd, ownerWebsiteJsonLd } from "@/components/seo/LdJson";
+import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
 	title: "Pieczątki i Dorabianie Kluczy – Profesjonalny Serwis w Rybnej",
@@ -48,7 +51,7 @@ export const metadata: Metadata = {
 export default async function Home() {
 	const res = await getFirstPageData();
 
-	const { categories, heros }: FirstPageDataResponse = res;
+	const { categories, heros, articles }: FirstPageDataResponse = res;
 
 	if (!categories || !heros) {
 		return null;
@@ -62,9 +65,26 @@ export default async function Home() {
 				</div>
 			))}
 			<div className="rounded-lg bg-gray-100 p-1 shadow-sm xl:p-8">
-				<CategoryListOnFirstPage categories={categories} heros={[]} />
+				<CategoryListOnFirstPage categories={categories} />
+			</div>
+
+			<div className="rounded-lg bg-gray-100 p-1 shadow-sm xl:p-8">
+				<Link role="link" href="/blog">
+					<p className="mb-6 w-full border-b-2 border-gray-300 pb-2 text-2xl font-bold">
+						Najnowsze artykuły blogowe
+					</p>
+				</Link>
+				<ArticleList articles={articles} />
+				<div className="flex justify-center mt-5">
+					<Link role="link" href="/blog">
+						<Button variant="default" className="px-4 py-2 text-white rounded-md">
+							Zobacz wszystkie artykuły
+						</Button>
+					</Link>
+				</div>
 			</div>
 			<JsonLd jsonLd={ownerWebsiteJsonLd()} />
+
 		</section>
 	);
 }

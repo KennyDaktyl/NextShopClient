@@ -10,14 +10,14 @@ export const getFirstPageData = async (): Promise<FirstPageDataResponse> => {
 			cache: "force-cache",
 			next: { tags: [`first-page`] },
 		});
-
-		if ("categories" in response) {
-			return { categories: response.categories, heros: response.heros };
+		
+		if ("categories" in response && "heros" in response && "articles" in response) {
+			return { categories: response.categories, heros: response.heros, articles: response.articles };
 		} else {
 			throw new Error("Unexpected API response format");
 		}
 	} catch (error) {
 		console.error("API Error:", error);
-		return { categories: [], heros: [] };
+		return { categories: [], heros: [], articles: [] };
 	}
 };

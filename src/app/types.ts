@@ -351,9 +351,14 @@ export interface Hero {
 	is_active: boolean;
 }
 
+export interface CategoriesFirstResponse {
+	categories: CategoryOnFirstPage[];
+}
+
 export interface FirstPageDataResponse {
 	categories: CategoryOnFirstPage[];
 	heros: Hero[];
+	articles: ArticleListItem[];
 }
 
 export interface SendEmailVariables {

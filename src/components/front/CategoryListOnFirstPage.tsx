@@ -1,10 +1,10 @@
-import { FirstPageDataResponse } from "@/app/types";
+import { CategoriesFirstResponse } from "@/app/types";
 import Image from "next/image";
 import Link from "next/link";
 import { ProductItemOnFrontPageContainer } from "@/components/front/ProductItemOnFrontPage";
 import { ActiveLink } from "@/components/ui/atoms/ActiveLink";
 
-export const CategoryListOnFirstPage: React.FC<FirstPageDataResponse> = ({ categories }) => {
+export const CategoryListOnFirstPage: React.FC<CategoriesFirstResponse> = ({ categories }) => {
 	return (
 		<div className="mb-3 flex w-full max-w-screen-xl flex-wrap items-start justify-between">
 			<p className="mb-6 w-full border-b-2 border-gray-300 pb-2 text-2xl font-bold">
