@@ -20,9 +20,9 @@ export const metadata: Metadata = {
 		siteName: "serwiswrybnej.pl",
 		images: [
 			{
-				url: "https://serwiswrybnej.pl/images/og-image.jpg",
-				width: 1200,
-				height: 630,
+				url: "https://serwiswrybnej.pl/images/profesjonalne-pieczatki-firmowe-i-imienne-na-zamowienie-online_350x350.webp",
+				width: 350,
+				height: 350,
 				alt: "Blog o Pieczątkach, Kluczach Samochodowych i Naprawach Telefonów",
 			},
 		],
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 			"Artykuły na temat pieczątek firmowych, kluczy samochodowych i napraw telefonów – wszystko, co musisz wiedzieć o naszych usługach.",
 		images: [
 			{
-				url: "https://serwiswrybnej.pl/images/twitter-og-image.jpg",
+				url: "https://serwiswrybnej.pl/images/profesjonalne-pieczatki-firmowe-i-imienne-na-zamowienie-online_350x350.webp",
 				alt: "Blog o Pieczątkach, Kluczach Samochodowych i Naprawach Telefonów",
 			},
 		],

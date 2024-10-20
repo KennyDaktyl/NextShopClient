@@ -1,6 +1,7 @@
-import { Thing, ItemList, Product, ListItem, AggregateRating } from "schema-dts";
+import { Thing, ItemList, Product, ListItem, AggregateRating, Article } from "schema-dts";
 import {
 	ArticleListItem,
+	ArticleResponse,
 	CategoryDetailsProps,
 	ProductDetails,
 	ProductListItem,
@@ -210,5 +211,41 @@ export const mappedArticlesToJsonLd = (
 				},
 			}),
 		),
+	};
+};
+
+
+export const mappedArticleToJsonLd = (
+	article: ArticleResponse,
+): WithContext<Article> => {
+	return {
+		"@context": "https://schema.org",
+		"@type": "Article",
+		"@id": `${process.env.NEXT_PUBLIC_BASE_URL}${article.full_path}`,
+		url: `${process.env.NEXT_PUBLIC_BASE_URL}${article.full_path}`,
+		headline: article.meta_title || article.name,
+		description: article.meta_description || article.description || "Brak opisu",
+		articleBody: article.content, // 
+		image: {
+			"@type": "ImageObject",
+			url: article.image?.url || "", 
+		},
+		datePublished: new Date(article.created_date).toISOString(), 
+		mainEntityOfPage: {
+			"@type": "WebPage",
+			"@id": `${process.env.NEXT_PUBLIC_BASE_URL}${article.full_path}`, 
+		},
+		author: {
+			"@type": "Person",
+			name: "Michał Pielak",
+		},
+		publisher: {
+			"@type": "Organization",
+			name: "SerwiswRybnej.pl",
+			logo: {
+				"@type": "ImageObject",
+				url: `${process.env.NEXT_PUBLIC_BASE_URL}/logo-serwiswrybnej-pl.webp`,
+			},
+		},
 	};
 };
