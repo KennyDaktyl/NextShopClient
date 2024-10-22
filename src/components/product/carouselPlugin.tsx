@@ -40,6 +40,7 @@ export function CarouselPlugin({ images }: { images: Image[] }) {
 							className="xs:w-[240px] mx-auto rounded-md object-cover"
 							width={image.width}
 							height={image.height}
+							loading={index === 0 ? "eager" : "lazy"}
 						/>
 					</CarouselItem>
 				))}
