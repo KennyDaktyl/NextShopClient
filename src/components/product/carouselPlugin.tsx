@@ -37,7 +37,6 @@ export function CarouselPlugin({ images }: { images: Image[] }) {
 							src={image.url}
 							alt={image.alt || ""}
 							title={image.title || ""}
-							loading="lazy"
 							className="xs:w-[240px] mx-auto rounded-md object-cover"
 							width={image.width}
 							height={image.height}
