@@ -41,6 +41,7 @@ export function CarouselPlugin({ images }: { images: Image[] }) {
 							width={image.width}
 							height={image.height}
 							loading={index === 0 ? "eager" : "lazy"}
+							sizes="(max-width: 768px) 100vw, (min-width: 769px) 50vw"
 						/>
 					</CarouselItem>
 				))}
