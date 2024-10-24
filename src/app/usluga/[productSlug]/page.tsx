@@ -6,6 +6,18 @@ import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
+const slugsToGenerate = [
+	"dorobienie-klucza-mieszkaniowego-id-618",
+	"programowanie-kluczy-samochodowych-id-619",
+	"kopiowanie-immobilizerow-id-620",
+];
+
+export async function generateStaticParams() {
+	return slugsToGenerate.map((slug) => ({
+		productSlug: slug,
+	}));
+}
+
 export async function generateMetadata({
 	params,
 }: {

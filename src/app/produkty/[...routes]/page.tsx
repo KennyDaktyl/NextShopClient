@@ -7,9 +7,29 @@ import { getMenuItems } from "@/api/getMenuItems";
 import { getProductsByCategory } from "@/api/getProductsByCategory";
 import { MenuItemsResponse, ProductsResponse, ProductListItem } from "@/app/types";
 import { getCategoryMetaData } from "@/api/getCategoryMetaData";
-import { generateCategoryJsonLd, JsonLd, mappedProductsToJsonLd } from "@/components/seo/LdJson";
+import {
+	generateCategoryJsonLd,
+	JsonLd,
+	mappedMenuItemsToJsonLd,
+	mappedProductsToJsonLd,
+} from "@/components/seo/LdJson";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+
+const slugsToGenerate = [
+	"pieczatki",
+	"klucze",
+	"klucze-mieszkaniowe",
+	"klucze-do-skrzynek-energetycznych",
+	"pieczatki-firmowe",
+	"pieczatki-imienne-podpisowe",
+];
+
+export async function generateStaticParams() {
+	return slugsToGenerate.map((slug) => ({
+		routes: [slug],
+	}));
+}
 
 export async function generateMetadata({
 	params,
@@ -97,7 +117,6 @@ export default async function Page({
 	const currentPage = searchParams.page ? parseInt(searchParams.page) : 1;
 
 	const menuItems: MenuItemsResponse = await getMenuItems({ categorySlug: currentCategorySlug });
-
 	const category = {
 		slug: menuItems.slug,
 		meta_title: menuItems.meta_title || menuItems.name,
@@ -108,6 +127,7 @@ export default async function Page({
 		seo_text: menuItems.seo_text || "",
 		image: menuItems.image || null,
 		items: menuItems.items,
+		full_path: menuItems.full_path,
 	};
 
 	if (menuItems.has_children) {
@@ -116,6 +136,9 @@ export default async function Page({
 				<SideBar menuItems={menuItems} isMenuActive={false} />
 				<CategoryDetails category={category} />
 				<JsonLd jsonLd={generateCategoryJsonLd(category)} />
+				<JsonLd
+					jsonLd={mappedMenuItemsToJsonLd(menuItems.items, category.name, category.full_path)}
+				/>
 			</CategoryLayout>
 		);
 	} else {
@@ -173,8 +196,11 @@ export default async function Page({
 							totalPages={totalPages}
 							currentPage={currentPage}
 						/>
-						<JsonLd jsonLd={mappedProductsToJsonLd(products)} />
 					</div>
+					<JsonLd jsonLd={mappedProductsToJsonLd(products)} />
+					<JsonLd
+						jsonLd={mappedMenuItemsToJsonLd(menuItems.items, category.name, category.full_path)}
+					/>
 				</CategoryLayout>
 			);
 		} else {

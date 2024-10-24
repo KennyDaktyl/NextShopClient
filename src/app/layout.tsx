@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Footer } from "@/components/ui/organism/Footer";
 import Script from "next/script";
 import CookiesModal from "@/components/front/CookiesModal";
+import { JsonLd, mappedMainMenuItemsToJsonLd } from "@/components/seo/LdJson";
 
 const montserrat = Montserrat({
 	subsets: ["latin", "latin-ext"],
@@ -57,6 +58,7 @@ export default function Layout({
 				<Footer />
 				<ToastContainer />
 				{modal}
+				<JsonLd jsonLd={mappedMainMenuItemsToJsonLd()} />
 			</body>
 		</html>
 	);

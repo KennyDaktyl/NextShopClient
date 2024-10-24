@@ -7,6 +7,20 @@ import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
+const slugsToGenerate = [
+	"klucz-do-skrzynek-energetycznych-id-596",
+	"klucz-energetyczny-lob-id-597",
+	"pieczatka-colop-printer-c30-pro-id-601",
+	"pieczatka-printer-compact-c20-pro-id-600",
+	"pieczatka-printer-compact-c40-pro-logo-id-602",
+];
+
+export async function generateStaticParams() {
+	return slugsToGenerate.map((slug) => ({
+		productSlug: slug,
+	}));
+}
+
 export async function generateMetadata({
 	params,
 }: {

@@ -1,8 +1,9 @@
-import { Thing, ItemList, Product, ListItem, AggregateRating, Article } from "schema-dts";
+import { Thing, ItemList, Product, ListItem, AggregateRating, Article, Service } from "schema-dts";
 import {
 	ArticleListItem,
 	ArticleResponse,
 	CategoryDetailsProps,
+	MenuItem,
 	ProductDetails,
 	ProductListItem,
 } from "@/app/types";
@@ -16,7 +17,7 @@ export const JsonLd = <T extends Thing>({ jsonLd }: { jsonLd: WithContext<T> }) 
 	);
 };
 
-export const mappedProductToJsonLd = (product: ProductDetails): WithContext<Product> => {
+export const mappedProductToJsonLd = (product: ProductDetails): WithContext<Product | Service> => {
 	const formattedPrice = product.current_price.toFixed(2);
 	const aggregateRating: AggregateRating | undefined = product.review_count
 		? {
@@ -30,7 +31,7 @@ export const mappedProductToJsonLd = (product: ProductDetails): WithContext<Prod
 
 	return {
 		"@context": "https://schema.org",
-		"@type": "Product",
+		"@type": product.is_service ? "Service" : "Product",
 		"@id": `${process.env.NEXT_PUBLIC_BASE_URL}` + product.full_path,
 		url: `${process.env.NEXT_PUBLIC_BASE_URL}` + product.full_path,
 		name: product.name,
@@ -63,7 +64,7 @@ export const mappedProductsToJsonLd = (
 				"@type": "ListItem",
 				position: index + 1,
 				item: {
-					"@type": "Product",
+					"@type": product.is_service ? "Service" : "Product",
 					"@id": `${process.env.NEXT_PUBLIC_BASE_URL}` + product.full_path,
 					url: `${process.env.NEXT_PUBLIC_BASE_URL}` + product.full_path,
 					name: product.name,
@@ -101,7 +102,7 @@ export const generateCategoryJsonLd = (category: CategoryDetailsProps): WithCont
 				"@type": "ListItem",
 				position: index + 1,
 				item: {
-					"@type": "Thing",
+					"@type": "Service",
 					"@id": `${process.env.NEXT_PUBLIC_BASE_URL}` + item.full_path,
 					url: `${process.env.NEXT_PUBLIC_BASE_URL}` + item.full_path,
 					name: item.name,
@@ -215,10 +216,7 @@ export const mappedArticlesToJsonLd = (
 	};
 };
 
-
-export const mappedArticleToJsonLd = (
-	article: ArticleResponse,
-): WithContext<Article> => {
+export const mappedArticleToJsonLd = (article: ArticleResponse): WithContext<Article> => {
 	return {
 		"@context": "https://schema.org",
 		"@type": "Article",
@@ -229,12 +227,12 @@ export const mappedArticleToJsonLd = (
 		articleBody: stripHtmlTags(article.content),
 		image: {
 			"@type": "ImageObject",
-			url: article.image?.url || "", 
+			url: article.image?.url || "",
 		},
-		datePublished: new Date(article.created_date).toISOString(), 
+		datePublished: new Date(article.created_date).toISOString(),
 		mainEntityOfPage: {
 			"@type": "WebPage",
-			"@id": `${process.env.NEXT_PUBLIC_BASE_URL}${article.full_path}`, 
+			"@id": `${process.env.NEXT_PUBLIC_BASE_URL}${article.full_path}`,
 		},
 		author: {
 			"@type": "Person",
@@ -248,5 +246,108 @@ export const mappedArticleToJsonLd = (
 				url: `${process.env.NEXT_PUBLIC_BASE_URL}/logo-serwiswrybnej-pl.webp`,
 			},
 		},
+	};
+};
+
+export const mappedMenuItemsToJsonLd = (
+	items: readonly MenuItem[],
+	parentCategoryName: string,
+	parentCategoryUrl: string,
+): WithContext<ItemList> => {
+	return {
+		"@context": "https://schema.org",
+		"@type": "ItemList",
+		itemListElement: items.map(
+			(item, index): ListItem => ({
+				"@type": "ListItem",
+				position: index + 1,
+				item: {
+					"@type": "SiteNavigationElement",
+					"@id": `${process.env.NEXT_PUBLIC_BASE_URL}${item.full_path}`,
+					url: `${process.env.NEXT_PUBLIC_BASE_URL}${item.full_path}`,
+					name: item.item_label,
+					image: item.image?.url ?? "",
+					isPartOf: {
+						"@type": "WebPage",
+						"@id": `${process.env.NEXT_PUBLIC_BASE_URL}${parentCategoryUrl}`,
+						url: `${process.env.NEXT_PUBLIC_BASE_URL}${parentCategoryUrl}`,
+						name: parentCategoryName,
+					},
+				},
+			}),
+		),
+	};
+};
+
+export const mappedMainMenuItemsToJsonLd = (): WithContext<ItemList> => {
+	return {
+		"@context": "https://schema.org",
+		"@type": "ItemList",
+		itemListElement: [
+			{
+				"@type": "ListItem",
+				position: 1,
+				item: {
+					"@type": "SiteNavigationElement",
+					"@id": `${process.env.NEXT_PUBLIC_BASE_URL}/produkty`,
+					url: `${process.env.NEXT_PUBLIC_BASE_URL}/produkty`,
+					name: "Produkty",
+					isPartOf: {
+						"@type": "WebPage",
+						"@id": `${process.env.NEXT_PUBLIC_BASE_URL}/`,
+						url: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
+						name: "Strona główna",
+					},
+				},
+			},
+			{
+				"@type": "ListItem",
+				position: 2,
+				item: {
+					"@type": "SiteNavigationElement",
+					"@id": `${process.env.NEXT_PUBLIC_BASE_URL}/uslugi`,
+					url: `${process.env.NEXT_PUBLIC_BASE_URL}/uslugi`,
+					name: "Usługi",
+					isPartOf: {
+						"@type": "WebPage",
+						"@id": `${process.env.NEXT_PUBLIC_BASE_URL}/`,
+						url: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
+						name: "Strona główna",
+					},
+				},
+			},
+			{
+				"@type": "ListItem",
+				position: 3,
+				item: {
+					"@type": "SiteNavigationElement",
+					"@id": `${process.env.NEXT_PUBLIC_BASE_URL}/blog`,
+					url: `${process.env.NEXT_PUBLIC_BASE_URL}/blog`,
+					name: "Blog",
+					isPartOf: {
+						"@type": "WebPage",
+						"@id": `${process.env.NEXT_PUBLIC_BASE_URL}/`,
+						url: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
+						name: "Strona główna",
+					},
+				},
+			},
+			{
+				"@type": "ListItem",
+				position: 4,
+				item: {
+					"@type": "SiteNavigationElement",
+					"@id": `${process.env.NEXT_PUBLIC_BASE_URL}/kontakt`,
+					url: `${process.env.NEXT_PUBLIC_BASE_URL}/kontakt`,
+					name: "Kontakt",
+					isPartOf: {
+						"@type": "WebPage",
+						"@id": `${process.env.NEXT_PUBLIC_BASE_URL}/`,
+						url: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
+						name: "Strona główna",
+					},
+				},
+			},
+		],
 	};
 };

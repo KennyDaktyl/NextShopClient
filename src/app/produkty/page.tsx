@@ -5,7 +5,15 @@ import SideBar from "@/components/ui/organism/SideBar";
 import { getMenuItems } from "@/api/getMenuItems";
 import CategoryDetails from "@/components/category/CategoryDetails";
 import { MenuItemsResponse } from "@/app/types";
-import { generateCategoryJsonLd, JsonLd } from "@/components/seo/LdJson";
+import { generateCategoryJsonLd, JsonLd, mappedMenuItemsToJsonLd } from "@/components/seo/LdJson";
+
+const slugsToGenerate = ["produkty"];
+
+export async function generateStaticParams() {
+	return slugsToGenerate.map((slug) => ({
+		categorySlug: slug,
+	}));
+}
 
 export async function generateMetadata(): Promise<Metadata> {
 	const currentCategorySlug = "produkty";
@@ -70,7 +78,6 @@ export default async function Page() {
 	const currentCategorySlug = "produkty";
 	try {
 		const menuItems: MenuItemsResponse = await getMenuItems({ categorySlug: currentCategorySlug });
-
 		const category = {
 			id: menuItems.id,
 			name: menuItems.name,
@@ -81,12 +88,16 @@ export default async function Page() {
 			seo_text: menuItems.seo_text || "",
 			image: menuItems.image,
 			items: menuItems.items,
+			full_path: menuItems.full_path,
 		};
 		return (
 			<CategoryLayout>
 				<SideBar menuItems={menuItems} isMenuActive={false} />
 				<CategoryDetails category={category} />
 				<JsonLd jsonLd={generateCategoryJsonLd(category)} />
+				<JsonLd
+					jsonLd={mappedMenuItemsToJsonLd(menuItems.items, category.name, category.full_path)}
+				/>
 			</CategoryLayout>
 		);
 	} catch (error) {

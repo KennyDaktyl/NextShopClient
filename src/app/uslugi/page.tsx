@@ -4,7 +4,15 @@ import SideBar from "@/components/ui/organism/SideBar";
 import { getMenuItems } from "@/api/getMenuItems";
 import CategoryDetails from "@/components/category/CategoryDetails";
 import { MenuItemsResponse } from "@/app/types";
-import { generateCategoryJsonLd, JsonLd } from "@/components/seo/LdJson";
+import { generateCategoryJsonLd, JsonLd, mappedMenuItemsToJsonLd } from "@/components/seo/LdJson";
+
+const slugsToGenerate = ["uslugi"];
+
+export async function generateStaticParams() {
+	return slugsToGenerate.map((slug) => ({
+		productSlug: slug,
+	}));
+}
 
 export async function generateMetadata(): Promise<Metadata> {
 	const currentCategorySlug = "uslugi";
@@ -73,12 +81,16 @@ export default async function Page() {
 			seo_text: menuItems.seo_text || "",
 			image: menuItems.image,
 			items: menuItems.items,
+			full_path: menuItems.full_path,
 		};
 		return (
 			<CategoryLayout>
 				<SideBar menuItems={menuItems} isMenuActive={false} />
 				<CategoryDetails category={category} />
 				<JsonLd jsonLd={generateCategoryJsonLd(category)} />
+				<JsonLd
+					jsonLd={mappedMenuItemsToJsonLd(menuItems.items, category.name, category.full_path)}
+				/>
 			</CategoryLayout>
 		);
 	} catch (error) {

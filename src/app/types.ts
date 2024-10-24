@@ -268,6 +268,7 @@ export interface ProductDetails {
 	average_rating: number;
 	review_count: number;
 	reviews: Review[];
+	is_service: boolean;
 }
 
 export interface CategoryMetaData {
