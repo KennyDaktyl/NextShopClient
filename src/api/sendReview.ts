@@ -3,12 +3,14 @@ import { fetchPostApiData } from "./fetchPostApiData";
 
 export const sendReviewForm = async ({
 	name,
+	user,
 	product,
 	rating,
 	message,
 	token,
 }: {
 	name: string;
+	user: number;
 	product: number;
 	rating: number;
 	message: string;
@@ -16,6 +18,7 @@ export const sendReviewForm = async ({
 }): Promise<SendReviewResponse | { status: number }> => {
 	const variables: SendReviewVariables = {
 		name,
+		user,
 		product,
 		rating,
 		message,

@@ -374,6 +374,7 @@ export interface SendEmailResponse {
 
 export interface SendReviewVariables {
 	name: string;
+	user: number;
 	product: number;
 	rating: number;
 	message: string;
@@ -436,6 +437,14 @@ export interface Order {
 }
 
 export interface UserData {
+	id: number;
+	username: string;
+	first_name: string;
+	last_name: string;
+	email: string;
+}
+
+export interface UserProfileData {
 	id: number;
 	username: string;
 	first_name: string;
@@ -532,7 +541,7 @@ export interface CartClientProps {
 	totalPrice: number;
 	deliveryMethods: DeliveryMethod[];
 	paymentMethods: PaymentMethod[];
-	userData?: UserData;
+	userData?: UserProfileData;
 	accessToken?: string;
 }
 

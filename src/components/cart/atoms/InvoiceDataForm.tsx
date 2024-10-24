@@ -3,10 +3,10 @@ import { useEffect } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { UserData } from "@/app/types";
+import { UserProfileData } from "@/app/types";
 import { Textarea } from "@/components/ui/textarea";
 
-export default function InvoiceDataForm({ userData }: { userData: UserData | undefined }) {
+export default function InvoiceDataForm({ userData }: { userData: UserProfileData | undefined }) {
 	const {
 		register,
 		formState: { errors },

@@ -5,17 +5,19 @@ import { revalidatePath } from "next/cache";
 
 export const handleReviewFormSubmission = async ({
 	name,
+	user,
 	product,
 	rating,
 	message,
 }: {
 	name: string;
+	user: number;
 	product: number;
 	rating: number;
 	message: string;
 }) => {
 	try {
-		const response = await sendReviewForm({ name, product, rating, message });
+		const response = await sendReviewForm({ name, user, product, rating, message });
 		console.log(response);
 		if ("message" in response) {
 			revalidatePath(`product-${product}`);

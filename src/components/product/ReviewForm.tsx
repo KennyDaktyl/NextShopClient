@@ -13,6 +13,7 @@ import { handleReviewFormSubmission } from "@/app/produkt/[productSlug]/actions"
 
 interface ReviewFormProps {
 	product_id: number;
+	user: number;
 	ratings: number;
 	reviewsCount: number;
 	onSuccess: () => void;
@@ -20,6 +21,7 @@ interface ReviewFormProps {
 
 const reviewFormSchema = z.object({
 	name: z.string().min(1, "Imię jest wymagane"),
+	user: z.number(),
 	product: z.number(),
 	rating: z.number().min(1, "Ocena jest wymagana"),
 	message: z.string().min(1, "Wiadomość jest wymagana"),
@@ -29,6 +31,7 @@ type reviewFormData = z.infer<typeof reviewFormSchema>;
 
 const ReviewForm: React.FC<ReviewFormProps> = ({
 	product_id,
+	user,
 	ratings,
 	reviewsCount,
 	onSuccess,
@@ -39,6 +42,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
 		resolver: zodResolver(reviewFormSchema),
 		defaultValues: {
 			name: "",
+			user: user,
 			product: product_id,
 			rating: 5,
 			message: "",
@@ -119,7 +123,8 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
 			<FormProvider {...methods}>
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<input type="hidden" {...methods.register("product")} />
-					{/* Pole na imię */}
+					<input type="hidden" {...methods.register("user")} />
+
 					<FormItem>
 						<FormLabel htmlFor="name">Twoje imię</FormLabel>
 						<FormControl>
@@ -135,7 +140,6 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
 						<FormMessage />
 					</FormItem>
 
-					{/* Pole na ocenę (gwiazdki) */}
 					<FormItem className="mt-4">
 						<FormLabel>Twoja ocena</FormLabel>
 						<FormControl>
@@ -165,7 +169,6 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
 						<FormMessage />
 					</FormItem>
 
-					{/* Przycisk do wysyłania formularza */}
 					<Button type="submit" className="mt-6 w-full">
 						Dodaj opinię
 					</Button>

@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import { BasicInfoForm } from "@/components/account/BasicInfoForm";
 import { InvoiceForm } from "@/components/account/InvoiceForm";
 import { OrdersTable } from "@/components/account/OrdersTable";
-import { UserData } from "@/app/types";
+import { UserProfileData } from "@/app/types";
 import { AddressForm } from "@/components/account/AddressFrom";
 import {
 	addressUserDataSchema,
@@ -17,7 +17,7 @@ import {
 import { ChangePasswordForm } from "@/components/account/ChangePasswordForm";
 
 interface ClientProfilePageProps {
-	user: UserData;
+	user: UserProfileData;
 	token: string;
 }
 

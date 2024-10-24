@@ -7,12 +7,12 @@ import {
 	PaymentMethod,
 	CartItems,
 	CartTotalPrice,
-	UserData,
+	UserProfileData,
 	CartItem,
 } from "@/app/types";
 import { getTotalPrice } from "@/api/getCartTotalPrice";
 import { getPaymentMethods } from "@/api/getPaymentMethods";
-import { getUserData } from "@/api/getUserData";
+import { getUserProfileData } from "@/api/getUserData";
 import { Session } from "next-auth";
 import { auth } from "@/auth";
 
@@ -67,10 +67,10 @@ export default async function CartPage() {
 		accessToken = session.user.accessToken;
 	}
 
-	let userData: UserData | undefined;
+	let userData: UserProfileData | undefined;
 
 	if (accessToken) {
-		const response = await getUserData(accessToken);
+		const response = await getUserProfileData(accessToken);
 		userData = response.data;
 	} else {
 		userData = undefined;

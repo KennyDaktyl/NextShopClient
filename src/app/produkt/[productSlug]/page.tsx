@@ -1,9 +1,12 @@
 import { getProductDetails } from "@/api/getProduct";
-import { BackLinkProps, Product } from "@/app/types";
+import { getUserProfileData } from "@/api/getUserData";
+import { BackLinkProps, Product, UserProfileData } from "@/app/types";
+import { auth } from "@/auth";
 import HeaderComponent from "@/components/product/atoms/HeaderComponent";
 import { ProductDetailsComponent as DefaultProductDetailsComponent } from "@/components/product/ProductDetails";
 import { JsonLd, mappedProductToJsonLd } from "@/components/seo/LdJson";
 import { Metadata } from "next";
+import { Session } from "next-auth";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
@@ -92,10 +95,31 @@ export default async function ProductPage({ params }: { params: { productSlug: s
 
 	const back_link: BackLinkProps = { full_path: productDetailsResponse.category.full_path || "/" };
 
+	const session: Session | null = await auth();
+	let accessToken: string | undefined;
+	if (!session || !session.user) {
+		accessToken = undefined;
+	} else {
+		accessToken = session.user.accessToken;
+	}
+
+	let userData: UserProfileData | undefined;
+
+	if (accessToken) {
+		const response = await getUserProfileData(accessToken);
+		userData = response.data;
+	} else {
+		userData = undefined;
+	}
+
 	return (
 		<section className="flex w-full flex-wrap">
 			<HeaderComponent product={productDetailsResponse} />
-			<DefaultProductDetailsComponent product={productDetailsResponse} back_link={back_link} />
+			<DefaultProductDetailsComponent
+				product={productDetailsResponse}
+				back_link={back_link}
+				userData={userData}
+			/>
 			<JsonLd jsonLd={mappedProductToJsonLd(productDetailsResponse)} />
 		</section>
 	);
