@@ -101,14 +101,12 @@ export async function changeItemQuantity({
 	quantity: number;
 }): Promise<void> {
 	await updateCartItemQty({ itemId, quantity });
-	revalidateTag("cart");
-	revalidatePath("/koszyk");
+	// revalidatePath("/koszyk");
 }
 
 export async function removeItemAction({ itemId }: { itemId: UUID }): Promise<void> {
 	await removeItem({ itemId: itemId });
-	revalidateTag("cart");
-	revalidatePath("/koszyk");
+	// revalidatePath("/koszyk");
 }
 
 export async function createOrderAction({
