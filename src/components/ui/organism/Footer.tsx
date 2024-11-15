@@ -3,7 +3,7 @@ import { ActiveLink } from "@/components/ui/atoms/ActiveLink";
 
 export function Footer() {
 	return (
-		<footer className="flex w-full flex-wrap items-center justify-start bg-neutral-50 p-6 text-neutral-800 md:py-12">
+		<footer className="flex w-full flex-wrap items-center justify-start bg-gray-100 p-6 text-neutral-800 md:py-12">
 			<div className="container mx-auto flex max-w-7xl flex-wrap justify-center gap-16 text-sm sm:justify-between">
 				<nav
 					className="grid w-full grid-cols-1 gap-8 md:grid-cols-3"
@@ -30,6 +30,15 @@ export function Footer() {
 							<li>
 								<ActiveLink role="link" href={`/produkty/klucze`} aria-label="Zobacz klucze">
 									Klucze
+								</ActiveLink>
+							</li>
+							<li>
+								<ActiveLink
+									role="link"
+									href={`/produkty/grawerowanie`}
+									aria-label="Zobacz grawerowanie"
+								>
+									Grawerowanie laserem CO2
 								</ActiveLink>
 							</li>
 						</ul>
