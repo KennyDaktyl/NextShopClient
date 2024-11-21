@@ -371,7 +371,7 @@ export default function CartClient({
 								) : (
 									<>
 										<p>Złóż zamówienie</p>&nbsp;
-										<p className="w-11">{formatMoney(finalPrice)}</p>
+										{/* <p className="w-11">{formatMoney(finalPrice)}</p> */}
 									</>
 								)}
 							</Button>
