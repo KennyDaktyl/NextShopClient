@@ -24,7 +24,7 @@ const SubcategoryItem = ({ item }: SubcategoryItemProps) => {
 							alt={item.image.alt || item.name}
 							title={item.image.title || item.name}
 							loading="lazy"
-							className="rounded-md object-cover"
+							className="rounded-md object-contain"
 							fill
 							sizes="(max-width: 768px) 100vw, 200px"
 						/>
