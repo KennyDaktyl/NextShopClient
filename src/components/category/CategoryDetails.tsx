@@ -21,7 +21,7 @@ const CategoryDetails = ({ category }: { category: CategoryDetailsProps }) => {
 								alt={category.image.alt || category.name}
 								title={category.image.title || category.name}
 								loading="eager"
-								className="rounded-md object-cover"
+								className="rounded-md object-contain"
 								fill
 								sizes="(max-width: 768px) 100vw, 50vw"
 							/>
