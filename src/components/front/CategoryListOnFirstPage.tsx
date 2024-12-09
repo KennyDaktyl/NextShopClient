@@ -52,7 +52,7 @@ export const CategoryListOnFirstPage: React.FC<CategoriesFirstResponse> = ({ cat
 										href={subcategory.full_path}
 										className="flex flex-col items-center justify-between gap-2 rounded-md border p-4 shadow-sm hover:bg-slate-100"
 									>
-										<h3 className="text-center font-semibold">{subcategory.name}</h3>
+										<p className="text-center text-sm font-semibold">{subcategory.name}</p>
 										{/* {subcategory.products_count > 0 && (
 											<Badge variant="outline">{subcategory.products_count} produktów</Badge>
 										)} */}
