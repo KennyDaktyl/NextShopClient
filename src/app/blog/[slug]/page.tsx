@@ -35,7 +35,7 @@ export async function generateMetadata({
 	const title = article.meta_title || article.name;
 	const description = article.meta_description || article.description;
 	const image = article.image || "/images/no-image.webp";
-	const link = "https://serwiswrybnej.pl/blog/${params.slug}";
+	const link = `https://serwiswrybnej.pl/blog/${params.slug}`;
 	return {
 		title: title,
 		description: description,
