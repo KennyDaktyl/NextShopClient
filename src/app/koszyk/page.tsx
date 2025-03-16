@@ -85,6 +85,7 @@ export default async function CartPage() {
 			paymentMethods={paymentMethods}
 			userData={userData}
 			accessToken={accessToken}
+			sessionId={sessionId}
 		/>
 	);
 }

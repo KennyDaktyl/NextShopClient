@@ -20,6 +20,7 @@ import { ActiveLink } from "@/components/ui/atoms/ActiveLink";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import { se } from "date-fns/locale";
 
 export default function CartClient({
 	cartItems,
@@ -30,6 +31,7 @@ export default function CartClient({
 	paymentMethods,
 	userData,
 	accessToken,
+	sessionId,
 }: CartClientProps) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const pendingOperations = useRef(0);
@@ -261,6 +263,7 @@ export default function CartClient({
 				accessToken,
 				paymentMethodOnline: selectedPayment.payment_online,
 				freeDelivery,
+				sessionId,
 			});
 
 			console.log("Order response OK");

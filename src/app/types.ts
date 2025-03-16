@@ -1,5 +1,6 @@
 import { info } from "console";
 import { UUID } from "crypto";
+import { se } from "date-fns/locale";
 
 export interface MenuItem {
 	id: number;
@@ -543,6 +544,7 @@ export interface CartClientProps {
 	paymentMethods: PaymentMethod[];
 	userData?: UserProfileData;
 	accessToken?: string;
+	sessionId: string;
 }
 
 export interface OrderStatusResponse {

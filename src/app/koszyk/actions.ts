@@ -4,13 +4,15 @@ import { fetchPostApiData } from "@/api/fetchPostApiData";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { UUID } from "crypto";
 import { updateCartItemQty } from "@/api/updateCartItemQty";
-import { CartResponse, OrderData, newOrderResponse } from "@/app/types";
+import { CartItem, CartResponse, OrderData, newOrderResponse } from "@/app/types";
 import { removeCart } from "@/api/removeCart";
 import { removeItem } from "@/api/removeItemFromCart";
 import { createOrder } from "@/api/addNewOrder";
 import { redirect } from "next/navigation";
 import Stripe from "stripe";
 import { updateOrderStatus } from "@/api/updateOrderStatus";
+import { getCartItems } from "@/api/getCartItems";
+import { cartItemSchema } from "./schemas";
 
 export async function addToCartAction(cartItemData: {
 	product_id: number;
@@ -113,12 +115,22 @@ export async function createOrderAction({
 	data,
 	accessToken,
 	paymentMethodOnline,
+	sessionId,
 }: {
 	data: OrderData;
 	accessToken?: string;
 	paymentMethodOnline: boolean;
 	freeDelivery: boolean;
+	sessionId: string;
 }): Promise<newOrderResponse> {
+	const cartResponse = await getCartItems(sessionId);
+	let cartItems: CartItem[] = [];
+	if ("cart_items" in cartResponse) {
+		cartItems = cartResponse.cart_items;
+	}
+
+	console.log("cartResponse", cartResponse);
+
 	const orderData = {
 		client_name: data.name,
 		client_email: data.email,
@@ -129,7 +141,7 @@ export async function createOrderAction({
 		delivery_method: data.delivery_method,
 		payment_method: data.payment_method,
 		amount: data.amount,
-		cart_items: data.cart_items,
+		cart_items: cartItems,
 		inpost_box_id: data.inpost_box_id,
 		info: data.info,
 		token: accessToken,
@@ -167,7 +179,7 @@ export async function createOrderAction({
 			typescript: true,
 		});
 
-		const lineItems = orderData.cart_items.map((item) => {
+		const lineItems = cartItems.map((item) => {
 			const description = [item.variant, item.selected_option].filter(Boolean).join(", ");
 
 			return {
