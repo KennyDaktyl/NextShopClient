@@ -4,7 +4,7 @@ import { UUID } from "crypto";
 import { changeItemQuantity } from "@/app/koszyk/actions";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { revalidatePath } from "next/cache";
+import { set } from "date-fns";
 
 export const ChangeQuantity = ({
 	itemId,
@@ -12,12 +12,16 @@ export const ChangeQuantity = ({
 	availableQuantity,
 	price,
 	onQuantityChange,
+	startSubmitting,
+	stopSubmitting,
 }: {
 	itemId: UUID;
 	quantity: number;
 	availableQuantity: number;
 	price: number;
 	onQuantityChange: (itemId: UUID, newQuantity: number) => void;
+	startSubmitting: () => void;
+	stopSubmitting: () => void;
 }) => {
 	const [isPending, setIsPending] = useState(false);
 	const [optimisticQuantity, setOptimisticQuantity] = useState(quantity);
@@ -27,6 +31,7 @@ export const ChangeQuantity = ({
 			const newQuantity = optimisticQuantity - 1;
 			setOptimisticQuantity(newQuantity);
 			setIsPending(true);
+			startSubmitting();
 
 			try {
 				await changeItemQuantity({ itemId, quantity: newQuantity });
@@ -38,6 +43,7 @@ export const ChangeQuantity = ({
 				toast.error("Wystąpił błąd przy zmniejszaniu ilości");
 			} finally {
 				setIsPending(false);
+				stopSubmitting();
 			}
 		}
 	};
@@ -48,6 +54,7 @@ export const ChangeQuantity = ({
 			const newQuantity = optimisticQuantity + 1;
 			setOptimisticQuantity(newQuantity); // Natychmiastowa zmiana w UI
 			setIsPending(true);
+			startSubmitting();
 
 			try {
 				await changeItemQuantity({ itemId, quantity: newQuantity });
@@ -59,6 +66,7 @@ export const ChangeQuantity = ({
 				toast.error("Wystąpił błąd przy zwiększaniu ilości");
 			} finally {
 				setIsPending(false);
+				stopSubmitting();
 			}
 		}
 	};

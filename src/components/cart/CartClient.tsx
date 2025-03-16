@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import PaymentMethods from "@/components/cart/atoms/PaymentMethods";
@@ -32,6 +32,7 @@ export default function CartClient({
 	accessToken,
 }: CartClientProps) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const pendingOperations = useRef(0);
 	const [finalPrice, setFinalPrice] = useState<number>(initialTotalPrice);
 	const [selectedDelivery, setSelectedDelivery] = useState<DeliveryMethod>(deliveryMethods[0]);
 	const [selectedPayment, setSelectedPayment] = useState<PaymentMethod>(paymentMethods[0]);
@@ -44,6 +45,18 @@ export default function CartClient({
 
 	const MINIMUM_FREE_DELIVERY_PRICE = Number(freeDeliveryTreshold);
 	const [isEligibleForFreeDelivery, setIsEligibleForFreeDelivery] = useState<boolean>(freeDelivery);
+
+	const startSubmitting = () => {
+		pendingOperations.current += 1;
+		setIsSubmitting(true);
+	};
+
+	const stopSubmitting = () => {
+		pendingOperations.current = Math.max(0, pendingOperations.current - 1);
+		if (pendingOperations.current === 0) {
+			setIsSubmitting(false);
+		}
+	};
 
 	useEffect(() => {
 		let initialDeliveryPrice = 0;
@@ -283,6 +296,8 @@ export default function CartClient({
 						onUpdateCartItems={handleUpdateCartItems}
 						deliveryMethod={selectedDelivery}
 						paymentMethod={selectedPayment}
+						startSubmitting={startSubmitting}
+						stopSubmitting={stopSubmitting}
 					/>
 					{isEligibleForFreeDelivery ? (
 						<div className="mt-4 text-center text-green-500">
@@ -367,7 +382,7 @@ export default function CartClient({
 								className={`h-[75px] w-full rounded-lg border bg-slate-950 py-2 font-semibold text-white shadow transition-colors hover:bg-slate-800 xl:w-64 ${isSubmitting ? "cursor-not-allowed opacity-50" : ""}`}
 							>
 								{isSubmitting ? (
-									"Składanie zamówienia..."
+									"Przeliczam koszyk..."
 								) : (
 									<>
 										<p>Złóż zamówienie</p>&nbsp;

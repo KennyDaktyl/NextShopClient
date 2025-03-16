@@ -5,6 +5,7 @@ import { CartItem, DeliveryMethod, PaymentMethod } from "@/app/types";
 import { CartTableRow } from "@/components/cart/atoms/CartTableRow";
 import { CartTableFooter } from "@/components/cart/atoms/CartTableFooter";
 import { useEffect, useState } from "react";
+import { se } from "date-fns/locale";
 
 interface CartTableProps {
 	cartItems: CartItem[];
@@ -13,6 +14,8 @@ interface CartTableProps {
 	onUpdateCartItems: (newCartItems: CartItem[]) => void;
 	deliveryMethod: DeliveryMethod;
 	paymentMethod: PaymentMethod;
+	startSubmitting: () => void;
+	stopSubmitting: () => void;
 }
 
 export default function CartTable({
@@ -22,21 +25,31 @@ export default function CartTable({
 	onUpdateCartItems,
 	deliveryMethod,
 	paymentMethod,
+	startSubmitting,
+	stopSubmitting,
 }: CartTableProps) {
 	const [isFreeDelivery, setIsFreeDelivery] = useState(freeDelivery);
 
 	const handleQuantityChange = (itemId: UUID, newQuantity: number) => {
+		startSubmitting();
 		const updatedItems = cartItems.map((item) =>
 			item.item_id === itemId ? { ...item, quantity: newQuantity } : item,
 		);
 		onUpdateCartItems(updatedItems);
 		updateFreeDelivery(updatedItems);
+		setTimeout(() => {
+			stopSubmitting();
+		}, 1000);
 	};
 
 	const handleRemoveItem = (itemId: UUID) => {
+		startSubmitting();
 		const updatedItems = cartItems.filter((item) => item.item_id !== itemId);
 		onUpdateCartItems(updatedItems);
 		updateFreeDelivery(updatedItems);
+		setTimeout(() => {
+			stopSubmitting();
+		}, 1000);
 	};
 
 	const updateFreeDelivery = (items: CartItem[]) => {
@@ -70,6 +83,8 @@ export default function CartTable({
 									item={item}
 									onQuantityChange={handleQuantityChange}
 									onRemoveItem={handleRemoveItem}
+									startSubmitting={startSubmitting}
+									stopSubmitting={stopSubmitting}
 								/>
 							))
 						) : (

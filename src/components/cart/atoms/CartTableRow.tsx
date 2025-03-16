@@ -11,9 +11,17 @@ interface CartTableRowProps {
 	item: any;
 	onQuantityChange: (itemId: UUID, newQuantity: number) => void;
 	onRemoveItem: (itemId: UUID) => void;
+	startSubmitting: () => void;
+	stopSubmitting: () => void;
 }
 
-export const CartTableRow = ({ item, onQuantityChange, onRemoveItem }: CartTableRowProps) => {
+export const CartTableRow = ({
+	item,
+	onQuantityChange,
+	onRemoveItem,
+	startSubmitting,
+	stopSubmitting,
+}: CartTableRowProps) => {
 	return (
 		<tr className="border border-gray-300">
 			<td className="min-w-[300px] px-4 py-2 text-lg">
@@ -70,6 +78,8 @@ export const CartTableRow = ({ item, onQuantityChange, onRemoveItem }: CartTable
 				availableQuantity={item.available_quantity}
 				price={item.price}
 				onQuantityChange={onQuantityChange}
+				startSubmitting={startSubmitting}
+				stopSubmitting={stopSubmitting}
 			/>
 			<td className="w-[100px] border border-gray-300 px-4 py-2 text-center">
 				<RemoveItemButton itemId={item.item_id} onRemoveItem={onRemoveItem} />
