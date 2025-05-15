@@ -33,16 +33,16 @@ export const CompanyDetails: React.FC = () => {
 				<ul className="space-y-1">
 					<li className="flex justify-between">
 						<span>Poniedziałek - Piątek:</span>
-						<span>08:00 - 17:00</span>
+						<span>Sklep Online 24h</span>
 					</li>
 					<li className="flex justify-between">
-						<span>Sobota:</span>
-						<span>Zamknięte</span>
+						<span>Usługi na miejscu:</span>
+						<span>Proszę umówić wizytę telefonicznie/email (po 17tej)</span>
 					</li>
-					<li className="flex justify-between">
+					{/* <li className="flex justify-between">
 						<span>Niedziela:</span>
 						<span>Zamknięte</span>
-					</li>
+					</li> */}
 				</ul>
 			</div>
 		</div>
