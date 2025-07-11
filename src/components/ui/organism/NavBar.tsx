@@ -55,6 +55,11 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 
 	return (
 		<nav className="fixed top-0 z-50 w-full bg-white shadow-md md:p-0">
+			<div className="mx-auto bg-red-500 p-2 text-center text-white">
+				<p className="font-bold">
+					Uwaga przerwa urlopowa!!! Sklep nieczynny w dniach 12-07-2025 do 27-07-2025
+				</p>
+			</div>
 			<div className="mx-auto flex h-24 max-w-screen-xl items-center justify-between p-5 xl:pl-0 xl:pr-0">
 				<div className="flex items-center">
 					<div className="text-xl font-bold">
