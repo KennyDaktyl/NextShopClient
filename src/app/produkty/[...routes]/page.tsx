@@ -16,6 +16,7 @@ import {
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import KeyPhotoInquiry from "@/components/widgets/KeyPhotoInquiry/KeyPhotoInquiry";
+import StampDesigner from "@/components/widgets/StampDesigner/StampDesigner";
 
 const slugsToGenerate = [
 	"pieczatki",
@@ -135,19 +136,31 @@ export default async function Page({
 		return (
 			<CategoryLayout>
 				<SideBar menuItems={menuItems} isMenuActive={false} />
-				<CategoryDetails category={category} />
-				{currentCategorySlug === "klucze" && (
-					<section className="mb-5 mt-6 w-full rounded-lg border border-gray-200 p-6 sm:p-8">
-						<h2 className="mb-1 text-xl font-semibold sm:text-2xl">
-							Sprawdź, czy dorobimy Twój klucz
-						</h2>
-						<p className="mb-5 text-sm text-gray-600">
-							Nie masz pewności, czy pasujący klucz jest w naszej ofercie? Wyślij zdjęcie, a
-							ocenimy to przed Twoim zamówieniem.
-						</p>
-						<KeyPhotoInquiry />
-					</section>
-				)}
+				<div className="w-full">
+					<CategoryDetails category={category} />
+					{currentCategorySlug === "klucze" && (
+						<section className="mb-5 rounded-lg border border-gray-200 p-6 sm:p-8">
+							<h2 className="mb-1 text-xl font-semibold sm:text-2xl">
+								Sprawdź, czy dorobimy Twój klucz
+							</h2>
+							<p className="mb-5 text-sm text-gray-600">
+								Nie masz pewności, czy pasujący klucz jest w naszej ofercie? Wyślij zdjęcie, a
+								ocenimy to przed Twoim zamówieniem.
+							</p>
+							<KeyPhotoInquiry />
+						</section>
+					)}
+					{currentCategorySlug === "pieczatki" && (
+						<section className="mb-5 rounded-lg border border-gray-200 p-6 sm:p-8">
+							<h2 className="mb-1 text-xl font-semibold sm:text-2xl">Zaprojektuj pieczątkę online</h2>
+							<p className="mb-5 text-sm text-gray-600">
+								Zbuduj treść pieczątki linia po linii i wyślij projekt do wyceny — bez wychodzenia
+								z domu.
+							</p>
+							<StampDesigner variant="embedded" />
+						</section>
+					)}
+				</div>
 				<JsonLd jsonLd={generateCategoryJsonLd(category)} />
 				<JsonLd
 					jsonLd={mappedMenuItemsToJsonLd(menuItems.items, category.name, category.full_path)}
