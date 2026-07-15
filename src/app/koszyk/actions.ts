@@ -170,11 +170,11 @@ export async function createOrderAction({
 	const orderUid = (response as newOrderResponse).order_uid;
 
 	if (paymentMethodOnline) {
-		if (!process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY) {
+		if (!process.env.STRIPE_SECRET_KEY) {
 			throw new Error("Missing STRIPE_SECRET_KEY env variable");
 		}
 
-		const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY, {
+		const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 			apiVersion: "2024-06-20",
 			typescript: true,
 		});
