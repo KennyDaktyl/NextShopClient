@@ -1,21 +1,27 @@
-import { SendEmailResponse, SendEmailVariables } from "@/app/types";
+import { SendEmailResponse, SendEmailVariables, StampDesignLine } from "@/app/types";
 import { fetchPostApiData } from "./fetchPostApiData";
 
 export const sendContactEmail = async ({
 	title,
 	email,
 	message,
+	phone,
+	stampDesign,
 	token,
 }: {
 	title: string;
 	email: string;
 	message: string;
+	phone?: string;
+	stampDesign?: StampDesignLine[];
 	token?: string;
 }): Promise<SendEmailResponse | { status: number }> => {
 	const variables: SendEmailVariables = {
 		title,
 		email,
 		message,
+		...(phone && { phone }),
+		...(stampDesign && { stamp_design: stampDesign }),
 	};
 
 	const query = "/api/front/contact-email";

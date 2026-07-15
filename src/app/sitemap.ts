@@ -55,6 +55,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 			url: `${publicUrl}/wysylka-i-uslugi-na-miejscu-w-rybnej`,
 			lastModified: formatDate("2024-09-18"),
 		},
+		{
+			url: `${publicUrl}/zaprojektuj-pieczatke`,
+			lastModified: formatDate("2026-07-10"),
+		},
 	];
 
 	const dynamicRoutes = [

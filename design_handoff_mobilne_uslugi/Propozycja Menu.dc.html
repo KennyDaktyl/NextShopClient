@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; font-family:'Montserrat',sans-serif; color:#1f2937; background:#e5e7eb; }
+    a { color:inherit; text-decoration:none; }
+  </style>
+</helmet>
+
+<div style="width:100%; padding:40px 24px; display:flex; flex-direction:column; gap:32px; align-items:center;">
+
+  <div style="max-width:1400px; width:100%;">
+    <div style="font-size:13px; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:10px;">Propozycja — menu skondensowane do 1 linii, 2 dropdowny</div>
+
+    <!-- NAVBAR -->
+    <nav style="width:100%; background:#fff; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.1); position:relative;">
+      <div style="max-width:1400px; margin:0 auto; height:76px; display:flex; align-items:center; justify-content:space-between; padding:0 24px; gap:24px;">
+
+        <div style="display:flex; align-items:center; gap:36px; flex-shrink:0;">
+          <div style="font-weight:800; font-size:16px; line-height:1.2;">serwis<br/>Rybnej</div>
+
+          <ul style="display:flex; gap:28px; list-style:none; margin:0; padding:0; font-size:14.5px; font-weight:500; align-items:center;">
+            <!-- PRODUKTY dropdown -->
+            <li style="position:relative; padding:8px 0; cursor:pointer; display:flex; align-items:center; gap:5px;" onMouseEnter="{{ openProdukty }}" onMouseLeave="{{ closeProdukty }}">
+              Produkty
+              <span style="font-size:10px; margin-top:1px;">▾</span>
+              <sc-if value="{{ produktyOpen }}">
+                <div style="position:absolute; top:100%; left:-16px; background:#fff; border-radius:10px; box-shadow:0 12px 32px rgba(0,0,0,0.14); padding:20px; display:grid; grid-template-columns:repeat(2,180px); gap:4px 28px; z-index:60;">
+                  <a href="#" style="padding:8px 10px; border-radius:6px; font-weight:600;" style-hover="background:#f3f4f6;">Pieczątki</a>
+                  <a href="#" style="padding:8px 10px; border-radius:6px;" style-hover="background:#f3f4f6;">Pieczątki firmowe</a>
+                  <a href="#" style="padding:8px 10px; border-radius:6px;" style-hover="background:#f3f4f6;">Pieczątki imienne</a>
+                  <a href="#" style="padding:8px 10px; border-radius:6px;" style-hover="background:#f3f4f6;">Gryfy drewniane</a>
+                  <a href="#" style="padding:8px 10px; border-radius:6px; font-weight:600; margin-top:6px;" style-hover="background:#f3f4f6;">Klucze</a>
+                  <a href="#" style="padding:8px 10px; border-radius:6px;" style-hover="background:#f3f4f6;">Klucze samochodowe</a>
+                  <a href="#" style="padding:8px 10px; border-radius:6px;" style-hover="background:#f3f4f6;">Klucze mieszkaniowe</a>
+                  <a href="#" style="padding:8px 10px; border-radius:6px;" style-hover="background:#f3f4f6;">Zdalniki i piloty</a>
+                  <a href="#" style="grid-column:1 / span 2; padding:10px; margin-top:8px; border-top:1px solid #e5e7eb; font-weight:600; color:#2563eb;">Zobacz wszystkie produkty →</a>
+                </div>
+              </sc-if>
+            </li>
+
+            <!-- USŁUGI MOBILNE dropdown -->
+            <li style="position:relative; padding:8px 0; cursor:pointer; display:flex; align-items:center; gap:5px;" onMouseEnter="{{ openUslugi }}" onMouseLeave="{{ closeUslugi }}">
+              Usługi mobilne
+              <span style="font-size:10px; margin-top:1px;">▾</span>
+              <sc-if value="{{ uslugiOpen }}">
+                <div style="position:absolute; top:100%; left:-16px; background:#fff; border-radius:10px; box-shadow:0 12px 32px rgba(0,0,0,0.14); padding:14px; width:280px; z-index:60;">
+                  <a href="#" style="display:flex; flex-direction:column; gap:2px; padding:10px 12px; border-radius:6px;" style-hover="background:#f3f4f6;">
+                    <span style="font-weight:600;">Klucze z dojazdem</span>
+                    <span style="font-size:12.5px; color:#6b7280;">Dorabiamy klucze u Ciebie, w 2h</span>
+                  </a>
+                  <a href="#" style="display:flex; flex-direction:column; gap:2px; padding:10px 12px; border-radius:6px;" style-hover="background:#f3f4f6;">
+                    <span style="font-weight:600;">Pieczątki z dojazdem</span>
+                    <span style="font-size:12.5px; color:#6b7280;">Ekspresowy wyrób z dostawą</span>
+                  </a>
+                  <a href="#" style="display:flex; flex-direction:column; gap:2px; padding:10px 12px; border-radius:6px; border-top:1px solid #e5e7eb; margin-top:4px;" style-hover="background:#f3f4f6;">
+                    <span style="font-weight:600; color:#2563eb;">Zaprojektuj pieczątkę online</span>
+                    <span style="font-size:12.5px; color:#6b7280;">Własny projekt w kilka minut</span>
+                  </a>
+                </div>
+              </sc-if>
+            </li>
+
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Kontakt</a></li>
+          </ul>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:18px; flex-shrink:0;">
+          <!-- SEARCH: collapsed icon, expands on click -->
+          <div style="position:relative; display:flex; align-items:center;">
+            <sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}">
+              <input autoFocus="{{ true }}" type="text" placeholder="Szukaj produktu..." onBlur="{{ closeSearch }}" style="width:220px; border:1px solid #d1d5db; border-radius:100px; padding:9px 16px; font-size:14px; font-family:'Montserrat',sans-serif;" />
+            </sc-if>
+            <sc-if value="{{ searchClosed }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ openSearch }}" style="background:#f3f4f6; border:none; width:38px; height:38px; border-radius:50%; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center;" style-hover="background:#e5e7eb;">🔍</button>
+            </sc-if>
+          </div>
+
+          <a href="#" style="display:flex; align-items:center; gap:6px; font-size:14px; font-weight:600;">
+            🛒 0,00 zł
+          </a>
+          <a href="#" style="font-size:18px;">⇥</a>
+        </div>
+      </div>
+    </nav>
+
+    <p style="font-size:13px; color:#6b7280; margin-top:14px; max-width:760px; line-height:1.6;">
+      Zmiany: „Produkty” i „Usługi mobilne” to mega-dropdowny (otwierane na hover/klik) zamiast osobnych pozycji zajmujących drugi rząd. „Klucze z dojazdem” i „Pieczątki z dojazdem” trafiają do jednego dropdownu usług. „Zaprojektuj pieczątkę” staje się wyróżnionym linkiem wewnątrz tego dropdownu (rzadziej klikany niż kategorie produktowe, ale wciąż widoczny i podświetlony). Search domyślnie to ikona — rozwija się w pole po kliknięciu, żeby nie zajmować stałej szerokości.
+    </p>
+  </div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1400, &quot;height&quot;: 500}}">
+class Component extends DCLogic {
+  state = { produktyOpen: false, uslugiOpen: false, searchOpen: false };
+  renderVals() {
+    return {
+      produktyOpen: this.state.produktyOpen,
+      uslugiOpen: this.state.uslugiOpen,
+      searchOpen: this.state.searchOpen,
+      searchClosed: !this.state.searchOpen,
+      openProdukty: () => this.setState({ produktyOpen: true }),
+      closeProdukty: () => this.setState({ produktyOpen: false }),
+      openUslugi: () => this.setState({ uslugiOpen: true }),
+      closeUslugi: () => this.setState({ uslugiOpen: false }),
+      openSearch: () => this.setState({ searchOpen: true }),
+      closeSearch: () => this.setState({ searchOpen: false }),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

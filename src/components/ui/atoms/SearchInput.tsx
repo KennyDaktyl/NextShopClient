@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { Search, X } from "lucide-react";
+import { X } from "lucide-react";
 
 const SearchInput = ({
 	isSearchVisible,
@@ -13,7 +13,7 @@ const SearchInput = ({
 	const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
 	const router = useRouter();
 	const pathname = usePathname();
-	const inputRef = useRef<HTMLInputElement>(null); // Referencja do inputa
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	useEffect(() => {
 		const handler = setTimeout(() => {
@@ -49,23 +49,25 @@ const SearchInput = ({
 	};
 
 	return (
-		<div className={`flex items-center ${isSearchVisible ? "block" : "hidden"} md:flex`}>
-			<Search size={20} className="hidden md:block" />
+		<div className="flex items-center gap-2 rounded-full border border-gray-300 px-4 py-2">
 			<input
 				type="search"
 				name="search"
-				placeholder="Szukaj produktu"
+				placeholder="Szukaj produktu..."
 				value={searchTerm}
 				onChange={handleChange}
 				autoComplete="off"
-				className="rounded-md border p-2"
+				className="w-full bg-transparent text-sm outline-none sm:w-56"
 				ref={inputRef}
 			/>
-			<div className="w-6">
-				{(searchTerm || isSearchVisible) && (
-					<X size={20} className="ml-2 cursor-pointer text-gray-500" onClick={clearSearch} />
-				)}
-			</div>
+			{searchTerm && (
+				<X
+					size={18}
+					className="shrink-0 cursor-pointer text-gray-500"
+					onMouseDown={(e) => e.preventDefault()}
+					onClick={clearSearch}
+				/>
+			)}
 		</div>
 	);
 };

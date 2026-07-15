@@ -15,6 +15,7 @@ import {
 } from "@/components/seo/LdJson";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import KeyPhotoInquiry from "@/components/widgets/KeyPhotoInquiry/KeyPhotoInquiry";
 
 const slugsToGenerate = [
 	"pieczatki",
@@ -135,6 +136,18 @@ export default async function Page({
 			<CategoryLayout>
 				<SideBar menuItems={menuItems} isMenuActive={false} />
 				<CategoryDetails category={category} />
+				{currentCategorySlug === "klucze" && (
+					<section className="mb-5 mt-6 w-full rounded-lg border border-gray-200 p-6 sm:p-8">
+						<h2 className="mb-1 text-xl font-semibold sm:text-2xl">
+							Sprawdź, czy dorobimy Twój klucz
+						</h2>
+						<p className="mb-5 text-sm text-gray-600">
+							Nie masz pewności, czy pasujący klucz jest w naszej ofercie? Wyślij zdjęcie, a
+							ocenimy to przed Twoim zamówieniem.
+						</p>
+						<KeyPhotoInquiry />
+					</section>
+				)}
 				<JsonLd jsonLd={generateCategoryJsonLd(category)} />
 				<JsonLd
 					jsonLd={mappedMenuItemsToJsonLd(menuItems.items, category.name, category.full_path)}

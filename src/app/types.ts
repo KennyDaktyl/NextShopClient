@@ -18,10 +18,22 @@ export interface MenuItem {
 	image: Image | null;
 }
 
+export interface MobileServiceSettings {
+	min_keys_qty: number | null;
+	min_stamp_order_value: number | null;
+	wholesale_qty: number;
+	wholesale_discount_percent: number;
+	delivery_time_hours: number;
+	phone_number: string;
+	whatsapp_url: string;
+	messenger_url: string;
+}
+
 export interface MenuItemsResponse {
 	id: number;
 	meta_title: string | null;
 	meta_description: string | null;
+	h1_tag?: string | null;
 	name: string;
 	item_label: string;
 	slug: string;
@@ -33,6 +45,7 @@ export interface MenuItemsResponse {
 	image: Image | null;
 	items: MenuItem[];
 	status: number;
+	mobile_service_settings?: MobileServiceSettings | null;
 }
 export interface Category {
 	image: Image | null;
@@ -363,10 +376,20 @@ export interface FirstPageDataResponse {
 	articles: ArticleListItem[];
 }
 
+export interface StampDesignLine {
+	text: string;
+	font: string;
+	size: number;
+	bold: boolean;
+	italic: boolean;
+}
+
 export interface SendEmailVariables {
 	title: string;
 	email: string;
 	message: string;
+	phone?: string;
+	stamp_design?: StampDesignLine[];
 }
 
 export interface SendEmailResponse {

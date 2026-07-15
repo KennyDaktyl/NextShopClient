@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import NavBar from "@/components/ui/organism/NavBar";
 import { getTotalPrice } from "@/api/getCartTotalPrice";
+import { getProductsMegaMenu } from "@/api/getProductsMegaMenu";
 
 async function getCookieData() {
 	const sessionId = cookies().get("sessionid")?.value;
@@ -12,7 +13,7 @@ async function getCookieData() {
 }
 
 export async function ServerNavBar() {
-	const sessionId = await getCookieData();
+	const [sessionId, productsMenu] = await Promise.all([getCookieData(), getProductsMegaMenu()]);
 	let totalPrice = 0;
 
 	if (sessionId) {
@@ -22,7 +23,7 @@ export async function ServerNavBar() {
 		}
 	}
 
-	return <NavBar totalPrice={totalPrice} />;
+	return <NavBar totalPrice={totalPrice} productsMenu={productsMenu} />;
 }
 
 export default ServerNavBar;

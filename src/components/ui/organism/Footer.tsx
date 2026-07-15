@@ -28,6 +28,15 @@ export function Footer() {
 								</ActiveLink>
 							</li>
 							<li>
+								<ActiveLink
+									role="link"
+									href={`/zaprojektuj-pieczatke`}
+									aria-label="Zaprojektuj pieczątkę online"
+								>
+									Zaprojektuj pieczątkę
+								</ActiveLink>
+							</li>
+							<li>
 								<ActiveLink role="link" href={`/produkty/klucze`} aria-label="Zobacz klucze">
 									Klucze
 								</ActiveLink>
@@ -51,6 +60,33 @@ export function Footer() {
 							<li>
 								<ActiveLink role="link" href={`/uslugi`} aria-label="Zobacz wszystkie usługi">
 									Usługi
+								</ActiveLink>
+							</li>
+							<li>
+								<ActiveLink
+									role="link"
+									href={`/uslugi/mobilne-dorabianie-kluczy`}
+									aria-label="Mobilne dorabianie kluczy z dojazdem"
+								>
+									Mobilne dorabianie kluczy
+								</ActiveLink>
+							</li>
+							<li>
+								<ActiveLink
+									role="link"
+									href={`/uslugi/mobilne-wyrob-pieczatek`}
+									aria-label="Mobilne pieczątki z dojazdem"
+								>
+									Mobilne pieczątki
+								</ActiveLink>
+							</li>
+							<li>
+								<ActiveLink
+									role="link"
+									href={`/zaprojektuj-pieczatke`}
+									aria-label="Zaprojektuj pieczątkę online"
+								>
+									Zaprojektuj pieczątkę
 								</ActiveLink>
 							</li>
 							<li>

@@ -1,5 +1,18 @@
 import { notFound } from "next/navigation";
 
+// Local dev convenience: media files usually only exist on the production
+// server, not in a local checkout of the backend. When API_URL points at a
+// local backend, rewrite absolute media/image URLs in API responses to the
+// production host so images render locally without needing to sync media/.
+const isLocalApiUrl = (url: string) => /^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?/.test(url);
+
+const rewriteMediaUrls = (rawJson: string): string => {
+	const apiUrl = process.env.API_URL;
+	const mediaFallback = process.env.MEDIA_FALLBACK_URL;
+	if (!apiUrl || !mediaFallback || !isLocalApiUrl(apiUrl)) return rawJson;
+	return rawJson.split(apiUrl).join(mediaFallback);
+};
+
 export const fetchGetApiData = async <TResult, TVariables extends Record<string, unknown>>({
 	query,
 	variables,
@@ -46,7 +59,8 @@ export const fetchGetApiData = async <TResult, TVariables extends Record<string,
 		throw new Error(`Unexpected status code: ${res.status}`);
 	}
 
-	const data: TResult = (await res.json()) as TResult;
+	const rawText = await res.text();
+	const data: TResult = JSON.parse(rewriteMediaUrls(rawText)) as TResult;
 	if (!data) {
 		throw new Error("API Response data is null");
 	}

@@ -1,95 +1,90 @@
 "use client";
 
-import { Suspense, useState, useEffect, useRef } from "react";
-import { ActiveLink } from "../atoms/ActiveLink";
-import { Menu, Search, ShoppingCart, X } from "lucide-react";
-import Link from "next/link";
-import AuthIcons from "@/components/auth/auth-icons";
-import { formatMoney } from "@/utils";
-import SearchInput from "@/components/ui/atoms/SearchInput";
+import { Suspense, useState } from "react";
+import { ChevronDown, Menu, ShoppingCart, X } from "lucide-react";
 import Image from "next/image";
-
-type NavLink = {
-	href: string;
-	role: string;
-	label: string;
-	exact: boolean;
-};
-
-const NavLinks: NavLink[] = [
-	{ href: "/produkty", label: "Produkty", exact: true, role: "link" },
-	{ href: "/uslugi", label: "Usługi", exact: true, role: "link" },
-	{ href: "/blog", label: "Blog", exact: true, role: "link" },
-	{ href: "/kontakt", label: "Kontakt", exact: true, role: "link" },
-];
+import Link from "next/link";
+import { ActiveLink } from "../atoms/ActiveLink";
+import AuthIcons from "@/components/auth/auth-icons";
+import SearchToggle from "@/components/ui/atoms/SearchToggle";
+import {
+	NavigationMenu,
+	NavigationMenuContent,
+	NavigationMenuItem,
+	NavigationMenuList,
+	NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import ProductsMegaMenuContent from "./ProductsMegaMenuContent";
+import MobileServicesMenuContent from "./MobileServicesMenuContent";
+import { MegaMenuSection } from "@/api/getProductsMegaMenu";
+import { formatMoney } from "@/utils";
 
 type NavBarProps = {
 	totalPrice: number;
+	productsMenu: MegaMenuSection[];
 };
 
-export default function NavBar({ totalPrice }: NavBarProps) {
+const triggerClassName =
+	"group inline-flex items-center gap-1 border-b-2 border-transparent py-1 text-[15px] font-medium text-gray-900 transition hover:text-gray-600 data-[state=open]:text-gray-600";
+
+export default function NavBar({ totalPrice, productsMenu }: NavBarProps) {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const [isSearchVisible, setSearchVisible] = useState(false);
-	const searchRef = useRef<HTMLDivElement>(null);
+	const [mobileSection, setMobileSection] = useState<"produkty" | "uslugi" | null>(null);
 
-	const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
-	const toggleSearch = () => setSearchVisible(!isSearchVisible);
-
-	const closeSearch = () => {
-		setSearchVisible(false);
+	const toggleMenu = () => {
+		setIsMenuOpen((prev) => !prev);
+		setMobileSection(null);
 	};
 
-	useEffect(() => {
-		const handleClickOutside = (event: MouseEvent) => {
-			if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-				closeSearch();
-			}
-		};
-
-		document.addEventListener("mousedown", handleClickOutside);
-		return () => {
-			document.removeEventListener("mousedown", handleClickOutside);
-		};
-	}, []);
+	const toggleMobileSection = (section: "produkty" | "uslugi") => {
+		setMobileSection((prev) => (prev === section ? null : section));
+	};
 
 	return (
 		<nav className="fixed top-0 z-50 w-full bg-white shadow-md md:p-0">
-			{/* <div className="mx-auto bg-red-500 p-2 text-center text-white">
-				<p className="font-bold">
-					Uwaga przerwa urlopowa!!! Sklep nieczynny w dniach 12-07-2025 do 27-07-2025
-				</p>
-			</div> */}
 			<div className="mx-auto flex h-24 max-w-screen-xl items-center justify-between p-5 xl:pl-0 xl:pr-0">
-				<div className="flex items-center">
-					<div className="text-xl font-bold">
-						<ActiveLink role="link" href="/" aria-label="Przejdź do strony głównej">
-							<Image
-								src="/images/logo-serwiswrybnej-pl.webp"
-								// src="/images/favicon-180x180.png"
-								alt="Logo serwiswrybnej.pl"
-								width={96}
-								height={48}
-							/>
-						</ActiveLink>
-					</div>
-					<ul className="ml-4 hidden h-16 flex-wrap items-center justify-start space-x-4 xl:flex">
-						{NavLinks.map((link, index) => (
-							<li
-								key={index}
-								className="ml-2 flex items-center border-b-2 border-transparent text-center"
-							>
-								<ActiveLink role={link.role} href={link.href} exact={link.exact}>
-									<span>{link.label}</span>
+				<div className="flex items-center gap-8">
+					<ActiveLink role="link" href="/" aria-label="Przejdź do strony głównej">
+						<Image src="/images/logo-serwiswrybnej-pl.webp" alt="Logo serwiswrybnej.pl" width={96} height={48} />
+					</ActiveLink>
+
+					<NavigationMenu className="hidden xl:block" delayDuration={100}>
+						<NavigationMenuList className="gap-6">
+							<NavigationMenuItem>
+								<NavigationMenuTrigger className={triggerClassName}>
+									Produkty
+								</NavigationMenuTrigger>
+								<NavigationMenuContent>
+									<ProductsMegaMenuContent sections={productsMenu} />
+								</NavigationMenuContent>
+							</NavigationMenuItem>
+
+							<NavigationMenuItem>
+								<NavigationMenuTrigger className={triggerClassName}>
+									Usługi mobilne
+								</NavigationMenuTrigger>
+								<NavigationMenuContent>
+									<MobileServicesMenuContent />
+								</NavigationMenuContent>
+							</NavigationMenuItem>
+
+							<NavigationMenuItem>
+								<ActiveLink role="link" href="/blog" exact>
+									Blog
 								</ActiveLink>
-							</li>
-						))}
-					</ul>
+							</NavigationMenuItem>
+							<NavigationMenuItem>
+								<ActiveLink role="link" href="/kontakt" exact>
+									Kontakt
+								</ActiveLink>
+							</NavigationMenuItem>
+						</NavigationMenuList>
+					</NavigationMenu>
 				</div>
 
-				<div className="hidden items-center xl:flex">
+				<div className="hidden items-center gap-2 xl:flex">
 					<Suspense>
-						<SearchInput isSearchVisible={isSearchVisible} closeSearch={closeSearch} />
+						<SearchToggle />
 					</Suspense>
 					<Link
 						href="/koszyk"
@@ -97,29 +92,16 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 						aria-label={`Koszyk, łączna kwota: ${formatMoney(totalPrice)}`}
 					>
 						<Suspense>
-							<ShoppingCart className="ml-4 h-6 w-6 flex-shrink" aria-hidden="true" />
+							<ShoppingCart className="ml-2 h-6 w-6 flex-shrink" aria-hidden="true" />
 							<span className="w-20 text-right">{formatMoney(totalPrice)}</span>
 						</Suspense>
 					</Link>
 					<AuthIcons />
 				</div>
-				<div className="flex items-center xl:hidden" ref={searchRef}>
+
+				<div className="flex items-center gap-2 xl:hidden">
 					<Suspense>
-						<Search
-							size={20}
-							className={`cursor-pointer ${isSearchVisible ? "hidden" : "block"}`}
-							onClick={toggleSearch}
-							aria-label="Otwórz wyszukiwanie"
-							role="button"
-							aria-expanded={isSearchVisible}
-						/>
-						<div
-							className={`absolute left-0 top-1/2 z-50 -translate-y-1/2 transform pl-5 ${
-								isSearchVisible ? "block" : "hidden"
-							}`}
-						>
-							<SearchInput isSearchVisible={isSearchVisible} closeSearch={closeSearch} />
-						</div>
+						<SearchToggle />
 					</Suspense>
 					<Link
 						href="/koszyk"
@@ -131,7 +113,6 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 							<span className="absolute -top-6 left-1/2 flex -translate-x-1/2 items-center justify-center rounded-full border border-black bg-white p-1 text-xs text-black">
 								{formatMoney(totalPrice)}
 							</span>
-							<span className="sr-only hidden md:block"></span>
 						</Suspense>
 					</Link>
 					<button
@@ -143,32 +124,73 @@ export default function NavBar({ totalPrice }: NavBarProps) {
 					</button>
 				</div>
 			</div>
+
 			{/* Fullscreen mobile menu */}
 			{isMenuOpen && (
-				<div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white">
-					<div className="absolute left-0 top-0 z-50 flex h-24 w-full items-center justify-between bg-white p-5 text-xl font-bold shadow-md md:pl-0 md:pr-0">
+				<div className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-white">
+					<div className="sticky top-0 flex h-24 w-full flex-shrink-0 items-center justify-between bg-white p-5 text-xl font-bold shadow-md">
 						<ActiveLink role="link" href="/" aria-label="Przejdź do strony głównej">
-							<Image
-								src="/images/logo-serwiswrybnej-pl.webp"
-								alt="Logo serwiswrybnej.pl"
-								width={96}
-								height={48}
-							/>
+							<Image src="/images/logo-serwiswrybnej-pl.webp" alt="Logo serwiswrybnej.pl" width={96} height={48} />
 						</ActiveLink>
 						<button onClick={toggleMenu} aria-label="Zamknij menu" aria-expanded={isMenuOpen}>
 							<X size={24} />
 						</button>
 					</div>
-					<ul className="space-y-4 text-center">
-						{NavLinks.map((link, index) => (
-							<li key={index} className="text-xl">
-								<ActiveLink role={link.role} href={link.href} exact={link.exact}>
-									<span onClick={toggleMenu}>{link.label}</span>
-								</ActiveLink>
-							</li>
-						))}
-					</ul>
-					<div className="absolute bottom-10 text-center" onClick={toggleMenu}>
+
+					<div className="flex flex-1 flex-col gap-2 px-5 py-6">
+						<div className="border-b border-gray-100 pb-2">
+							<button
+								type="button"
+								onClick={() => toggleMobileSection("produkty")}
+								className="flex w-full items-center justify-between py-3 text-xl font-semibold"
+								aria-expanded={mobileSection === "produkty"}
+							>
+								Produkty
+								<ChevronDown
+									className={`h-5 w-5 transition-transform ${
+										mobileSection === "produkty" ? "rotate-180" : ""
+									}`}
+									aria-hidden="true"
+								/>
+							</button>
+							{mobileSection === "produkty" && (
+								<ProductsMegaMenuContent sections={productsMenu} onNavigate={toggleMenu} />
+							)}
+						</div>
+
+						<div className="border-b border-gray-100 pb-2">
+							<button
+								type="button"
+								onClick={() => toggleMobileSection("uslugi")}
+								className="flex w-full items-center justify-between py-3 text-xl font-semibold"
+								aria-expanded={mobileSection === "uslugi"}
+							>
+								Usługi mobilne
+								<ChevronDown
+									className={`h-5 w-5 transition-transform ${
+										mobileSection === "uslugi" ? "rotate-180" : ""
+									}`}
+									aria-hidden="true"
+								/>
+							</button>
+							{mobileSection === "uslugi" && (
+								<MobileServicesMenuContent onNavigate={toggleMenu} />
+							)}
+						</div>
+
+						<div className="py-3 text-xl font-semibold">
+							<ActiveLink role="link" href="/blog" exact>
+								<span onClick={toggleMenu}>Blog</span>
+							</ActiveLink>
+						</div>
+						<div className="py-3 text-xl font-semibold">
+							<ActiveLink role="link" href="/kontakt" exact>
+								<span onClick={toggleMenu}>Kontakt</span>
+							</ActiveLink>
+						</div>
+					</div>
+
+					<div className="flex justify-center pb-10" onClick={toggleMenu}>
 						<AuthIcons />
 					</div>
 				</div>
