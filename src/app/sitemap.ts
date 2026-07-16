@@ -1,8 +1,11 @@
 import { getArticlesPath } from "@/api/getArticlesPath";
 import { getCategoriesPath } from "@/api/getCategoriesPath";
 import { getProductsPath } from "@/api/getProductsPath";
+import { getServiceLocalities } from "@/api/getServiceLocalities";
 import { ArticlePath, CategoryPath, ProductPath } from "@/app/types";
 import { MetadataRoute } from "next";
+
+const MOBILE_SERVICE_SLUGS = ["mobilne-dorabianie-kluczy", "mobilne-wyrob-pieczatek"];
 
 function formatDate(date: string | Date): string {
 	const d = new Date(date);
@@ -13,6 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const articles = (await getArticlesPath()) as ArticlePath[] | [];
 	const categories = (await getCategoriesPath()) as CategoryPath[] | [];
 	const products = (await getProductsPath()) as ProductPath[] | [];
+	const localities = await getServiceLocalities();
 
 	console.log("articles", articles);
 
@@ -59,7 +63,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 			url: `${publicUrl}/zaprojektuj-pieczatke`,
 			lastModified: formatDate("2026-07-10"),
 		},
+		{
+			url: `${publicUrl}/uslugi/mobilne-dorabianie-kluczy`,
+			lastModified: formatDate("2026-07-15"),
+		},
+		{
+			url: `${publicUrl}/uslugi/mobilne-wyrob-pieczatek`,
+			lastModified: formatDate("2026-07-15"),
+		},
 	];
+
+	const localityRoutes = MOBILE_SERVICE_SLUGS.flatMap((parentSlug) =>
+		localities.map((locality) => ({
+			url: `${publicUrl}/uslugi/${parentSlug}-${locality.slug}`,
+			lastModified: formatDate("2026-07-15"),
+		})),
+	);
 
 	const dynamicRoutes = [
 		...articles.map((article) => ({
@@ -76,5 +95,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 		})),
 	];
 
-	return [...staticRoutes, ...dynamicRoutes];
+	return [...staticRoutes, ...localityRoutes, ...dynamicRoutes];
 }
