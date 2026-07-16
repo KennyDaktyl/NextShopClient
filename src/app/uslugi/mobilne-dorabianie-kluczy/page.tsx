@@ -125,6 +125,52 @@ export default async function MobileKeysPage() {
 			</section>
 
 			<section className="mt-8 rounded-lg border border-gray-200 p-6 sm:p-8">
+				<h2 className="mb-4 text-xl font-semibold sm:text-2xl">
+					Jak przebiega dorabianie kluczy z dojazdem?
+				</h2>
+				<p className="mb-3 text-sm leading-relaxed text-gray-700">
+					Usługa działa dokładnie tak, jak na to wygląda — nie odbieramy kluczy, żeby oddać je
+					później. Dzwonisz lub piszesz z zapytaniem, ustalamy dogodny termin, a ja osobiście
+					przyjeżdżam pod wskazany adres z przenośnym, w pełni wyposażonym sprzętem do dorabiania
+					kluczy. Klucz wycinam na miejscu, na Twoich oczach — sprawdzasz go od razu w zamku, zanim
+					zapłacisz. Płatność następuje dopiero po odbiorze gotowego klucza, gotówką lub kartą.
+					Cały dojazd i wykonanie zajmuje zwykle do {deliveryTimeHours}{" "}
+					{deliveryTimeHours === 1 ? "godziny" : "godzin"} od zgłoszenia.
+				</p>
+				<p className="mb-5 text-sm leading-relaxed text-gray-700">
+					Obsługuję zarówno klientów indywidualnych, jak i firmy, wspólnoty mieszkaniowe czy
+					zarządców budynków — dorabiam klucze pojedynczo albo od razu w większej partii (np. dla
+					wszystkich mieszkańców klatki).
+				</p>
+				<div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+					<div>
+						<h3 className="mb-2 text-base font-semibold">Klucze mieszkaniowe z dojazdem</h3>
+						<p className="text-sm leading-relaxed text-gray-600">
+							Dorabiam na miejscu klucze do drzwi wejściowych, mieszkań, piwnic, skrzynek
+							pocztowych i bram wjazdowych — zarówno zwykłe, jak i systemowe oraz atestowane
+							(klasy C). Nie musisz wyjmować wkładki z zamka ani jechać do punktu w Rybnej —
+							dopasowuję klucz bezpośrednio pod Twój zamek na miejscu.
+						</p>
+					</div>
+					<div>
+						<h3 className="mb-2 text-base font-semibold">Klucze samochodowe z dojazdem</h3>
+						<p className="text-sm leading-relaxed text-gray-600">
+							Dorabiam również klucze samochodowe z dojazdem — zarówno zwykłe klucze mechaniczne,
+							jak i te z transponderem. Jeśli potrzebujesz{" "}
+							<Link href="/uslugi/programowanie-kluczy-samochodowych" className="underline">
+								zaprogramowania pilota
+							</Link>{" "}
+							lub{" "}
+							<Link href="/uslugi/kopiowanie-immobilizerow" className="underline">
+								skopiowania immobilizera
+							</Link>
+							, wykonuję to na miejscu tym samym przyjazdem — nie musisz umawiać się osobno.
+						</p>
+					</div>
+				</div>
+			</section>
+
+			<section className="mt-8 rounded-lg border border-gray-200 p-6 sm:p-8">
 				<h2 className="mb-1 text-xl font-semibold sm:text-2xl">Sprawdź, czy dorobimy Twój klucz</h2>
 				<p className="mb-5 text-sm text-gray-600">
 					Nie wiesz, czy mamy odpowiednią ostrugę? Wyślij zdjęcie klucza, a ocenimy to jeszcze
