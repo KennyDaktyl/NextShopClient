@@ -4,6 +4,7 @@ import { Stamp } from "lucide-react";
 import { getCategoryMetaData } from "@/api/getCategoryMetaData";
 import { getMenuItems } from "@/api/getMenuItems";
 import { getProductsByCategory } from "@/api/getProductsByCategory";
+import { getServiceLocalities } from "@/api/getServiceLocalities";
 import { MenuItemsResponse, ProductListItem, ProductsResponse } from "@/app/types";
 import { generateCategoryJsonLd, JsonLd, mappedProductsToJsonLd } from "@/components/seo/LdJson";
 import MobileServiceAreaGrid, { AreaCard } from "@/components/mobile-services/MobileServiceAreaGrid";
@@ -17,21 +18,6 @@ const DEFAULT_MIN_ORDER_VALUE = 100;
 const DEFAULT_WHOLESALE_QTY = 10;
 const DEFAULT_WHOLESALE_DISCOUNT = 15;
 const DEFAULT_DELIVERY_TIME_HOURS = 2;
-
-const AREA_CARDS: AreaCard[] = [
-	{ town: "Kraków — Śródmieście", phrase: "Wyrób pieczątek ekspresowo z dojazdem" },
-	{ town: "Podgórze", phrase: "Pieczątki firmowe z dostawą do biura" },
-	{ town: "Nowa Huta", phrase: "Pieczątki na miejscu, tego samego dnia" },
-	{ town: "Krowodrza", phrase: "Pieczątki firmowe na dojeździe" },
-	{ town: "Zabierzów", phrase: "Wyrób pieczątek z dojazdem do klienta" },
-	{ town: "Zielonki", phrase: "Pieczątki imienne i firmowe na miejscu" },
-	{ town: "Skawina", phrase: "Ekspresowy wyrób pieczątek z dostawą" },
-	{ town: "Wieliczka", phrase: "Pieczątki z dojazdem do biura lub domu" },
-	{ town: "Krzeszowice", phrase: "Wyrób pieczątek z dojazdem" },
-	{ town: "Liszki", phrase: "Pieczątki na zamówienie z dostawą" },
-	{ town: "Kryspinów", phrase: "Ekspresowe pieczątki z dojazdem" },
-	{ town: "Alwernia", phrase: "Wyrób pieczątki na miejscu" },
-];
 
 export async function generateMetadata(): Promise<Metadata> {
 	const category = await getCategoryMetaData({ currentCategorySlug: CATEGORY_SLUG });
@@ -81,6 +67,13 @@ export default async function MobileStampsPage() {
 	const wholesaleDiscount = settings?.wholesale_discount_percent ?? DEFAULT_WHOLESALE_DISCOUNT;
 	const deliveryTimeHours = settings?.delivery_time_hours ?? DEFAULT_DELIVERY_TIME_HOURS;
 
+	const localities = await getServiceLocalities();
+	const areaCards: AreaCard[] = localities.map((locality) => ({
+		town: locality.name,
+		phrase: `Wyrób pieczątek z dojazdem — ${locality.region_label}`,
+		href: `/uslugi/${CATEGORY_SLUG}-${locality.slug}`,
+	}));
+
 	return (
 		<div className="mb-10 w-full">
 			<section className="rounded-lg bg-gray-100 p-6 sm:p-10">
@@ -114,6 +107,38 @@ export default async function MobileStampsPage() {
 					</div>
 					<div className="relative flex h-[220px] w-full items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-gray-800 shadow-lg sm:h-[280px]">
 						<Stamp className="h-20 w-20 text-white" aria-hidden="true" />
+					</div>
+				</div>
+			</section>
+
+			<section className="mt-8 rounded-lg border border-gray-200 p-6 sm:p-8">
+				<h2 className="mb-4 text-xl font-semibold sm:text-2xl">
+					Jak przebiega wyrób pieczątki z dojazdem?
+				</h2>
+				<p className="mb-3 text-sm leading-relaxed text-gray-700">
+					Treść pieczątki możesz zaprojektować wcześniej online (widget poniżej) albo ustalić ze
+					mną na miejscu, przy dojeździe. Po ustaleniu terminu przyjeżdżam osobiście pod wskazany
+					adres — do biura, firmy lub domu — z gotowym projektem i wykonuję pieczątkę na miejscu.
+					Płatność następuje dopiero po odbiorze gotowej pieczątki, gotówką lub kartą. Cały proces,
+					od zgłoszenia do dostawy, zajmuje zwykle do {deliveryTimeHours}{" "}
+					{deliveryTimeHours === 1 ? "godziny" : "godzin"}.
+				</p>
+				<div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+					<div>
+						<h3 className="mb-2 text-base font-semibold">Pieczątki firmowe z dojazdem</h3>
+						<p className="text-sm leading-relaxed text-gray-600">
+							Wykonuję pieczątki firmowe z nazwą, adresem, NIP-em i logotypem — idealne do faktur,
+							dokumentów i korespondencji. Dojeżdżam bezpośrednio do biura czy siedziby firmy, bez
+							potrzeby wysyłania projektu pocztą i czekania na kuriera.
+						</p>
+					</div>
+					<div>
+						<h3 className="mb-2 text-base font-semibold">Pieczątki imienne i prywatne z dojazdem</h3>
+						<p className="text-sm leading-relaxed text-gray-600">
+							Dla osób prywatnych, pracowników biurowych i profesjonalistów (np. lekarzy, prawników)
+							wykonuję pieczątki imienne i podpisowe — okrągłe, kwadratowe lub prostokątne, zgodnie
+							z Twoim projektem.
+						</p>
 					</div>
 				</div>
 			</section>
@@ -212,7 +237,7 @@ export default async function MobileStampsPage() {
 					menuItems.seo_text ||
 					`Wyrób pieczątek ekspresowo z dojazdem do klienta świadczymy na terenie Krakowa i okolicznych miejscowości. Projekt akceptujesz zdalnie, a gotową pieczątkę dostarczamy do ${deliveryTimeHours} ${deliveryTimeHours === 1 ? "godziny" : "godzin"} — bez wizyty w punkcie w Rybnej.`
 				}
-				areas={AREA_CARDS}
+				areas={areaCards}
 			/>
 
 			<MobileServiceCrossLink href="/uslugi/mobilne-dorabianie-kluczy" label="Mobilne dorabianie kluczy" />

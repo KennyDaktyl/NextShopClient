@@ -5,7 +5,8 @@ import CategoryDetails from "@/components/category/CategoryDetails";
 import ProductListPage from "@/components/product/ProductListPage";
 import { getMenuItems } from "@/api/getMenuItems";
 import { getProductsByCategory } from "@/api/getProductsByCategory";
-import { MenuItemsResponse, ProductsResponse, ProductListItem } from "@/app/types";
+import { getServiceLocalities } from "@/api/getServiceLocalities";
+import { MenuItemsResponse, ProductsResponse, ProductListItem, ServiceLocality } from "@/app/types";
 import { getCategoryMetaData } from "@/api/getCategoryMetaData";
 import {
 	generateCategoryJsonLd,
@@ -15,6 +16,9 @@ import {
 } from "@/components/seo/LdJson";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import LocalityServicePage, {
+	LocalityServiceType,
+} from "@/components/mobile-services/LocalityServicePage";
 
 const slugsToGenerate = [
 	"dorabianie-kluczy-mieszkaniowych",
@@ -23,10 +27,30 @@ const slugsToGenerate = [
 	"kopiowanie-immobilizerow",
 ];
 
+const LOCALITY_SERVICE_PREFIXES: Record<string, LocalityServiceType> = {
+	"mobilne-dorabianie-kluczy": "klucze",
+	"mobilne-wyrob-pieczatek": "pieczatki",
+};
+
+const parseLocalitySlug = (
+	slug: string,
+): { parentSlug: string; serviceType: LocalityServiceType; localitySlug: string } | null => {
+	for (const [parentSlug, serviceType] of Object.entries(LOCALITY_SERVICE_PREFIXES)) {
+		const prefix = `${parentSlug}-`;
+		if (slug.startsWith(prefix) && slug.length > prefix.length) {
+			return { parentSlug, serviceType, localitySlug: slug.slice(prefix.length) };
+		}
+	}
+	return null;
+};
+
 export async function generateStaticParams() {
-	return slugsToGenerate.map((slug) => ({
-		routes: [slug],
-	}));
+	const localities = await getServiceLocalities();
+	const localityParams = Object.keys(LOCALITY_SERVICE_PREFIXES).flatMap((parentSlug) =>
+		localities.map((locality) => ({ routes: [`${parentSlug}-${locality.slug}`] })),
+	);
+
+	return [...slugsToGenerate.map((slug) => ({ routes: [slug] })), ...localityParams];
 }
 
 export async function generateMetadata({
@@ -41,6 +65,38 @@ export async function generateMetadata({
 	const currentCategorySlug = lastRoute;
 
 	const currentPage = searchParams.page ? parseInt(searchParams.page) : 1;
+
+	const localityMatch = parseLocalitySlug(currentCategorySlug);
+	if (localityMatch) {
+		const localities = await getServiceLocalities();
+		const locality = localities.find((l) => l.slug === localityMatch.localitySlug);
+		if (locality) {
+			const title =
+				localityMatch.serviceType === "klucze"
+					? `Dorabianie kluczy z dojazdem — ${locality.name} | Kraków i okolice`
+					: `Mobilny wyrób pieczątek — dojazd do ${locality.name}`;
+			const description =
+				localityMatch.serviceType === "klucze"
+					? `Dorabianie kluczy mieszkaniowych i samochodowych z dojazdem do ${locality.name} (${locality.region_label}). Przyjeżdżam i wycinam klucz na miejscu.`
+					: `Mobilny wyrób pieczątek z dojazdem do ${locality.name} (${locality.region_label}). Projekt ustalisz online, pieczątkę dostarczam na miejscu.`;
+			const full_path = `/uslugi/${currentCategorySlug}`;
+
+			return {
+				title,
+				description,
+				alternates: { canonical: full_path },
+				openGraph: {
+					title,
+					description,
+					url: process.env.NEXT_PUBLIC_BASE_URL + full_path,
+					siteName: process.env.NEXT_PUBLIC_SITE_TITLE,
+					locale: "pl_PL",
+					type: "website",
+				},
+				twitter: { card: "summary_large_image", title, description },
+			};
+		}
+	}
 
 	const response = await getCategoryMetaData({
 		currentCategorySlug,
@@ -108,6 +164,43 @@ export default async function Page({
 	const lastRoute = routes[routes.length - 1];
 	const currentCategorySlug = lastRoute;
 	const currentPage = searchParams.page ? parseInt(searchParams.page) : 1;
+
+	const localityMatch = parseLocalitySlug(currentCategorySlug);
+	if (localityMatch) {
+		const localities = await getServiceLocalities();
+		const locality = localities.find((l) => l.slug === localityMatch.localitySlug);
+		if (!locality) {
+			notFound();
+		}
+
+		const parentMenuItems: MenuItemsResponse = await getMenuItems({
+			categorySlug: localityMatch.parentSlug,
+		});
+		const productsResponse = await getProductsByCategory({
+			categorySlug: localityMatch.parentSlug,
+			params: { page: "1" },
+		});
+		const products: ProductListItem[] =
+			productsResponse &&
+			typeof productsResponse === "object" &&
+			"results" in (productsResponse as ProductsResponse)
+				? (productsResponse as ProductsResponse).results
+				: [];
+
+		const otherLocalities: ServiceLocality[] = localities.filter(
+			(l) => l.slug !== locality.slug,
+		);
+
+		return (
+			<LocalityServicePage
+				serviceType={localityMatch.serviceType}
+				locality={locality}
+				otherLocalities={otherLocalities}
+				menuItems={parentMenuItems}
+				products={products}
+			/>
+		);
+	}
 
 	const menuItems: MenuItemsResponse = await getMenuItems({ categorySlug: currentCategorySlug });
 	const category = {

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getCategoryMetaData } from "@/api/getCategoryMetaData";
 import { getMenuItems } from "@/api/getMenuItems";
 import { getProductsByCategory } from "@/api/getProductsByCategory";
+import { getServiceLocalities } from "@/api/getServiceLocalities";
 import { MenuItemsResponse, ProductListItem, ProductsResponse } from "@/app/types";
 import { generateCategoryJsonLd, JsonLd, mappedProductsToJsonLd } from "@/components/seo/LdJson";
 import MobileServiceAreaGrid, { AreaCard } from "@/components/mobile-services/MobileServiceAreaGrid";
@@ -17,21 +18,6 @@ const DEFAULT_MIN_KEYS_QTY = 3;
 const DEFAULT_WHOLESALE_QTY = 10;
 const DEFAULT_WHOLESALE_DISCOUNT = 15;
 const DEFAULT_DELIVERY_TIME_HOURS = 2;
-
-const AREA_CARDS: AreaCard[] = [
-	{ town: "Kraków — Śródmieście", phrase: "Dorabianie kluczy z dojazdem w centrum" },
-	{ town: "Podgórze", phrase: "Klucze mieszkaniowe i samochodowe z dojazdem" },
-	{ town: "Nowa Huta", phrase: "Dorabianie kluczy, programowanie zdalników" },
-	{ town: "Krowodrza", phrase: "Klucze do drzwi na dojeździe" },
-	{ town: "Zabierzów", phrase: "Dorabianie kluczy samochodowych z dojazdem" },
-	{ town: "Zielonki", phrase: "Klucze mieszkaniowe na miejscu" },
-	{ town: "Skawina", phrase: "Klucze samochodowe i programowanie pilotów" },
-	{ town: "Wieliczka", phrase: "Klucze mieszkaniowe z dojazdem" },
-	{ town: "Krzeszowice", phrase: "Dorabianie kluczy do domu i samochodu" },
-	{ town: "Liszki", phrase: "Klucze z dojazdem na zamówienie" },
-	{ town: "Kryspinów", phrase: "Dorabianie kluczy mieszkaniowych" },
-	{ town: "Alwernia", phrase: "Dorabianie kluczy na miejscu" },
-];
 
 export async function generateMetadata(): Promise<Metadata> {
 	const category = await getCategoryMetaData({ currentCategorySlug: CATEGORY_SLUG });
@@ -80,6 +66,13 @@ export default async function MobileKeysPage() {
 	const wholesaleQty = settings?.wholesale_qty ?? DEFAULT_WHOLESALE_QTY;
 	const wholesaleDiscount = settings?.wholesale_discount_percent ?? DEFAULT_WHOLESALE_DISCOUNT;
 	const deliveryTimeHours = settings?.delivery_time_hours ?? DEFAULT_DELIVERY_TIME_HOURS;
+
+	const localities = await getServiceLocalities();
+	const areaCards: AreaCard[] = localities.map((locality) => ({
+		town: locality.name,
+		phrase: `Dorabianie kluczy z dojazdem — ${locality.region_label}`,
+		href: `/uslugi/${CATEGORY_SLUG}-${locality.slug}`,
+	}));
 
 	return (
 		<div className="mb-10 w-full">
@@ -261,7 +254,7 @@ export default async function MobileKeysPage() {
 					menuItems.seo_text ||
 					`Dorabiamy klucze mieszkaniowe i samochodowe z dojazdem do klienta na terenie Krakowa i okolicznych miejscowości. Klucz dostarczamy do ${deliveryTimeHours} ${deliveryTimeHours === 1 ? "godziny" : "godzin"} od przyjęcia zamówienia — bez konieczności przyjazdu do punktu w Rybnej.`
 				}
-				areas={AREA_CARDS}
+				areas={areaCards}
 			/>
 
 			<MobileServiceCrossLink href="/uslugi/mobilne-wyrob-pieczatek" label="Mobilne pieczątki" />

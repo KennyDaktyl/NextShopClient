@@ -300,6 +300,13 @@ export interface GetCategoryMetaDataResponse {
 	status: number;
 }
 
+export interface ServiceLocality {
+	name: string;
+	slug: string;
+	region_label: string;
+	local_note: string;
+}
+
 export interface ImageItem {
 	id: number;
 	width: number;
