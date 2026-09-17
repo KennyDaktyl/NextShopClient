@@ -50,9 +50,7 @@ export default function OrderForm({
 
 	const [selectedDelivery, setSelectedDelivery] = useState<DeliveryMethod>(deliveryMethods[0]);
 	const [selectedPayment, setSelectedPayment] = useState<PaymentMethod>(
-		paymentMethods[0]?.payment_on_delivery &&
-			deliveryMethods[0] &&
-			!deliveryMethods[0].in_store_pickup
+		paymentMethods[0]?.pickup_only && deliveryMethods[0] && !deliveryMethods[0].in_store_pickup
 			? getOnlinePaymentMethod(paymentMethods)
 			: paymentMethods[0],
 	);
@@ -74,7 +72,7 @@ export default function OrderForm({
 		setSelectedDelivery(method);
 		setFinalPrice(Number(initialTotalPrice) + Number(method.price));
 
-		if (!method.in_store_pickup && selectedPayment.payment_on_delivery) {
+		if (!method.in_store_pickup && selectedPayment.pickup_only) {
 			const effectivePayment = getOnlinePaymentMethod(paymentMethods);
 			setSelectedPayment(effectivePayment);
 			setPaymentAdded(false);
@@ -86,7 +84,7 @@ export default function OrderForm({
 	};
 
 	const handlePaymentMethodChange = (method: PaymentMethod) => {
-		if (method.payment_on_delivery && !selectedDelivery.in_store_pickup) {
+		if (method.pickup_only && !selectedDelivery.in_store_pickup) {
 			return;
 		}
 

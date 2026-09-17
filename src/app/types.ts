@@ -437,6 +437,7 @@ export interface PaymentMethod {
 	payment_on_delivery: boolean;
 	payment_online: boolean;
 	bank_transfer: boolean;
+	pickup_only: boolean;
 }
 
 export interface PaymentMethods {

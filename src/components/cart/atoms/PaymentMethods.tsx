@@ -14,7 +14,7 @@ export default function PaymentMethods({
 	onPaymentMethodChange,
 	isPickupSelected,
 }: PaymentMethodsProps) {
-	const isMethodDisabled = (method: PaymentMethod) => method.payment_on_delivery && !isPickupSelected;
+	const isMethodDisabled = (method: PaymentMethod) => method.pickup_only && !isPickupSelected;
 
 	const handleChange = (method: PaymentMethod) => {
 		if (isMethodDisabled(method)) return;

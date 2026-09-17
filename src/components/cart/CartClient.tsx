@@ -41,9 +41,7 @@ export default function CartClient({
 
 	const [selectedDelivery, setSelectedDelivery] = useState<DeliveryMethod>(deliveryMethods[0]);
 	const [selectedPayment, setSelectedPayment] = useState<PaymentMethod>(
-		paymentMethods[0]?.payment_on_delivery &&
-			deliveryMethods[0] &&
-			!deliveryMethods[0].in_store_pickup
+		paymentMethods[0]?.pickup_only && deliveryMethods[0] && !deliveryMethods[0].in_store_pickup
 			? getOnlinePaymentMethod(paymentMethods)
 			: paymentMethods[0],
 	);
@@ -82,7 +80,7 @@ export default function CartClient({
 
 		let newPrice = Number(initialTotalPrice) + Number(initialDeliveryPrice);
 
-		if (paymentMethods[0].payment_on_delivery && !deliveryMethods[0].in_store_pickup) {
+		if (paymentMethods[0].pickup_only && !deliveryMethods[0].in_store_pickup) {
 			newPrice += Number(initialPaymentPrice);
 		}
 
@@ -223,7 +221,7 @@ export default function CartClient({
 
 		let effectivePayment = selectedPayment;
 
-		if (!method.in_store_pickup && selectedPayment.payment_on_delivery) {
+		if (!method.in_store_pickup && selectedPayment.pickup_only) {
 			effectivePayment = getOnlinePaymentMethod(paymentMethods);
 			setSelectedPayment(effectivePayment);
 			methods.setValue("payment_method", effectivePayment.id.toString());
@@ -240,7 +238,7 @@ export default function CartClient({
 	};
 
 	const handlePaymentMethodChange = (method: PaymentMethod) => {
-		if (method.payment_on_delivery && !selectedDelivery.in_store_pickup) {
+		if (method.pickup_only && !selectedDelivery.in_store_pickup) {
 			return;
 		}
 

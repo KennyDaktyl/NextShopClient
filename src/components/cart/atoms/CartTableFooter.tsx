@@ -26,7 +26,7 @@ export const CartTableFooter = ({
 	}, [freeDelivery, deliveryMethod]);
 
 	let paymentMethodPrice = paymentMethod.price;
-	if (deliveryMethod.in_store_pickup && paymentMethod.payment_on_delivery) {
+	if (deliveryMethod.in_store_pickup && paymentMethod.pickup_only) {
 		paymentMethodPrice = 0;
 	}
 
