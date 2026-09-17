@@ -41,7 +41,9 @@ export default function CartClient({
 
 	const [selectedDelivery, setSelectedDelivery] = useState<DeliveryMethod>(deliveryMethods[0]);
 	const [selectedPayment, setSelectedPayment] = useState<PaymentMethod>(
-		deliveryMethods[0] && !deliveryMethods[0].in_store_pickup
+		paymentMethods[0]?.payment_on_delivery &&
+			deliveryMethods[0] &&
+			!deliveryMethods[0].in_store_pickup
 			? getOnlinePaymentMethod(paymentMethods)
 			: paymentMethods[0],
 	);
@@ -221,15 +223,11 @@ export default function CartClient({
 
 		let effectivePayment = selectedPayment;
 
-		if (!method.in_store_pickup && !selectedPayment.payment_online) {
+		if (!method.in_store_pickup && selectedPayment.payment_on_delivery) {
 			effectivePayment = getOnlinePaymentMethod(paymentMethods);
 			setSelectedPayment(effectivePayment);
 			methods.setValue("payment_method", effectivePayment.id.toString());
 			methods.setValue("payment_price", Number(effectivePayment.price).toFixed(2));
-		}
-
-		if (effectivePayment.payment_on_delivery && !method.in_store_pickup) {
-			newPrice += Number(effectivePayment.price);
 		}
 
 		setFinalPrice(newPrice);
@@ -242,7 +240,7 @@ export default function CartClient({
 	};
 
 	const handlePaymentMethodChange = (method: PaymentMethod) => {
-		if (!selectedDelivery.in_store_pickup) {
+		if (method.payment_on_delivery && !selectedDelivery.in_store_pickup) {
 			return;
 		}
 
@@ -252,10 +250,6 @@ export default function CartClient({
 
 		let deliveryPrice = freeDelivery ? selectedDelivery.price_promo : selectedDelivery.price;
 		let newPrice = Number(initialTotalPrice) + Number(deliveryPrice);
-
-		if (method.payment_on_delivery && !selectedDelivery.in_store_pickup) {
-			newPrice += Number(method.price);
-		}
 
 		setFinalPrice(newPrice);
 		methods.setValue("amount", newPrice.toFixed(2));
@@ -347,7 +341,7 @@ export default function CartClient({
 							paymentMethods={paymentMethods}
 							selectedMethod={selectedPayment}
 							onPaymentMethodChange={handlePaymentMethodChange}
-							disabled={!selectedDelivery.in_store_pickup}
+							isPickupSelected={selectedDelivery.in_store_pickup}
 						/>
 						{!userData && (
 							<ActiveLink

@@ -26,9 +26,15 @@ export const cartItemSchema = z.object({
 });
 
 export const basicSchema = z.object({
-	name: z.string().min(1, "Imię i nazwisko jest wymagane"),
+	name: z
+		.string()
+		.trim()
+		.min(1, "Imię i nazwisko jest wymagane"),
 	email: z.string().email("Nieprawidłowy adres e-mail"),
-	mobile: z.string().min(1, "Numer telefonu jest wymagany"),
+	mobile: z
+		.string()
+		.trim()
+		.regex(/^\d{9}$/, "Numer telefonu musi mieć dokładnie 9 cyfr"),
 	cart_items_price: z.string().min(1, "Cena produktów jest wymagana"),
 	delivery_price: z.string().min(1, "Cena dostawy jest wymagana"),
 	payment_price: z.string().min(1, "Cena płatności jest wymagana"),
