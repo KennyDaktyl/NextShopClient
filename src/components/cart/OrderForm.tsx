@@ -45,8 +45,15 @@ export default function OrderForm({
 	initialTotalPrice,
 	cartItems,
 }: OrderFormProps) {
+	const getOnlinePaymentMethod = (methods: PaymentMethod[]) =>
+		methods.find((method) => method.payment_online) || methods[0];
+
 	const [selectedDelivery, setSelectedDelivery] = useState<DeliveryMethod>(deliveryMethods[0]);
-	const [selectedPayment, setSelectedPayment] = useState<PaymentMethod>(paymentMethods[0]);
+	const [selectedPayment, setSelectedPayment] = useState<PaymentMethod>(
+		deliveryMethods[0] && !deliveryMethods[0].in_store_pickup
+			? getOnlinePaymentMethod(paymentMethods)
+			: paymentMethods[0],
+	);
 	const [finalPrice, setFinalPrice] = useState<number>(
 		Number(initialTotalPrice) + Number(selectedDelivery.price),
 	);
@@ -64,12 +71,21 @@ export default function OrderForm({
 	const handleDeliveryMethodChange = (method: DeliveryMethod) => {
 		setSelectedDelivery(method);
 		setFinalPrice(Number(initialTotalPrice) + Number(method.price));
-		if (selectedPayment.payment_on_delivery && method.in_store_pickup) {
+
+		let effectivePayment = selectedPayment;
+		if (!method.in_store_pickup && !selectedPayment.payment_online) {
+			effectivePayment = getOnlinePaymentMethod(paymentMethods);
+			setSelectedPayment(effectivePayment);
+			setPaymentAdded(false);
+			methods.setValue("paymentMethod", effectivePayment.id.toString());
+		}
+
+		if (effectivePayment.payment_on_delivery && method.in_store_pickup) {
 			setFinalPrice(Number(initialTotalPrice));
 			setPaymentAdded(false);
 		}
-		if (selectedPayment.payment_on_delivery && !method.in_store_pickup) {
-			setFinalPrice(Number(initialTotalPrice) + Number(selectedPayment.price));
+		if (effectivePayment.payment_on_delivery && !method.in_store_pickup) {
+			setFinalPrice(Number(initialTotalPrice) + Number(effectivePayment.price));
 			setPaymentAdded(true);
 		}
 
@@ -78,6 +94,10 @@ export default function OrderForm({
 	};
 
 	const handlePaymentMethodChange = (method: PaymentMethod) => {
+		if (!selectedDelivery.in_store_pickup) {
+			return;
+		}
+
 		let price = finalPrice;
 
 		if (paymentAdded) {
@@ -112,7 +132,9 @@ export default function OrderForm({
 					/>
 					<PaymentMethods
 						paymentMethods={paymentMethods}
+						selectedMethod={selectedPayment}
 						onPaymentMethodChange={handlePaymentMethodChange}
+						disabled={!selectedDelivery.in_store_pickup}
 					/>
 					{selectedDelivery.in_store_pickup || selectedDelivery.inpost_box ? (
 						<BasicForm />

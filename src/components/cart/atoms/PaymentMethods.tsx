@@ -1,32 +1,43 @@
 import Image from "next/image";
 import { PaymentMethod } from "@/app/types";
-import { useState } from "react";
 import { formatMoney } from "@/utils";
 
 interface PaymentMethodsProps {
 	paymentMethods: PaymentMethod[];
+	selectedMethod: PaymentMethod;
 	onPaymentMethodChange: (method: PaymentMethod) => void;
+	disabled?: boolean;
 }
 
 export default function PaymentMethods({
 	paymentMethods,
+	selectedMethod,
 	onPaymentMethodChange,
+	disabled = false,
 }: PaymentMethodsProps) {
-	const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>(paymentMethods[0]);
-
 	const handleChange = (method: PaymentMethod) => {
-		setSelectedMethod(method);
+		if (disabled) return;
 		onPaymentMethodChange(method);
 	};
 
 	return (
 		<div className="mb-4 mt-10">
 			<h2 className="w-full text-lg font-semibold">Rodzaj płatności</h2>
+			{disabled && (
+				<p className="mt-1 text-sm text-gray-500">
+					Wybór formy płatności jest dostępny tylko dla odbioru osobistego. Dla pozostałych form
+					dostawy płatność online jest wybierana automatycznie.
+				</p>
+			)}
 			<div className="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
 				{paymentMethods.map((method) => (
 					<label
 						key={method.name}
-						className={`flex h-[100px] cursor-pointer items-center rounded-lg border p-4 shadow-md transition-colors duration-200 hover:border-blue-500 ${
+						className={`flex h-[100px] items-center rounded-lg border p-4 shadow-md transition-colors duration-200 ${
+							disabled
+								? "cursor-not-allowed border-gray-200 bg-gray-100 opacity-60"
+								: "cursor-pointer hover:border-blue-500"
+						} ${
 							method.id === selectedMethod.id
 								? "border-gray-500 bg-gray-50"
 								: "border-gray-300 bg-white"
@@ -38,6 +49,7 @@ export default function PaymentMethods({
 							name="paymentMethod"
 							checked={method.id === selectedMethod.id}
 							onChange={() => handleChange(method)}
+							disabled={disabled}
 							className="shadcn-ui-radio mr-4"
 							value={method.id}
 						/>

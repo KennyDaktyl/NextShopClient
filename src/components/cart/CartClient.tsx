@@ -36,8 +36,15 @@ export default function CartClient({
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const pendingOperations = useRef(0);
 	const [finalPrice, setFinalPrice] = useState<number>(initialTotalPrice);
+	const getOnlinePaymentMethod = (methods: PaymentMethod[]) =>
+		methods.find((method) => method.payment_online) || methods[0];
+
 	const [selectedDelivery, setSelectedDelivery] = useState<DeliveryMethod>(deliveryMethods[0]);
-	const [selectedPayment, setSelectedPayment] = useState<PaymentMethod>(paymentMethods[0]);
+	const [selectedPayment, setSelectedPayment] = useState<PaymentMethod>(
+		deliveryMethods[0] && !deliveryMethods[0].in_store_pickup
+			? getOnlinePaymentMethod(paymentMethods)
+			: paymentMethods[0],
+	);
 	const [currentCartItems, setCurrentCartItems] = useState(cartItems);
 	const [inpostBoxId, setInpostBoxId] = useState<string>("");
 	const [info, setInfo] = useState<string>("");
@@ -212,8 +219,17 @@ export default function CartClient({
 			newPrice += Number(method.price_promo);
 		}
 
-		if (selectedPayment.payment_on_delivery && !method.in_store_pickup) {
-			newPrice += Number(selectedPayment.price);
+		let effectivePayment = selectedPayment;
+
+		if (!method.in_store_pickup && !selectedPayment.payment_online) {
+			effectivePayment = getOnlinePaymentMethod(paymentMethods);
+			setSelectedPayment(effectivePayment);
+			methods.setValue("payment_method", effectivePayment.id.toString());
+			methods.setValue("payment_price", Number(effectivePayment.price).toFixed(2));
+		}
+
+		if (effectivePayment.payment_on_delivery && !method.in_store_pickup) {
+			newPrice += Number(effectivePayment.price);
 		}
 
 		setFinalPrice(newPrice);
@@ -226,6 +242,10 @@ export default function CartClient({
 	};
 
 	const handlePaymentMethodChange = (method: PaymentMethod) => {
+		if (!selectedDelivery.in_store_pickup) {
+			return;
+		}
+
 		setSelectedPayment(method);
 		methods.setValue("payment_method", method.id.toString());
 		methods.setValue("payment_price", Number(method.price).toFixed(2));
@@ -325,7 +345,9 @@ export default function CartClient({
 						/>
 						<PaymentMethods
 							paymentMethods={paymentMethods}
+							selectedMethod={selectedPayment}
 							onPaymentMethodChange={handlePaymentMethodChange}
+							disabled={!selectedDelivery.in_store_pickup}
 						/>
 						{!userData && (
 							<ActiveLink
