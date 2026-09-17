@@ -34,13 +34,13 @@ export default function PaymentMethods({
 					<label
 						key={method.name}
 						className={`flex h-[100px] items-center rounded-lg border p-4 shadow-md transition-colors duration-200 ${
-							disabled
-								? "cursor-not-allowed border-gray-200 bg-gray-100 opacity-60"
-								: "cursor-pointer hover:border-blue-500"
+							disabled ? "cursor-not-allowed" : "cursor-pointer hover:border-blue-500"
 						} ${
 							method.id === selectedMethod.id
 								? "border-gray-500 bg-gray-50"
-								: "border-gray-300 bg-white"
+								: disabled
+									? "border-gray-200 bg-gray-100 opacity-60"
+									: "border-gray-300 bg-white"
 						}`}
 						onClick={() => handleChange(method)}
 					>
