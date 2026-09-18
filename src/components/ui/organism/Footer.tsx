@@ -175,6 +175,36 @@ export function Footer() {
 						</ul>
 					</section>
 				</nav>
+				<section
+					aria-labelledby="partner-sites"
+					className="mt-6 w-full border-t border-neutral-200 pt-6 text-center md:text-left"
+				>
+					<h3 id="partner-sites" className="mb-2 text-xs font-semibold text-neutral-400 uppercase">
+						Nasi partnerzy
+					</h3>
+					<ul role="list" className="flex flex-wrap justify-center gap-x-6 gap-y-1 md:justify-start">
+						<li>
+							<ActiveLink
+								role="link"
+								href="https://dowieziemycie.pl"
+								aria-label="Przejdź do dowieziemycie.pl — lokalny transport osób w okolicy Krakowa"
+								className="text-sm text-gray-500 hover:text-gray-900"
+							>
+								dowieziemycie.pl
+							</ActiveLink>
+						</li>
+						<li>
+							<ActiveLink
+								role="link"
+								href="https://transfer247.pl"
+								aria-label="Przejdź do transfer247.pl — transfery lotniskowe i wycieczki w Małopolsce"
+								className="text-sm text-gray-500 hover:text-gray-900"
+							>
+								transfer247.pl
+							</ActiveLink>
+						</li>
+					</ul>
+				</section>
 			</div>
 			<div className="container mx-auto mt-8 flex max-w-7xl flex-col items-center justify-between gap-4 text-sm text-neutral-500 md:flex-row">
 				<div>
