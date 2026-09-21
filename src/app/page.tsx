@@ -56,10 +56,11 @@ export const metadata: Metadata = {
 const DEFAULT_DELIVERY_TIME_HOURS = 2;
 
 export default async function Home() {
-	const [res, keysMenu, stampsMenu] = await Promise.all([
+	const [res, keysMenu, stampsMenu, remotesMenu] = await Promise.all([
 		getFirstPageData(),
 		getMenuItems({ categorySlug: "mobilne-dorabianie-kluczy" }),
 		getMenuItems({ categorySlug: "mobilne-wyrob-pieczatek" }),
+		getMenuItems({ categorySlug: "mobilne-kodowanie-pilotow-do-bram" }),
 	]);
 
 	const { categories, heros, articles }: FirstPageDataResponse = res;
@@ -71,6 +72,7 @@ export default async function Home() {
 	const deliveryTimeHours = Math.max(
 		keysMenu.mobile_service_settings?.delivery_time_hours ?? DEFAULT_DELIVERY_TIME_HOURS,
 		stampsMenu.mobile_service_settings?.delivery_time_hours ?? DEFAULT_DELIVERY_TIME_HOURS,
+		remotesMenu.mobile_service_settings?.delivery_time_hours ?? DEFAULT_DELIVERY_TIME_HOURS,
 	);
 
 	return (
@@ -85,9 +87,9 @@ export default async function Home() {
 							Usługi mobilne — dojeżdżamy do Ciebie
 						</h2>
 						<p className="mb-4 max-w-xl text-sm leading-relaxed text-gray-300 sm:text-base">
-							Dorabianie kluczy i wyrób pieczątek bez wizyty w punkcie w Rybnej — dojeżdżamy do domu
-							lub biura na terenie Krakowa i okolic w ciągu {deliveryTimeHours}{" "}
-							{deliveryTimeHours === 1 ? "godziny" : "godzin"} od zgłoszenia.
+							Dorabianie kluczy, wyrób pieczątek i kodowanie pilotów do bram bez wizyty w punkcie w
+							Rybnej — dojeżdżamy do domu lub biura na terenie Krakowa i okolic w ciągu{" "}
+							{deliveryTimeHours} {deliveryTimeHours === 1 ? "godziny" : "godzin"} od zgłoszenia.
 						</p>
 						<p className="mb-6 inline-block rounded-md bg-blue-600/20 px-4 py-2 text-sm font-bold text-blue-300 sm:text-base">
 							🚗 Dojazd gratis* na terenie Krakowa i okolic
@@ -104,6 +106,12 @@ export default async function Home() {
 								className="rounded-md bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
 							>
 								Mobilne pieczątki
+							</Link>
+							<Link
+								href="/uslugi/mobilne-kodowanie-pilotow-do-bram"
+								className="rounded-md bg-gray-800 px-6 py-3 text-sm font-semibold text-white transition hover:bg-gray-900"
+							>
+								Kodowanie pilotów do bram
 							</Link>
 						</div>
 						<p className="mt-3 text-xs text-gray-400">

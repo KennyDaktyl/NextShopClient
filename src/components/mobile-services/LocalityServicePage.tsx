@@ -6,11 +6,12 @@ import MobileServiceContactBar from "@/components/mobile-services/MobileServiceC
 import KeyPhotoInquiry from "@/components/widgets/KeyPhotoInquiry/KeyPhotoInquiry";
 import StampDesigner from "@/components/widgets/StampDesigner/StampDesigner";
 
-export type LocalityServiceType = "klucze" | "pieczatki";
+export type LocalityServiceType = "klucze" | "pieczatki" | "piloty";
 
 const DEFAULT_DELIVERY_TIME_HOURS = 2;
 const DEFAULT_MIN_KEYS_QTY = 3;
 const DEFAULT_MIN_STAMP_ORDER_VALUE = 100;
+const REMOTE_CODING_PRICE = 199;
 
 const SERVICE_COPY: Record<
 	LocalityServiceType,
@@ -46,6 +47,17 @@ const SERVICE_COPY: Record<
 		widgetTitle: "Zaprojektuj pieczątkę online",
 		widgetIntro:
 			"Zbuduj treść pieczątki linia po linii i wyślij projekt do wyceny — bez wychodzenia z domu.",
+	},
+	piloty: {
+		parentSlug: "mobilne-kodowanie-pilotow-do-bram",
+		parentLabel: "Kodowanie pilotów do bram",
+		siblingSlug: "mobilne-dorabianie-kluczy",
+		siblingLabel: "Mobilne dorabianie kluczy",
+		h1: (locality) => `Kodowanie pilota do bramy z dojazdem — ${locality}`,
+		heroVerb: "koduję piloty do bram",
+		widgetTitle: "Jak zamówić kodowanie pilota?",
+		widgetIntro:
+			"Zadzwoń lub napisz, jaki masz odbiornik bramy — dobierzemy pasujący pilot i umówimy dojazd.",
 	},
 };
 
@@ -122,7 +134,7 @@ export const LocalityServicePage = ({
 					sprawdzasz efekt, zanim zapłacisz. Płatność dopiero po wykonaniu, gotówką lub kartą. Nie
 					musisz nigdzie jechać ani tracić czasu na szukanie punktu stacjonarnego.
 				</p>
-				{serviceType === "klucze" ? (
+				{serviceType === "klucze" && (
 					<p className="text-sm leading-relaxed text-gray-700">
 						Dorabiam zarówno klucze mieszkaniowe (do drzwi, piwnic, skrzynek pocztowych), jak i
 						samochodowe — w tym z transponderem. Jeśli potrzebujesz też{" "}
@@ -135,10 +147,18 @@ export const LocalityServicePage = ({
 						</Link>
 						, wykonuję to tym samym przyjazdem.
 					</p>
-				) : (
+				)}
+				{serviceType === "pieczatki" && (
 					<p className="text-sm leading-relaxed text-gray-700">
 						Wykonuję pieczątki firmowe, imienne oraz personalizowane — treść możesz zaprojektować
 						wcześniej online (widget poniżej) albo ustalić na miejscu, przy dojeździe.
+					</p>
+				)}
+				{serviceType === "piloty" && (
+					<p className="text-sm leading-relaxed text-gray-700">
+						Koduję nowe piloty do bram wjazdowych, garażowych i szlabanów — usługa kompleksowa:
+						nowy pilot + kodowanie do Twojego odbiornika + dojazd w cenie {REMOTE_CODING_PRICE} zł.
+						Wystarczy podać markę i model odbiornika bramy — dobieram pasujący pilot przed przyjazdem.
 					</p>
 				)}
 			</section>
@@ -146,11 +166,12 @@ export const LocalityServicePage = ({
 			<section className="mt-8 rounded-lg border border-gray-200 p-6 sm:p-8">
 				<h2 className="mb-1 text-xl font-semibold sm:text-2xl">{copy.widgetTitle}</h2>
 				<p className="mb-5 text-sm text-gray-600">{copy.widgetIntro}</p>
-				{serviceType === "klucze" ? <KeyPhotoInquiry /> : <StampDesigner variant="embedded" />}
+				{serviceType === "klucze" && <KeyPhotoInquiry />}
+				{serviceType === "pieczatki" && <StampDesigner variant="embedded" />}
 			</section>
 
 			<MobileServiceContactBar
-				title={`Zamów ${serviceType === "klucze" ? "dorobienie kluczy" : "pieczątkę"} z dojazdem do: ${locality.name}`}
+				title={`Zamów ${serviceType === "klucze" ? "dorobienie kluczy" : serviceType === "pieczatki" ? "pieczątkę" : "kodowanie pilota"} z dojazdem do: ${locality.name}`}
 				phoneNumber={settings?.phone_number}
 				whatsappUrl={settings?.whatsapp_url}
 				messengerUrl={settings?.messenger_url}
@@ -159,7 +180,11 @@ export const LocalityServicePage = ({
 			{products.length > 0 && (
 				<section className="mt-8">
 					<h2 className="mb-5 text-xl font-semibold sm:text-2xl">
-						{serviceType === "klucze" ? "Jakie klucze dorabiamy z dojazdem" : "Pieczątki — wybierz rodzaj"}
+						{serviceType === "klucze"
+							? "Jakie klucze dorabiamy z dojazdem"
+							: serviceType === "pieczatki"
+								? "Pieczątki — wybierz rodzaj"
+								: "Piloty, które kodujemy z dojazdem"}
 					</h2>
 					<div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
 						{products.map((product) => (
@@ -178,17 +203,27 @@ export const LocalityServicePage = ({
 			)}
 
 			<section className="mt-8 rounded-lg bg-gray-100 p-6 sm:p-8">
-				<h2 className="mb-1 text-xl font-semibold sm:text-2xl">Minimum logistyczne na dojazd</h2>
+				<h2 className="mb-1 text-xl font-semibold sm:text-2xl">
+					{serviceType === "piloty" ? "Cena usługi" : "Minimum logistyczne na dojazd"}
+				</h2>
 				<p className="text-sm leading-relaxed text-gray-600">
-					{serviceType === "klucze" ? (
+					{serviceType === "klucze" && (
 						<>
 							Dojazd do {locality.name} bez dodatkowej opłaty przy zamówieniu od {minKeysQty} szt.
 							kluczy — przy mniejszej liczbie doliczamy opłatę logistyczną, zapytaj przy zgłoszeniu.
 						</>
-					) : (
+					)}
+					{serviceType === "pieczatki" && (
 						<>
 							Dojazd do {locality.name} bez dodatkowej opłaty przy zamówieniu od{" "}
 							{formatMoney(minStampOrderValue)} — poniżej tej kwoty doliczamy opłatę za dojazd.
+						</>
+					)}
+					{serviceType === "piloty" && (
+						<>
+							Kodowanie pilota z dojazdem do {locality.name} to stała cena{" "}
+							{formatMoney(REMOTE_CODING_PRICE)} — pilot, kodowanie do odbiornika i dojazd w jednej
+							cenie, bez ukrytych opłat.
 						</>
 					)}
 				</p>

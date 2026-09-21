@@ -24,6 +24,14 @@ export const MobileServicesMenuContent = ({ onNavigate }: MobileServicesMenuCont
 				<span className="text-xs text-gray-500">Ekspresowy wyrób z dostawą</span>
 			</Link>
 			<Link
+				href="/uslugi/mobilne-kodowanie-pilotow-do-bram"
+				onClick={onNavigate}
+				className="flex flex-col gap-0.5 rounded-md px-3 py-2.5 hover:bg-gray-100"
+			>
+				<span className="font-semibold text-gray-900">Piloty do bram z dojazdem</span>
+				<span className="text-xs text-gray-500">Kodowanie na miejscu, 199 zł</span>
+			</Link>
+			<Link
 				href="/zaprojektuj-pieczatke"
 				onClick={onNavigate}
 				className="mt-1 flex flex-col gap-0.5 rounded-md border-t border-gray-200 px-3 pb-2.5 pt-3 hover:bg-gray-100"

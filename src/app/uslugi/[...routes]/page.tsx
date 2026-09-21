@@ -30,6 +30,7 @@ const slugsToGenerate = [
 const LOCALITY_SERVICE_PREFIXES: Record<string, LocalityServiceType> = {
 	"mobilne-dorabianie-kluczy": "klucze",
 	"mobilne-wyrob-pieczatek": "pieczatki",
+	"mobilne-kodowanie-pilotow-do-bram": "piloty",
 };
 
 const parseLocalitySlug = (
@@ -74,11 +75,15 @@ export async function generateMetadata({
 			const title =
 				localityMatch.serviceType === "klucze"
 					? `Dorabianie kluczy z dojazdem — ${locality.name} | Kraków i okolice`
-					: `Mobilny wyrób pieczątek — dojazd do ${locality.name}`;
+					: localityMatch.serviceType === "pieczatki"
+						? `Mobilny wyrób pieczątek — dojazd do ${locality.name}`
+						: `Kodowanie pilota do bramy — dojazd do ${locality.name}`;
 			const description =
 				localityMatch.serviceType === "klucze"
 					? `Dorabianie kluczy mieszkaniowych i samochodowych z dojazdem do ${locality.name} (${locality.region_label}). Przyjeżdżam i wycinam klucz na miejscu.`
-					: `Mobilny wyrób pieczątek z dojazdem do ${locality.name} (${locality.region_label}). Projekt ustalisz online, pieczątkę dostarczam na miejscu.`;
+					: localityMatch.serviceType === "pieczatki"
+						? `Mobilny wyrób pieczątek z dojazdem do ${locality.name} (${locality.region_label}). Projekt ustalisz online, pieczątkę dostarczam na miejscu.`
+						: `Kodowanie pilota do bramy, szlabanu lub garażu z dojazdem do ${locality.name} (${locality.region_label}). Pilot + kodowanie + dojazd w cenie 199 zł.`;
 			const full_path = `/uslugi/${currentCategorySlug}`;
 
 			return {

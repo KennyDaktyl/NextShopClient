@@ -19,8 +19,8 @@ export const ServiceDetailsComponent = ({
 	return (
 		<div className="relative flex w-full min-w-full flex-wrap items-start justify-center rounded-lg bg-white shadow-lg">
 			<ButtonBack {...back_link} />
-			<div className="w-full">
-				<h1 className="tx:xl mb-2 w-full text-center font-bold uppercase sm:text-2xl">
+			<div className="w-full pt-12">
+				<h1 className="mb-2 w-full text-center text-xl font-bold uppercase sm:text-2xl">
 					{product.name}
 				</h1>
 			</div>

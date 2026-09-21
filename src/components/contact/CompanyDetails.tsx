@@ -37,7 +37,7 @@ export const CompanyDetails: React.FC = () => {
 					</li>
 					<li className="flex justify-between">
 						<span>Usługi na miejscu:</span>
-						<span>Proszę umówić wizytę telefonicznie/email (po 17tej)</span>
+						<span>Proszę umówić wizytę telefonicznie/email</span>
 					</li>
 					{/* <li className="flex justify-between">
 						<span>Niedziela:</span>
