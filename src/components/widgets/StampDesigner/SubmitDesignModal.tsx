@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { handleContactFormSubmission } from "@/app/(static-pages)/kontakt/actions";
 import { StampDesignerSubmitPayload } from "./types";
+import { renderStampToJpegDataUrl } from "./stampImageRenderer";
 
 const polishPhoneRegex = /^(\+48[\s-]?)?(\d[\s-]?){9}$/;
 
@@ -91,7 +92,11 @@ export const SubmitDesignModal = ({ open, onOpenChange, payload, onSubmit }: Sub
 					size: line.size,
 					bold: line.bold,
 					italic: line.italic,
+					align: line.align,
 				}));
+
+			const stampImageDataUrl = renderStampToJpegDataUrl(fullPayload.lines, fullPayload.shape);
+			const stampImage = stampImageDataUrl?.split(",")[1];
 
 			const result = await handleContactFormSubmission({
 				title: "Nowe zgłoszenie: projekt pieczątki",
@@ -99,6 +104,7 @@ export const SubmitDesignModal = ({ open, onOpenChange, payload, onSubmit }: Sub
 				message: messageLines.join("\n"),
 				phone: data.phone,
 				stampDesign,
+				stampImage,
 			});
 
 			if (result.success) {

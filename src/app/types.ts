@@ -389,6 +389,7 @@ export interface StampDesignLine {
 	size: number;
 	bold: boolean;
 	italic: boolean;
+	align: "left" | "center" | "right";
 }
 
 export interface SendEmailVariables {
@@ -397,6 +398,7 @@ export interface SendEmailVariables {
 	message: string;
 	phone?: string;
 	stamp_design?: StampDesignLine[];
+	stamp_image?: string;
 }
 
 export interface SendEmailResponse {

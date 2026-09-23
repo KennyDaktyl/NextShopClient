@@ -1,5 +1,6 @@
 export type StampFontKey = "arial" | "times" | "courier" | "georgia";
 export type StampShape = "rectangle" | "circle" | "oval";
+export type StampAlign = "left" | "center" | "right";
 
 export interface StampLine {
 	id: string;
@@ -8,6 +9,7 @@ export interface StampLine {
 	size: number;
 	bold: boolean;
 	italic: boolean;
+	align: StampAlign;
 }
 
 export const MAX_LINES = 8;
@@ -29,6 +31,12 @@ export const SHAPE_LABELS: Record<StampShape, string> = {
 	oval: "Owalna",
 };
 
+export const ALIGN_LABELS: Record<StampAlign, string> = {
+	left: "Do lewej",
+	center: "Do środka",
+	right: "Do prawej",
+};
+
 export const createEmptyLine = (): StampLine => ({
 	id:
 		typeof crypto !== "undefined" && "randomUUID" in crypto
@@ -39,6 +47,7 @@ export const createEmptyLine = (): StampLine => ({
 	size: 10,
 	bold: false,
 	italic: false,
+	align: "center",
 });
 
 export interface StampDesignerSubmitPayload {

@@ -102,6 +102,8 @@ export const StampPreview = ({ lines, shape }: StampPreviewProps) => {
 							key={line.id}
 							className="whitespace-nowrap leading-tight text-[#1e3a5f]"
 							style={{
+								width: "100%",
+								textAlign: line.align,
 								fontFamily: fontFamily[line.font],
 								fontSize: `${fontPx}px`,
 								fontWeight: line.bold ? 700 : 400,

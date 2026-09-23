@@ -1,7 +1,21 @@
-import { Trash2 } from "lucide-react";
+import { AlignCenter, AlignLeft, AlignRight, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import { FONT_LABELS, MAX_LINE_LENGTH, MAX_SIZE, MIN_SIZE, StampLine } from "./types";
+import {
+	ALIGN_LABELS,
+	FONT_LABELS,
+	MAX_LINE_LENGTH,
+	MAX_SIZE,
+	MIN_SIZE,
+	StampAlign,
+	StampLine,
+} from "./types";
+
+const ALIGN_ICONS: Record<StampAlign, typeof AlignLeft> = {
+	left: AlignLeft,
+	center: AlignCenter,
+	right: AlignRight,
+};
 
 interface StampLineRowProps {
 	line: StampLine;
@@ -88,6 +102,31 @@ export const StampLineRow = ({ line, index, canRemove, onChange, onRemove }: Sta
 				>
 					I
 				</button>
+
+				<div className="flex items-center gap-1 rounded-md border border-[#e5e7eb] p-0.5">
+					{(Object.keys(ALIGN_LABELS) as StampAlign[]).map((align) => {
+						const Icon = ALIGN_ICONS[align];
+						const isActive = line.align === align;
+						return (
+							<button
+								key={align}
+								type="button"
+								onClick={() => onChange(line.id, { align })}
+								aria-pressed={isActive}
+								aria-label={ALIGN_LABELS[align]}
+								title={ALIGN_LABELS[align]}
+								className={cn(
+									"flex h-7 w-7 items-center justify-center rounded transition",
+									isActive
+										? "bg-[#1f2937] text-white"
+										: "bg-white text-[#1f2937] hover:bg-[#f3f4f6]",
+								)}
+							>
+								<Icon className="h-4 w-4" aria-hidden="true" />
+							</button>
+						);
+					})}
+				</div>
 			</div>
 			<p className="mt-1 text-right text-xs text-[#6b7280]">
 				{line.text.length}/{MAX_LINE_LENGTH}

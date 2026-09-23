@@ -9,15 +9,17 @@ export const handleContactFormSubmission = async ({
 	message,
 	phone,
 	stampDesign,
+	stampImage,
 }: {
 	title: string;
 	email: string;
 	message: string;
 	phone?: string;
 	stampDesign?: StampDesignLine[];
+	stampImage?: string;
 }) => {
 	try {
-		const response = await sendContactEmail({ title, email, message, phone, stampDesign });
+		const response = await sendContactEmail({ title, email, message, phone, stampDesign, stampImage });
 
 		if ("message" in response) {
 			return { success: true, message: "Wiadomość wysłana pomyślnie!" };

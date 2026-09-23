@@ -7,6 +7,7 @@ export const sendContactEmail = async ({
 	message,
 	phone,
 	stampDesign,
+	stampImage,
 	token,
 }: {
 	title: string;
@@ -14,6 +15,7 @@ export const sendContactEmail = async ({
 	message: string;
 	phone?: string;
 	stampDesign?: StampDesignLine[];
+	stampImage?: string;
 	token?: string;
 }): Promise<SendEmailResponse | { status: number }> => {
 	const variables: SendEmailVariables = {
@@ -22,6 +24,7 @@ export const sendContactEmail = async ({
 		message,
 		...(phone && { phone }),
 		...(stampDesign && { stamp_design: stampDesign }),
+		...(stampImage && { stamp_image: stampImage }),
 	};
 
 	const query = "/api/front/contact-email";
