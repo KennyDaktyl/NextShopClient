@@ -1,7 +1,12 @@
 import { type SVGAttributes } from "react";
 import { ActiveLink } from "@/components/ui/atoms/ActiveLink";
+import { getFooterLinks } from "@/api/getFooterLinks";
 
-export function Footer() {
+export async function Footer() {
+	const footerLinks = await getFooterLinks();
+	const partnerLinks = footerLinks.filter((link) => link.link_type === "partner");
+	const authorLink = footerLinks.find((link) => link.link_type === "author");
+
 	return (
 		<footer className="flex w-full flex-wrap items-center justify-start bg-gray-100 p-6 text-neutral-800 md:py-12">
 			<div className="container mx-auto flex max-w-7xl flex-wrap justify-center gap-16 text-sm sm:justify-between">
@@ -175,41 +180,54 @@ export function Footer() {
 						</ul>
 					</section>
 				</nav>
-				<section
-					aria-labelledby="partner-sites"
-					className="mt-6 w-full border-t border-neutral-200 pt-6 text-center md:text-left"
-				>
-					<h3 id="partner-sites" className="mb-2 text-xs font-semibold text-neutral-400 uppercase">
-						Nasi partnerzy
-					</h3>
-					<ul role="list" className="flex flex-wrap justify-center gap-x-6 gap-y-1 md:justify-start">
-						<li>
-							<ActiveLink
-								role="link"
-								href="https://dowieziemycie.pl"
-								aria-label="Przejdź do dowieziemycie.pl — lokalny transport osób w okolicy Krakowa"
-								className="text-sm text-gray-500 hover:text-gray-900"
-							>
-								dowieziemycie.pl
-							</ActiveLink>
-						</li>
-						<li>
-							<ActiveLink
-								role="link"
-								href="https://transfer247.pl"
-								aria-label="Przejdź do transfer247.pl — transfery lotniskowe i wycieczki w Małopolsce"
-								className="text-sm text-gray-500 hover:text-gray-900"
-							>
-								transfer247.pl
-							</ActiveLink>
-						</li>
-					</ul>
-				</section>
+				{partnerLinks.length > 0 && (
+					<section
+						aria-labelledby="partner-sites"
+						className="mt-6 w-full border-t border-neutral-200 pt-6 text-center md:text-left"
+					>
+						<h3
+							id="partner-sites"
+							className="mb-2 text-xs font-semibold uppercase text-neutral-400"
+						>
+							Nasi partnerzy
+						</h3>
+						<ul
+							role="list"
+							className="flex flex-wrap justify-center gap-x-6 gap-y-1 md:justify-start"
+						>
+							{partnerLinks.map((link) => (
+								<li key={link.url}>
+									<ActiveLink
+										role="link"
+										href={link.url}
+										aria-label={link.description || `Przejdź do ${link.name}`}
+										className="text-sm text-gray-500 hover:text-gray-900"
+									>
+										{link.name}
+									</ActiveLink>
+								</li>
+							))}
+						</ul>
+					</section>
+				)}
 			</div>
 			<div className="container mx-auto mt-8 flex max-w-7xl flex-col items-center justify-between gap-4 text-sm text-neutral-500 md:flex-row">
 				<div>
 					<p>© 2024 Serwis w Rybnej.</p>
 					<p>Produkty i usługi. Lokalny przedsiębiorca.</p>
+					{authorLink && (
+						<p className="mt-1 text-xs text-neutral-400">
+							Twórca serwisu:{" "}
+							<ActiveLink
+								role="link"
+								href={authorLink.url}
+								aria-label={authorLink.description || `Przejdź do ${authorLink.name}`}
+								className="text-neutral-500 hover:text-gray-900"
+							>
+								{authorLink.name}
+							</ActiveLink>
+						</p>
+					)}
 				</div>
 				<div className="flex items-center gap-4">
 					<ActiveLink

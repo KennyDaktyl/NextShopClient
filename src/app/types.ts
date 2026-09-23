@@ -307,6 +307,13 @@ export interface ServiceLocality {
 	local_note: string;
 }
 
+export interface FooterLink {
+	name: string;
+	url: string;
+	description: string;
+	link_type: "partner" | "author";
+}
+
 export interface ImageItem {
 	id: number;
 	width: number;
