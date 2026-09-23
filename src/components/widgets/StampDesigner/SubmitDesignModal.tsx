@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { handleContactFormSubmission } from "@/app/(static-pages)/kontakt/actions";
-import { StampDesignerSubmitPayload } from "./types";
+import { COLOR_LABELS, StampDesignerSubmitPayload } from "./types";
 import { renderStampToJpegDataUrl } from "./stampImageRenderer";
 
 const polishPhoneRegex = /^(\+48[\s-]?)?(\d[\s-]?){9}$/;
@@ -81,6 +81,7 @@ export const SubmitDesignModal = ({ open, onOpenChange, payload, onSubmit }: Sub
 
 			const messageLines = [
 				`Zgłoszenie projektu pieczątki (źródło: ${fullPayload.source}).`,
+				`Kolor tuszu: ${COLOR_LABELS[fullPayload.color]}.`,
 				fullPayload.note ? `Uwagi: ${fullPayload.note}` : null,
 			].filter(Boolean);
 
@@ -95,7 +96,11 @@ export const SubmitDesignModal = ({ open, onOpenChange, payload, onSubmit }: Sub
 					align: line.align,
 				}));
 
-			const stampImageDataUrl = renderStampToJpegDataUrl(fullPayload.lines, fullPayload.shape);
+			const stampImageDataUrl = renderStampToJpegDataUrl(
+				fullPayload.lines,
+				fullPayload.shape,
+				fullPayload.color,
+			);
 			const stampImage = stampImageDataUrl?.split(",")[1];
 
 			const result = await handleContactFormSubmission({
@@ -105,6 +110,7 @@ export const SubmitDesignModal = ({ open, onOpenChange, payload, onSubmit }: Sub
 				phone: data.phone,
 				stampDesign,
 				stampImage,
+				stampColor: fullPayload.color,
 			});
 
 			if (result.success) {

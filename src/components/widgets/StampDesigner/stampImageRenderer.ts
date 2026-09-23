@@ -1,4 +1,4 @@
-import { StampLine, StampShape } from "./types";
+import { COLOR_HEX, StampColor, StampLine, StampShape } from "./types";
 import { fontFamily } from "./fonts";
 
 const RENDER_SCALE = 3;
@@ -49,8 +49,14 @@ const drawShapePath = (
  * Renders the stamp design onto an offscreen canvas using the same sizing
  * rules as the live preview, so the exported JPEG matches what the customer saw.
  */
-export const renderStampToJpegDataUrl = (lines: StampLine[], shape: StampShape): string | null => {
+export const renderStampToJpegDataUrl = (
+	lines: StampLine[],
+	shape: StampShape,
+	color: StampColor,
+): string | null => {
 	if (typeof document === "undefined") return null;
+
+	const inkColor = COLOR_HEX[color];
 
 	const visibleLines = lines.filter((line) => line.text.trim().length > 0);
 	if (visibleLines.length === 0) return null;
@@ -95,7 +101,7 @@ export const renderStampToJpegDataUrl = (lines: StampLine[], shape: StampShape):
 	ctx.fillStyle = "#ffffff";
 	ctx.fill();
 	ctx.lineWidth = 2 * RENDER_SCALE;
-	ctx.strokeStyle = "#1e3a5f";
+	ctx.strokeStyle = inkColor;
 	ctx.stroke();
 
 	ctx.save();
@@ -112,7 +118,7 @@ export const renderStampToJpegDataUrl = (lines: StampLine[], shape: StampShape):
 
 	metrics.forEach(({ line, fontPx }) => {
 		ctx.font = buildFontString(line, fontPx);
-		ctx.fillStyle = "#1e3a5f";
+		ctx.fillStyle = inkColor;
 		ctx.textBaseline = "middle";
 		if (line.align === "left") {
 			ctx.textAlign = "left";

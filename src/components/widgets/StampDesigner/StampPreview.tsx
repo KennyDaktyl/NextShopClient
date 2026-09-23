@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { StampLine, StampShape } from "./types";
+import { COLOR_HEX, StampColor, StampLine, StampShape } from "./types";
 import { fontFamily } from "./fonts";
 
 const sizeToPx = (size: number) => {
@@ -46,9 +46,11 @@ interface LineMetrics {
 interface StampPreviewProps {
 	lines: StampLine[];
 	shape: StampShape;
+	color: StampColor;
 }
 
-export const StampPreview = ({ lines, shape }: StampPreviewProps) => {
+export const StampPreview = ({ lines, shape, color }: StampPreviewProps) => {
+	const colorHex = COLOR_HEX[color];
 	const [containerWidth, setContainerWidth] = useState(MIN_PREVIEW_WIDTH);
 	const [metrics, setMetrics] = useState<LineMetrics[]>([]);
 
@@ -91,19 +93,20 @@ export const StampPreview = ({ lines, shape }: StampPreviewProps) => {
 		<div className="flex flex-col items-center gap-3 rounded-lg bg-[#f3f4f6] p-6">
 			<div
 				className={cn(
-					"flex flex-col items-center justify-center gap-1 overflow-hidden border-2 border-[#1e3a5f] bg-white p-6 shadow-md",
+					"flex flex-col items-center justify-center gap-1 overflow-hidden bg-white p-6 shadow-md",
 					shapeClassName[shape],
 				)}
-				style={{ width: containerWidth }}
+				style={{ width: containerWidth, borderWidth: 2, borderStyle: "solid", borderColor: colorHex }}
 			>
 				{hasContent ? (
 					metrics.map(({ line, fontPx }) => (
 						<p
 							key={line.id}
-							className="whitespace-nowrap leading-tight text-[#1e3a5f]"
+							className="whitespace-nowrap leading-tight"
 							style={{
 								width: "100%",
 								textAlign: line.align,
+								color: colorHex,
 								fontFamily: fontFamily[line.font],
 								fontSize: `${fontPx}px`,
 								fontWeight: line.bold ? 700 : 400,

@@ -399,6 +399,7 @@ export interface SendEmailVariables {
 	phone?: string;
 	stamp_design?: StampDesignLine[];
 	stamp_image?: string;
+	stamp_color?: string;
 }
 
 export interface SendEmailResponse {

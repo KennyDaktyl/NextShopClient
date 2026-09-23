@@ -1,6 +1,7 @@
 export type StampFontKey = "arial" | "times" | "courier" | "georgia";
 export type StampShape = "rectangle" | "circle" | "oval";
 export type StampAlign = "left" | "center" | "right";
+export type StampColor = "black" | "red" | "green" | "blue";
 
 export interface StampLine {
 	id: string;
@@ -37,6 +38,20 @@ export const ALIGN_LABELS: Record<StampAlign, string> = {
 	right: "Do prawej",
 };
 
+export const COLOR_LABELS: Record<StampColor, string> = {
+	black: "Czarny",
+	red: "Czerwony",
+	green: "Zielony",
+	blue: "Niebieski",
+};
+
+export const COLOR_HEX: Record<StampColor, string> = {
+	black: "#1a1a1a",
+	red: "#c81e1e",
+	green: "#15803d",
+	blue: "#1d4ed8",
+};
+
 export const createEmptyLine = (): StampLine => ({
 	id:
 		typeof crypto !== "undefined" && "randomUUID" in crypto
@@ -56,5 +71,6 @@ export interface StampDesignerSubmitPayload {
 	note: string;
 	lines: StampLine[];
 	shape: StampShape;
+	color: StampColor;
 	source: "embedded" | "page";
 }

@@ -10,6 +10,7 @@ export const handleContactFormSubmission = async ({
 	phone,
 	stampDesign,
 	stampImage,
+	stampColor,
 }: {
 	title: string;
 	email: string;
@@ -17,9 +18,18 @@ export const handleContactFormSubmission = async ({
 	phone?: string;
 	stampDesign?: StampDesignLine[];
 	stampImage?: string;
+	stampColor?: string;
 }) => {
 	try {
-		const response = await sendContactEmail({ title, email, message, phone, stampDesign, stampImage });
+		const response = await sendContactEmail({
+			title,
+			email,
+			message,
+			phone,
+			stampDesign,
+			stampImage,
+			stampColor,
+		});
 
 		if ("message" in response) {
 			return { success: true, message: "Wiadomość wysłana pomyślnie!" };

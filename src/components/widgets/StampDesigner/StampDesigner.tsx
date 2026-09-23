@@ -9,10 +9,12 @@ import StampLineRow from "./StampLineRow";
 import StampPreview from "./StampPreview";
 import SubmitDesignModal from "./SubmitDesignModal";
 import {
+	COLOR_LABELS,
 	createEmptyLine,
 	MAX_LINES,
 	MIN_LINES,
 	SHAPE_LABELS,
+	StampColor,
 	StampDesignerSubmitPayload,
 	StampLine,
 	StampShape,
@@ -26,6 +28,7 @@ interface StampDesignerProps {
 export const StampDesigner = ({ variant = "embedded", onSubmit }: StampDesignerProps) => {
 	const [lines, setLines] = useState<StampLine[]>([createEmptyLine()]);
 	const [shape, setShape] = useState<StampShape>("rectangle");
+	const [color, setColor] = useState<StampColor>("black");
 	const [modalOpen, setModalOpen] = useState(false);
 
 	const updateLine = (id: string, patch: Partial<StampLine>) => {
@@ -55,6 +58,21 @@ export const StampDesigner = ({ variant = "embedded", onSubmit }: StampDesignerP
 							className="rounded-md border border-[#e5e7eb] bg-white px-2 py-1.5 text-sm text-[#1f2937]"
 						>
 							{Object.entries(SHAPE_LABELS).map(([key, label]) => (
+								<option key={key} value={key}>
+									{label}
+								</option>
+							))}
+						</select>
+					</div>
+
+					<div className="mb-3 flex items-center justify-between">
+						<Label className="text-sm font-semibold text-[#1f2937]">Kolor tuszu</Label>
+						<select
+							value={color}
+							onChange={(e) => setColor(e.target.value as StampColor)}
+							className="rounded-md border border-[#e5e7eb] bg-white px-2 py-1.5 text-sm text-[#1f2937]"
+						>
+							{Object.entries(COLOR_LABELS).map(([key, label]) => (
 								<option key={key} value={key}>
 									{label}
 								</option>
@@ -96,7 +114,7 @@ export const StampDesigner = ({ variant = "embedded", onSubmit }: StampDesignerP
 				</div>
 
 				<div>
-					<StampPreview lines={lines} shape={shape} />
+					<StampPreview lines={lines} shape={shape} color={color} />
 					<Button
 						type="button"
 						className="mt-4 w-full"
@@ -111,7 +129,7 @@ export const StampDesigner = ({ variant = "embedded", onSubmit }: StampDesignerP
 			<SubmitDesignModal
 				open={modalOpen}
 				onOpenChange={setModalOpen}
-				payload={{ lines, shape, source: variant }}
+				payload={{ lines, shape, color, source: variant }}
 				onSubmit={onSubmit}
 			/>
 		</div>
