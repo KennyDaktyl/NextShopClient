@@ -37,7 +37,7 @@ const nextConfig = {
 				  img-src 'self' data: https://geowidget.inpost.pl; 
 				  font-src 'self' https://fonts.gstatic.com; 
 				  connect-src 'self' https://serwiswrybnej.pl https://api.serwiswrybnej.pl http://127.0.0.1:8000 https://geowidget.inpost.pl https://region1.google-analytics.com https://www.google-analytics.com; 
-				  frame-src 'self' https://geowidget.inpost.pl https://geowidget-app.inpost.pl https://www.google.com https://www.google.com/maps/embed https://miktel.krakow.pl;
+				  frame-src 'self' https://geowidget.inpost.pl https://geowidget-app.inpost.pl https://www.google.com https://www.google.com/maps/embed https://miktel.krakow.pl https://www.facebook.com https://web.facebook.com;
 				  `
 							.replace(/\s{2,}/g, " ")
 							.trim(),
