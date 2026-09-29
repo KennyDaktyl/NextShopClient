@@ -46,15 +46,6 @@ export async function Footer() {
 									Klucze
 								</ActiveLink>
 							</li>
-							<li>
-								<ActiveLink
-									role="link"
-									href={`/produkty/grawerowanie`}
-									aria-label="Zobacz grawerowanie"
-								>
-									Grawerowanie laserem CO2
-								</ActiveLink>
-							</li>
 						</ul>
 					</section>
 					<section aria-labelledby="service-offer">
