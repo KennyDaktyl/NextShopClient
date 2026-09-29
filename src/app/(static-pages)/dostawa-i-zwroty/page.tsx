@@ -8,7 +8,7 @@ export async function generateMetadata() {
 		alternates: {
 			canonical: "/dostawa-i-zwroty",
 		},
-		robots: "no-index, no-follow",
+		robots: "noindex, nofollow",
 	};
 }
 

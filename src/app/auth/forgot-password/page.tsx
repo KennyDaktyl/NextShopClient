@@ -5,7 +5,7 @@ export async function generateMetadata() {
 	return {
 		title: `Przypomnij hasło`,
 		description: "Przypomnij hasło",
-		robots: "no-index, no-follow",
+		robots: "noindex, nofollow",
 	};
 }
 

@@ -6,7 +6,6 @@ export const getServiceLocalities = async (): Promise<ServiceLocality[]> => {
 		const response = await fetchGetApiData<ServiceLocality[], {}>({
 			query: `/api/categories/service-localities/`,
 			variables: {},
-			cache: "force-cache",
 			next: { tags: ["service-localities"], revalidate: 3600 },
 		});
 		if (!Array.isArray(response)) {

@@ -46,7 +46,7 @@ export const fetchGetApiData = async <TResult, TVariables extends Record<string,
 	const res = await fetch(url.toString(), {
 		method: "GET",
 		headers,
-		cache,
+		...(cache !== "default" && { cache }),
 		...(next && { next }),
 	});
 

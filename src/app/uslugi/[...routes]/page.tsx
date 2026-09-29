@@ -1,4 +1,5 @@
 import type { Metadata, ResolvingMetadata } from "next";
+import Link from "next/link";
 import CategoryLayout from "@/app/produkty/layout";
 import SideBar from "@/components/ui/organism/SideBar";
 import CategoryDetails from "@/components/category/CategoryDetails";
@@ -16,9 +17,11 @@ import {
 } from "@/components/seo/LdJson";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import LocalityServicePage, {
 	LocalityServiceType,
 } from "@/components/mobile-services/LocalityServicePage";
+import CityDeliveryIllustration from "@/components/mobile-services/CityDeliveryIllustration";
 
 const slugsToGenerate = [
 	"dorabianie-kluczy-mieszkaniowych",
@@ -26,6 +29,12 @@ const slugsToGenerate = [
 	"programowanie-kluczy-samochodowych",
 	"kopiowanie-immobilizerow",
 ];
+
+const MOBILE_KEY_CUTTING_CTA_SLUGS = [
+	"dorabianie-kluczy-mieszkaniowych",
+	"klucze-samochodowe",
+];
+const MOBILE_KEY_CUTTING_HREF = "/uslugi/mobilne-dorabianie-kluczy";
 
 const LOCALITY_SERVICE_PREFIXES: Record<string, LocalityServiceType> = {
 	"mobilne-dorabianie-kluczy": "klucze",
@@ -225,6 +234,34 @@ export default async function Page({
 			<CategoryLayout>
 				<SideBar menuItems={menuItems} isMenuActive={false} />
 				<CategoryDetails category={category} />
+				{MOBILE_KEY_CUTTING_CTA_SLUGS.includes(currentCategorySlug) && (
+					<section className="mb-5 mt-6 grid w-full grid-cols-1 items-center gap-5 rounded-md border border-gray-200 bg-white p-5 shadow-sm md:grid-cols-[1.3fr_0.7fr] md:p-7">
+						<div>
+							<p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
+								Nowa usługa z dojazdem
+							</p>
+							<h2 className="mb-3 text-xl font-bold leading-tight md:text-2xl">
+								Dorabianie kluczy u klienta, bez wizyty w punkcie
+							</h2>
+							<p className="mb-5 text-sm leading-6 text-gray-700">
+								Jeśli nie możesz przyjechać do Rybnej, mogę dojechać pod wskazany adres z
+								przenośnym sprzętem i dorobić klucze na miejscu. Usługa obejmuje klucze
+								mieszkaniowe, do skrzynek, piwnic i wybrane klucze samochodowe w Krakowie
+								oraz okolicach.
+							</p>
+							<Link
+								href={MOBILE_KEY_CUTTING_HREF}
+								className="inline-flex items-center gap-2 rounded-md bg-gray-800 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-900"
+							>
+								Sprawdź mobilne dorabianie kluczy
+								<ArrowRight className="h-4 w-4" aria-hidden="true" />
+							</Link>
+						</div>
+						<div className="h-44 md:h-52">
+							<CityDeliveryIllustration />
+						</div>
+					</section>
+				)}
 				<JsonLd jsonLd={generateCategoryJsonLd(category)} />
 				<JsonLd
 					jsonLd={mappedMenuItemsToJsonLd(menuItems.items, category.name, category.full_path)}
@@ -247,6 +284,7 @@ export default async function Page({
 			const totalPages: number = Math.ceil(productsResponse.count / 20);
 			const nextPage: string | null = productsResponse.next;
 			const prevPage: string | null = productsResponse.previous;
+			const showMobileKeyCuttingCta = MOBILE_KEY_CUTTING_CTA_SLUGS.includes(currentCategorySlug);
 
 			return (
 				<CategoryLayout>
@@ -275,6 +313,35 @@ export default async function Page({
 								</div>
 							)}
 						</div>
+
+						{showMobileKeyCuttingCta && (
+							<section className="mt-6 grid w-full grid-cols-1 items-center gap-5 rounded-md border border-gray-200 bg-white p-5 shadow-sm md:grid-cols-[1.3fr_0.7fr] md:p-7">
+								<div>
+									<p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
+										Nowa usługa z dojazdem
+									</p>
+									<h2 className="mb-3 text-xl font-bold leading-tight md:text-2xl">
+										Dorabianie kluczy u klienta, bez wizyty w punkcie
+									</h2>
+									<p className="mb-5 text-sm leading-6 text-gray-700">
+										Jeśli nie możesz przyjechać do Rybnej, mogę dojechać pod wskazany adres z
+										przenośnym sprzętem i dorobić klucze na miejscu. Usługa obejmuje klucze
+										mieszkaniowe, do skrzynek, piwnic i wybrane klucze samochodowe w Krakowie
+										oraz okolicach.
+									</p>
+									<Link
+										href={MOBILE_KEY_CUTTING_HREF}
+										className="inline-flex items-center gap-2 rounded-md bg-gray-800 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-900"
+									>
+										Sprawdź mobilne dorabianie kluczy
+										<ArrowRight className="h-4 w-4" aria-hidden="true" />
+									</Link>
+								</div>
+								<div className="h-44 md:h-52">
+									<CityDeliveryIllustration />
+								</div>
+							</section>
+						)}
 
 						<ProductListPage
 							products={products}

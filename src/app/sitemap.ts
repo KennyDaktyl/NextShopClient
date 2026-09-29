@@ -18,21 +18,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const products = (await getProductsPath()) as ProductPath[] | [];
 	const localities = await getServiceLocalities();
 
-	console.log("articles", articles);
-
 	const publicUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 	const staticRoutes = [
 		{
 			url: `${publicUrl}`,
-			lastModified: formatDate("2024-09-18"),
-		},
-		{
-			url: `${publicUrl}/szukaj`,
-			lastModified: formatDate("2024-09-18"),
-		},
-		{
-			url: `${publicUrl}/koszyk`,
 			lastModified: formatDate("2024-09-18"),
 		},
 		{
@@ -42,18 +32,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 		{
 			url: `${publicUrl}/blog`,
 			lastModified: formatDate("2024-09-18"),
-		},
-		{
-			url: `${publicUrl}/regulamin`,
-			lastModified: formatDate("2024-09-18"),
-		},
-		{
-			url: `${publicUrl}/polityka-prywatnosci`,
-			lastModified: formatDate("2024-09-18"),
-		},
-		{
-			url: `${publicUrl}/dostawa-i-zwroty`,
-			lastModified: formatDate("2024-10-09"),
 		},
 		{
 			url: `${publicUrl}/wysylka-i-uslugi-na-miejscu-w-rybnej`,

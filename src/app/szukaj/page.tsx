@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 	title: "Serwis w Rybnej. Szukaj produktów",
 	description: "Serwis w Rybnej. Strona wyszukiwania produktów",
 	metadataBase: new URL(`${process.env.NEXT_PUBLIC_BASE_URL}`),
-	robots: "index, no-follow",
+	robots: "index, nofollow",
 };
 
 export default async function Page({
