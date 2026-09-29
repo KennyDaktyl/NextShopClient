@@ -9,7 +9,8 @@ import { generateCategoryJsonLd, JsonLd, mappedProductsToJsonLd } from "@/compon
 import MobileServiceAreaGrid, { AreaCard } from "@/components/mobile-services/MobileServiceAreaGrid";
 import MobileServiceContactBar from "@/components/mobile-services/MobileServiceContactBar";
 import MobileServiceCrossLink from "@/components/mobile-services/MobileServiceCrossLink";
-import { formatMoney } from "@/utils";
+import Image from "next/image";
+import { formatMoney, getProductImage, stripHtmlTags } from "@/utils";
 
 const CATEGORY_SLUG = "mobilne-kodowanie-pilotow-do-bram";
 const DEFAULT_DELIVERY_TIME_HOURS = 2;
@@ -157,17 +158,34 @@ export default async function MobileGateRemotesPage() {
 				<section className="mt-8">
 					<h2 className="mb-5 text-xl font-semibold sm:text-2xl">Piloty, które kodujemy z dojazdem</h2>
 					<div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-						{products.map((product) => (
-							<Link
-								key={product.id}
-								href={product.full_path}
-								className="rounded-lg border border-gray-200 p-5 shadow-sm transition hover:border-gray-300 hover:shadow-md"
-							>
-								<h3 className="mb-2 text-base font-semibold">{product.name}</h3>
-								<p className="mb-3 text-sm leading-relaxed text-gray-600">{product.description}</p>
-								<div className="text-sm font-bold">od {formatMoney(product.current_price)}</div>
-							</Link>
-						))}
+						{products.map((product) => {
+							const productImage = getProductImage(product, 350, 350);
+							return (
+								<Link
+									key={product.id}
+									href={product.full_path}
+									className="group flex flex-col overflow-hidden rounded-lg border border-gray-200 shadow-sm transition hover:border-gray-300 hover:shadow-md"
+								>
+									<div className="flex h-48 items-center justify-center bg-gray-50 p-4">
+										<Image
+											src={productImage.url}
+											alt={productImage.alt}
+											title={productImage.title}
+											width={productImage.width}
+											height={productImage.height}
+											className="h-full w-auto object-contain transition group-hover:scale-105"
+										/>
+									</div>
+									<div className="flex flex-1 flex-col p-5">
+										<h3 className="mb-2 text-base font-semibold">{product.name}</h3>
+										<p className="mb-3 line-clamp-3 text-sm leading-relaxed text-gray-600">
+											{stripHtmlTags(product.description)}
+										</p>
+										<div className="mt-auto text-sm font-bold">od {formatMoney(product.current_price)}</div>
+									</div>
+								</Link>
+							);
+						})}
 					</div>
 				</section>
 			)}
