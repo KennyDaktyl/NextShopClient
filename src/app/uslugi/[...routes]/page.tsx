@@ -396,6 +396,14 @@ const CarKeysMobileSection = ({ localities }: { localities: ServiceLocality[] })
 			>
 				Zadzwoń: 506 029 980
 			</a>
+			<a
+				href="https://wa.me/48506029980"
+				target="_blank"
+				rel="noopener noreferrer"
+				className="rounded-md bg-[#25D366] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#1ea952]"
+			>
+				WhatsApp
+			</a>
 			<Link
 				href={MOBILE_KEY_CUTTING_HREF}
 				className="inline-flex items-center gap-2 rounded-md border border-gray-300 px-5 py-3 text-sm font-semibold text-gray-800 transition hover:border-gray-400"
