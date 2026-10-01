@@ -22,6 +22,7 @@ import LocalityServicePage, {
 	LocalityServiceType,
 } from "@/components/mobile-services/LocalityServicePage";
 import CityDeliveryIllustration from "@/components/mobile-services/CityDeliveryIllustration";
+import { localityTo } from "@/utils";
 
 const slugsToGenerate = [
 	"dorabianie-kluczy-mieszkaniowych",
@@ -30,11 +31,9 @@ const slugsToGenerate = [
 	"kopiowanie-immobilizerow",
 ];
 
-const MOBILE_KEY_CUTTING_CTA_SLUGS = [
-	"dorabianie-kluczy-mieszkaniowych",
-	"klucze-samochodowe",
-];
+const MOBILE_KEY_CUTTING_CTA_SLUGS = ["dorabianie-kluczy-mieszkaniowych"];
 const MOBILE_KEY_CUTTING_HREF = "/uslugi/mobilne-dorabianie-kluczy";
+const CAR_KEYS_ROOT_SLUG = "klucze-samochodowe";
 
 const LOCALITY_SERVICE_PREFIXES: Record<string, LocalityServiceType> = {
 	"mobilne-dorabianie-kluczy": "klucze",
@@ -81,18 +80,19 @@ export async function generateMetadata({
 		const localities = await getServiceLocalities();
 		const locality = localities.find((l) => l.slug === localityMatch.localitySlug);
 		if (locality) {
+			const toLocality = localityTo(locality);
 			const title =
 				localityMatch.serviceType === "klucze"
-					? `Dorabianie kluczy z dojazdem — ${locality.name} | Kraków i okolice`
+					? `Dorabianie kluczy z dojazdem – ${locality.name} | Kraków`
 					: localityMatch.serviceType === "pieczatki"
-						? `Mobilny wyrób pieczątek — dojazd do ${locality.name}`
-						: `Kodowanie pilota do bramy — dojazd do ${locality.name}`;
+						? `Pieczątki z dojazdem – ${locality.name} | Kraków`
+						: `Pilot do bramy garażowej i wjazdowej – ${locality.name}`;
 			const description =
 				localityMatch.serviceType === "klucze"
-					? `Dorabianie kluczy mieszkaniowych i samochodowych z dojazdem do ${locality.name} (${locality.region_label}). Przyjeżdżam i wycinam klucz na miejscu.`
+					? `Dorabianie kluczy mieszkaniowych i samochodowych z dojazdem ${toLocality}. Przyjeżdżam z przenośnym sprzętem i wykonuję klucz na miejscu.`
 					: localityMatch.serviceType === "pieczatki"
-						? `Mobilny wyrób pieczątek z dojazdem do ${locality.name} (${locality.region_label}). Projekt ustalisz online, pieczątkę dostarczam na miejscu.`
-						: `Kodowanie pilota do bramy, szlabanu lub garażu z dojazdem do ${locality.name} (${locality.region_label}). Pilot + kodowanie + dojazd w cenie 199 zł.`;
+						? `Pieczątki firmowe i imienne z dojazdem ${toLocality}. Projekt ustalisz online, gotową pieczątkę dostarczam na miejsce.`
+						: `Nowy pilot do bramy garażowej lub wjazdowej z dojazdem ${toLocality}. Sprawdzam sterownik, dobieram pilota i programuję na miejscu – 199 zł.`;
 			const full_path = `/uslugi/${currentCategorySlug}`;
 
 			return {
@@ -222,6 +222,7 @@ export default async function Page({
 		meta_title: menuItems.meta_title || menuItems.name,
 		meta_description: menuItems.meta_description || menuItems.description,
 		name: menuItems.name,
+		h1_tag: menuItems.h1_tag || null,
 		description: menuItems.description || "",
 		seo_text: menuItems.seo_text || "",
 		image: menuItems.image || null,
@@ -229,11 +230,17 @@ export default async function Page({
 		full_path: menuItems.full_path,
 	};
 
+	const isCarKeysPage = (menuItems.full_path || "").includes(`/${CAR_KEYS_ROOT_SLUG}`);
+	const carKeysMobileSection = isCarKeysPage ? (
+		<CarKeysMobileSection localities={await getServiceLocalities()} />
+	) : null;
+
 	if (menuItems.has_children) {
 		return (
 			<CategoryLayout>
 				<SideBar menuItems={menuItems} isMenuActive={false} />
 				<CategoryDetails category={category} />
+				{carKeysMobileSection}
 				{MOBILE_KEY_CUTTING_CTA_SLUGS.includes(currentCategorySlug) && (
 					<section className="mb-5 mt-6 grid w-full grid-cols-1 items-center gap-5 rounded-md border border-gray-200 bg-white p-5 shadow-sm md:grid-cols-[1.3fr_0.7fr] md:p-7">
 						<div>
@@ -293,7 +300,7 @@ export default async function Page({
 						<div className="flex w-full flex-wrap items-center justify-center rounded-md bg-gray-100 shadow-md md:h-[350px]">
 							<div className="flex w-full items-center justify-center md:h-[350px] md:w-1/2">
 								<div className="flex flex-wrap items-center justify-start px-2 py-4">
-									<h1 className="w-full text-lg font-bold">{category.name}</h1>
+									<h1 className="w-full text-lg font-bold">{category.h1_tag || category.name}</h1>
 									<p className="mt-4 text-sm leading-6">{category.description}</p>
 								</div>
 							</div>
@@ -343,6 +350,8 @@ export default async function Page({
 							</section>
 						)}
 
+						{carKeysMobileSection}
+
 						<ProductListPage
 							products={products}
 							category={category}
@@ -365,3 +374,52 @@ export default async function Page({
 		}
 	}
 }
+
+const CarKeysMobileSection = ({ localities }: { localities: ServiceLocality[] }) => (
+	<section className="mt-6 w-full rounded-md border border-gray-200 bg-white p-5 shadow-sm md:p-7">
+		<p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
+			Usługa z dojazdem do klienta
+		</p>
+		<h2 className="mb-3 text-xl font-bold leading-tight md:text-2xl">
+			Klucze i piloty samochodowe z dojazdem — Kraków i okolice
+		</h2>
+		<p className="mb-4 text-sm leading-6 text-gray-700">
+			Nie musisz holować auta do serwisu. Przyjeżdżam pod dom, pracę lub na parking z urządzeniem
+			diagnostycznym, dorabiam klucz, programuję pilota albo kopiuję immobilizer na miejscu.
+			Płacisz dopiero po sprawdzeniu, że klucz otwiera auto i uruchamia silnik. Zadzwoń i podaj
+			markę, model oraz rocznik — przed przyjazdem potwierdzę, czy wykonam usługę.
+		</p>
+		<div className="mb-5 flex flex-wrap gap-3">
+			<a
+				href="tel:+48506029980"
+				className="rounded-md bg-gray-800 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-900"
+			>
+				Zadzwoń: 506 029 980
+			</a>
+			<Link
+				href={MOBILE_KEY_CUTTING_HREF}
+				className="inline-flex items-center gap-2 rounded-md border border-gray-300 px-5 py-3 text-sm font-semibold text-gray-800 transition hover:border-gray-400"
+			>
+				Dorabianie kluczy z dojazdem
+				<ArrowRight className="h-4 w-4" aria-hidden="true" />
+			</Link>
+		</div>
+		{localities.length > 0 && (
+			<>
+				<h3 className="mb-3 text-base font-semibold">Dojeżdżam m.in. do:</h3>
+				<ul className="flex flex-wrap gap-2">
+					{localities.map((locality) => (
+						<li key={locality.slug}>
+							<Link
+								href={`/uslugi/mobilne-dorabianie-kluczy-${locality.slug}`}
+								className="inline-block rounded-md bg-gray-100 px-3 py-1.5 text-sm text-gray-800 transition hover:bg-gray-200"
+							>
+								{locality.name}
+							</Link>
+						</li>
+					))}
+				</ul>
+			</>
+		)}
+	</section>
+);

@@ -257,7 +257,11 @@ export default async function MobileKeysPage() {
 				areas={areaCards}
 			/>
 
-			<MobileServiceCrossLink href="/uslugi/mobilne-wyrob-pieczatek" label="Mobilne pieczątki" />
+			<MobileServiceCrossLink
+				href="/uslugi/mobilne-kodowanie-pilotow-do-bram"
+				label="Piloty do bram garażowych i wjazdowych z dojazdem"
+			/>
+			<MobileServiceCrossLink href="/uslugi/mobilne-wyrob-pieczatek" label="Pieczątki z dojazdem" />
 
 			<JsonLd
 				jsonLd={generateCategoryJsonLd({

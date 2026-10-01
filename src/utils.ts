@@ -1,4 +1,4 @@
-import type { ProductListItem } from "@/app/types";
+import type { ProductListItem, ServiceLocality } from "@/app/types";
 
 export const formatMoney = (amount: number) => {
 	return new Intl.NumberFormat("pl-PL", {
@@ -122,3 +122,14 @@ export const trackViewItem = ({
 export const stripHtmlTags = (html: string): string => {
 	return html.replace(/<\/?[^>]+(>|$)/g, "");
 };
+
+/** Odmiana nazwy miejscowości z przyimkiem: „do Alwerni”, „na Krowodrzę”. */
+export const localityTo = (locality: ServiceLocality): string =>
+	locality.name_to || `do ${locality.name}`;
+
+/** Odmiana nazwy miejscowości z przyimkiem: „w Alwerni”, „na Krowodrzy”. */
+export const localityIn = (locality: ServiceLocality): string =>
+	locality.name_in || `w ${locality.name}`;
+
+export const capitalizeFirst = (text: string): string =>
+	text.charAt(0).toUpperCase() + text.slice(1);

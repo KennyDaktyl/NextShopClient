@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { formatMoney } from "@/utils";
+import { capitalizeFirst, formatMoney, localityIn, localityTo } from "@/utils";
 import { MenuItemsResponse, ProductListItem, ServiceLocality } from "@/app/types";
 import CityDeliveryIllustration from "@/components/mobile-services/CityDeliveryIllustration";
 import MobileServiceContactBar from "@/components/mobile-services/MobileServiceContactBar";
@@ -18,8 +18,7 @@ const SERVICE_COPY: Record<
 	{
 		parentSlug: string;
 		parentLabel: string;
-		siblingSlug: string;
-		siblingLabel: string;
+		siblings: { slug: string; label: string }[];
 		h1: (locality: string) => string;
 		heroVerb: string;
 		widgetTitle: string;
@@ -29,8 +28,10 @@ const SERVICE_COPY: Record<
 	klucze: {
 		parentSlug: "mobilne-dorabianie-kluczy",
 		parentLabel: "Mobilne dorabianie kluczy",
-		siblingSlug: "mobilne-wyrob-pieczatek",
-		siblingLabel: "Mobilne pieczątki",
+		siblings: [
+			{ slug: "mobilne-kodowanie-pilotow-do-bram", label: "Pilot do bramy z dojazdem" },
+			{ slug: "mobilne-wyrob-pieczatek", label: "Pieczątki z dojazdem" },
+		],
 		h1: (locality) => `Dorabianie kluczy z dojazdem — ${locality}`,
 		heroVerb: "dorabiam klucze",
 		widgetTitle: "Sprawdź, czy dorobimy Twój klucz",
@@ -40,9 +41,8 @@ const SERVICE_COPY: Record<
 	pieczatki: {
 		parentSlug: "mobilne-wyrob-pieczatek",
 		parentLabel: "Mobilne pieczątki",
-		siblingSlug: "mobilne-dorabianie-kluczy",
-		siblingLabel: "Mobilne dorabianie kluczy",
-		h1: (locality) => `Mobilny wyrób pieczątek — dojazd do: ${locality}`,
+		siblings: [{ slug: "mobilne-dorabianie-kluczy", label: "Dorabianie kluczy z dojazdem" }],
+		h1: (locality) => `Wyrób pieczątek z dojazdem — ${locality}`,
 		heroVerb: "wykonuję pieczątki",
 		widgetTitle: "Zaprojektuj pieczątkę online",
 		widgetIntro:
@@ -50,14 +50,13 @@ const SERVICE_COPY: Record<
 	},
 	piloty: {
 		parentSlug: "mobilne-kodowanie-pilotow-do-bram",
-		parentLabel: "Kodowanie pilotów do bram",
-		siblingSlug: "mobilne-dorabianie-kluczy",
-		siblingLabel: "Mobilne dorabianie kluczy",
-		h1: (locality) => `Kodowanie pilota do bramy z dojazdem — ${locality}`,
-		heroVerb: "koduję piloty do bram",
-		widgetTitle: "Jak zamówić kodowanie pilota?",
+		parentLabel: "Piloty do bram garażowych i wjazdowych",
+		siblings: [{ slug: "mobilne-dorabianie-kluczy", label: "Dorabianie kluczy z dojazdem" }],
+		h1: (locality) => `Pilot do bramy garażowej i wjazdowej z dojazdem — ${locality}`,
+		heroVerb: "dobieram i programuję piloty do bram garażowych i wjazdowych",
+		widgetTitle: "Jak zamówić nowego pilota do bramy?",
 		widgetIntro:
-			"Zadzwoń lub napisz, jaki masz odbiornik bramy — dobierzemy pasujący pilot i umówimy dojazd.",
+			"Zadzwoń lub napisz i podaj markę napędu bramy (naklejka na sterowniku albo zdjęcie starego pilota) — dobiorę pasujący pilot i umówimy dojazd.",
 	},
 };
 
@@ -77,6 +76,8 @@ export const LocalityServicePage = ({
 	products,
 }: LocalityServicePageProps) => {
 	const copy = SERVICE_COPY[serviceType];
+	const toLocality = localityTo(locality);
+	const inLocality = localityIn(locality);
 	const settings = menuItems.mobile_service_settings;
 	const deliveryTimeHours = settings?.delivery_time_hours ?? DEFAULT_DELIVERY_TIME_HOURS;
 	const deliveryTimeLabel = `${deliveryTimeHours} ${deliveryTimeHours === 1 ? "godziny" : "godzin"}`;
@@ -95,7 +96,7 @@ export const LocalityServicePage = ({
 							{copy.h1(locality.name)}
 						</h1>
 						<p className="mb-3 text-base leading-relaxed text-gray-700">
-							Na terenie miejscowości {locality.name} {copy.heroVerb} z dojazdem — przyjeżdżam pod
+							{capitalizeFirst(inLocality)} {copy.heroVerb} z dojazdem — przyjeżdżam pod
 							wskazany adres z pełnym, przenośnym wyposażeniem i wykonuję usługę na miejscu, bez
 							konieczności wizyty w punkcie stacjonarnym w Rybnej. Dojazd zajmuje zwykle do{" "}
 							{deliveryTimeLabel} od zgłoszenia.
@@ -126,11 +127,11 @@ export const LocalityServicePage = ({
 
 			<section className="mt-8 rounded-lg border border-gray-200 p-6 sm:p-8">
 				<h2 className="mb-4 text-xl font-semibold sm:text-2xl">
-					Jak działamy w {locality.name}?
+					Jak działam {inLocality}?
 				</h2>
 				<p className="mb-3 text-sm leading-relaxed text-gray-700">
 					Dzwonisz lub piszesz z zapytaniem, ustalamy dogodny termin, a ja osobiście przyjeżdżam pod
-					wskazany adres w {locality.name} z przenośnym sprzętem. Usługę wykonuję na Twoich oczach —
+					wskazany adres {inLocality} z przenośnym sprzętem. Usługę wykonuję na Twoich oczach —
 					sprawdzasz efekt, zanim zapłacisz. Płatność dopiero po wykonaniu, gotówką lub kartą. Nie
 					musisz nigdzie jechać ani tracić czasu na szukanie punktu stacjonarnego.
 				</p>
@@ -138,11 +139,14 @@ export const LocalityServicePage = ({
 					<p className="text-sm leading-relaxed text-gray-700">
 						Dorabiam zarówno klucze mieszkaniowe (do drzwi, piwnic, skrzynek pocztowych), jak i
 						samochodowe — w tym z transponderem. Jeśli potrzebujesz też{" "}
-						<Link href="/uslugi/programowanie-kluczy-samochodowych" className="underline">
+						<Link
+							href="/uslugi/klucze-samochodowe/programowanie-kluczy-samochodowych"
+							className="underline"
+						>
 							zaprogramowania pilota
 						</Link>{" "}
 						lub{" "}
-						<Link href="/uslugi/kopiowanie-immobilizerow" className="underline">
+						<Link href="/uslugi/klucze-samochodowe/kopiowanie-immobilizerow" className="underline">
 							skopiowania immobilizera
 						</Link>
 						, wykonuję to tym samym przyjazdem.
@@ -156,9 +160,12 @@ export const LocalityServicePage = ({
 				)}
 				{serviceType === "piloty" && (
 					<p className="text-sm leading-relaxed text-gray-700">
-						Koduję nowe piloty do bram wjazdowych, garażowych i szlabanów — usługa kompleksowa:
-						nowy pilot + kodowanie do Twojego odbiornika + dojazd w cenie {REMOTE_CODING_PRICE} zł.
-						Wystarczy podać markę i model odbiornika bramy — dobieram pasujący pilot przed przyjazdem.
+						Przyjeżdżam pod Twój dom, sprawdzam typ sterownika (odbiornika) bramy, dobieram nowy
+						pilot i programuję go na miejscu. Obsługuję bramy garażowe (segmentowe i uchylne), bramy
+						wjazdowe przesuwne i skrzydłowe oraz szlabany — m.in. napędy Hörmann, Nice, Came, FAAC,
+						BFT, Beninca i Somfy. Usługa kompleksowa: nowy pilot + programowanie + dojazd w cenie{" "}
+						{REMOTE_CODING_PRICE} zł. Zgubiony pilot? Jeśli sterownik na to pozwala, czyszczę jego
+						pamięć i programuję wszystkie piloty od nowa, żeby zgubiony przestał otwierać bramę.
 					</p>
 				)}
 			</section>
@@ -171,7 +178,7 @@ export const LocalityServicePage = ({
 			</section>
 
 			<MobileServiceContactBar
-				title={`Zamów ${serviceType === "klucze" ? "dorobienie kluczy" : serviceType === "pieczatki" ? "pieczątkę" : "kodowanie pilota"} z dojazdem do: ${locality.name}`}
+				title={`Zamów ${serviceType === "klucze" ? "dorobienie kluczy" : serviceType === "pieczatki" ? "pieczątkę" : "nowego pilota do bramy"} z dojazdem ${toLocality}`}
 				phoneNumber={settings?.phone_number}
 				whatsappUrl={settings?.whatsapp_url}
 				messengerUrl={settings?.messenger_url}
@@ -184,7 +191,7 @@ export const LocalityServicePage = ({
 							? "Jakie klucze dorabiamy z dojazdem"
 							: serviceType === "pieczatki"
 								? "Pieczątki — wybierz rodzaj"
-								: "Piloty, które kodujemy z dojazdem"}
+								: "Piloty do bram, które programuję z dojazdem"}
 					</h2>
 					<div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
 						{products.map((product) => (
@@ -209,19 +216,19 @@ export const LocalityServicePage = ({
 				<p className="text-sm leading-relaxed text-gray-600">
 					{serviceType === "klucze" && (
 						<>
-							Dojazd do {locality.name} bez dodatkowej opłaty przy zamówieniu od {minKeysQty} szt.
+							Dojazd {toLocality} bez dodatkowej opłaty przy zamówieniu od {minKeysQty} szt.
 							kluczy — przy mniejszej liczbie doliczamy opłatę logistyczną, zapytaj przy zgłoszeniu.
 						</>
 					)}
 					{serviceType === "pieczatki" && (
 						<>
-							Dojazd do {locality.name} bez dodatkowej opłaty przy zamówieniu od{" "}
+							Dojazd {toLocality} bez dodatkowej opłaty przy zamówieniu od{" "}
 							{formatMoney(minStampOrderValue)} — poniżej tej kwoty doliczamy opłatę za dojazd.
 						</>
 					)}
 					{serviceType === "piloty" && (
 						<>
-							Kodowanie pilota z dojazdem do {locality.name} to stała cena{" "}
+							Nowy pilot do bramy z dojazdem {toLocality} to stała cena{" "}
 							{formatMoney(REMOTE_CODING_PRICE)} — pilot, kodowanie do odbiornika i dojazd w jednej
 							cenie, bez ukrytych opłat.
 						</>
@@ -254,14 +261,20 @@ export const LocalityServicePage = ({
 					Zobacz pełną ofertę: <span className="font-semibold text-blue-600">{copy.parentLabel}</span>
 				</span>
 			</Link>
-			<Link
-				href={`/uslugi/${copy.siblingSlug}-${locality.slug}`}
-				className="mt-3 flex items-center justify-between rounded-lg border border-gray-200 p-4 transition hover:border-gray-300 hover:shadow-md"
-			>
-				<span className="text-sm font-medium sm:text-base">
-					Potrzebujesz też: <span className="font-semibold text-blue-600">{copy.siblingLabel} — {locality.name}</span>
-				</span>
-			</Link>
+			{copy.siblings.map((sibling) => (
+				<Link
+					key={sibling.slug}
+					href={`/uslugi/${sibling.slug}-${locality.slug}`}
+					className="mt-3 flex items-center justify-between rounded-lg border border-gray-200 p-4 transition hover:border-gray-300 hover:shadow-md"
+				>
+					<span className="text-sm font-medium sm:text-base">
+						Potrzebujesz też:{" "}
+						<span className="font-semibold text-blue-600">
+							{sibling.label} — {locality.name}
+						</span>
+					</span>
+				</Link>
+			))}
 		</div>
 	);
 };

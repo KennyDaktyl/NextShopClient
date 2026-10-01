@@ -13,7 +13,7 @@ export const HeroItem: React.FC<{ heroData: Hero; isFirst: boolean }> = ({ heroD
 			<div className={`flex items-center justify-center py-4 ${isFirst ? "md:w-1/2" : "md:w-1/2"}`}>
 				<div className="flex flex-wrap items-center justify-start px-2 py-4 md:px-4">
 					{isFirst ? (
-						<h1 className="w-full text-xl font-bold">{heroData.title}</h1>
+						<h2 className="w-full text-xl font-bold">{heroData.title}</h2>
 					) : (
 						<h2 className="w-full text-xl font-bold">{heroData.title}</h2>
 					)}

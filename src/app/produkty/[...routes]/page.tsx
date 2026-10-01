@@ -124,6 +124,7 @@ export default async function Page({
 		meta_title: menuItems.meta_title || menuItems.name,
 		meta_description: menuItems.meta_description || menuItems.description,
 		name: menuItems.name,
+		h1_tag: menuItems.h1_tag || null,
 		item_label: menuItems.item_label || menuItems.name,
 		description: menuItems.description || "",
 		seo_text: menuItems.seo_text || "",
@@ -192,7 +193,7 @@ export default async function Page({
 						<div className="flex w-full flex-wrap items-center justify-center rounded-md bg-gray-100 shadow-md md:h-[350px]">
 							<div className="flex w-full items-center justify-center md:h-[350px] md:w-1/2">
 								<div className="flex flex-wrap items-center justify-start px-2 py-4">
-									<h1 className="w-full text-lg font-bold">{category.name}</h1>
+									<h1 className="w-full text-lg font-bold">{category.h1_tag || category.name}</h1>
 									<p className="mt-4 text-sm leading-6">{category.description}</p>
 								</div>
 							</div>

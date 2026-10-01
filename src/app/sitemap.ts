@@ -5,7 +5,11 @@ import { getServiceLocalities } from "@/api/getServiceLocalities";
 import { ArticlePath, CategoryPath, ProductPath } from "@/app/types";
 import { MetadataRoute } from "next";
 
-const MOBILE_SERVICE_SLUGS = ["mobilne-dorabianie-kluczy", "mobilne-wyrob-pieczatek"];
+const MOBILE_SERVICE_SLUGS = [
+	"mobilne-dorabianie-kluczy",
+	"mobilne-wyrob-pieczatek",
+	"mobilne-kodowanie-pilotow-do-bram",
+];
 
 function formatDate(date: string | Date): string {
 	const d = new Date(date);
@@ -54,7 +58,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const localityRoutes = MOBILE_SERVICE_SLUGS.flatMap((parentSlug) =>
 		localities.map((locality) => ({
 			url: `${publicUrl}/uslugi/${parentSlug}-${locality.slug}`,
-			lastModified: formatDate("2026-07-15"),
+			lastModified: formatDate("2026-10-01"),
 		})),
 	);
 

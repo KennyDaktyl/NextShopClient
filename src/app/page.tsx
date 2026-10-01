@@ -14,16 +14,16 @@ import StampDesigner from "@/components/widgets/StampDesigner/StampDesigner";
 import KeyPhotoInquiry from "@/components/widgets/KeyPhotoInquiry/KeyPhotoInquiry";
 
 export const metadata: Metadata = {
-	title: "Pieczątki i Dorabianie Kluczy – Profesjonalny Serwis w Rybnej",
+	title: "Dorabianie kluczy, piloty do bram, pieczątki – Kraków, Rybna",
 	description:
-		"Specjalizujemy się w pieczątkach firmowych i dorabianiu kluczy. Szybka realizacja, konkurencyjne ceny, klucze do skrzynek energetycznych. Sprawdź nas!",
+		"Dorabianie kluczy, programowanie kluczy samochodowych, piloty do bram garażowych i pieczątki. Punkt w Rybnej i dojazd do klienta – Kraków i okolice.",
 	alternates: {
 		canonical: process.env.NEXT_PUBLIC_BASE_URL,
 	},
 	openGraph: {
-		title: "Pieczątki i Dorabianie Kluczy – Profesjonalny Serwis w Rybnej",
+		title: "Dorabianie kluczy, piloty do bram, pieczątki – Kraków, Rybna",
 		description:
-			"Specjalizujemy się w pieczątkach firmowych i dorabianiu kluczy. Szybka realizacja, konkurencyjne ceny, klucze do skrzynek energetycznych. Sprawdź nas!",
+			"Dorabianie kluczy, programowanie kluczy samochodowych, piloty do bram garażowych i pieczątki. Punkt w Rybnej i dojazd do klienta – Kraków i okolice.",
 		url: process.env.NEXT_PUBLIC_BASE_URL,
 		siteName: process.env.NEXT_PUBLIC_SITE_TITLE,
 		images: [
@@ -39,9 +39,9 @@ export const metadata: Metadata = {
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: "Pieczątki i Dorabianie Kluczy – Profesjonalny Serwis w Rybnej",
+		title: "Dorabianie kluczy, piloty do bram, pieczątki – Kraków, Rybna",
 		description:
-			"Specjalizujemy się w pieczątkach firmowych i dorabianiu kluczy. Szybka realizacja, konkurencyjne ceny, klucze do skrzynek energetycznych. Sprawdź nas!",
+			"Dorabianie kluczy, programowanie kluczy samochodowych, piloty do bram garażowych i pieczątki. Punkt w Rybnej i dojazd do klienta – Kraków i okolice.",
 		images: [
 			{
 				url: "https://api.serwiswrybnej.pl/media/thumbnails/dorabianie-kluczy-samochodowych-i-mieszkaniowych-szybko-i-profesjonalnie_650x650.webp",
@@ -83,12 +83,13 @@ export default async function Home() {
 						<span className="mb-4 inline-block animate-pulse rounded-full bg-blue-600 px-4 py-1.5 text-xs font-bold uppercase tracking-wide shadow-lg shadow-blue-600/50">
 							● Nowość
 						</span>
-						<h2 className="mb-3 text-2xl font-bold leading-tight sm:text-4xl">
-							Usługi mobilne — dojeżdżamy do Ciebie
-						</h2>
+						<h1 className="mb-3 text-2xl font-bold leading-tight sm:text-4xl">
+							Dorabianie kluczy, programowanie pilotów i piloty do bram z dojazdem — Kraków i okolice
+						</h1>
 						<p className="mb-4 max-w-xl text-sm leading-relaxed text-gray-300 sm:text-base">
-							Dorabianie kluczy, wyrób pieczątek i kodowanie pilotów do bram bez wizyty w punkcie w
-							Rybnej — dojeżdżamy do domu lub biura na terenie Krakowa i okolic w ciągu{" "}
+							Dorabianie kluczy mieszkaniowych i samochodowych, programowanie pilotów, nowe piloty do
+							bram garażowych i wjazdowych oraz wyrób pieczątek bez wizyty w punkcie w Rybnej —
+							dojeżdżamy do domu lub biura na terenie Krakowa i okolic w ciągu{" "}
 							{deliveryTimeHours} {deliveryTimeHours === 1 ? "godziny" : "godzin"} od zgłoszenia.
 						</p>
 						<p className="mb-6 inline-block rounded-md bg-blue-600/20 px-4 py-2 text-sm font-bold text-blue-300 sm:text-base">
@@ -111,7 +112,7 @@ export default async function Home() {
 								href="/uslugi/mobilne-kodowanie-pilotow-do-bram"
 								className="rounded-md bg-gray-800 px-6 py-3 text-sm font-semibold text-white transition hover:bg-gray-900"
 							>
-								Kodowanie pilotów do bram
+								Piloty do bram z dojazdem
 							</Link>
 						</div>
 						<p className="mt-3 text-xs text-gray-400">

@@ -57,6 +57,7 @@ export interface Category {
 
 export interface CategoryDetailsProps {
 	name: string;
+	h1_tag?: string | null;
 	meta_title: string | null;
 	meta_description: string | null;
 	description: string;
@@ -304,6 +305,8 @@ export interface ServiceLocality {
 	name: string;
 	slug: string;
 	region_label: string;
+	name_to?: string;
+	name_in?: string;
 	local_note: string;
 }
 
