@@ -201,9 +201,7 @@ export default async function Page({
 				? (productsResponse as ProductsResponse).results
 				: [];
 
-		const otherLocalities: ServiceLocality[] = localities.filter(
-			(l) => l.slug !== locality.slug,
-		);
+		const otherLocalities: ServiceLocality[] = localities.filter((l) => l.slug !== locality.slug);
 
 		return (
 			<LocalityServicePage
@@ -239,36 +237,38 @@ export default async function Page({
 		return (
 			<CategoryLayout>
 				<SideBar menuItems={menuItems} isMenuActive={false} />
-				<CategoryDetails category={category} />
-				{carKeysMobileSection}
-				{MOBILE_KEY_CUTTING_CTA_SLUGS.includes(currentCategorySlug) && (
-					<section className="mb-5 mt-6 grid w-full grid-cols-1 items-center gap-5 rounded-md border border-gray-200 bg-white p-5 shadow-sm md:grid-cols-[1.3fr_0.7fr] md:p-7">
-						<div>
-							<p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
-								Nowa usługa z dojazdem
-							</p>
-							<h2 className="mb-3 text-xl font-bold leading-tight md:text-2xl">
-								Dorabianie kluczy u klienta, bez wizyty w punkcie
-							</h2>
-							<p className="mb-5 text-sm leading-6 text-gray-700">
-								Jeśli nie możesz przyjechać do Rybnej, mogę dojechać pod wskazany adres z
-								przenośnym sprzętem i dorobić klucze na miejscu. Usługa obejmuje klucze
-								mieszkaniowe, do skrzynek, piwnic i wybrane klucze samochodowe w Krakowie
-								oraz okolicach.
-							</p>
-							<Link
-								href={MOBILE_KEY_CUTTING_HREF}
-								className="inline-flex items-center gap-2 rounded-md bg-gray-800 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-900"
-							>
-								Sprawdź mobilne dorabianie kluczy
-								<ArrowRight className="h-4 w-4" aria-hidden="true" />
-							</Link>
-						</div>
-						<div className="h-44 md:h-52">
-							<CityDeliveryIllustration />
-						</div>
-					</section>
-				)}
+				<div className="flex w-full flex-col">
+					<CategoryDetails category={category} />
+					{carKeysMobileSection}
+					{MOBILE_KEY_CUTTING_CTA_SLUGS.includes(currentCategorySlug) && (
+						<section className="mb-5 mt-6 grid w-full grid-cols-1 items-center gap-5 rounded-md border border-gray-200 bg-white p-5 shadow-sm md:grid-cols-[1.3fr_0.7fr] md:p-7">
+							<div>
+								<p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
+									Nowa usługa z dojazdem
+								</p>
+								<h2 className="mb-3 text-xl font-bold leading-tight md:text-2xl">
+									Dorabianie kluczy u klienta, bez wizyty w punkcie
+								</h2>
+								<p className="mb-5 text-sm leading-6 text-gray-700">
+									Jeśli nie możesz przyjechać do Rybnej, mogę dojechać pod wskazany adres z
+									przenośnym sprzętem i dorobić klucze na miejscu. Usługa obejmuje klucze
+									mieszkaniowe, do skrzynek, piwnic i wybrane klucze samochodowe w Krakowie oraz
+									okolicach.
+								</p>
+								<Link
+									href={MOBILE_KEY_CUTTING_HREF}
+									className="inline-flex items-center gap-2 rounded-md bg-gray-800 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-900"
+								>
+									Sprawdź mobilne dorabianie kluczy
+									<ArrowRight className="h-4 w-4" aria-hidden="true" />
+								</Link>
+							</div>
+							<div className="h-44 md:h-52">
+								<CityDeliveryIllustration />
+							</div>
+						</section>
+					)}
+				</div>
 				<JsonLd jsonLd={generateCategoryJsonLd(category)} />
 				<JsonLd
 					jsonLd={mappedMenuItemsToJsonLd(menuItems.items, category.name, category.full_path)}
@@ -333,8 +333,8 @@ export default async function Page({
 									<p className="mb-5 text-sm leading-6 text-gray-700">
 										Jeśli nie możesz przyjechać do Rybnej, mogę dojechać pod wskazany adres z
 										przenośnym sprzętem i dorobić klucze na miejscu. Usługa obejmuje klucze
-										mieszkaniowe, do skrzynek, piwnic i wybrane klucze samochodowe w Krakowie
-										oraz okolicach.
+										mieszkaniowe, do skrzynek, piwnic i wybrane klucze samochodowe w Krakowie oraz
+										okolicach.
 									</p>
 									<Link
 										href={MOBILE_KEY_CUTTING_HREF}
@@ -385,9 +385,9 @@ const CarKeysMobileSection = ({ localities }: { localities: ServiceLocality[] })
 		</h2>
 		<p className="mb-4 text-sm leading-6 text-gray-700">
 			Nie musisz holować auta do serwisu. Przyjeżdżam pod dom, pracę lub na parking z urządzeniem
-			diagnostycznym, dorabiam klucz, programuję pilota albo kopiuję immobilizer na miejscu.
-			Płacisz dopiero po sprawdzeniu, że klucz otwiera auto i uruchamia silnik. Zadzwoń i podaj
-			markę, model oraz rocznik — przed przyjazdem potwierdzę, czy wykonam usługę.
+			diagnostycznym, dorabiam klucz, programuję pilota albo kopiuję immobilizer na miejscu. Płacisz
+			dopiero po sprawdzeniu, że klucz otwiera auto i uruchamia silnik. Zadzwoń i podaj markę, model
+			oraz rocznik — przed przyjazdem potwierdzę, czy wykonam usługę.
 		</p>
 		<div className="mb-5 flex flex-wrap gap-3">
 			<a
