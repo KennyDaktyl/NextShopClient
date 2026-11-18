@@ -5,13 +5,13 @@ import CityDeliveryIllustration from "@/components/mobile-services/CityDeliveryI
 import MobileServiceContactBar from "@/components/mobile-services/MobileServiceContactBar";
 import KeyPhotoInquiry from "@/components/widgets/KeyPhotoInquiry/KeyPhotoInquiry";
 import StampDesigner from "@/components/widgets/StampDesigner/StampDesigner";
+import { REMOTE_CODING_PRICE } from "@/components/mobile-services/prices";
 
 export type LocalityServiceType = "klucze" | "pieczatki" | "piloty";
 
 const DEFAULT_DELIVERY_TIME_HOURS = 2;
 const DEFAULT_MIN_KEYS_QTY = 3;
 const DEFAULT_MIN_STAMP_ORDER_VALUE = 100;
-const REMOTE_CODING_PRICE = 199;
 
 const SERVICE_COPY: Record<
 	LocalityServiceType,

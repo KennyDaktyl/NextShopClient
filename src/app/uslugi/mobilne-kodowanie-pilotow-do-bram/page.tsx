@@ -9,13 +9,13 @@ import { generateCategoryJsonLd, JsonLd, mappedProductsToJsonLd } from "@/compon
 import MobileServiceAreaGrid, { AreaCard } from "@/components/mobile-services/MobileServiceAreaGrid";
 import MobileServiceContactBar from "@/components/mobile-services/MobileServiceContactBar";
 import MobileServiceCrossLink from "@/components/mobile-services/MobileServiceCrossLink";
+import { REMOTE_CODING_PRICE } from "@/components/mobile-services/prices";
 import Image from "next/image";
 import { formatMoney, getProductImage, localityIn, stripHtmlTags } from "@/utils";
 import { FAQPage, WithContext } from "schema-dts";
 
 const CATEGORY_SLUG = "mobilne-kodowanie-pilotow-do-bram";
 const DEFAULT_DELIVERY_TIME_HOURS = 2;
-const REMOTE_CODING_PRICE = 199;
 
 const FAQ_ITEMS: { question: string; answer: string }[] = [
 	{

@@ -1,4 +1,17 @@
-import { Thing, ItemList, Product, ListItem, AggregateRating, Article, Service } from "schema-dts";
+import {
+	Thing,
+	ItemList,
+	Product,
+	ListItem,
+	AggregateRating,
+	Article,
+	Service,
+	Graph,
+	Offer,
+	Place,
+	AdministrativeArea,
+	City,
+} from "schema-dts";
 import {
 	ArticleListItem,
 	ArticleResponse,
@@ -6,9 +19,11 @@ import {
 	MenuItem,
 	ProductDetails,
 	ProductListItem,
+	ServiceLocality,
 } from "@/app/types";
+import { REMOTE_CODING_PRICE } from "@/components/mobile-services/prices";
 
-export const JsonLd = <T extends Thing>({ jsonLd }: { jsonLd: WithContext<T> }) => {
+export const JsonLd = ({ jsonLd }: { jsonLd: WithContext<Thing> | Graph }) => {
 	return (
 		<script
 			type="application/ld+json"
@@ -114,14 +129,29 @@ export const generateCategoryJsonLd = (category: CategoryDetailsProps): WithCont
 	};
 };
 
-import { WithContext, WebSite, LocalBusiness } from "schema-dts";
+import { WithContext, WebSite, Locksmith } from "schema-dts";
 import { stripHtmlTags } from "@/utils";
 
-export const ownerWebsiteJsonLd = (): WithContext<WebSite | LocalBusiness> => {
-	const logoUrl = `${process.env.API_URL}/media/logo.webp`;
+const serviceOffer = (name: string, url: string, price: number): Offer => ({
+	"@type": "Offer",
+	itemOffered: {
+		"@type": "Service",
+		name,
+		url: `${process.env.NEXT_PUBLIC_BASE_URL}${url}`,
+	},
+	priceSpecification: {
+		"@type": "PriceSpecification",
+		price,
+		minPrice: price,
+		priceCurrency: "PLN",
+	},
+});
 
-	const websiteSchema: WithContext<WebSite> = {
-		"@context": "https://schema.org",
+export const ownerWebsiteJsonLd = (localities: readonly ServiceLocality[]): Graph => {
+	const logoUrl = `${process.env.API_URL}/media/logo.webp`;
+	const businessId = `${process.env.NEXT_PUBLIC_BASE_URL}/#firma`;
+
+	const websiteSchema: WebSite = {
 		"@type": "WebSite",
 		name: process.env.NEXT_PUBLIC_SITE_NAME ?? "",
 		url: process.env.NEXT_PUBLIC_BASE_URL ?? "",
@@ -138,28 +168,63 @@ export const ownerWebsiteJsonLd = (): WithContext<WebSite | LocalBusiness> => {
 				url: logoUrl,
 			},
 		}),
-		publisher: {
-			"@type": "Organization",
-			name: process.env.NEXT_PUBLIC_SITE_NAME ?? "",
-			url: process.env.NEXT_PUBLIC_BASE_URL ?? "",
-		},
+		publisher: { "@id": businessId },
 	};
 
-	const localBusinessSchema: WithContext<LocalBusiness> = {
-		"@context": "https://schema.org",
-		"@type": "LocalBusiness",
-		name: process.env.NEXT_PUBLIC_SITE_NAME ?? "",
+	const areaServed: (City | AdministrativeArea | Place)[] = [
+		{ "@type": "City", name: "Kraków" },
+		{ "@type": "AdministrativeArea", name: "Gmina Czernichów" },
+		...localities.map(
+			(locality): Place => ({
+				"@type": "Place",
+				name: locality.name,
+				containedInPlace: { "@type": "AdministrativeArea", name: locality.region_label },
+			}),
+		),
+	];
+
+	const sameAs = [
+		process.env.NEXT_PUBLIC_FACEBOOK_URL,
+		process.env.NEXT_PUBLIC_INSTAGRAM_URL,
+		process.env.NEXT_PUBLIC_GOOGLE_BUSINESS_URL,
+	].filter((url): url is string => Boolean(url));
+
+	const localBusiness: Locksmith = {
+		"@type": "Locksmith",
+		"@id": businessId,
+		name: "Serwis w Rybnej",
+		description:
+			"Dorabianie kluczy mieszkaniowych i samochodowych, programowanie i dorabianie pilotów do bram, wyrób pieczątek. Punkt w Rybnej (gmina Czernichów) lub dojazd do klienta – Kraków i okolice.",
 		image: logoUrl,
-		"@id": process.env.NEXT_PUBLIC_BASE_URL ?? "",
 		url: process.env.NEXT_PUBLIC_BASE_URL ?? "",
 		telephone: process.env.NEXT_PUBLIC_PHONE_NUMBER ?? "+48 506 029 980",
+		priceRange: "od 20 zł",
 		address: {
 			"@type": "PostalAddress",
-			streetAddress: process.env.NEXT_PUBLIC_STREET_ADDRESS ?? "Wspólna 2",
-			addressLocality: process.env.NEXT_PUBLIC_CITY ?? "Rybna",
-			addressRegion: process.env.NEXT_PUBLIC_REGION ?? "Małopolskie",
-			postalCode: process.env.NEXT_PUBLIC_POSTAL_CODE ?? "",
-			addressCountry: process.env.NEXT_PUBLIC_COUNTRY ?? "PL",
+			streetAddress: process.env.NEXT_PUBLIC_STREET_ADDRESS || "Wspólna 2",
+			addressLocality: process.env.NEXT_PUBLIC_CITY || "Rybna",
+			addressRegion: process.env.NEXT_PUBLIC_REGION || "Małopolskie",
+			postalCode: process.env.NEXT_PUBLIC_POSTAL_CODE || "32-061",
+			addressCountry: process.env.NEXT_PUBLIC_COUNTRY || "PL",
+		},
+		areaServed,
+		hasOfferCatalog: {
+			"@type": "OfferCatalog",
+			name: "Usługi",
+			itemListElement: [
+				serviceOffer("Dorabianie kluczy mieszkaniowych", "/uslugi/mobilne-dorabianie-kluczy", 20),
+				serviceOffer(
+					"Klucze samochodowe z immobilizerem",
+					"/uslugi/mobilne-dorabianie-kluczy",
+					180,
+				),
+				serviceOffer(
+					"Piloty do bram",
+					"/uslugi/mobilne-kodowanie-pilotow-do-bram",
+					REMOTE_CODING_PRICE,
+				),
+				serviceOffer("Wyrób pieczątek", "/uslugi/mobilne-wyrob-pieczatek", 45),
+			],
 		},
 		geo: {
 			"@type": "GeoCoordinates",
@@ -180,15 +245,18 @@ export const ownerWebsiteJsonLd = (): WithContext<WebSite | LocalBusiness> => {
 			// 	closes: "14:00",
 			// },
 		],
-		sameAs: [
-			process.env.NEXT_PUBLIC_FACEBOOK_URL ?? "",
-			process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? "",
-		],
+		...(sameAs.length > 0 && { sameAs }),
 	};
 
+	// schema-dts nie typuje wielu @type naraz – pola sprawdza typ Locksmith powyżej.
+	const localBusinessSchema = {
+		...localBusiness,
+		"@type": ["LocalBusiness", "Locksmith"],
+	} as unknown as Locksmith;
+
 	return {
-		...websiteSchema,
-		...localBusinessSchema,
+		"@context": "https://schema.org",
+		"@graph": [websiteSchema, localBusinessSchema],
 	};
 };
 

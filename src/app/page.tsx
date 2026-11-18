@@ -1,5 +1,6 @@
 import { getFirstPageData } from "@/api/getFirstPageData";
 import { getMenuItems } from "@/api/getMenuItems";
+import { getServiceLocalities } from "@/api/getServiceLocalities";
 import { FirstPageDataResponse } from "@/app/types";
 import ArticleList from "@/components/articles/ArticleList";
 import { CategoryListOnFirstPage } from "@/components/front/CategoryListOnFirstPage";
@@ -56,11 +57,12 @@ export const metadata: Metadata = {
 const DEFAULT_DELIVERY_TIME_HOURS = 2;
 
 export default async function Home() {
-	const [res, keysMenu, stampsMenu, remotesMenu] = await Promise.all([
+	const [res, keysMenu, stampsMenu, remotesMenu, localities] = await Promise.all([
 		getFirstPageData(),
 		getMenuItems({ categorySlug: "mobilne-dorabianie-kluczy" }),
 		getMenuItems({ categorySlug: "mobilne-wyrob-pieczatek" }),
 		getMenuItems({ categorySlug: "mobilne-kodowanie-pilotow-do-bram" }),
+		getServiceLocalities(),
 	]);
 
 	const { categories, heros, articles }: FirstPageDataResponse = res;
@@ -279,7 +281,7 @@ export default async function Home() {
 				</div>
 			</section>
 
-			<JsonLd jsonLd={ownerWebsiteJsonLd()} />
+			<JsonLd jsonLd={ownerWebsiteJsonLd(localities)} />
 		</section>
 	);
 }
