@@ -6,6 +6,7 @@ import { getProductsByCategory } from "@/api/getProductsByCategory";
 import { getServiceLocalities } from "@/api/getServiceLocalities";
 import { MenuItemsResponse, ProductListItem, ProductsResponse } from "@/app/types";
 import { generateCategoryJsonLd, JsonLd, mappedProductsToJsonLd } from "@/components/seo/LdJson";
+import { Faq, FAQ_CAR_KEY, FAQ_FLAT_KEY, FAQ_OPENING_HOURS, faqTravel } from "@/components/seo/Faq";
 import MobileServiceAreaGrid, { AreaCard } from "@/components/mobile-services/MobileServiceAreaGrid";
 import MobileServiceContactBar from "@/components/mobile-services/MobileServiceContactBar";
 import MobileServiceCrossLink from "@/components/mobile-services/MobileServiceCrossLink";
@@ -256,6 +257,8 @@ export default async function MobileKeysPage() {
 				}
 				areas={areaCards}
 			/>
+
+			<Faq items={[FAQ_FLAT_KEY, FAQ_CAR_KEY, faqTravel(localities), FAQ_OPENING_HOURS]} />
 
 			<MobileServiceCrossLink
 				href="/uslugi/mobilne-kodowanie-pilotow-do-bram"

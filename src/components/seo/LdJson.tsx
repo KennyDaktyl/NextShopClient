@@ -21,7 +21,12 @@ import {
 	ProductListItem,
 	ServiceLocality,
 } from "@/app/types";
-import { REMOTE_CODING_PRICE } from "@/components/mobile-services/prices";
+import {
+	CAR_KEY_PRICE,
+	FLAT_KEY_PRICE,
+	REMOTE_CODING_PRICE,
+	STAMP_PRICE,
+} from "@/components/mobile-services/prices";
 
 export const JsonLd = ({ jsonLd }: { jsonLd: WithContext<Thing> | Graph }) => {
 	return (
@@ -198,7 +203,7 @@ export const ownerWebsiteJsonLd = (localities: readonly ServiceLocality[]): Grap
 		image: logoUrl,
 		url: process.env.NEXT_PUBLIC_BASE_URL ?? "",
 		telephone: process.env.NEXT_PUBLIC_PHONE_NUMBER ?? "+48 506 029 980",
-		priceRange: "od 20 zł",
+		priceRange: `od ${FLAT_KEY_PRICE} zł`,
 		address: {
 			"@type": "PostalAddress",
 			streetAddress: process.env.NEXT_PUBLIC_STREET_ADDRESS || "Wspólna 2",
@@ -212,18 +217,18 @@ export const ownerWebsiteJsonLd = (localities: readonly ServiceLocality[]): Grap
 			"@type": "OfferCatalog",
 			name: "Usługi",
 			itemListElement: [
-				serviceOffer("Dorabianie kluczy mieszkaniowych", "/uslugi/mobilne-dorabianie-kluczy", 20),
+				serviceOffer("Dorabianie kluczy mieszkaniowych", "/uslugi/mobilne-dorabianie-kluczy", FLAT_KEY_PRICE),
 				serviceOffer(
 					"Klucze samochodowe z immobilizerem",
 					"/uslugi/mobilne-dorabianie-kluczy",
-					180,
+					CAR_KEY_PRICE,
 				),
 				serviceOffer(
 					"Piloty do bram",
 					"/uslugi/mobilne-kodowanie-pilotow-do-bram",
 					REMOTE_CODING_PRICE,
 				),
-				serviceOffer("Wyrób pieczątek", "/uslugi/mobilne-wyrob-pieczatek", 45),
+				serviceOffer("Wyrób pieczątek", "/uslugi/mobilne-wyrob-pieczatek", STAMP_PRICE),
 			],
 		},
 		geo: {

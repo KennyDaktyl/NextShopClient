@@ -6,6 +6,7 @@ import ArticleList from "@/components/articles/ArticleList";
 import { CategoryListOnFirstPage } from "@/components/front/CategoryListOnFirstPage";
 import { HeroItem } from "@/components/front/Hero";
 import { JsonLd, ownerWebsiteJsonLd } from "@/components/seo/LdJson";
+import { Faq, FAQ_CAR_KEY, FAQ_FLAT_KEY, FAQ_OPENING_HOURS, faqTravel } from "@/components/seo/Faq";
 import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -280,6 +281,8 @@ export default async function Home() {
 					</p>
 				</div>
 			</section>
+
+			<Faq items={[FAQ_FLAT_KEY, FAQ_CAR_KEY, faqTravel(localities), FAQ_OPENING_HOURS]} />
 
 			<JsonLd jsonLd={ownerWebsiteJsonLd(localities)} />
 		</section>

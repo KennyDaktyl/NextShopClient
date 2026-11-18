@@ -12,52 +12,39 @@ import MobileServiceCrossLink from "@/components/mobile-services/MobileServiceCr
 import { REMOTE_CODING_PRICE } from "@/components/mobile-services/prices";
 import Image from "next/image";
 import { formatMoney, getProductImage, localityIn, stripHtmlTags } from "@/utils";
-import { FAQPage, WithContext } from "schema-dts";
+import { Faq, FaqItem, FAQ_OPENING_HOURS, faqTravel } from "@/components/seo/Faq";
 
 const CATEGORY_SLUG = "mobilne-kodowanie-pilotow-do-bram";
 const DEFAULT_DELIVERY_TIME_HOURS = 2;
 
-const FAQ_ITEMS: { question: string; answer: string }[] = [
+const FAQ_ITEMS: FaqItem[] = [
 	{
-		question: "Ile kosztuje nowy pilot do bramy z dojazdem?",
-		answer: `${REMOTE_CODING_PRICE} zł — w cenie jest nowy pilot, zaprogramowanie go do sterownika bramy i dojazd na terenie Krakowa i okolic. Płacisz po sprawdzeniu, że brama reaguje na pilota.`,
+		q: "Ile kosztuje nowy pilot do bramy z dojazdem?",
+		a: `${REMOTE_CODING_PRICE} zł — w cenie jest nowy pilot, zaprogramowanie go do sterownika bramy i dojazd na terenie Krakowa i okolic. Płacisz po sprawdzeniu, że brama reaguje na pilota.`,
 	},
 	{
-		question: "Skąd mam wiedzieć, jaki pilot pasuje do mojej bramy?",
-		answer:
+		q: "Skąd mam wiedzieć, jaki pilot pasuje do mojej bramy?",
+		a:
 			"Wystarczy zdjęcie starego pilota albo naklejki na napędzie lub sterowniku (marka i model). Jeśli nie masz żadnego pilota, na miejscu sprawdzam typ sterownika i dobieram pasujący model.",
 	},
 	{
-		question: "Zgubiłem jedynego pilota do bramy — czy da się dorobić nowego?",
-		answer:
+		q: "Zgubiłem jedynego pilota do bramy — czy da się dorobić nowego?",
+		a:
 			"Tak. Nowy pilot programuje się bezpośrednio do odbiornika bramy, więc stary pilot nie jest potrzebny. Potrzebny jest tylko dostęp do sterownika (najczęściej w garażu lub przy słupku bramy).",
 	},
 	{
-		question: "Czy zgubiony pilot nadal będzie otwierał bramę?",
-		answer:
+		q: "Czy zgubiony pilot nadal będzie otwierał bramę?",
+		a:
 			"Dopóki jest zapisany w pamięci odbiornika — tak. Jeśli sterownik na to pozwala, czyszczę pamięć i programuję od nowa wszystkie piloty, które masz, dzięki czemu zgubiony przestaje działać.",
 	},
 	{
-		question: "Czy pilot uniwersalny z marketu zadziała z moją bramą?",
-		answer:
+		q: "Czy pilot uniwersalny z marketu zadziała z moją bramą?",
+		a:
 			"Tylko z częścią napędów. Wiele bram korzysta z kodu zmiennego (rolling code) lub konkretnej częstotliwości (433 MHz lub 868 MHz), z którymi tanie piloty kopiujące sobie nie radzą. Dlatego dobieram pilota do konkretnego sterownika.",
 	},
-	{
-		question: "Gdzie dojeżdżasz?",
-		answer:
-			"Kraków i okolice — najczęściej domy jednorodzinne w gminach Zabierzów, Liszki, Czernichów, Krzeszowice, Alwernia, Wielka Wieś, Zielonki, Michałowice, Mogilany i Wieliczka.",
-	},
+	// TODO: uzupełnić odpowiedź i odkomentować.
+	// { q: "Czy zaprogramujecie pilota do bramy bez oryginału?", a: "" },
 ];
-
-const faqJsonLd: WithContext<FAQPage> = {
-	"@context": "https://schema.org",
-	"@type": "FAQPage",
-	mainEntity: FAQ_ITEMS.map((item) => ({
-		"@type": "Question",
-		name: item.question,
-		acceptedAnswer: { "@type": "Answer", text: item.answer },
-	})),
-};
 
 export async function generateMetadata(): Promise<Metadata> {
 	const category = await getCategoryMetaData({ currentCategorySlug: CATEGORY_SLUG });
@@ -272,19 +259,7 @@ export default async function MobileGateRemotesPage() {
 				areas={areaCards}
 			/>
 
-			<section className="mt-8">
-				<h2 className="mb-4 text-xl font-semibold sm:text-2xl">
-					Najczęstsze pytania o piloty do bram
-				</h2>
-				<div className="space-y-4">
-					{FAQ_ITEMS.map((item) => (
-						<div key={item.question} className="rounded-lg border border-gray-200 p-5">
-							<h3 className="mb-2 text-base font-semibold">{item.question}</h3>
-							<p className="text-sm leading-relaxed text-gray-600">{item.answer}</p>
-						</div>
-					))}
-				</div>
-			</section>
+			<Faq items={[...FAQ_ITEMS, faqTravel(localities), FAQ_OPENING_HOURS]} />
 
 			<MobileServiceCrossLink href="/uslugi/mobilne-dorabianie-kluczy" label="Dorabianie kluczy z dojazdem" />
 
@@ -300,7 +275,6 @@ export default async function MobileGateRemotesPage() {
 				})}
 			/>
 			{products.length > 0 && <JsonLd jsonLd={mappedProductsToJsonLd(products)} />}
-			<JsonLd jsonLd={faqJsonLd} />
 		</div>
 	);
 }

@@ -7,6 +7,8 @@ import { getProductsByCategory } from "@/api/getProductsByCategory";
 import { getServiceLocalities } from "@/api/getServiceLocalities";
 import { MenuItemsResponse, ProductListItem, ProductsResponse } from "@/app/types";
 import { generateCategoryJsonLd, JsonLd, mappedProductsToJsonLd } from "@/components/seo/LdJson";
+import { Faq, FAQ_OPENING_HOURS, faqTravel } from "@/components/seo/Faq";
+import { STAMP_PRICE } from "@/components/mobile-services/prices";
 import MobileServiceAreaGrid, { AreaCard } from "@/components/mobile-services/MobileServiceAreaGrid";
 import MobileServiceContactBar from "@/components/mobile-services/MobileServiceContactBar";
 import MobileServiceCrossLink from "@/components/mobile-services/MobileServiceCrossLink";
@@ -238,6 +240,18 @@ export default async function MobileStampsPage() {
 					`Wyrób pieczątek ekspresowo z dojazdem do klienta świadczymy na terenie Krakowa i okolicznych miejscowości. Projekt akceptujesz zdalnie, a gotową pieczątkę dostarczamy do ${deliveryTimeHours} ${deliveryTimeHours === 1 ? "godziny" : "godzin"} — bez wizyty w punkcie w Rybnej.`
 				}
 				areas={areaCards}
+			/>
+
+			<Faq
+				items={[
+					{ q: "Ile kosztuje pieczątka?", a: `Od ${STAMP_PRICE} zł.` },
+					{
+						q: "Od jakiej kwoty dojazd z pieczątką jest bez dopłaty?",
+						a: `Od ${formatMoney(minOrderValue)} — poniżej tej kwoty doliczamy opłatę za dojazd. Gotową pieczątkę dostarczamy do ${deliveryTimeHours} ${deliveryTimeHours === 1 ? "godziny" : "godzin"}.`,
+					},
+					faqTravel(localities),
+					FAQ_OPENING_HOURS,
+				]}
 			/>
 
 			<MobileServiceCrossLink href="/uslugi/mobilne-dorabianie-kluczy" label="Mobilne dorabianie kluczy" />

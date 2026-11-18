@@ -5,7 +5,8 @@ import CityDeliveryIllustration from "@/components/mobile-services/CityDeliveryI
 import MobileServiceContactBar from "@/components/mobile-services/MobileServiceContactBar";
 import KeyPhotoInquiry from "@/components/widgets/KeyPhotoInquiry/KeyPhotoInquiry";
 import StampDesigner from "@/components/widgets/StampDesigner/StampDesigner";
-import { REMOTE_CODING_PRICE } from "@/components/mobile-services/prices";
+import { CAR_KEY_PRICE, FLAT_KEY_PRICE, REMOTE_CODING_PRICE } from "@/components/mobile-services/prices";
+import { Faq, FaqItem, FAQ_OPENING_HOURS } from "@/components/seo/Faq";
 
 export type LocalityServiceType = "klucze" | "pieczatki" | "piloty";
 
@@ -83,6 +84,38 @@ export const LocalityServicePage = ({
 	const deliveryTimeLabel = `${deliveryTimeHours} ${deliveryTimeHours === 1 ? "godziny" : "godzin"}`;
 	const minKeysQty = settings?.min_keys_qty ?? DEFAULT_MIN_KEYS_QTY;
 	const minStampOrderValue = settings?.min_stamp_order_value ?? DEFAULT_MIN_STAMP_ORDER_VALUE;
+
+	const faqTravelHere: FaqItem = {
+		q: `Czy dojeżdżacie ${toLocality}?`,
+		a: `Tak, dojeżdżamy ${toLocality} (${locality.region_label}) — zwykle w ciągu ${deliveryTimeLabel} od zgłoszenia.`,
+	};
+	const faqItems: Record<LocalityServiceType, FaqItem[]> = {
+		klucze: [
+			{
+				q: `Ile kosztuje dorobienie klucza mieszkaniowego ${inLocality}?`,
+				a: `Od ${FLAT_KEY_PRICE} zł. Dojazd ${toLocality} bez dopłaty przy zamówieniu od ${minKeysQty} szt. kluczy.`,
+			},
+			{
+				q: `Ile kosztuje dorobienie klucza samochodowego z immobilizerem ${inLocality}?`,
+				a: `Od ${CAR_KEY_PRICE} zł, klucz kodujemy na miejscu.`,
+			},
+			faqTravelHere,
+		],
+		pieczatki: [
+			faqTravelHere,
+			{
+				q: `Od jakiej kwoty dojazd z pieczątką ${toLocality} jest bez dopłaty?`,
+				a: `Od ${formatMoney(minStampOrderValue)} — poniżej tej kwoty doliczamy opłatę za dojazd.`,
+			},
+		],
+		piloty: [
+			{
+				q: `Ile kosztuje nowy pilot do bramy z dojazdem ${toLocality}?`,
+				a: `${REMOTE_CODING_PRICE} zł — pilot, zaprogramowanie go do odbiornika bramy i dojazd w jednej cenie.`,
+			},
+			faqTravelHere,
+		],
+	};
 
 	return (
 		<div className="mb-10 w-full">
@@ -235,6 +268,8 @@ export const LocalityServicePage = ({
 					)}
 				</p>
 			</section>
+
+			<Faq items={[...faqItems[serviceType], FAQ_OPENING_HOURS]} />
 
 			<section className="mt-8">
 				<h2 className="mb-4 text-xl font-semibold sm:text-2xl">
