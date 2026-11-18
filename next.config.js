@@ -32,19 +32,20 @@ const nextConfig = {
 						key: "Content-Security-Policy",
 						value: `
 				  default-src 'self'; 
-				  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://geowidget.inpost.pl https://www.google.com https://www.gstatic.com/recaptcha/ https://www.googletagmanager.com; 
-				  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://geowidget.inpost.pl; 
-				  img-src 'self' data: https://geowidget.inpost.pl; 
-				  font-src 'self' https://fonts.gstatic.com; 
-				  connect-src 'self' https://serwiswrybnej.pl https://api.serwiswrybnej.pl http://127.0.0.1:8000 https://geowidget.inpost.pl https://region1.google-analytics.com https://www.google-analytics.com; 
+				  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://geowidget.inpost.pl https://www.google.com https://www.gstatic.com/recaptcha/ https://www.googletagmanager.com https://*.googletagmanager.com;
+				  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://geowidget.inpost.pl;
+				  img-src 'self' data: https://geowidget.inpost.pl https://*.google-analytics.com https://*.googletagmanager.com;
+				  font-src 'self' https://fonts.gstatic.com;
+				  connect-src 'self' https://serwiswrybnej.pl https://api.serwiswrybnej.pl ${process.env.NODE_ENV === "development" ? "http://127.0.0.1:8000" : ""} https://geowidget.inpost.pl https://region1.google-analytics.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com;
 				  frame-src 'self' https://geowidget.inpost.pl https://geowidget-app.inpost.pl https://www.google.com https://www.google.com/maps/embed https://miktel.krakow.pl https://www.facebook.com https://web.facebook.com;
+				  frame-ancestors 'self' https://miktel.krakow.pl;
 				  `
 							.replace(/\s{2,}/g, " ")
 							.trim(),
 					},
 					{
-						key: "X-Frame-Options",
-						value: "ALLOW-FROM https://miktel.krakow.pl",
+						key: "Referrer-Policy",
+						value: "strict-origin-when-cross-origin",
 					},
 					{
 						key: "X-Content-Type-Options",
