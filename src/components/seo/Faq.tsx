@@ -88,7 +88,7 @@ export const FAQ_CAR_KEY_NO_ORIGINAL: FaqItem = {
 };
 
 export const FAQ_VAG: FaqItem = {
-	q: "Czy obsługujesz nowe Audi, Volkswagen i Seat?",
+	q: "Czy obsługujesz nowe Audi, Volkswagen, Seat i Skodę?",
 	a: "Tak, także roczniki po 2016. Możliwość potwierdzam po modelu, roczniku i VIN.",
 };
 

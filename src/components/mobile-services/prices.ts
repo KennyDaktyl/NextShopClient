@@ -7,6 +7,9 @@ export const CAR_KEY_PRICE = 300;
 export const OBD_PROGRAMMING_PRICE = 300;
 export const OBD_REMOTE_PART_FROM = 150;
 export const OBD_TOTAL_FROM = OBD_PROGRAMMING_PRICE + OBD_REMOTE_PART_FROM;
+// Wymiana obudowy kluczyka/pilota (bez programowania) i wymiana baterii w pilocie.
+export const HOUSING_REPLACEMENT_FROM = 100;
+export const BATTERY_REPLACEMENT_FROM = 20;
 // Cena zaprogramowania nowego pilota do bramy z dojazdem.
 export const REMOTE_CODING_PRICE = 199;
 export const STAMP_PRICE = 45;

@@ -190,7 +190,7 @@ export default async function MobileKeysPage() {
 						</p>
 						<p className="text-sm leading-relaxed text-gray-600">
 							Nie masz oryginału? Dekoderem Lishi odczytuję nacięcia zamka, docinam grot i programuję
-							immobilizer. Obsługuję także Audi, Volkswagena i Seata z roczników po 2016. Gdy
+							immobilizer. Obsługuję także Audi, Volkswagena, Seata i Skodę z roczników po 2016. Gdy
 							kluczyki zatrzasnęły się w środku, zobacz{" "}
 							<Link href={EMERGENCY_HREF} className="underline">
 								awaryjne otwieranie samochodów

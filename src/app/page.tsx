@@ -18,8 +18,10 @@ import {
 } from "@/components/seo/Faq";
 import { AREA_GROUPS } from "@/components/seo/serviceArea";
 import {
+	BATTERY_REPLACEMENT_FROM,
 	CAR_KEY_PRICE,
 	FLAT_KEY_PRICE,
+	HOUSING_REPLACEMENT_FROM,
 	OBD_PROGRAMMING_PRICE,
 	REMOTE_CODING_PRICE,
 } from "@/components/mobile-services/prices";
@@ -67,7 +69,7 @@ const PHONE_HREF = "tel:+48506029980";
 const CAR_KEYS = "/uslugi/klucze-samochodowe";
 const EMERGENCY = `${CAR_KEYS}/awaryjne-otwieranie-samochodow`;
 const BRANDS_CATEGORY_SLUG = "programowanie-kluczy-samochodowych";
-const VAG_SLUGS = ["audi", "volkswagen", "seat"];
+const VAG_SLUGS = ["audi", "volkswagen", "seat", "skoda"];
 const STAMPS_LINK = "/produkty/pieczatki";
 
 const CAR_KEY_TILES: { title: string; text: string; price: string; href: string; isNew?: boolean }[] = [
@@ -99,13 +101,13 @@ const CAR_KEY_TILES: { title: string; text: string; price: string; href: string;
 	{
 		title: "Wymiana obudowy pilota",
 		text: "Pęknięta obudowa lub wytarte przyciski, a elektronika działa — nowa obudowa bez programowania.",
-		price: "wycena telefoniczna",
+		price: `od ${HOUSING_REPLACEMENT_FROM} zł`,
 		href: `${CAR_KEYS}/wymiana-obudowy`,
 	},
 	{
 		title: "Wymiana baterii w pilocie",
 		text: "Spada zasięg pilota? Zaczynam od baterii, zanim zaproponuję nowy klucz.",
-		price: "wycena telefoniczna",
+		price: `od ${BATTERY_REPLACEMENT_FROM} zł`,
 		href: `${CAR_KEYS}/wymiana-baterii-w-pilotach-samochodowych`,
 	},
 ];
@@ -218,7 +220,7 @@ export default async function Home() {
 						<p className="mb-6 max-w-xl text-sm leading-relaxed text-gray-300 sm:text-base">
 							Dorabiam klucze samochodowe, koduję immobilizery i programuję piloty na miejscu: pod
 							domem, pracą albo na parkingu. Także awaryjne otwieranie samochodu i klucz bez
-							oryginału. Audi, Volkswagen i Seat również z roczników po 2016. Płacisz po
+							oryginału. Audi, Volkswagen, Seat i Skoda również z roczników po 2016. Płacisz po
 							sprawdzeniu, że klucz działa.
 						</p>
 						<div className="flex flex-wrap gap-3">

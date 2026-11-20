@@ -25,7 +25,7 @@ const ITEMS = [
 	{
 		href: `${CAR_KEYS}/programowanie-kluczy-samochodowych`,
 		label: "Marki",
-		hint: "Audi, Volkswagen, Seat, Opel, Ford, Toyota…",
+		hint: "Audi, Volkswagen, Seat, Skoda, Opel, Ford…",
 	},
 ];
 
