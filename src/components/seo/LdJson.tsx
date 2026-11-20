@@ -31,7 +31,7 @@ import {
 	REMOTE_CODING_PRICE,
 	STAMP_PRICE,
 } from "@/components/mobile-services/prices";
-import { BUSINESS_NAME } from "@/components/seo/businessInfo";
+import { BUSINESS_NAME, SITE_DESCRIPTION } from "@/components/seo/businessInfo";
 import {
 	AREA_AROUND_KRAKOW,
 	AREA_AROUND_RYBNA,
@@ -286,12 +286,12 @@ export const ownerWebsiteJsonLd = (localities: readonly ServiceLocality[]): Grap
 		"@type": "WebSite",
 		name: process.env.NEXT_PUBLIC_SITE_NAME ?? "",
 		url: process.env.NEXT_PUBLIC_BASE_URL ?? "",
-		description: process.env.NEXT_PUBLIC_SITE_DESCRIPTION ?? "",
+		description: SITE_DESCRIPTION,
 		mainEntityOfPage: {
 			"@type": "WebPage",
 			"@id": process.env.NEXT_PUBLIC_BASE_URL ?? "",
 			name: process.env.NEXT_PUBLIC_SITE_TITLE ?? "",
-			description: process.env.NEXT_PUBLIC_SITE_DESCRIPTION,
+			description: SITE_DESCRIPTION,
 		},
 		...(logoUrl && {
 			image: {

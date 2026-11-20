@@ -29,15 +29,15 @@ export const CompanyDetails: React.FC = () => {
 				<p className="w-full">21 1020 2906 0000 1702 0373 8333</p>
 			</div>
 			<div className="mt-6">
-				<h3 className="mb-2 text-xl font-semibold">Godziny Pracy</h3>
-				<ul className="space-y-1">
-					<li className="flex justify-between">
-						<span>Poniedziałek - Piątek:</span>
-						<span>Sklep Online 24h</span>
+				<h3 className="mb-2 text-xl font-semibold">Jak się umówić</h3>
+				<ul className="space-y-2">
+					<li>
+						<strong>Sklep internetowy:</strong> 24 h, 7 dni w tygodniu
 					</li>
-					<li className="flex justify-between">
-						<span>Usługi na miejscu:</span>
-						<span>Proszę umówić wizytę telefonicznie/email</span>
+					<li>
+						<strong>Usługi:</strong> Proszę o umówienie wizyty, ponieważ wykonuję zlecenia z dojazdem
+						do klienta. Telefon: <a href="tel:+48506029980" className="text-blue-600">506 029 980</a>,
+						WhatsApp lub e-mail.
 					</li>
 					{/* <li className="flex justify-between">
 						<span>Niedziela:</span>

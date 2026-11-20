@@ -375,8 +375,6 @@ export default async function Page({
 							</section>
 						)}
 
-						{carKeysMobileSection}
-
 						<ProductListPage
 							products={products}
 							category={category}
@@ -386,6 +384,8 @@ export default async function Page({
 							totalPages={totalPages}
 							currentPage={currentPage}
 						/>
+						{/* Wspólny blok dojazdu pod treścią strony – pierwszy akapit pod H1 jest unikalny. */}
+						{carKeysMobileSection}
 						{categoryFaq}
 					</div>
 					{categoryStructuredData}

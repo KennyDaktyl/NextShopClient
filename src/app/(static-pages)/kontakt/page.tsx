@@ -8,14 +8,14 @@ import React from "react";
 
 export async function generateMetadata() {
 	return {
-		title: `Kontakt do nas`,
-		description: "Kontakt do nas. Tu znajdziesz wszystkie informacje kontaktowe.",
+		title: "Kontakt – klucze samochodowe z dojazdem, Kraków | Rybna",
+		description: "Zadzwoń 506 029 980 i umów wizytę: klucze samochodowe, immobilizery, piloty, awaryjne otwieranie aut. Dojazd w Krakowie i okolicach, punkt w Rybnej.",
 		alternates: {
 			canonical: "/kontakt",
 		},
 		openGraph: {
-			title: `Kontakt do nas`,
-			description: "Kontakt do nas. Tu znajdziesz wszystkie informacje kontaktowe.",
+			title: "Kontakt – klucze samochodowe z dojazdem, Kraków | Rybna",
+			description: "Zadzwoń 506 029 980 i umów wizytę: klucze samochodowe, immobilizery, piloty, awaryjne otwieranie aut. Dojazd w Krakowie i okolicach, punkt w Rybnej.",
 			url: process.env.NEXT_PUBLIC_BASE_URL + "/kontakt",
 			siteName: process.env.NEXT_PUBLIC_SITE_TITLE,
 			images: [],
@@ -24,8 +24,8 @@ export async function generateMetadata() {
 		},
 		twitter: {
 			card: "summary_large_image",
-			title: `Kontakt do nas`,
-			description: "Kontakt do nas. Tu znajdziesz wszystkie informacje kontaktowe.",
+			title: "Kontakt – klucze samochodowe z dojazdem, Kraków | Rybna",
+			description: "Zadzwoń 506 029 980 i umów wizytę: klucze samochodowe, immobilizery, piloty, awaryjne otwieranie aut. Dojazd w Krakowie i okolicach, punkt w Rybnej.",
 			images: [],
 		},
 	};

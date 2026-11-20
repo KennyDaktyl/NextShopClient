@@ -191,9 +191,11 @@ export default async function Home() {
 	}
 
 	const isStampsHero = (link: string | null) => Boolean(link && link.includes(STAMPS_LINK));
-	const stampHeros = heros.filter((hero) => isStampsHero(hero.link));
+	// Baner pieczątek nie jest wyświetlany – na dole jest kompaktowy blok z dwoma linkami.
 	const otherHeros = heros.filter((hero) => !isStampsHero(hero.link));
-	const brands = brandsMenu?.items ?? [];
+	const brands = [...(brandsMenu?.items ?? [])].sort((a, b) =>
+		brandName(a).localeCompare(brandName(b), "pl"),
+	);
 
 	return (
 		<section className="mt-5">
@@ -297,7 +299,7 @@ export default async function Home() {
 										className="inline-block rounded-md bg-white px-3 py-1.5 text-sm text-gray-800 shadow-sm transition hover:bg-gray-50"
 									>
 										{brandName(item)}
-										{isVag && <span className="ml-1 text-xs text-blue-600">(VAG, także po 2016)</span>}
+										{isVag && <span className="text-xs text-blue-600"> (VAG, także po 2016)</span>}
 									</Link>
 								</li>
 							);
@@ -444,11 +446,6 @@ export default async function Home() {
 					</Link>
 				</div>
 			</section>
-			{stampHeros.map((hero) => (
-				<div key={hero.id} className="mt-5 rounded-lg shadow-lg">
-					<HeroItem heroData={hero} isFirst={false} />
-				</div>
-			))}
 
 			{/* 12. O nas i kontakt */}
 			<section className="mt-10 rounded-md bg-white py-8 text-gray-800">

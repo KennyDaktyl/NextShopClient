@@ -11,6 +11,9 @@ import { localityTo } from "@/utils";
 export const BUSINESS_NAME = "Serwis w Rybnej";
 export const BUSINESS_ADDRESS = "ul. Wspólna 2, 32-061 Rybna";
 export const BUSINESS_PHONE = "+48 506 029 980";
+// Opis całej witryny (JSON-LD WebSite) – z polskimi znakami, bez zależności od zmiennej środowiskowej.
+export const SITE_DESCRIPTION =
+	"Klucze samochodowe, immobilizery i piloty z dojazdem – Kraków i okolice. Punkt w Rybnej.";
 // Brak stałych godzin otwarcia – wizyty (także w punkcie w Rybnej) tylko po umówieniu.
 export const BUSINESS_APPOINTMENT_NOTE =
 	"Proszę o umówienie wizyty, ponieważ wykonuję zlecenia z dojazdem do klienta.";

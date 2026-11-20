@@ -177,7 +177,14 @@ export const LocalityServicePage = ({
 						<Link href="/uslugi/klucze-samochodowe/kopiowanie-immobilizerow" className="underline">
 							skopiowania immobilizera
 						</Link>
-						, wykonuję to tym samym przyjazdem.
+						, wykonuję to tym samym przyjazdem. Zatrzaśnięte kluczyki? Zobacz{" "}
+						<Link
+							href="/uslugi/klucze-samochodowe/awaryjne-otwieranie-samochodow"
+							className="underline"
+						>
+							awaryjne otwieranie samochodów
+						</Link>
+						.
 					</p>
 				)}
 				{serviceType === "pieczatki" && (
