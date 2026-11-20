@@ -14,6 +14,7 @@ import {
 	BreadcrumbList,
 	CollectionPage,
 } from "schema-dts";
+import type { CategoryBreadcrumb } from "@/app/types";
 import {
 	ArticleListItem,
 	ArticleResponse,
@@ -118,6 +119,53 @@ export const productBreadcrumbsJsonLd = (product: ProductDetails): WithContext<B
 				item: crumb.url,
 			}),
 		),
+	};
+};
+
+/** Okruszki kategorii: Strona główna › … › kategoria (łańcuch z backendu). */
+export const categoryBreadcrumbsJsonLd = (
+	breadcrumbs: readonly CategoryBreadcrumb[],
+): WithContext<BreadcrumbList> => {
+	const base = `${process.env.NEXT_PUBLIC_BASE_URL}`;
+	const crumbs = [
+		{ name: "Strona główna", url: `${base}/` },
+		...breadcrumbs.map((crumb) => ({ name: crumb.name, url: base + crumb.full_path })),
+	];
+	return {
+		"@context": "https://schema.org",
+		"@type": "BreadcrumbList",
+		itemListElement: crumbs.map(
+			(crumb, index): ListItem => ({
+				"@type": "ListItem",
+				position: index + 1,
+				name: crumb.name,
+				item: crumb.url,
+			}),
+		),
+	};
+};
+
+/** Usługa z drzewa „Klucze samochodowe”: Service powiązany z LocalBusiness ze strony głównej. */
+export const categoryServiceJsonLd = (category: {
+	name: string;
+	h1_tag?: string | null;
+	description?: string | null;
+	full_path: string;
+}): WithContext<Service> => {
+	const base = `${process.env.NEXT_PUBLIC_BASE_URL}`;
+	return {
+		"@context": "https://schema.org",
+		"@type": "Service",
+		"@id": `${base}${category.full_path}#usluga`,
+		url: base + category.full_path,
+		name: category.h1_tag || category.name,
+		serviceType: category.name,
+		description: category.description || undefined,
+		provider: { "@type": "LocalBusiness", "@id": `${base}/#firma`, name: BUSINESS_NAME },
+		areaServed: [
+			{ "@type": "City", name: "Kraków" },
+			...[...AREA_AROUND_KRAKOW, ...AREA_AROUND_RYBNA].map((name): City => ({ "@type": "City", name })),
+		],
 	};
 };
 

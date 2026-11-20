@@ -46,6 +46,9 @@ export interface MenuItemsResponse {
 	items: MenuItem[];
 	status: number;
 	mobile_service_settings?: MobileServiceSettings | null;
+	breadcrumbs?: CategoryBreadcrumb[];
+	/** FAQ kategorii; odpowiedź może zawierać link <a>. */
+	faqs?: ProductFaq[];
 }
 export interface Category {
 	image: Image | null;

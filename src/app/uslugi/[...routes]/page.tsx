@@ -10,11 +10,14 @@ import { getServiceLocalities } from "@/api/getServiceLocalities";
 import { MenuItemsResponse, ProductsResponse, ProductListItem, ServiceLocality } from "@/app/types";
 import { getCategoryMetaData } from "@/api/getCategoryMetaData";
 import {
+	categoryBreadcrumbsJsonLd,
+	categoryServiceJsonLd,
 	generateCategoryJsonLd,
 	JsonLd,
 	mappedMenuItemsToJsonLd,
 	mappedProductsToJsonLd,
 } from "@/components/seo/LdJson";
+import { Faq } from "@/components/seo/Faq";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
@@ -29,7 +32,9 @@ const slugsToGenerate = [
 	"klucze-samochodowe",
 	"programowanie-kluczy-samochodowych",
 	"kopiowanie-immobilizerow",
+	"awaryjne-otwieranie-samochodow",
 ];
+const EMERGENCY_HREF = "/uslugi/klucze-samochodowe/awaryjne-otwieranie-samochodow";
 
 const MOBILE_KEY_CUTTING_CTA_SLUGS = ["dorabianie-kluczy-mieszkaniowych"];
 const MOBILE_KEY_CUTTING_HREF = "/uslugi/mobilne-dorabianie-kluczy";
@@ -232,6 +237,20 @@ export default async function Page({
 	const carKeysMobileSection = isCarKeysPage ? (
 		<CarKeysMobileSection localities={await getServiceLocalities()} />
 	) : null;
+	const categoryFaq =
+		menuItems.faqs && menuItems.faqs.length > 0 ? (
+			<div className="w-full px-2">
+				<Faq html items={menuItems.faqs.map((faq) => ({ q: faq.question, a: faq.answer }))} />
+			</div>
+		) : null;
+	const categoryStructuredData = (
+		<>
+			{menuItems.breadcrumbs && menuItems.breadcrumbs.length > 0 && (
+				<JsonLd jsonLd={categoryBreadcrumbsJsonLd(menuItems.breadcrumbs)} />
+			)}
+			{isCarKeysPage && <JsonLd jsonLd={categoryServiceJsonLd(category)} />}
+		</>
+	);
 
 	if (menuItems.has_children) {
 		return (
@@ -268,7 +287,9 @@ export default async function Page({
 							</div>
 						</section>
 					)}
+					{categoryFaq}
 				</div>
+				{categoryStructuredData}
 				<JsonLd jsonLd={generateCategoryJsonLd(category)} />
 				<JsonLd
 					jsonLd={mappedMenuItemsToJsonLd(menuItems.items, category.name, category.full_path)}
@@ -361,8 +382,10 @@ export default async function Page({
 							totalPages={totalPages}
 							currentPage={currentPage}
 						/>
+						{categoryFaq}
 					</div>
-					<JsonLd jsonLd={mappedProductsToJsonLd(products)} />
+					{categoryStructuredData}
+					{products.length > 0 && <JsonLd jsonLd={mappedProductsToJsonLd(products)} />}
 					<JsonLd
 						jsonLd={mappedMenuItemsToJsonLd(menuItems.items, category.name, category.full_path)}
 					/>
@@ -409,6 +432,13 @@ const CarKeysMobileSection = ({ localities }: { localities: ServiceLocality[] })
 				className="inline-flex items-center gap-2 rounded-md border border-gray-300 px-5 py-3 text-sm font-semibold text-gray-800 transition hover:border-gray-400"
 			>
 				Dorabianie kluczy z dojazdem
+				<ArrowRight className="h-4 w-4" aria-hidden="true" />
+			</Link>
+			<Link
+				href={EMERGENCY_HREF}
+				className="inline-flex items-center gap-2 rounded-md border border-gray-300 px-5 py-3 text-sm font-semibold text-gray-800 transition hover:border-gray-400"
+			>
+				awaryjne otwieranie samochodów
 				<ArrowRight className="h-4 w-4" aria-hidden="true" />
 			</Link>
 		</div>
