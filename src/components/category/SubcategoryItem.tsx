@@ -1,6 +1,7 @@
 import { MenuItem } from "@/app/types";
 import Image from "next/image";
 import Link from "next/link";
+import { KeyRound } from "lucide-react";
 
 interface SubcategoryItemProps {
 	item: MenuItem;
@@ -16,6 +17,14 @@ const SubcategoryItem = ({ item }: SubcategoryItemProps) => {
 				<h2 className="mt-2 min-h-[55px] text-center text-sm font-bold md:text-xl">{item.name}</h2>
 				{/* <p className="mt-2 h-[100px] text-center text-xs md:text-sm">{item.description}</p> */}
 			</div>
+			{!item.image && (
+				// Brak obrazka kategorii (np. nowa usługa) – ikona w tym samym miejscu co zdjęcie.
+				<div className="mb-4 mt-auto flex w-full items-center justify-center px-2 py-4">
+					<div className="flex h-[125px] w-full items-center justify-center rounded-md bg-gray-100 sm:h-[200px] sm:w-[200px]">
+						<KeyRound className="h-16 w-16 text-blue-600" aria-hidden="true" />
+					</div>
+				</div>
+			)}
 			{item.image && (
 				<div className="mb-4 mt-auto flex w-full items-center justify-center px-2 py-4">
 					<div className="relative flex h-[125px] w-full items-center justify-center overflow-hidden sm:h-[200px] sm:w-[200px]">

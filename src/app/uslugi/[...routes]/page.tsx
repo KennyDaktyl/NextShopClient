@@ -35,6 +35,11 @@ const slugsToGenerate = [
 ];
 const EMERGENCY_HREF = "/uslugi/klucze-samochodowe/awaryjne-otwieranie-samochodow";
 
+const DEFAULT_OG_IMAGE = {
+	url: "https://api.serwiswrybnej.pl/media/thumbnails/dorabianie-kluczy-samochodowych-i-mieszkaniowych-szybko-i-profesjonalnie_650x650.webp",
+	width: 650,
+	height: 650,
+};
 const MOBILE_KEY_CUTTING_CTA_SLUGS = ["dorabianie-kluczy-mieszkaniowych"];
 const MOBILE_KEY_CUTTING_HREF = "/uslugi/mobilne-dorabianie-kluczy";
 const CAR_KEYS_ROOT_SLUG = "klucze-samochodowe";
@@ -133,6 +138,16 @@ export async function generateMetadata({
 			category.meta_description || `Lista usług dla kategorii Usługi - ${category.description}`;
 	}
 
+	// Bez obrazka kategorii (np. nowa usługa) – domyślne zdjęcie kluczy samochodowych zamiast pustego og:image.
+	const ogImage = category.image?.url
+		? {
+				url: category.image.url,
+				width: category.image.width || 0,
+				height: category.image.height || 0,
+				alt: category.image.alt || category.name,
+			}
+		: { ...DEFAULT_OG_IMAGE, alt: category.meta_title || category.name };
+
 	return {
 		title,
 		description,
@@ -143,12 +158,7 @@ export async function generateMetadata({
 			url: process.env.NEXT_PUBLIC_BASE_URL + category.full_path,
 			siteName: process.env.NEXT_PUBLIC_SITE_TITLE,
 			images: [
-				{
-					url: category.image?.url || "",
-					width: category.image?.width || 0,
-					height: category.image?.height || 0,
-					alt: category.image?.alt || "",
-				},
+				ogImage,
 			],
 			locale: "pl_PL",
 			type: "website",
@@ -158,12 +168,7 @@ export async function generateMetadata({
 			title: category.meta_title || `Usługa ${category.name}`,
 			description: category.meta_description || category.description?.slice(0, 160),
 			images: [
-				{
-					url: category.image?.url || "",
-					width: category.image?.width || 0,
-					height: category.image?.height || 0,
-					alt: category.image?.alt || "",
-				},
+				ogImage,
 			],
 		},
 	};
