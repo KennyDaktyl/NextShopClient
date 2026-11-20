@@ -41,6 +41,12 @@ import {
 // Marka „Zamiennik” to nie producent – w danych strukturalnych jej nie podajemy.
 const REPLACEMENT_BRAND_SLUG = "zamiennik";
 
+// Usługi nie mają stanu magazynowego (qty bywa 0) – zawsze są dostępne.
+const offerAvailability = (product: { is_service: boolean; qty?: number }) =>
+	product.is_service || (product.qty ?? 0) > 0
+		? "https://schema.org/InStock"
+		: "https://schema.org/OutOfStock";
+
 const plainText = (html: string): string => stripHtmlTags(html).replace(/\s+/g, " ").trim();
 
 export const JsonLd = ({ jsonLd }: { jsonLd: WithContext<Thing> | Graph }) => {
@@ -89,7 +95,7 @@ export const mappedProductToJsonLd = (product: ProductDetails): WithContext<Prod
 			price: formattedPrice,
 			priceCurrency: "PLN",
 			availability:
-				product.qty > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+				offerAvailability(product),
 			...(product.is_service ? {} : { itemCondition: "https://schema.org/NewCondition" }),
 			seller: { "@type": "Organization", name: BUSINESS_NAME },
 		},
@@ -214,7 +220,7 @@ export const mappedProductsToJsonLd = (
 						price: product.current_price,
 						priceCurrency: "PLN",
 						availability:
-							product.qty > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+							offerAvailability(product),
 					},
 					aggregateRating: product.average_rating
 						? {
