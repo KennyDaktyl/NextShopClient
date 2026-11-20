@@ -6,7 +6,7 @@ import ArticleList from "@/components/articles/ArticleList";
 import { CategoryListOnFirstPage } from "@/components/front/CategoryListOnFirstPage";
 import { HeroItem } from "@/components/front/Hero";
 import { JsonLd, ownerWebsiteJsonLd } from "@/components/seo/LdJson";
-import { Faq, FAQ_CAR_KEY, FAQ_FLAT_KEY, FAQ_OPENING_HOURS, faqTravel } from "@/components/seo/Faq";
+import { Faq, FAQ_APPOINTMENT, FAQ_CAR_KEY, FAQ_FLAT_KEY, faqTravel } from "@/components/seo/Faq";
 import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -267,7 +267,7 @@ export default async function Home() {
 						</a>{" "}
 						lub osobiście w naszej siedzibie przy ul. Wspólnej 2, 32-061 Rybna.
 					</p>
-					<p>Godziny otwarcia: poniedziałek – piątek: 08:00 – 17:00.</p>
+					<p>Proszę o umówienie wizyty, ponieważ wykonuję zlecenia z dojazdem do klienta.</p>
 				</div>
 			</section>
 
@@ -282,7 +282,7 @@ export default async function Home() {
 				</div>
 			</section>
 
-			<Faq items={[FAQ_FLAT_KEY, FAQ_CAR_KEY, faqTravel(localities), FAQ_OPENING_HOURS]} />
+			<Faq items={[FAQ_FLAT_KEY, FAQ_CAR_KEY, faqTravel(localities), FAQ_APPOINTMENT]} />
 
 			<JsonLd jsonLd={ownerWebsiteJsonLd(localities)} />
 		</section>

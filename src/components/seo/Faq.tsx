@@ -1,8 +1,14 @@
 import { FAQPage, WithContext } from "schema-dts";
 import { ServiceLocality } from "@/app/types";
 import { JsonLd } from "@/components/seo/LdJson";
-import { CAR_KEY_PRICE, FLAT_KEY_PRICE } from "@/components/mobile-services/prices";
-import { BUSINESS_ADDRESS, BUSINESS_HOURS, localitiesTo } from "@/components/seo/businessInfo";
+import {
+	CAR_KEY_PRICE,
+	FLAT_KEY_PRICE,
+	OBD_PROGRAMMING_PRICE,
+	OBD_REMOTE_PART_FROM,
+	OBD_TOTAL_FROM,
+} from "@/components/mobile-services/prices";
+import { localitiesTo } from "@/components/seo/businessInfo";
 
 export type FaqItem = { q: string; a: string };
 
@@ -53,20 +59,40 @@ export const FAQ_FLAT_KEY: FaqItem = {
 	a: `Od ${FLAT_KEY_PRICE} zł. W punkcie w Rybnej klucz jest gotowy w kilka minut.`,
 };
 
+export const CAR_KEY_PRICE_ANSWER = `Klucz z grotem i immobilizerem kosztuje ${CAR_KEY_PRICE} zł. Jeśli potrzebne jest programowanie nowego klucza lub pilota przez złącze OBD (np. gdy nie masz już żadnego działającego klucza), usługa kosztuje od ${OBD_PROGRAMMING_PRICE} zł plus koszt pilota lub klucza (np. od ok. ${OBD_REMOTE_PART_FROM} zł), czyli razem zwykle od ok. ${OBD_TOTAL_FROM} zł. Dokładną cenę podam przez telefon po marce, modelu i roczniku auta. Płacisz dopiero po sprawdzeniu, że klucz otwiera auto i uruchamia silnik.`;
+
 export const FAQ_CAR_KEY: FaqItem = {
 	q: "Ile kosztuje dorobienie klucza samochodowego z immobilizerem?",
-	a: `Od ${CAR_KEY_PRICE} zł, klucz kodujemy na miejscu.`,
+	a: CAR_KEY_PRICE_ANSWER,
 };
 
-export const FAQ_OPENING_HOURS: FaqItem = {
-	q: "W jakich godzinach działa punkt w Rybnej?",
-	a: `${BUSINESS_HOURS.charAt(0).toUpperCase()}${BUSINESS_HOURS.slice(1)}, ${BUSINESS_ADDRESS}.`,
+// Brak stałych godzin otwarcia (zastępuje dawne pytanie o godziny 8–17).
+export const FAQ_APPOINTMENT: FaqItem = {
+	q: "Czy trzeba się umówić? W jakich godzinach działacie?",
+	a: "Nie mam stałych godzin otwarcia. Proszę o umówienie wizyty telefonicznie (506 029 980), przez WhatsApp lub e-mailem, ponieważ wykonuję zlecenia z dojazdem do klienta. Wizytę w punkcie w Rybnej (ul. Wspólna 2) również trzeba wcześniej umówić. Sklep internetowy działa 24 h.",
 };
 
 export const faqTravel = (localities: readonly ServiceLocality[]): FaqItem => ({
 	q: "Czy dojeżdżacie do klienta?",
 	a:
 		localities.length > 0
-			? `Tak, dojeżdżamy na terenie Krakowa i okolic, m.in. ${localitiesTo(localities)}.`
-			: "Tak, dojeżdżamy na terenie Krakowa i okolic.",
+			? `Tak, w całym Krakowie (wszystkie dzielnice) i okolicach, m.in. ${localitiesTo(localities)}.`
+			: "Tak, w całym Krakowie (wszystkie dzielnice) i okolicach.",
 });
+
+// --- Klucze samochodowe (odpowiedzi z linkiem – renderuj przez <Faq html />) ---------------------
+
+export const FAQ_CAR_KEY_NO_ORIGINAL: FaqItem = {
+	q: "Czy dorobisz klucz samochodowy bez oryginału?",
+	a: "Tak. Dekoderem Lishi odczytuję nacięcia zamka, docinam grot i programuję immobilizer.",
+};
+
+export const FAQ_VAG: FaqItem = {
+	q: "Czy obsługujesz nowe Audi, Volkswagen i Seat?",
+	a: "Tak, także roczniki po 2016. Możliwość potwierdzam po modelu, roczniku i VIN.",
+};
+
+export const FAQ_LOCKED_KEYS: FaqItem = {
+	q: "Co zrobić, gdy kluczyki zatrzasnęły się w aucie?",
+	a: 'Zadzwoń: 506 029 980. Otwieram samochód bez uszkodzeń narzędziami Lishi — szczegóły na stronie <a class="text-blue-600 underline" href="/uslugi/klucze-samochodowe/awaryjne-otwieranie-samochodow">awaryjne otwieranie samochodów</a>.',
+};

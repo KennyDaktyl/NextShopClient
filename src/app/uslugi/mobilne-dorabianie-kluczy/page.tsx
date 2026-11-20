@@ -6,7 +6,7 @@ import { getProductsByCategory } from "@/api/getProductsByCategory";
 import { getServiceLocalities } from "@/api/getServiceLocalities";
 import { MenuItemsResponse, ProductListItem, ProductsResponse } from "@/app/types";
 import { generateCategoryJsonLd, JsonLd, mappedProductsToJsonLd } from "@/components/seo/LdJson";
-import { Faq, FAQ_CAR_KEY, FAQ_FLAT_KEY, FAQ_OPENING_HOURS, faqTravel } from "@/components/seo/Faq";
+import { Faq, FAQ_APPOINTMENT, FAQ_CAR_KEY, FAQ_FLAT_KEY, faqTravel } from "@/components/seo/Faq";
 import MobileServiceAreaGrid, { AreaCard } from "@/components/mobile-services/MobileServiceAreaGrid";
 import MobileServiceContactBar from "@/components/mobile-services/MobileServiceContactBar";
 import MobileServiceCrossLink from "@/components/mobile-services/MobileServiceCrossLink";
@@ -151,11 +151,14 @@ export default async function MobileKeysPage() {
 						<p className="text-sm leading-relaxed text-gray-600">
 							Dorabiam również klucze samochodowe z dojazdem — zarówno zwykłe klucze mechaniczne,
 							jak i te z transponderem. Jeśli potrzebujesz{" "}
-							<Link href="/uslugi/programowanie-kluczy-samochodowych" className="underline">
+							<Link
+									href="/uslugi/klucze-samochodowe/programowanie-kluczy-samochodowych"
+									className="underline"
+								>
 								zaprogramowania pilota
 							</Link>{" "}
 							lub{" "}
-							<Link href="/uslugi/kopiowanie-immobilizerow" className="underline">
+							<Link href="/uslugi/klucze-samochodowe/kopiowanie-immobilizerow" className="underline">
 								skopiowania immobilizera
 							</Link>
 							, wykonuję to na miejscu tym samym przyjazdem — nie musisz umawiać się osobno.
@@ -258,7 +261,7 @@ export default async function MobileKeysPage() {
 				areas={areaCards}
 			/>
 
-			<Faq items={[FAQ_FLAT_KEY, FAQ_CAR_KEY, faqTravel(localities), FAQ_OPENING_HOURS]} />
+			<Faq items={[FAQ_FLAT_KEY, FAQ_CAR_KEY, faqTravel(localities), FAQ_APPOINTMENT]} />
 
 			<MobileServiceCrossLink
 				href="/uslugi/mobilne-kodowanie-pilotow-do-bram"

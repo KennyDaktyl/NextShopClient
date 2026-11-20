@@ -1,7 +1,7 @@
 import { getServiceLocalities } from "@/api/getServiceLocalities";
 import {
 	BUSINESS_ADDRESS,
-	BUSINESS_HOURS,
+	BUSINESS_APPOINTMENT_NOTE,
 	BUSINESS_NAME,
 	BUSINESS_PHONE,
 	MAIN_SERVICES,
@@ -23,13 +23,13 @@ export async function GET() {
 	const lines = [
 		`# ${BUSINESS_NAME}`,
 		"",
-		"> Dorabianie kluczy, piloty do bram i pieczątki. Punkt w Rybnej lub dojazd do klienta – Kraków i okolice.",
+		"> Klucze samochodowe, programowanie immobilizerów i pilotów, awaryjne otwieranie aut, piloty do bram, klucze mieszkaniowe i pieczątki. Dojazd do klienta – Kraków i okolice; punkt w Rybnej po umówieniu.",
 		"",
 		"## Kontakt",
 		"",
 		`- Adres: ${BUSINESS_ADDRESS}`,
 		`- Telefon: ${BUSINESS_PHONE}`,
-		`- Godziny otwarcia punktu: ${BUSINESS_HOURS}`,
+		`- Godziny: brak stałych godzin otwarcia. ${BUSINESS_APPOINTMENT_NOTE}`,
 		`- Kontakt online: ${baseUrl}/kontakt`,
 		"",
 		"## Usługi",

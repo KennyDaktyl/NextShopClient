@@ -5,8 +5,8 @@ import CityDeliveryIllustration from "@/components/mobile-services/CityDeliveryI
 import MobileServiceContactBar from "@/components/mobile-services/MobileServiceContactBar";
 import KeyPhotoInquiry from "@/components/widgets/KeyPhotoInquiry/KeyPhotoInquiry";
 import StampDesigner from "@/components/widgets/StampDesigner/StampDesigner";
-import { CAR_KEY_PRICE, FLAT_KEY_PRICE, REMOTE_CODING_PRICE } from "@/components/mobile-services/prices";
-import { Faq, FaqItem, FAQ_OPENING_HOURS } from "@/components/seo/Faq";
+import { FLAT_KEY_PRICE, REMOTE_CODING_PRICE } from "@/components/mobile-services/prices";
+import { CAR_KEY_PRICE_ANSWER, Faq, FaqItem, FAQ_APPOINTMENT } from "@/components/seo/Faq";
 
 export type LocalityServiceType = "klucze" | "pieczatki" | "piloty";
 
@@ -97,7 +97,7 @@ export const LocalityServicePage = ({
 			},
 			{
 				q: `Ile kosztuje dorobienie klucza samochodowego z immobilizerem ${inLocality}?`,
-				a: `Od ${CAR_KEY_PRICE} zł, klucz kodujemy na miejscu.`,
+				a: CAR_KEY_PRICE_ANSWER,
 			},
 			faqTravelHere,
 		],
@@ -129,10 +129,10 @@ export const LocalityServicePage = ({
 							{copy.h1(locality.name)}
 						</h1>
 						<p className="mb-3 text-base leading-relaxed text-gray-700">
-							{capitalizeFirst(inLocality)} {copy.heroVerb} z dojazdem — przyjeżdżam pod
-							wskazany adres z pełnym, przenośnym wyposażeniem i wykonuję usługę na miejscu, bez
-							konieczności wizyty w punkcie stacjonarnym w Rybnej. Dojazd zajmuje zwykle do{" "}
-							{deliveryTimeLabel} od zgłoszenia.
+							{capitalizeFirst(inLocality)} {copy.heroVerb} z dojazdem — przyjeżdżam pod wskazany
+							adres z pełnym, przenośnym wyposażeniem i wykonuję usługę na miejscu, bez konieczności
+							wizyty w punkcie stacjonarnym w Rybnej. Dojazd zajmuje zwykle do {deliveryTimeLabel}{" "}
+							od zgłoszenia.
 						</p>
 						<p className="mb-5 text-sm leading-relaxed text-gray-600">{locality.local_note}</p>
 						<div className="flex flex-wrap gap-3">
@@ -159,9 +159,7 @@ export const LocalityServicePage = ({
 			</section>
 
 			<section className="mt-8 rounded-lg border border-gray-200 p-6 sm:p-8">
-				<h2 className="mb-4 text-xl font-semibold sm:text-2xl">
-					Jak działam {inLocality}?
-				</h2>
+				<h2 className="mb-4 text-xl font-semibold sm:text-2xl">Jak działam {inLocality}?</h2>
 				<p className="mb-3 text-sm leading-relaxed text-gray-700">
 					Dzwonisz lub piszesz z zapytaniem, ustalamy dogodny termin, a ja osobiście przyjeżdżam pod
 					wskazany adres {inLocality} z przenośnym sprzętem. Usługę wykonuję na Twoich oczach —
@@ -249,8 +247,8 @@ export const LocalityServicePage = ({
 				<p className="text-sm leading-relaxed text-gray-600">
 					{serviceType === "klucze" && (
 						<>
-							Dojazd {toLocality} bez dodatkowej opłaty przy zamówieniu od {minKeysQty} szt.
-							kluczy — przy mniejszej liczbie doliczamy opłatę logistyczną, zapytaj przy zgłoszeniu.
+							Dojazd {toLocality} bez dodatkowej opłaty przy zamówieniu od {minKeysQty} szt. kluczy
+							— przy mniejszej liczbie doliczamy opłatę logistyczną, zapytaj przy zgłoszeniu.
 						</>
 					)}
 					{serviceType === "pieczatki" && (
@@ -269,7 +267,7 @@ export const LocalityServicePage = ({
 				</p>
 			</section>
 
-			<Faq items={[...faqItems[serviceType], FAQ_OPENING_HOURS]} />
+			<Faq items={[...faqItems[serviceType], FAQ_APPOINTMENT]} />
 
 			<section className="mt-8">
 				<h2 className="mb-4 text-xl font-semibold sm:text-2xl">
@@ -293,7 +291,8 @@ export const LocalityServicePage = ({
 				className="mt-6 flex items-center justify-between rounded-lg border border-gray-200 p-4 transition hover:border-gray-300 hover:shadow-md"
 			>
 				<span className="text-sm font-medium sm:text-base">
-					Zobacz pełną ofertę: <span className="font-semibold text-blue-600">{copy.parentLabel}</span>
+					Zobacz pełną ofertę:{" "}
+					<span className="font-semibold text-blue-600">{copy.parentLabel}</span>
 				</span>
 			</Link>
 			{copy.siblings.map((sibling) => (

@@ -26,10 +26,16 @@ import {
 import {
 	CAR_KEY_PRICE,
 	FLAT_KEY_PRICE,
+	OBD_PROGRAMMING_PRICE,
 	REMOTE_CODING_PRICE,
 	STAMP_PRICE,
 } from "@/components/mobile-services/prices";
 import { BUSINESS_NAME } from "@/components/seo/businessInfo";
+import {
+	AREA_AROUND_KRAKOW,
+	AREA_AROUND_RYBNA,
+	AREA_KRAKOW_DISTRICTS,
+} from "@/components/seo/serviceArea";
 
 // Marka „Zamiennik” to nie producent – w danych strukturalnych jej nie podajemy.
 const REPLACEMENT_BRAND_SLUG = "zamiennik";
@@ -242,16 +248,34 @@ export const ownerWebsiteJsonLd = (localities: readonly ServiceLocality[]): Grap
 		publisher: { "@id": businessId },
 	};
 
+	const listedPlaces = new Set<string>([
+		...AREA_KRAKOW_DISTRICTS,
+		...AREA_AROUND_KRAKOW,
+		...AREA_AROUND_RYBNA,
+	]);
 	const areaServed: (City | AdministrativeArea | Place)[] = [
 		{ "@type": "City", name: "Kraków" },
 		{ "@type": "AdministrativeArea", name: "Gmina Czernichów" },
-		...localities.map(
-			(locality): Place => ({
-				"@type": "Place",
-				name: locality.name,
-				containedInPlace: { "@type": "AdministrativeArea", name: locality.region_label },
+		...AREA_KRAKOW_DISTRICTS.map(
+			(name): AdministrativeArea => ({
+				"@type": "AdministrativeArea",
+				name: `Kraków – ${name}`,
+				containedInPlace: { "@type": "City", name: "Kraków" },
 			}),
 		),
+		...[...AREA_AROUND_KRAKOW, ...AREA_AROUND_RYBNA].map(
+			(name): City => ({ "@type": "City", name }),
+		),
+		// Miejscowości z bazy (strony lokalizacyjne), których nie ma na liście powyżej.
+		...localities
+			.filter((locality) => !listedPlaces.has(locality.name))
+			.map(
+				(locality): Place => ({
+					"@type": "Place",
+					name: locality.name,
+					containedInPlace: { "@type": "AdministrativeArea", name: locality.region_label },
+				}),
+			),
 	];
 
 	const sameAs = [
@@ -265,7 +289,7 @@ export const ownerWebsiteJsonLd = (localities: readonly ServiceLocality[]): Grap
 		"@id": businessId,
 		name: "Serwis w Rybnej",
 		description:
-			"Dorabianie kluczy mieszkaniowych i samochodowych, programowanie i dorabianie pilotów do bram, wyrób pieczątek. Punkt w Rybnej (gmina Czernichów) lub dojazd do klienta – Kraków i okolice.",
+			"Klucze samochodowe i immobilizery, programowanie pilotów samochodowych, awaryjne otwieranie samochodów, piloty do bram, klucze mieszkaniowe i pieczątki. Dojazd do klienta – Kraków i okolice; punkt w Rybnej (gmina Czernichów) po umówieniu.",
 		image: logoUrl,
 		url: process.env.NEXT_PUBLIC_BASE_URL ?? "",
 		telephone: process.env.NEXT_PUBLIC_PHONE_NUMBER ?? "+48 506 029 980",
@@ -284,14 +308,19 @@ export const ownerWebsiteJsonLd = (localities: readonly ServiceLocality[]): Grap
 			name: "Usługi",
 			itemListElement: [
 				serviceOffer(
+					"Klucz samochodowy z grotem i immobilizerem",
+					"/uslugi/klucze-samochodowe/kopiowanie-immobilizerow",
+					CAR_KEY_PRICE,
+				),
+				serviceOffer(
+					"Programowanie kluczy i pilotów samochodowych przez OBD (+ koszt pilota)",
+					"/uslugi/klucze-samochodowe/programowanie-kluczy-samochodowych",
+					OBD_PROGRAMMING_PRICE,
+				),
+				serviceOffer(
 					"Dorabianie kluczy mieszkaniowych",
 					"/uslugi/mobilne-dorabianie-kluczy",
 					FLAT_KEY_PRICE,
-				),
-				serviceOffer(
-					"Klucze samochodowe z immobilizerem",
-					"/uslugi/mobilne-dorabianie-kluczy",
-					CAR_KEY_PRICE,
 				),
 				serviceOffer(
 					"Piloty do bram",
@@ -306,20 +335,7 @@ export const ownerWebsiteJsonLd = (localities: readonly ServiceLocality[]): Grap
 			latitude: 50.0421112,
 			longitude: 19.6403306,
 		},
-		openingHoursSpecification: [
-			{
-				"@type": "OpeningHoursSpecification",
-				dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-				opens: "08:00",
-				closes: "17:00",
-			},
-			// {
-			// 	"@type": "OpeningHoursSpecification",
-			// 	dayOfWeek: "Saturday",
-			// 	opens: "10:00",
-			// 	closes: "14:00",
-			// },
-		],
+		// Bez openingHoursSpecification: brak stałych godzin otwarcia (wizyty po umówieniu).
 		...(sameAs.length > 0 && { sameAs }),
 	};
 

@@ -12,7 +12,7 @@ import MobileServiceCrossLink from "@/components/mobile-services/MobileServiceCr
 import { REMOTE_CODING_PRICE } from "@/components/mobile-services/prices";
 import Image from "next/image";
 import { formatMoney, getProductImage, localityIn, stripHtmlTags } from "@/utils";
-import { Faq, FaqItem, FAQ_OPENING_HOURS, faqTravel } from "@/components/seo/Faq";
+import { Faq, FaqItem, FAQ_APPOINTMENT, faqTravel } from "@/components/seo/Faq";
 
 const CATEGORY_SLUG = "mobilne-kodowanie-pilotow-do-bram";
 const DEFAULT_DELIVERY_TIME_HOURS = 2;
@@ -259,7 +259,7 @@ export default async function MobileGateRemotesPage() {
 				areas={areaCards}
 			/>
 
-			<Faq items={[...FAQ_ITEMS, faqTravel(localities), FAQ_OPENING_HOURS]} />
+			<Faq items={[...FAQ_ITEMS, faqTravel(localities), FAQ_APPOINTMENT]} />
 
 			<MobileServiceCrossLink href="/uslugi/mobilne-dorabianie-kluczy" label="Dorabianie kluczy z dojazdem" />
 
