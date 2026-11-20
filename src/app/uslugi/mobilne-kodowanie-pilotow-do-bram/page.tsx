@@ -11,7 +11,7 @@ import MobileServiceContactBar from "@/components/mobile-services/MobileServiceC
 import MobileServiceCrossLink from "@/components/mobile-services/MobileServiceCrossLink";
 import { REMOTE_CODING_PRICE } from "@/components/mobile-services/prices";
 import Image from "next/image";
-import { formatMoney, getProductImage, localityIn, stripHtmlTags } from "@/utils";
+import { formatMoney, getProductImage, hoursLabel, localityIn, stripHtmlTags } from "@/utils";
 import { Faq, FaqItem, FAQ_APPOINTMENT, faqTravel } from "@/components/seo/Faq";
 
 const CATEGORY_SLUG = "mobilne-kodowanie-pilotow-do-bram";
@@ -110,9 +110,7 @@ export default async function MobileGateRemotesPage() {
 							Zgubiony, zepsuty albo potrzebujesz dodatkowego pilota do bramy? Przyjeżdżam pod Twój
 							dom, sprawdzam typ sterownika, dobieram nowego pilota i programuję go na miejscu — bez
 							szukania serwisu napędów i bez wizyty w punkcie w Rybnej. Dojazd na terenie Krakowa i
-							okolic w ciągu {deliveryTimeHours} {deliveryTimeHours === 1 ? "godziny" : "godzin"} od
-							zgłoszenia. Usługa kompleksowa: pilot + programowanie + dojazd w cenie{" "}
-							{REMOTE_CODING_PRICE} zł.
+							{`okolic w ciągu ${hoursLabel(deliveryTimeHours)} od zgłoszenia. Usługa kompleksowa: pilot + programowanie + dojazd w cenie ${REMOTE_CODING_PRICE} zł.`}
 						</p>
 						<div className="flex flex-wrap gap-3">
 							<a
@@ -151,8 +149,8 @@ export default async function MobileGateRemotesPage() {
 						zdjęcie starego pilota albo naklejki na napędzie bramy.
 					</li>
 					<li>
-						<strong>Dojazd</strong> — umawiamy termin i przyjeżdżam pod wskazany adres, zwykle w ciągu{" "}
-						{deliveryTimeHours} {deliveryTimeHours === 1 ? "godziny" : "godzin"} od zgłoszenia.
+						<strong>Dojazd</strong> — umawiamy termin i przyjeżdżam pod wskazany adres,
+						{` zwykle w ciągu ${hoursLabel(deliveryTimeHours)} od zgłoszenia.`}
 					</li>
 					<li>
 						<strong>Sprawdzenie sterownika</strong> — na miejscu sprawdzam typ odbiornika, częstotliwość

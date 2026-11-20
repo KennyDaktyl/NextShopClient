@@ -129,10 +129,7 @@ export const LocalityServicePage = ({
 							{copy.h1(locality.name)}
 						</h1>
 						<p className="mb-3 text-base leading-relaxed text-gray-700">
-							{capitalizeFirst(inLocality)} {copy.heroVerb} z dojazdem — przyjeżdżam pod wskazany
-							adres z pełnym, przenośnym wyposażeniem i wykonuję usługę na miejscu, bez konieczności
-							wizyty w punkcie stacjonarnym w Rybnej. Dojazd zajmuje zwykle do {deliveryTimeLabel}{" "}
-							od zgłoszenia.
+							{`${capitalizeFirst(inLocality)} ${copy.heroVerb} z dojazdem — przyjeżdżam pod wskazany adres z pełnym, przenośnym wyposażeniem i wykonuję usługę na miejscu, bez konieczności wizyty w punkcie stacjonarnym w Rybnej. Dojazd zajmuje zwykle do ${deliveryTimeLabel} od zgłoszenia.`}
 						</p>
 						<p className="mb-5 text-sm leading-relaxed text-gray-600">{locality.local_note}</p>
 						<div className="flex flex-wrap gap-3">
@@ -194,8 +191,8 @@ export const LocalityServicePage = ({
 						Przyjeżdżam pod Twój dom, sprawdzam typ sterownika (odbiornika) bramy, dobieram nowy
 						pilot i programuję go na miejscu. Obsługuję bramy garażowe (segmentowe i uchylne), bramy
 						wjazdowe przesuwne i skrzydłowe oraz szlabany — m.in. napędy Hörmann, Nice, Came, FAAC,
-						BFT, Beninca i Somfy. Usługa kompleksowa: nowy pilot + programowanie + dojazd w cenie{" "}
-						{REMOTE_CODING_PRICE} zł. Zgubiony pilot? Jeśli sterownik na to pozwala, czyszczę jego
+						BFT, Beninca i Somfy. Usługa kompleksowa: nowy pilot + programowanie +
+						{` dojazd w cenie ${REMOTE_CODING_PRICE} zł.`} Zgubiony pilot? Jeśli sterownik na to pozwala, czyszczę jego
 						pamięć i programuję wszystkie piloty od nowa, żeby zgubiony przestał otwierać bramę.
 					</p>
 				)}
@@ -253,15 +250,12 @@ export const LocalityServicePage = ({
 					)}
 					{serviceType === "pieczatki" && (
 						<>
-							Dojazd {toLocality} bez dodatkowej opłaty przy zamówieniu od{" "}
-							{formatMoney(minStampOrderValue)} — poniżej tej kwoty doliczamy opłatę za dojazd.
+							{`Dojazd ${toLocality} bez dodatkowej opłaty przy zamówieniu od ${formatMoney(minStampOrderValue)} — poniżej tej kwoty doliczamy opłatę za dojazd.`}
 						</>
 					)}
 					{serviceType === "piloty" && (
 						<>
-							Nowy pilot do bramy z dojazdem {toLocality} to stała cena{" "}
-							{formatMoney(REMOTE_CODING_PRICE)} — pilot, kodowanie do odbiornika i dojazd w jednej
-							cenie, bez ukrytych opłat.
+							{`Nowy pilot do bramy z dojazdem ${toLocality} to stała cena ${formatMoney(REMOTE_CODING_PRICE)} — pilot, kodowanie do odbiornika i dojazd w jednej cenie, bez ukrytych opłat.`}
 						</>
 					)}
 				</p>

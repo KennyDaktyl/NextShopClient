@@ -133,3 +133,6 @@ export const localityIn = (locality: ServiceLocality): string =>
 
 export const capitalizeFirst = (text: string): string =>
 	text.charAt(0).toUpperCase() + text.slice(1);
+
+/** „24 godzin”, „1 godziny” – liczba z odmianą w jednym ciągu (bez osobnego węzła spacji w HTML). */
+export const hoursLabel = (hours: number): string => `${hours} ${hours === 1 ? "godziny" : "godzin"}`;

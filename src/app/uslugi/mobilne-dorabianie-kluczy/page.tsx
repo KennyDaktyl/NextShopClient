@@ -26,7 +26,7 @@ import MobileServiceContactBar from "@/components/mobile-services/MobileServiceC
 import MobileServiceCrossLink from "@/components/mobile-services/MobileServiceCrossLink";
 import StampDesigner from "@/components/widgets/StampDesigner/StampDesigner";
 import KeyPhotoInquiry from "@/components/widgets/KeyPhotoInquiry/KeyPhotoInquiry";
-import { formatMoney } from "@/utils";
+import { formatMoney, hoursLabel } from "@/utils";
 
 const CATEGORY_SLUG = "mobilne-dorabianie-kluczy";
 const DEFAULT_MIN_KEYS_QTY = 3;
@@ -119,8 +119,7 @@ export default async function MobileKeysPage() {
 							Dorabiam klucze samochodowe z immobilizerem, programuję piloty i immobilizery, a także
 							dorabiam klucze mieszkaniowe i do skrzynek pocztowych — na miejscu, u Ciebie w domu,
 							pracy lub na parkingu. Bez wizyty w punkcie w Rybnej. Dojazd na terenie Krakowa i okolic
-							w ciągu {deliveryTimeHours} {deliveryTimeHours === 1 ? "godziny" : "godzin"} od
-							zamówienia.
+							{`w ciągu ${hoursLabel(deliveryTimeHours)} od zamówienia.`}
 						</p>
 						<div className="flex flex-wrap gap-3">
 							<a
@@ -161,8 +160,7 @@ export default async function MobileKeysPage() {
 					przyjeżdżam pod wskazany adres z przenośnym, w pełni wyposażonym sprzętem do dorabiania
 					kluczy. Klucz wycinam na miejscu, na Twoich oczach — sprawdzasz go od razu w zamku, zanim
 					zapłacisz. Płatność następuje dopiero po odbiorze gotowego klucza, gotówką lub kartą.
-					Cały dojazd i wykonanie zajmuje zwykle do {deliveryTimeHours}{" "}
-					{deliveryTimeHours === 1 ? "godziny" : "godzin"} od zgłoszenia.
+					{`Cały dojazd i wykonanie zajmuje zwykle do ${hoursLabel(deliveryTimeHours)} od zgłoszenia.`}
 				</p>
 				<p className="mb-5 text-sm leading-relaxed text-gray-700">
 					Obsługuję zarówno klientów indywidualnych, jak i firmy, wspólnoty mieszkaniowe czy

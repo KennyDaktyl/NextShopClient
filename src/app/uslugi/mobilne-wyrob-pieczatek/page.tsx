@@ -13,7 +13,7 @@ import MobileServiceAreaGrid, { AreaCard } from "@/components/mobile-services/Mo
 import MobileServiceContactBar from "@/components/mobile-services/MobileServiceContactBar";
 import MobileServiceCrossLink from "@/components/mobile-services/MobileServiceCrossLink";
 import StampDesigner from "@/components/widgets/StampDesigner/StampDesigner";
-import { formatMoney } from "@/utils";
+import { formatMoney, hoursLabel } from "@/utils";
 
 const CATEGORY_SLUG = "mobilne-wyrob-pieczatek";
 const DEFAULT_MIN_ORDER_VALUE = 100;
@@ -87,8 +87,7 @@ export default async function MobileStampsPage() {
 						<p className="mb-5 text-base leading-relaxed text-gray-700">
 							Pieczątki firmowe, imienne i samotuszujące projektujemy i wykonujemy tego samego
 							dnia, z dostawą prosto do Ciebie — do domu lub biura. Dojazd na terenie Krakowa i
-							okolic w ciągu {deliveryTimeHours} {deliveryTimeHours === 1 ? "godziny" : "godzin"}{" "}
-							od zatwierdzenia projektu.
+							{`okolic w ciągu ${hoursLabel(deliveryTimeHours)} od zatwierdzenia projektu.`}
 						</p>
 						<div className="flex flex-wrap gap-3">
 							<a
@@ -122,8 +121,7 @@ export default async function MobileStampsPage() {
 					mną na miejscu, przy dojeździe. Po ustaleniu terminu przyjeżdżam osobiście pod wskazany
 					adres — do biura, firmy lub domu — z gotowym projektem i wykonuję pieczątkę na miejscu.
 					Płatność następuje dopiero po odbiorze gotowej pieczątki, gotówką lub kartą. Cały proces,
-					od zgłoszenia do dostawy, zajmuje zwykle do {deliveryTimeHours}{" "}
-					{deliveryTimeHours === 1 ? "godziny" : "godzin"}.
+					{`od zgłoszenia do dostawy, zajmuje zwykle do ${hoursLabel(deliveryTimeHours)}.`}
 				</p>
 				<div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
 					<div>
