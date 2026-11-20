@@ -58,6 +58,72 @@ const nextConfig = {
 
 	async redirects() {
 		return [
+			// Piloty do bram: slugi z „-zamiennik” były online 2026-11-20 (kilka godzin).
+			{
+				source: "/produkt/pilot-bft-mitto-zamiennik",
+				destination: "/produkt/pilot-bft-mitto",
+				permanent: true,
+			},
+			{
+				source: "/produkt/pilot-beninca-togo-zamiennik",
+				destination: "/produkt/pilot-beninca-togo",
+				permanent: true,
+			},
+			{
+				source: "/produkt/pilot-beninca-togo-2va-zamiennik",
+				destination: "/produkt/pilot-beninca-togo-2va",
+				permanent: true,
+			},
+			{
+				source: "/produkt/pilot-came-space-zamiennik",
+				destination: "/produkt/pilot-came-space",
+				permanent: true,
+			},
+			{
+				source: "/produkt/pilot-came-top-432na-zamiennik",
+				destination: "/produkt/pilot-came-top-432na",
+				permanent: true,
+			},
+			{
+				source: "/produkt/pilot-faac-fix-zamiennik",
+				destination: "/produkt/pilot-faac-fix",
+				permanent: true,
+			},
+			{
+				source: "/produkt/pilot-faac-xt4-868-slh-lr-zamiennik",
+				destination: "/produkt/pilot-faac-xt4-868-slh-lr",
+				permanent: true,
+			},
+			{
+				source: "/produkt/pilot-nice-flor-s-zamiennik",
+				destination: "/produkt/pilot-nice-flor-s",
+				permanent: true,
+			},
+			{
+				source: "/produkt/pilot-nice-smilo-zamiennik",
+				destination: "/produkt/pilot-nice-smilo",
+				permanent: true,
+			},
+			{
+				source: "/produkt/pilot-somfy-zamiennik",
+				destination: "/produkt/pilot-somfy",
+				permanent: true,
+			},
+			{
+				source: "/produkt/pilot-hormann-2-kanalowy-zamiennik",
+				destination: "/produkt/pilot-hormann-2-kanalowy",
+				permanent: true,
+			},
+			{
+				source: "/produkt/pilot-hormann-4-kanalowy-zamiennik",
+				destination: "/produkt/pilot-hormann-4-kanalowy",
+				permanent: true,
+			},
+			{
+				source: "/produkt/pilot-hormann-hse-4-bisecur-zamiennik",
+				destination: "/produkt/pilot-hormann-hse-4-bisecur",
+				permanent: true,
+			},
 			{
 				source: "/produkty/klucze-mieszkaniowe/klucz-energetyczny-lob/1534",
 				destination: "/produkt/klucz-energetyczny-lob-id-597",
