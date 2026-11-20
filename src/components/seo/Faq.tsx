@@ -7,7 +7,8 @@ import { BUSINESS_ADDRESS, BUSINESS_HOURS, localitiesTo } from "@/components/seo
 export type FaqItem = { q: string; a: string };
 
 // Treść jest zawsze w HTML (bez akordeonu), a FAQPage zawiera dokładnie te same pytania.
-export const Faq = ({ items }: { items: FaqItem[] }) => {
+// html: odpowiedzi z backendu (FAQ produktu) mogą zawierać link <a> – Google akceptuje go w Answer.text.
+export const Faq = ({ items, html = false }: { items: FaqItem[]; html?: boolean }) => {
 	if (items.length === 0) {
 		return null;
 	}
@@ -29,7 +30,14 @@ export const Faq = ({ items }: { items: FaqItem[] }) => {
 				{items.map((item) => (
 					<div key={item.q} className="rounded-lg border border-gray-200 p-5">
 						<h3 className="mb-2 text-base font-semibold">{item.q}</h3>
-						<p className="text-sm leading-relaxed text-gray-600">{item.a}</p>
+						{html ? (
+							<p
+								className="text-sm leading-relaxed text-gray-600"
+								dangerouslySetInnerHTML={{ __html: item.a }}
+							/>
+						) : (
+							<p className="text-sm leading-relaxed text-gray-600">{item.a}</p>
+						)}
 					</div>
 				))}
 			</div>

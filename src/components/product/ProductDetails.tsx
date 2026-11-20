@@ -208,6 +208,16 @@ export const ProductDetailsComponent = ({
 						<span className="font-semibold">Marka:</span> {product.brand.name}
 					</div>
 				)}
+				{product.compatible_brand && (
+					<div className="mb-2 text-sm">
+						<span className="font-semibold">Pasuje do:</span> {product.compatible_brand.name}
+					</div>
+				)}
+				{product.sku && (
+					<div className="mb-2 text-sm">
+						<span className="font-semibold">SKU:</span> {product.sku}
+					</div>
+				)}
 				{product.material && (
 					<div className="mb-2 text-sm">
 						<span className="font-semibold">Materiał:</span> {product.material.name}

@@ -11,6 +11,8 @@ import {
 	Place,
 	AdministrativeArea,
 	City,
+	BreadcrumbList,
+	CollectionPage,
 } from "schema-dts";
 import {
 	ArticleListItem,
@@ -27,6 +29,12 @@ import {
 	REMOTE_CODING_PRICE,
 	STAMP_PRICE,
 } from "@/components/mobile-services/prices";
+import { BUSINESS_NAME } from "@/components/seo/businessInfo";
+
+// Marka „Zamiennik” to nie producent – w danych strukturalnych jej nie podajemy.
+const REPLACEMENT_BRAND_SLUG = "zamiennik";
+
+const plainText = (html: string): string => stripHtmlTags(html).replace(/\s+/g, " ").trim();
 
 export const JsonLd = ({ jsonLd }: { jsonLd: WithContext<Thing> | Graph }) => {
 	return (
@@ -39,6 +47,7 @@ export const JsonLd = ({ jsonLd }: { jsonLd: WithContext<Thing> | Graph }) => {
 
 export const mappedProductToJsonLd = (product: ProductDetails): WithContext<Product | Service> => {
 	const formattedPrice = product.current_price.toFixed(2);
+	const url = `${process.env.NEXT_PUBLIC_BASE_URL}` + product.full_path;
 	const aggregateRating: AggregateRating | undefined = product.review_count
 		? {
 				"@type": "AggregateRating",
@@ -48,28 +57,85 @@ export const mappedProductToJsonLd = (product: ProductDetails): WithContext<Prod
 				worstRating: "1",
 			}
 		: undefined;
+	const brandName =
+		product.brand && product.brand.slug !== REPLACEMENT_BRAND_SLUG ? product.brand.name : undefined;
+	const description =
+		product.short_description || (product.description ? plainText(product.description) : undefined);
+	const images = (product.images ?? []).map((image) => image.url).filter(Boolean);
+	const gtin13 = product.gtin && /^\d{13}$/.test(product.gtin) ? product.gtin : undefined;
 
 	return {
 		"@context": "https://schema.org",
 		"@type": product.is_service ? "Service" : "Product",
-		"@id": `${process.env.NEXT_PUBLIC_BASE_URL}` + product.full_path,
-		url: `${process.env.NEXT_PUBLIC_BASE_URL}` + product.full_path,
+		"@id": url,
+		url,
 		name: product.name,
-		image: {
-			"@type": "ImageObject",
-			url: product.images?.[0]?.url ?? "",
-		},
-		description: product.description ?? undefined,
+		image: images.length > 0 ? images : undefined,
+		description,
 		category: product.category.name,
-		sku: product.id.toString(),
+		sku: product.sku || product.id.toString(),
+		...(gtin13 ? { gtin13 } : {}),
+		...(brandName ? { brand: { "@type": "Brand", name: brandName } } : {}),
 		offers: {
 			"@type": "Offer",
+			url,
 			price: formattedPrice,
 			priceCurrency: "PLN",
 			availability:
 				product.qty > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+			...(product.is_service ? {} : { itemCondition: "https://schema.org/NewCondition" }),
+			seller: { "@type": "Organization", name: BUSINESS_NAME },
 		},
 		aggregateRating,
+	} as WithContext<Product | Service>;
+};
+
+/** Strona główna › kategorie (z backendu) › produkt. */
+export const productBreadcrumbsJsonLd = (product: ProductDetails): WithContext<BreadcrumbList> => {
+	const base = `${process.env.NEXT_PUBLIC_BASE_URL}`;
+	const categories = product.category.breadcrumbs ?? [
+		{ name: product.category.name, full_path: product.category.full_path },
+	];
+	const crumbs = [
+		{ name: "Strona główna", url: `${base}/` },
+		...categories.map((category) => ({ name: category.name, url: base + category.full_path })),
+		{ name: product.name, url: base + product.full_path },
+	];
+	return {
+		"@context": "https://schema.org",
+		"@type": "BreadcrumbList",
+		itemListElement: crumbs.map(
+			(crumb, index): ListItem => ({
+				"@type": "ListItem",
+				position: index + 1,
+				name: crumb.name,
+				item: crumb.url,
+			}),
+		),
+	};
+};
+
+/** Strona kategorii z listą produktów: CollectionPage z ItemList jako mainEntity. */
+export const categoryCollectionPageJsonLd = (
+	category: {
+		name: string;
+		h1_tag?: string | null;
+		meta_description?: string | null;
+		description?: string | null;
+		full_path: string;
+	},
+	products: readonly ProductListItem[],
+): WithContext<CollectionPage> => {
+	const url = `${process.env.NEXT_PUBLIC_BASE_URL}` + category.full_path;
+	const { "@context": _context, ...itemList } = mappedProductsToJsonLd(products);
+	return {
+		"@context": "https://schema.org",
+		"@type": "CollectionPage",
+		"@id": url,
+		url,
+		name: category.h1_tag || category.name,
+		description: category.meta_description || category.description || undefined,
+		mainEntity: itemList as ItemList,
 	};
 };
 
@@ -217,7 +283,11 @@ export const ownerWebsiteJsonLd = (localities: readonly ServiceLocality[]): Grap
 			"@type": "OfferCatalog",
 			name: "Usługi",
 			itemListElement: [
-				serviceOffer("Dorabianie kluczy mieszkaniowych", "/uslugi/mobilne-dorabianie-kluczy", FLAT_KEY_PRICE),
+				serviceOffer(
+					"Dorabianie kluczy mieszkaniowych",
+					"/uslugi/mobilne-dorabianie-kluczy",
+					FLAT_KEY_PRICE,
+				),
 				serviceOffer(
 					"Klucze samochodowe z immobilizerem",
 					"/uslugi/mobilne-dorabianie-kluczy",

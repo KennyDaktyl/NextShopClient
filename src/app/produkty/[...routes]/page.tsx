@@ -8,10 +8,10 @@ import { getProductsByCategory } from "@/api/getProductsByCategory";
 import { MenuItemsResponse, ProductsResponse, ProductListItem } from "@/app/types";
 import { getCategoryMetaData } from "@/api/getCategoryMetaData";
 import {
+	categoryCollectionPageJsonLd,
 	generateCategoryJsonLd,
 	JsonLd,
 	mappedMenuItemsToJsonLd,
-	mappedProductsToJsonLd,
 } from "@/components/seo/LdJson";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -224,7 +224,7 @@ export default async function Page({
 							currentPage={currentPage}
 						/>
 					</div>
-					<JsonLd jsonLd={mappedProductsToJsonLd(products)} />
+					<JsonLd jsonLd={categoryCollectionPageJsonLd(category, products)} />
 					<JsonLd
 						jsonLd={mappedMenuItemsToJsonLd(menuItems.items, category.name, category.full_path)}
 					/>

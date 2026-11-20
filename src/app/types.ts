@@ -84,6 +84,7 @@ export interface ProductListItem {
 	qty: number;
 	category: Category;
 	description: string;
+	short_description?: string;
 	image: Image | null;
 	current_price: number;
 	min_price_last_30: number;
@@ -104,6 +105,23 @@ export interface Tag {
 export interface Brand {
 	id: number;
 	name: string;
+	slug?: string | null;
+}
+
+export interface ProductSpecification {
+	name: string;
+	value: string;
+}
+
+export interface ProductFaq {
+	question: string;
+	/** Tekst, może zawierać link <a>. */
+	answer: string;
+}
+
+export interface CategoryBreadcrumb {
+	name: string;
+	full_path: string;
 }
 
 export interface Material {
@@ -260,15 +278,21 @@ export interface ProductDetails {
 	h1_tag: string | null;
 	name: string;
 	slug: string;
-	category: ProductCategory;
+	category: ProductCategory & { breadcrumbs?: CategoryBreadcrumb[] };
 	description: string;
+	short_description?: string;
 	seo_text: string | null;
 	qty: number;
 	images: Image[] | [];
 	color: string;
 	tags: Tag[] | [];
 	size: Size | null;
-	brand: Size | null;
+	brand: Brand | null;
+	compatible_brand?: Brand | null;
+	sku?: string | null;
+	gtin?: string;
+	specifications?: ProductSpecification[];
+	faqs?: ProductFaq[];
 	material: Size | null;
 	current_price: number;
 	min_price_last_30: number;

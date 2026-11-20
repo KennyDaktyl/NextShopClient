@@ -4,7 +4,8 @@ import { BackLinkProps, Product, UserProfileData } from "@/app/types";
 import { auth } from "@/auth";
 import HeaderComponent from "@/components/product/atoms/HeaderComponent";
 import { ProductDetailsComponent as DefaultProductDetailsComponent } from "@/components/product/ProductDetails";
-import { JsonLd, mappedProductToJsonLd } from "@/components/seo/LdJson";
+import { Faq } from "@/components/seo/Faq";
+import { JsonLd, mappedProductToJsonLd, productBreadcrumbsJsonLd } from "@/components/seo/LdJson";
 import { Metadata } from "next";
 import { Session } from "next-auth";
 import { cookies } from "next/headers";
@@ -120,7 +121,16 @@ export default async function ProductPage({ params }: { params: { productSlug: s
 				back_link={back_link}
 				userData={userData}
 			/>
+			{productDetailsResponse.faqs && productDetailsResponse.faqs.length > 0 && (
+				<div className="w-full px-2">
+					<Faq
+						html
+						items={productDetailsResponse.faqs.map((faq) => ({ q: faq.question, a: faq.answer }))}
+					/>
+				</div>
+			)}
 			<JsonLd jsonLd={mappedProductToJsonLd(productDetailsResponse)} />
+			<JsonLd jsonLd={productBreadcrumbsJsonLd(productDetailsResponse)} />
 		</section>
 	);
 }
