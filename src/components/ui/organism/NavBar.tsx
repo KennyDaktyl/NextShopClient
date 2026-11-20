@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import ProductsMegaMenuContent from "./ProductsMegaMenuContent";
 import MobileServicesMenuContent from "./MobileServicesMenuContent";
+import CarKeysMenuContent from "./CarKeysMenuContent";
 import { MegaMenuSection } from "@/api/getProductsMegaMenu";
 import { formatMoney } from "@/utils";
 
@@ -24,19 +25,21 @@ type NavBarProps = {
 	productsMenu: MegaMenuSection[];
 };
 
+type MobileSection = "klucze-samochodowe" | "produkty" | "uslugi";
+
 const triggerClassName =
 	"group inline-flex items-center gap-1 border-b-2 border-transparent py-1 text-[15px] font-medium text-gray-900 transition hover:text-gray-600 data-[state=open]:text-gray-600";
 
 export default function NavBar({ totalPrice, productsMenu }: NavBarProps) {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const [mobileSection, setMobileSection] = useState<"produkty" | "uslugi" | null>(null);
+	const [mobileSection, setMobileSection] = useState<MobileSection | null>(null);
 
 	const toggleMenu = () => {
 		setIsMenuOpen((prev) => !prev);
 		setMobileSection(null);
 	};
 
-	const toggleMobileSection = (section: "produkty" | "uslugi") => {
+	const toggleMobileSection = (section: MobileSection) => {
 		setMobileSection((prev) => (prev === section ? null : section));
 	};
 
@@ -50,6 +53,15 @@ export default function NavBar({ totalPrice, productsMenu }: NavBarProps) {
 
 					<NavigationMenu className="hidden xl:block" delayDuration={100}>
 						<NavigationMenuList className="gap-6">
+							<NavigationMenuItem>
+								<NavigationMenuTrigger className={triggerClassName}>
+									Klucze samochodowe
+								</NavigationMenuTrigger>
+								<NavigationMenuContent>
+									<CarKeysMenuContent />
+								</NavigationMenuContent>
+							</NavigationMenuItem>
+
 							<NavigationMenuItem>
 								<NavigationMenuTrigger className={triggerClassName}>
 									Produkty
@@ -138,6 +150,26 @@ export default function NavBar({ totalPrice, productsMenu }: NavBarProps) {
 					</div>
 
 					<div className="flex flex-1 flex-col gap-2 px-5 py-6">
+						<div className="border-b border-gray-100 pb-2">
+							<button
+								type="button"
+								onClick={() => toggleMobileSection("klucze-samochodowe")}
+								className="flex w-full items-center justify-between py-3 text-xl font-semibold"
+								aria-expanded={mobileSection === "klucze-samochodowe"}
+							>
+								Klucze samochodowe
+								<ChevronDown
+									className={`h-5 w-5 transition-transform ${
+										mobileSection === "klucze-samochodowe" ? "rotate-180" : ""
+									}`}
+									aria-hidden="true"
+								/>
+							</button>
+							{mobileSection === "klucze-samochodowe" && (
+								<CarKeysMenuContent onNavigate={toggleMenu} />
+							)}
+						</div>
+
 						<div className="border-b border-gray-100 pb-2">
 							<button
 								type="button"
