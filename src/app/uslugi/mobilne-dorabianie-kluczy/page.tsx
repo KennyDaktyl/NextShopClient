@@ -6,7 +6,21 @@ import { getProductsByCategory } from "@/api/getProductsByCategory";
 import { getServiceLocalities } from "@/api/getServiceLocalities";
 import { MenuItemsResponse, ProductListItem, ProductsResponse } from "@/app/types";
 import { generateCategoryJsonLd, JsonLd, mappedProductsToJsonLd } from "@/components/seo/LdJson";
-import { Faq, FAQ_APPOINTMENT, FAQ_CAR_KEY, FAQ_FLAT_KEY, faqTravel } from "@/components/seo/Faq";
+import {
+	Faq,
+	FAQ_APPOINTMENT,
+	FAQ_CAR_KEY,
+	FAQ_CAR_KEY_NO_ORIGINAL,
+	FAQ_FLAT_KEY,
+	FAQ_LOCKED_KEYS,
+	FAQ_VAG,
+	faqTravel,
+} from "@/components/seo/Faq";
+import {
+	CAR_KEY_PRICE,
+	OBD_PROGRAMMING_PRICE,
+	OBD_REMOTE_PART_FROM,
+} from "@/components/mobile-services/prices";
 import MobileServiceAreaGrid, { AreaCard } from "@/components/mobile-services/MobileServiceAreaGrid";
 import MobileServiceContactBar from "@/components/mobile-services/MobileServiceContactBar";
 import MobileServiceCrossLink from "@/components/mobile-services/MobileServiceCrossLink";
@@ -19,14 +33,28 @@ const DEFAULT_MIN_KEYS_QTY = 3;
 const DEFAULT_WHOLESALE_QTY = 10;
 const DEFAULT_WHOLESALE_DISCOUNT = 15;
 const DEFAULT_DELIVERY_TIME_HOURS = 2;
+const EMERGENCY_HREF = "/uslugi/klucze-samochodowe/awaryjne-otwieranie-samochodow";
+
+// Kolejność kafelków i cennika: najpierw klucze samochodowe (slug pozycji usługowej → priorytet).
+const PRODUCT_ORDER = ["immobilizery-i-piloty", "klucze-samochodowe", "klucze-mieszkaniowe", "klucze-zabezpieczone"];
+const productRank = (slug: string) => {
+	const index = PRODUCT_ORDER.findIndex((prefix) => slug.startsWith(`${prefix}-id-`));
+	return index === -1 ? PRODUCT_ORDER.length : index;
+};
+// Dopiski do cennika, których nie ma w bazie.
+const PRICE_NOTES: Record<string, string> = {
+	"immobilizery-i-piloty": "+ koszt pilota przy programowaniu przez OBD",
+};
+const priceNote = (slug: string) =>
+	Object.entries(PRICE_NOTES).find(([prefix]) => slug.startsWith(`${prefix}-id-`))?.[1];
 
 export async function generateMetadata(): Promise<Metadata> {
 	const category = await getCategoryMetaData({ currentCategorySlug: CATEGORY_SLUG });
 
-	const title = category.meta_title || "Dorabianie kluczy z dojazdem do klienta — Kraków";
+	const title = category.meta_title || "Dorabianie kluczy samochodowych z dojazdem – Kraków";
 	const description =
 		category.meta_description ||
-		"Dorabianie kluczy mieszkaniowych i samochodowych z dojazdem do klienta w Krakowie i okolicy.";
+		"Dorabianie kluczy samochodowych z immobilizerem, programowanie pilotów i klucze mieszkaniowe z dojazdem do klienta w Krakowie i okolicy.";
 
 	return {
 		title,
@@ -55,12 +83,15 @@ export default async function MobileKeysPage() {
 		params: { page: "1" },
 	});
 
-	const products: ProductListItem[] =
+	const products: ProductListItem[] = (
 		productsResponse &&
 		typeof productsResponse === "object" &&
 		"results" in (productsResponse as ProductsResponse)
 			? (productsResponse as ProductsResponse).results
-			: [];
+			: []
+	)
+		.slice()
+		.sort((a, b) => productRank(a.slug) - productRank(b.slug));
 
 	const settings = menuItems.mobile_service_settings;
 	const minKeysQty = settings?.min_keys_qty ?? DEFAULT_MIN_KEYS_QTY;
@@ -81,13 +112,15 @@ export default async function MobileKeysPage() {
 				<div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1.2fr_1fr]">
 					<div>
 						<h1 className="mb-4 text-2xl font-bold leading-tight sm:text-3xl">
-							{menuItems.h1_tag || "Dorabianie kluczy z dojazdem do klienta — Kraków i okolice"}
+							{menuItems.h1_tag ||
+								"Dorabianie kluczy samochodowych i mieszkaniowych z dojazdem — Kraków i okolice"}
 						</h1>
 						<p className="mb-5 text-base leading-relaxed text-gray-700">
-							Klucze mieszkaniowe, samochodowe i do skrzynek pocztowych dorabiamy na miejscu — u
-							Ciebie w domu, biurze lub na parkingu. Bez wizyty w punkcie stacjonarnym w Rybnej.
-							Dojazd na terenie Krakowa i okolic w ciągu {deliveryTimeHours}{" "}
-							{deliveryTimeHours === 1 ? "godziny" : "godzin"} od zamówienia.
+							Dorabiam klucze samochodowe z immobilizerem, programuję piloty i immobilizery, a także
+							dorabiam klucze mieszkaniowe i do skrzynek pocztowych — na miejscu, u Ciebie w domu,
+							pracy lub na parkingu. Bez wizyty w punkcie w Rybnej. Dojazd na terenie Krakowa i okolic
+							w ciągu {deliveryTimeHours} {deliveryTimeHours === 1 ? "godziny" : "godzin"} od
+							zamówienia.
 						</p>
 						<div className="flex flex-wrap gap-3">
 							<a
@@ -138,30 +171,40 @@ export default async function MobileKeysPage() {
 				</p>
 				<div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
 					<div>
+						<h3 className="mb-2 text-base font-semibold">Klucze samochodowe z dojazdem</h3>
+						<p className="mb-2 text-sm leading-relaxed text-gray-600">
+							Klucz z grotem i immobilizerem dorabiam na miejscu za {CAR_KEY_PRICE} zł. Gdy potrzebne
+							jest{" "}
+							<Link
+								href="/uslugi/klucze-samochodowe/programowanie-kluczy-samochodowych"
+								className="underline"
+							>
+								zaprogramowanie klucza lub pilota przez OBD
+							</Link>
+							, usługa kosztuje od {OBD_PROGRAMMING_PRICE} zł plus koszt pilota (np. od ok.{" "}
+							{OBD_REMOTE_PART_FROM} zł). Zapasowy klucz robię też przez{" "}
+							<Link href="/uslugi/klucze-samochodowe/kopiowanie-immobilizerow" className="underline">
+								skopiowanie immobilizera
+							</Link>{" "}
+							z Twojego działającego klucza.
+						</p>
+						<p className="text-sm leading-relaxed text-gray-600">
+							Nie masz oryginału? Dekoderem Lishi odczytuję nacięcia zamka, docinam grot i programuję
+							immobilizer. Obsługuję także Audi, Volkswagena i Seata z roczników po 2016. Gdy
+							kluczyki zatrzasnęły się w środku, zobacz{" "}
+							<Link href={EMERGENCY_HREF} className="underline">
+								awaryjne otwieranie samochodów
+							</Link>
+							.
+						</p>
+					</div>
+					<div>
 						<h3 className="mb-2 text-base font-semibold">Klucze mieszkaniowe z dojazdem</h3>
 						<p className="text-sm leading-relaxed text-gray-600">
 							Dorabiam na miejscu klucze do drzwi wejściowych, mieszkań, piwnic, skrzynek
 							pocztowych i bram wjazdowych — zarówno zwykłe, jak i systemowe oraz atestowane
 							(klasy C). Nie musisz wyjmować wkładki z zamka ani jechać do punktu w Rybnej —
 							dopasowuję klucz bezpośrednio pod Twój zamek na miejscu.
-						</p>
-					</div>
-					<div>
-						<h3 className="mb-2 text-base font-semibold">Klucze samochodowe z dojazdem</h3>
-						<p className="text-sm leading-relaxed text-gray-600">
-							Dorabiam również klucze samochodowe z dojazdem — zarówno zwykłe klucze mechaniczne,
-							jak i te z transponderem. Jeśli potrzebujesz{" "}
-							<Link
-									href="/uslugi/klucze-samochodowe/programowanie-kluczy-samochodowych"
-									className="underline"
-								>
-								zaprogramowania pilota
-							</Link>{" "}
-							lub{" "}
-							<Link href="/uslugi/klucze-samochodowe/kopiowanie-immobilizerow" className="underline">
-								skopiowania immobilizera
-							</Link>
-							, wykonuję to na miejscu tym samym przyjazdem — nie musisz umawiać się osobno.
 						</p>
 					</div>
 				</div>
@@ -205,8 +248,7 @@ export default async function MobileKeysPage() {
 			)}
 
 			<section className="mt-8 rounded-lg bg-gray-100 p-6 sm:p-8">
-				<h2 className="mb-1 text-xl font-semibold sm:text-2xl">Cennik i warunki dojazdu</h2>
-				<p className="mb-5 text-sm text-gray-500">Stawki edytowalne z panelu administracyjnego.</p>
+				<h2 className="mb-5 text-xl font-semibold sm:text-2xl">Cennik i warunki dojazdu</h2>
 
 				<div className="mb-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
 					<div className="rounded-lg bg-white p-5 shadow-sm">
@@ -237,7 +279,14 @@ export default async function MobileKeysPage() {
 								className="flex items-center justify-between border-b border-gray-200 px-5 py-4 last:border-b-0"
 							>
 								<span className="text-sm font-medium">{product.name}</span>
-								<span className="text-sm font-bold">od {formatMoney(product.current_price)}</span>
+								<span className="text-right text-sm font-bold">
+									od {formatMoney(product.current_price)}
+									{priceNote(product.slug) && (
+										<span className="block text-xs font-normal text-gray-500">
+											{priceNote(product.slug)}
+										</span>
+									)}
+								</span>
 							</div>
 						))}
 						<div className="flex items-center justify-between px-5 py-4">
@@ -261,7 +310,18 @@ export default async function MobileKeysPage() {
 				areas={areaCards}
 			/>
 
-			<Faq items={[FAQ_FLAT_KEY, FAQ_CAR_KEY, faqTravel(localities), FAQ_APPOINTMENT]} />
+			<Faq
+				html
+				items={[
+					FAQ_CAR_KEY,
+					FAQ_CAR_KEY_NO_ORIGINAL,
+					FAQ_VAG,
+					FAQ_LOCKED_KEYS,
+					FAQ_FLAT_KEY,
+					faqTravel(localities),
+					FAQ_APPOINTMENT,
+				]}
+			/>
 
 			<MobileServiceCrossLink
 				href="/uslugi/mobilne-kodowanie-pilotow-do-bram"

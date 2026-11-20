@@ -32,7 +32,6 @@ const slugsToGenerate = [
 	"klucze-samochodowe",
 	"programowanie-kluczy-samochodowych",
 	"kopiowanie-immobilizerow",
-	"awaryjne-otwieranie-samochodow",
 ];
 const EMERGENCY_HREF = "/uslugi/klucze-samochodowe/awaryjne-otwieranie-samochodow";
 
